@@ -140,7 +140,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/tolgaozgun/bilader-app/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/tolgaozgun/bilader-app/issues) for a list of proposed features (and known issues).</br>
 See the [projects](https://github.com/tolgaozgun/bilader-app/projects) for a list of waypoints for each member and team.
 
 
@@ -168,11 +168,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Tolga Özgün - [@tolgaozgun](https://gihub.com/tolgaozgun) 
-Yahya Eren Demirel - [@Yaehya35](https://github.com/Yaehya35) 
-Burcu Kaplan - [@BurcuKaplan](https://github.com/BurcuKaplan)
-Deniz Gökçen - [@denizgokcen1](https://github.com/denizgokcen1) 
-Korhan Kemal Kaya - [@Korhandroid](https://github.com/Korhandroid) 
+Tolga Özgün - [@tolgaozgun](https://gihub.com/tolgaozgun)</br>
+Yahya Eren Demirel - [@Yaehya35](https://github.com/Yaehya35)</br> 
+Burcu Kaplan - [@BurcuKaplan](https://github.com/BurcuKaplan)</br>
+Deniz Gökçen - [@denizgokcen1](https://github.com/denizgokcen1)</br> 
+Korhan Kemal Kaya - [@Korhandroid](https://github.com/Korhandroid)</br> 
 
 Project Link: [https://github.com/tolgaozgun/bilader-app](https://github.com/tolgaozgun/bilader-app)
 
