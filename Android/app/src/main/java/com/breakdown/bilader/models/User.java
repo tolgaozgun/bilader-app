@@ -1,5 +1,7 @@
 package com.breakdown.bilader.models;
 
+import java.util.List;
+
 public class User {
     String userName;
     String eMail;
@@ -7,7 +9,6 @@ public class User {
     ProductList userWishlist;
     List<User> userFollowers;
     List<User> userFollowings;
-    int reportNumber; //?
     List<Product> userProducts;
 
     public User( String userName, String eMail, String userAvatar){
@@ -22,7 +23,6 @@ public class User {
 
         userProducts = new List<Product>;
 
-        reportNumber = 0; //?
     }
 
     public String getUserName(){
@@ -49,8 +49,5 @@ public class User {
         //TODO
     }
 
-    public void report()
-    {
-        //TODO
-    }
+
 }
