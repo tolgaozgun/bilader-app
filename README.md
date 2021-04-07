@@ -31,10 +31,10 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">Bilader</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    An Android social network app to help you find your desired items for Bilkent members!
     <br />
     <a href="https://github.com/tolgaozgun/bilader-app"><strong>Explore the docs »</strong></a>
     <br />
@@ -82,16 +82,7 @@
 ![biltrader](https://user-images.githubusercontent.com/37017809/113863660-9a156b80-97b2-11eb-94f2-56d808a1893c.png)
 
 
-There are many great README templates available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should element DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have have contributed to expanding this template!
-
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
+BILader is an Android social network app whose aim is to provide people with social interac-tions and the items they need but can’t find anywhere for budget-friendly prices. This project is a prototype for a social networking app for sharing items and therefore is restricted to the members of Bilkent University, including but not limited to current students, lecturers, re-searchers, and alumni. Each user will have their profile page after signing up, and they will be able to share, sell or buy items or just simply chat with other users through the app.
 
 ### Built With
 
