@@ -15,11 +15,13 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
+<!--
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+-->
 
 
 
@@ -196,7 +198,7 @@ Project Link: [https://github.com/tolgaozgun/bilader-app](https://github.com/tol
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links --><!--
 [contributors-shield]: https://img.shields.io/github/contributors/tolgaozgun/bilader-app.svg?style=for-the-badge
 [contributors-url]: https://github.com/tolgaozgun/bilader-app/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/tolgaozgun/bilader-app.svg?style=for-the-badge
@@ -208,3 +210,4 @@ Project Link: [https://github.com/tolgaozgun/bilader-app](https://github.com/tol
 [license-shield]: https://img.shields.io/github/license/tolgaozgun/bilader-app.svg?style=for-the-badge
 [license-url]: https://github.com/tolgaozgun/bilader-app/blob/master/LICENSE.txt
 [product-screenshot]: images/screenshot.png
+-->
