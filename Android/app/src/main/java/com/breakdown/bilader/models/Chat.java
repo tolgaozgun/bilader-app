@@ -17,4 +17,17 @@ public class Chat {
         // TODO: Send message to the Websocket server
         return false;
     }
+
+    public User getSender(){
+        return userSender;
+    }
+
+    public User getReceiver(){
+        return userReceiver;
+    }
+
+    public String getLastMessage(){
+        return lastMessage;
+    }
+
 }
