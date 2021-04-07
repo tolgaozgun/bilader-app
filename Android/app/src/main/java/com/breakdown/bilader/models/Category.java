@@ -1,8 +1,6 @@
 package com.breakdown.bilader.models;
 
 public class Category implements Comparable {
-    String name;
-    int id;
 
     private String name;
     private int id;
