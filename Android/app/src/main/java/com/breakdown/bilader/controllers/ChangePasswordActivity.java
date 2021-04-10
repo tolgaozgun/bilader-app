@@ -1,4 +1,6 @@
 package com.breakdown.bilader.controllers;
 
-public class ChangePasswordActivity {
+import android.app.Activity;
+
+public class ChangePasswordActivity extends Activity {
 }

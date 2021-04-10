@@ -1,4 +1,6 @@
 package com.breakdown.bilader.controllers;
 
-public class MainChatActivity {
+import android.app.Activity;
+
+public class MainChatActivity extends Activity {
 }

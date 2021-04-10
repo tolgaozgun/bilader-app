@@ -1,4 +1,6 @@
 package com.breakdown.bilader.controllers;
 
-public class WishlistActivity {
+import android.app.Activity;
+
+public class WishlistActivity extends Activity {
 }

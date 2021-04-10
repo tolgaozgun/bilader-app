@@ -1,4 +1,6 @@
 package com.breakdown.bilader.controllers;
 
-public class FollowingActivity {
+import android.app.Activity;
+
+public class FollowingActivity extends Activity {
 }

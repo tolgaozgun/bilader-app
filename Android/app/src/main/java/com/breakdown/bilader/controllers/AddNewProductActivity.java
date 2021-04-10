@@ -1,5 +1,6 @@
 package com.breakdown.bilader.controllers;
 
-public class AddNewProductActivity {
-    // demo.v1
+import android.app.Activity;
+
+public class AddNewProductActivity extends Activity {
 }

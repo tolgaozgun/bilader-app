@@ -1,4 +1,6 @@
 package com.breakdown.bilader.controllers;
 
-public class MyProfileActivity {
+import android.app.Activity;
+
+public class MyProfileActivity extends Activity {
 }

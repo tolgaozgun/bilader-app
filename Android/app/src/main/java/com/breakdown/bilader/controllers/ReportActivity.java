@@ -1,4 +1,6 @@
 package com.breakdown.bilader.controllers;
 
-public class ReportActivity {
+import android.app.Activity;
+
+public class ReportActivity extends Activity {
 }

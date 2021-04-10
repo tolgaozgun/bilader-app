@@ -1,4 +1,6 @@
 package com.breakdown.bilader.controllers;
 
-public class VerificationActivity {
+import android.app.Activity;
+
+public class VerificationActivity extends Activity {
 }
