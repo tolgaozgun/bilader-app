@@ -8,11 +8,12 @@ public abstract class Report {
 
     /**
      * Constructor
-     * @param reportId Integer value of report id.
+     *
+     * @param reportId    Integer value of report id.
      * @param description String value of description.
-     * @param reporter User instance of reporter.
+     * @param reporter    User instance of reporter.
      */
-    public Report(int reportId, String description, User reporter) {
+    public Report( int reportId, String description, User reporter ) {
         this.reportId = reportId;
         this.description = description;
         this.reporter = reporter;

@@ -9,28 +9,30 @@ public class User {
     private String eMail;
     private String userAvatar;
     private ProductList userWishlist;
-    private List<User> userFollowers;
-    private List<User> userFollowings;
-    private List<Product> userProducts;
+    private List< User > userFollowers;
+    private List< User > userFollowings;
+    private List< Product > userProducts;
 
     /**
      * Constructor for User class
-     * @param userName String value of username.
-     * @param eMail String value of email address.
+     *
+     * @param userName   String value of username.
+     * @param eMail      String value of email address.
      * @param userAvatar String value of avatar URL.
      */
-    public User(String userName, String eMail, String userAvatar) {
+    public User( String userName, String eMail, String userAvatar ) {
         this.userName = userName;
         this.eMail = eMail;
         this.userAvatar = userAvatar;
         userWishlist = new ProductList();
-        userFollowers = new ArrayList<User>();
-        userFollowings = new ArrayList<User>();
-        userProducts = new ArrayList<Product>();
+        userFollowers = new ArrayList< User >();
+        userFollowings = new ArrayList< User >();
+        userProducts = new ArrayList< Product >();
     }
 
     /**
      * Returns the username of the current user
+     *
      * @return String value of username.
      */
     public String getUserName() {
@@ -39,6 +41,7 @@ public class User {
 
     /**
      * Returns the email of the current user.
+     *
      * @return String value of email address.
      */
     public String getEmail() {
@@ -47,6 +50,7 @@ public class User {
 
     /**
      * Returns the avatar URL of the current user
+     *
      * @return String value of avatar URL.
      */
     public String getUserAvatar() {
@@ -55,6 +59,7 @@ public class User {
 
     /**
      * Returns the wishlist of the current user.
+     *
      * @return ProductList instance of wishlist.
      */
     public ProductList getWishlist() {
@@ -64,10 +69,11 @@ public class User {
     /**
      * Adds current user to the following people list for the user in the
      * parameter. The person who did the action is provided in the parameter.
+     *
      * @param user User instance of person who followed.
      * @return Boolean whether the operation was successful.
      */
-    public boolean addToFollowings(User user) {
+    public boolean addToFollowings( User user ) {
         // TODO: Change the user to something like sessionID, we want this
         // client to send messages only for themselves not on behalf of
         // someone else.

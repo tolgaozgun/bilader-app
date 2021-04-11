@@ -6,13 +6,15 @@ public class UserReport extends Report {
 
     /**
      * Constructor
-     * @param reportId Integer value of report id.
+     *
+     * @param reportId    Integer value of report id.
      * @param description String value of description.
-     * @param reporter User instance of reporter.
-     * @param reported User instance of reported user.
+     * @param reporter    User instance of reporter.
+     * @param reported    User instance of reported user.
      */
-    public UserReport(int reportId, String description, User reporter, User reported) {
-        super(reportId, description, reporter);
+    public UserReport( int reportId, String description, User reporter,
+                       User reported ) {
+        super( reportId, description, reporter );
         this.reported = reported;
     }
 

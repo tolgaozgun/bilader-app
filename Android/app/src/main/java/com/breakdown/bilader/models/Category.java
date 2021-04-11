@@ -7,16 +7,18 @@ public class Category implements Comparable {
 
     /**
      * Constructor
+     *
      * @param name The category name as String
-     * @param id The category id as integer
+     * @param id   The category id as integer
      */
-    public Category(String name, int id) {
+    public Category( String name, int id ) {
         this.name = name;
         this.id = id;
     }
 
     /**
      * Returns the name of the current category.
+     *
      * @return String name of the current category.
      */
     public String getName() {
@@ -25,6 +27,7 @@ public class Category implements Comparable {
 
     /**
      * Returns the id of the current category.
+     *
      * @return Integer id of the current category.
      */
     public int getId() {
@@ -36,16 +39,16 @@ public class Category implements Comparable {
      * current Category instance's name.
      *
      * @param o Another Category object
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object.
+     * @return a negative integer, zero, or a positive integer as this object is
+     * less than, equal to, or greater than the specified object.
      * @throws ClassCastException if given parameter is not type Category
      */
     @Override
-    public int compareTo(Object o) {
+    public int compareTo( Object o ) {
         Category other;
-        if (o instanceof Category) {
-            other = (Category) o;
-            return other.name.compareTo(this.name);
+        if ( o instanceof Category ) {
+            other = ( Category ) o;
+            return other.name.compareTo( this.name );
         }
         throw new ClassCastException();
     }

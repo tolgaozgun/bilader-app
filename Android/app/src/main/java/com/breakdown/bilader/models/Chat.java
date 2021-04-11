@@ -9,12 +9,14 @@ public class Chat {
 
     /**
      * Constructor
-     * @param userSender The User object of the sender
+     *
+     * @param userSender   The User object of the sender
      * @param userReceiver The User object of the receiver
-     * @param id The long value of current chat id.
-     * @param lastMessage The String value of last transmitted message.
+     * @param id           The long value of current chat id.
+     * @param lastMessage  The String value of last transmitted message.
      */
-    public Chat(User userSender, User userReceiver, long id, String lastMessage) {
+    public Chat( User userSender, User userReceiver, long id,
+                 String lastMessage ) {
         this.id = id;
         this.userReceiver = userReceiver;
         this.userSender = userSender;
@@ -22,12 +24,13 @@ public class Chat {
     }
 
     /**
-     * Upon called, sends a request to server to send a message to this chat
-     * as the current user.
+     * Upon called, sends a request to server to send a message to this chat as
+     * the current user.
+     *
      * @param message Message object to be sent.
      * @return Boolean value whether it was successful.
      */
-    public boolean sendMessage(User user, Message message) {
+    public boolean sendMessage( User user, Message message ) {
         // TODO: Change the user to something like sessionID, we want this
         // client to send messages only for themselves not on behalf of
         // someone else.
@@ -37,6 +40,7 @@ public class Chat {
 
     /**
      * Returns the User object of the sender.
+     *
      * @return User object of the sender.
      */
     public User getSender() {
@@ -45,6 +49,7 @@ public class Chat {
 
     /**
      * Returns the User object of the receiver.
+     *
      * @return User object of the receiver.
      */
     public User getReceiver() {
@@ -53,6 +58,7 @@ public class Chat {
 
     /**
      * Returns the String value of the last transmitted message.
+     *
      * @return String value of the last transmitted message.
      */
     public String getLastMessage() {

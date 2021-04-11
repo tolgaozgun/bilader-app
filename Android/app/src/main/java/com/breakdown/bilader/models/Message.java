@@ -11,13 +11,13 @@ public class Message {
 
     /**
      * Constructor
-     * @param date Date instance of the message date.
+     *
+     * @param date        Date instance of the message date.
      * @param messageTime long value of message time.
-     * @param sentBy User instance of sender.
-     * @param content String value of the content.
+     * @param sentBy      User instance of sender.
+     * @param content     String value of the content.
      */
-    public Message(Date date, long messageTime, User sentBy,
-                   String content) {
+    public Message( Date date, long messageTime, User sentBy, String content ) {
         this.messageTime = messageTime;
         this.sentBy = sentBy;
         this.date = date;
@@ -26,6 +26,7 @@ public class Message {
 
     /**
      * Returns the long value of the message time.
+     *
      * @return Long value of message time.
      */
     public long getMessageTime() {
@@ -34,6 +35,7 @@ public class Message {
 
     /**
      * Returns the User instance of sender.
+     *
      * @return User instance of sender.
      */
     public User getSentBy() {
@@ -42,6 +44,7 @@ public class Message {
 
     /**
      * Returns the Date instance of date.
+     *
      * @return Date instance of date.
      */
     public Date getDate() {
@@ -50,6 +53,7 @@ public class Message {
 
     /**
      * Returns the String value of content.
+     *
      * @return String value of content.
      */
     public String getContent() {

@@ -5,38 +5,41 @@ import java.util.List;
 
 public class ProductList {
 
-    private List<Product> products;
+    private List< Product > products;
 
     /**
      * Constructor that initializes the list.
      */
     public ProductList() {
-        this.products = new ArrayList<Product>();
+        this.products = new ArrayList< Product >();
     }
 
     /**
      * Adds the given product to list.
+     *
      * @param product Product instance of product to be added.
      */
-    public void addProduct(Product product) {
-        products.add(product);
+    public void addProduct( Product product ) {
+        products.add( product );
     }
 
     /**
      * Checks if the given product exists in the list.
+     *
      * @param product Product instance of product to be checked.
      * @return Boolean whether it exists.
      */
-    public boolean doesExist(Product product) {
-        return products.contains(product);
+    public boolean doesExist( Product product ) {
+        return products.contains( product );
     }
 
     /**
-     * Returns a list of products that match the searching parameters.
-     * TODO: Add parameters here.
+     * Returns a list of products that match the searching parameters. TODO: Add
+     * parameters here.
+     *
      * @return List instance that contains Product
      */
-    public List<Product> searchProduct() {
+    public List< Product > searchProduct() {
         // TODO: Implement a class and method that searches for a value in a
         // list. Then implement a interface that helps you use that universal
         // method. Make the method usable by many instances, not just specific
@@ -46,12 +49,13 @@ public class ProductList {
 
     /**
      * Removes a product from the list if it exists.
+     *
      * @param product Product instance to be removed.
      * @return Boolean whether it was successful to remove.
      */
-    public boolean removeProduct(Product product) {
-        if (doesExist(product)) {
-            products.remove(product);
+    public boolean removeProduct( Product product ) {
+        if ( doesExist( product ) ) {
+            products.remove( product );
             return true;
         }
         return false;
