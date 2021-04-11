@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Bilader</string>
+    <string name="mail">mail</string>
+    <string name="password">password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="log_in">log in</string>
+    <string name="sign_up">sign up</string>
+    <string name="background_sketches">background sketches</string>
+
 </resources>
