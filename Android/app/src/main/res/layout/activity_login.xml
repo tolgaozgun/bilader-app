@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/radius"
@@ -8,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="#ffffffff"
     tools:layout_editor_absoluteY="25dp">
-
 
 
     <!--FIGURE ON THE TOP RIGHT CORNER -->
@@ -19,37 +17,24 @@
 
     <ImageView
         android:id="@+id/left_corner_sketch"
-        android:layout_width="386dp"
-        android:layout_height="333dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="472dp"
+        android:layout_width="355dp"
+        android:layout_height="228dp"
         android:contentDescription="@string/background_sketches"
         android:src="@drawable/top_left_sketch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageView
-        android:id="@+id/right_corner_sketch"
-        android:layout_width="208dp"
-        android:layout_height="411dp"
-        android:layout_marginStart="216dp"
-        android:layout_marginLeft="216dp"
-        android:layout_marginBottom="392dp"
-        android:contentDescription="@string/background_sketches"
-        android:src="@drawable/top_right_sketch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/app_logo"
+        android:id="@+id/right_corner_sketch"
+        android:layout_width="166dp"
+        android:layout_height="380dp"
+        android:contentDescription="@string/background_sketches"
+        android:src="@drawable/top_right_sketch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/app_logo_login"
         android:layout_width="104dp"
         android:layout_height="90dp"
         android:layout_marginTop="92dp"
@@ -71,10 +56,11 @@
         android:fontFamily="@font/roboto_bold"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#000000"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/app_logo_login" />
 
     <!--TEXT OF THE E-MAIL-->
     <EditText
@@ -83,45 +69,45 @@
         android:layout_height="40dp"
         android:layout_gravity="start"
         android:layout_marginTop="16dp"
+        android:autofillHints=""
         android:background="@drawable/mail_button"
         android:fontFamily="@font/roboto_bold"
         android:gravity="start"
-        android:inputType="textEmailAddress"
         android:hint="@string/mail"
-        android:paddingLeft="35dp"
-        android:paddingRight="5dp"
+        android:inputType="textEmailAddress"
         android:paddingVertical="9dp"
+        android:paddingStart="35dp"
+        android:paddingLeft="35dp"
+        android:paddingEnd="5dp"
+        android:paddingRight="5dp"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAppName"
-        android:paddingStart="35dp"
-        android:paddingEnd="5dp"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/textAppName" />
 
     <!--TEXT OF THE PASSWORD-->
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="260dp"
         android:layout_height="40dp"
+        android:layout_gravity="start"
         android:layout_marginTop="16dp"
+        android:autofillHints=""
         android:background="@drawable/password_button"
         android:fontFamily="@font/roboto_bold"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:paddingStart="35dp"
-        android:paddingRight="5dp"
-        android:paddingLeft="5dp"
         android:paddingVertical="9dp"
+        android:paddingStart="35dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:textAlignment="viewStart"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
-        android:layout_gravity="start"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
     <!--TEXT OF THE FORGOT PASSWORD-->
     <TextView
@@ -148,6 +134,7 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/log_in_button"
         android:fontFamily="@font/roboto_bold"
+        android:gravity="center_horizontal"
         android:hint="@string/log_in"
         android:padding="8dp"
         android:textAlignment="center"
@@ -157,8 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
-        android:gravity="center_horizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <!--BUTTON OF THE SIGN-UP-->
     <Button
@@ -168,9 +154,10 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/sign_up_button"
         android:fontFamily="@font/roboto_bold"
+        android:gravity="center_horizontal"
         android:hint="@string/sign_up"
-        android:textAlignment="center"
         android:padding="5dp"
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:textColorHighlight="#009688"
         android:textColorHint="@color/black"
@@ -180,7 +167,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogIn"
-        app:layout_constraintVertical_bias="0.006"
-        android:gravity="center_horizontal" />
+        app:layout_constraintVertical_bias="0.006" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
