@@ -36,3 +36,8 @@ local.properties
 ehthumbs.db
 Thumbs.db
 Android/local.properties
+Android/.idea/caches/build_file_checksums.ser
+Android/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+Android/.gradle/buildOutputCleanup/outputFiles.bin
+Android/.gradle/checksums/checksums.lock
+Android/.idea/modules/app/Bilader.app.iml

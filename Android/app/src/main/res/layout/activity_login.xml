@@ -9,12 +9,9 @@
     tools:layout_editor_absoluteY="25dp">
 
 
-    <!--FIGURE ON THE TOP RIGHT CORNER -->
+
 
     <!--FIGURE ON THE TOP LEFT CORNER -->
-
-    <!--TEXT OF THE LOGO-->
-
     <ImageView
         android:id="@+id/left_corner_sketch"
         android:layout_width="355dp"
@@ -24,6 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--FIGURE ON THE TOP RIGHT CORNER -->
     <ImageView
         android:id="@+id/right_corner_sketch"
         android:layout_width="166dp"
@@ -33,6 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--TEXT OF THE LOGO-->
     <ImageView
         android:id="@+id/app_logo_login"
         android:layout_width="104dp"
