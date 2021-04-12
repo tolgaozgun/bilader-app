@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">BILader</string>
     <string name="full_name">full name</string>
-    <string name="mail">mail</string>
-    <string name="mail_register">mail</string>
+    <string name="mail">e-mail</string>
+    <string name="mail_register">e-mail</string>
     <string name="password_again">password (again)</string>
     <string name="password">password</string>
     <string name="forgot_password">Forgot password?</string>
@@ -15,5 +15,12 @@
     <string name="verification_resend_request"><u>Resend</u></string>
     <string name="background_sketches">background sketches</string>
     <string name="avatar_choice_declared">choose your avatar</string>
+    <string name="reset_password_entry_request">Enter the 4 digits code that you received on your mail</string>
+    <string name="reset_password_code_title">Enter 4 Digits Code</string>
+    <string name="reset_password_button_text">reset password</string>
+    <string name="forgot_password_title">Forgot Password?</string>
+    <string name="forgot_password_mail_entry_request">Enter the mail address associated with your account</string>
+    <string name="forgot_password_send_button_text">send</string>
+    <string name="biltrader">Biltrader</string>
 
 </resources>

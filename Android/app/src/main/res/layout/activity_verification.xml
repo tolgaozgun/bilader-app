@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
         android:id="@+id/text_verification_code"
         android:layout_width="wrap_content"
@@ -45,11 +44,12 @@
         app:length_of_code="6"
         app:underline_color="#457ad1" />
 
+
     <Button
         android:id="@+id/button_verification_submit"
         android:layout_width="199dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="332dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/verification_submit_button"
         android:hint="@string/verification_submit_button"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -57,31 +57,15 @@
         android:textColorHighlight="#000000"
         android:textColorLink="#000000"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <TextView
-        android:id="@+id/text_verification_receive_question"
-        android:layout_width="157dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginLeft="104dp"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/roboto_bold"
-        android:padding="3dp"
-        android:text="@string/verification_dont_receive_question"
-        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_verification_submit" />
+        app:layout_constraintTop_toBottomOf="@+id/codeInputView" />
 
     <TextView
         android:id="@+id/editText_verification_code_resend"
         android:layout_width="93dp"
         android:layout_height="23dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="84dp"
         android:layout_marginRight="84dp"
         android:ems="10"
@@ -96,5 +80,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_verification_submit"
         tools:ignore="TextViewEdits" />
+
+    <TextView
+        android:id="@+id/text_verification_receive_question"
+        android:layout_width="157dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginLeft="104dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_bold"
+        android:padding="3dp"
+        android:text="@string/verification_dont_receive_question"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_verification_submit" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
