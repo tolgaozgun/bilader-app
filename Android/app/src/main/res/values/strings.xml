@@ -6,13 +6,8 @@
     <string name="password_again">password (again)</string>
     <string name="password">password</string>
     <string name="forgot_password">Forgot password?</string>
-    <string name="sign_up">sign up</string>
     <string name="log_in">log in</string>
-    <string name="verification_code_title">Verification Code</string>
-    <string name="verification_code_entry_request">Please type the verification code sent.</string>
-    <string name="verification_submit_button">submit</string>
-    <string name="verification_dont_receive_question">Do not receive the code?</string>
-    <string name="verification_resend_request"><u>Resend</u></string>
+    <string name="sign_up">sign up</string>
     <string name="background_sketches">background sketches</string>
     <string name="avatar_choice_declared">choose your avatar</string>
 
