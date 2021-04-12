@@ -15,13 +15,13 @@ public class LoginActivity extends Activity
     protected void onCreate( @Nullable Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_verification);
 
-        Button loginButton = findViewById(R.id.buttonLogIn);
-        Button signUpButton = findViewById(R.id.buttonSignUp);
-
-        buttonEffect(loginButton, 0xe01c79e4);
-        buttonEffect(signUpButton, 0xe01c79e4);
+//        Button loginButton = findViewById(R.id.buttonLogIn);
+//        Button signUpButton = findViewById(R.id.buttonSignUp);
+//
+//        buttonEffect(loginButton, 0xe01c79e4);
+//        buttonEffect(signUpButton, 0xe01c79e4);
     }
 
     /**
