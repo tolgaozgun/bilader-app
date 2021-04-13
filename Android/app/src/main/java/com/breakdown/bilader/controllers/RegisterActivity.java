@@ -80,7 +80,7 @@ public class RegisterActivity extends Activity {
 
     private void validateEmail( String name, final String email, String passwordOne, String passwordTwo ) {
         // TODO: Check if the email exists in the database.
-        // TODO: If exists, return to login screen.
-        // TODO: if the email is a bilkent email.
+        // TODO: Check if the email is a bilkent email.
+        // TODO: If they are true, send a verification code and lead to Verification Activity.
     }
 }

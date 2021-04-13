@@ -91,7 +91,7 @@ public class LoginActivity extends Activity
     private void allowAccessToAccount( String email, String password ) {
         // TODO: Check if the email exists in database.
         // If exists, if users email = email && users password = password log in successfully.
-        // Intent intent = new Intent(LoginActivity.this, BiltraderActivity.class );
+        // Intent intent = new Intent(LoginActivity.this, VerificationActivity.class );
         // startActivity(intent);
     }
 
