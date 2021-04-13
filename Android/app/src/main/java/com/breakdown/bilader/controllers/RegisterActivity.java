@@ -31,12 +31,12 @@ public class RegisterActivity extends Activity {
         inputName = (EditText) findViewById( R.id.editText_full_name );
         inputEmail = (EditText) findViewById( R.id.editText_mail_register );
         inputPasswordOnce = (EditText) findViewById( R.id.editText_password_register );
-        inputPasswordAgain = (EditText) findViewById(R.id.editText_password_again_register );
+        inputPasswordAgain = (EditText) findViewById( R.id.editText_password_again_register );
         loadingBar = new ProgressDialog(this );
 
         signUpRegisterButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick( View v ) {
                 RegisterAccount();
             }
         });
@@ -60,7 +60,7 @@ public class RegisterActivity extends Activity {
         else if( TextUtils.isEmpty( passwordTwo ) ){
             Toast.makeText(this, "Please enter password again!", Toast.LENGTH_SHORT ).show();
         }
-        else if( !passwordOne.equals( passwordTwo ) ){
+        else if( passwordOne != passwordTwo ){
             Toast.makeText(this, "Passwords don't match!", Toast.LENGTH_SHORT ).show();
         }
         else{
