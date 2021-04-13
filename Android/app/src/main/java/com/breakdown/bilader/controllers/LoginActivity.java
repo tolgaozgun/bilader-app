@@ -66,8 +66,11 @@ public class LoginActivity extends Activity
     }
 
     private void loginUser() {
-        String email = inputEmail.getText().toString();
-        String password = inputPassword.getText().toString();
+        String email;
+        String password;
+
+        email = inputEmail.getText().toString();
+        password = inputPassword.getText().toString();
 
         if( TextUtils.isEmpty( email ) ){
             Toast.makeText(this, "Please enter email!", Toast.LENGTH_SHORT ).show();
