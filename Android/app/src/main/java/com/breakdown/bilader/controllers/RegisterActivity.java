@@ -37,7 +37,7 @@ public class RegisterActivity extends Activity {
         signUpRegisterButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                RegisterAccount();
+                registerAccount();
             }
         });
     }
@@ -74,7 +74,7 @@ public class RegisterActivity extends Activity {
             loadingBar.setCanceledOnTouchOutside( false );
             loadingBar.show();
 
-            ValidateEmail( name, email, passwordOne, passwordTwo );
+            validateEmail( name, email, passwordOne, passwordTwo );
         }
     }
 
