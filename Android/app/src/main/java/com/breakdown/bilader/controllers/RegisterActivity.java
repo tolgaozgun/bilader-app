@@ -43,10 +43,15 @@ public class RegisterActivity extends Activity {
     }
 
     private void RegisterAccount() {
-        String name = inputName.getText().toString();
-        String email = inputEmail.getText().toString();
-        String passwordOne = inputPasswordOnce.getText().toString();
-        String passwordTwo = inputPasswordAgain.getText().toString();
+        String name;
+        String email;
+        String passwordOne;
+        String passwordTwo;
+
+        name = inputName.getText().toString();
+        email = inputEmail.getText().toString();
+        passwordOne = inputPasswordOnce.getText().toString();
+        passwordTwo = inputPasswordAgain.getText().toString();
 
         if( TextUtils.isEmpty( name ) ){
             Toast.makeText(this, "Please enter name!", Toast.LENGTH_SHORT ).show();
