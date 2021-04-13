@@ -62,7 +62,7 @@ public class Request extends HttpServlet {
 		adapter = new DatabaseAdapter(out);
 		out.println("Checking");
 		try {
-			out.println(adapter.doesExist("users", params));
+			out.println(adapter.doesExist(params.get("table"), params));
 		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -85,8 +85,10 @@ public class Request extends HttpServlet {
 		
 		while( parameters.hasMoreElements() ) {
 			paramName = parameters.nextElement();
-			paramValue = request.getParameter(paramName);
-			params.put(paramName, paramValue);
+			if(!paramName.toLowerCase().equals("table")) {
+				paramValue = request.getParameter(paramName);
+				params.put(paramName, paramValue);
+			}
 		}
 		
 		return params;
