@@ -24,5 +24,7 @@
     <string name="biltrader">Biltrader</string>
     <string name="report_type_complains">Please type your complains...</string>
     <string name="report_title">Keep us informed</string>
+    <string name="main_chat_overview">the last message is ....</string>
+    <string name="main_chat_time">1m. ago</string>
 
 </resources>
