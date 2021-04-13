@@ -11,7 +11,7 @@ import com.breakdown.bilader.R;
 
 public class LoginActivity extends Activity
 {
-    @Override
+/*    @Override
     protected void onCreate( @Nullable Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
@@ -28,7 +28,7 @@ public class LoginActivity extends Activity
      * adds on press effects for buttons
      * @param button that is going to have the effect
      * @param colorHexCode that is hex value of the press color effect
-     */
+     *
     public static void buttonEffect(View button, int colorHexCode)
     {
         button.setOnTouchListener(new View.OnTouchListener()
@@ -54,7 +54,7 @@ public class LoginActivity extends Activity
                 return false;
             }
         });
-    }
+    }*/
 }
 
 
