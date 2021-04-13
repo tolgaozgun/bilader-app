@@ -59,7 +59,5 @@ public class FollowersActivity extends AppCompatActivity {
         adapter = new FollowersAdapter(this, followerList);
         recyclerView.setAdapter(adapter);
 
-
-
     }
 }
