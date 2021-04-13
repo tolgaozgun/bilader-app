@@ -42,7 +42,7 @@ public class RegisterActivity extends Activity {
         });
     }
 
-    private void RegisterAccount() {
+    private void registerAccount() {
         String name;
         String email;
         String passwordOne;
@@ -78,7 +78,7 @@ public class RegisterActivity extends Activity {
         }
     }
 
-    private void ValidateEmail( String name, final String email, String passwordOne, String passwordTwo ) {
+    private void validateEmail( String name, final String email, String passwordOne, String passwordTwo ) {
         // TODO: Check if the email exists in the database.
         // TODO: If exists, return to login screen.
         // TODO: if the email is a bilkent email.
