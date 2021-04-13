@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_grey">
+
+
+    <TextView
+        android:id="@+id/text_report_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="@string/report_title"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_report_avatar"
+        android:layout_width="71dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_report_title"
+        app:srcCompat="@drawable/avatar_female"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/text_report_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/full_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_report_title" />
+
+    <ImageView
+        android:id="@+id/image_report_star"
+        android:layout_width="16dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/image_report_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/text_report_user_name"
+        android:src="@drawable/ic_baseline_star_24"
+        tools:ignore="ContentDescription" />
+
+
+    <TextView
+        android:id="@+id/text_report_review_numbers"
+        android:layout_width="60dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="4dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@+id/image_report_star"
+        app:layout_constraintTop_toBottomOf="@+id/text_report_user_name" />
+
+    <EditText
+        android:id="@+id/editText_report_typing_place"
+        android:layout_width="221dp"
+        android:layout_height="243dp"
+        android:layout_marginTop="56dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/report_type_complains"
+        android:textSize="12sp"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_report_review_numbers"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/button_report_submit"
+        android:layout_width="86dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
+        android:hint="@string/verification_submit_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_report_typing_place" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

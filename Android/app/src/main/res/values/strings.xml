@@ -22,5 +22,7 @@
     <string name="forgot_password_mail_entry_request">Enter the mail address associated with your account</string>
     <string name="forgot_password_send_button_text">send</string>
     <string name="biltrader">Biltrader</string>
+    <string name="report_type_complains">Please type your complains...</string>
+    <string name="report_title">Keep us informed</string>
 
 </resources>
