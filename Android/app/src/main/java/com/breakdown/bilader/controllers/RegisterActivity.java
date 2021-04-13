@@ -69,7 +69,6 @@ public class RegisterActivity extends Activity {
             loadingBar.setCanceledOnTouchOutside( false );
             loadingBar.show();
 
-            ValidateName(name, email, passwordOne, passwordTwo);
             ValidateEmail(name, email, passwordOne, passwordTwo);
         }
     }
@@ -78,9 +77,5 @@ public class RegisterActivity extends Activity {
         // TODO: Check if the email exists in the database.
         // TODO: If exists, return to login screen.
         // TODO: if the email is a bilkent email.
-    }
-
-    private void ValidateName(final String name, String email, String passwordOne, String passwordTwo) {
-        // TODO: Check if the name exists in the database.
     }
 }
