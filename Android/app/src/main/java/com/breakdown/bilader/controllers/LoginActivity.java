@@ -38,8 +38,8 @@ public class LoginActivity extends Activity
         forgotPassword = (TextView) findViewById( R.id.forgotPassword );
         loadingBar = new ProgressDialog(this );
 
-        buttonEffect( logInButton, 0xe01c79e4 );
-        buttonEffect( signUpButton, 0xe01c79e4 );
+        // buttonEffect( logInButton, 0xe01c79e4 );
+        // buttonEffect( signUpButton, 0xe01c79e4 );
 
         signUpButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -100,7 +100,7 @@ public class LoginActivity extends Activity
      * @param button that is going to have the effect
      * @param colorHexCode that is hex value of the press color effect
      */
-    public static void buttonEffect( View button, int colorHexCode )
+    /**public static void buttonEffect( View button, int colorHexCode )
     {
         button.setOnTouchListener( new View.OnTouchListener()
         {
