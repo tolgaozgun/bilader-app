@@ -9,8 +9,6 @@ public class User {
     private String eMail;
     private String userAvatar;
     private ProductList userWishlist;
-    private List< User > userFollowers;
-    private List< User > userFollowings;
     private List< Product > userProducts;
 
     /**
@@ -25,8 +23,6 @@ public class User {
         this.eMail = eMail;
         this.userAvatar = userAvatar;
         userWishlist = new ProductList();
-        userFollowers = new ArrayList< User >();
-        userFollowings = new ArrayList< User >();
         userProducts = new ArrayList< Product >();
     }
 
