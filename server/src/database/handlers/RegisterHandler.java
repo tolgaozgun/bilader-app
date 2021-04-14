@@ -11,21 +11,19 @@ import java.util.UUID;
 import org.json.JSONObject;
 
 import database.adapters.DatabaseAdapter;
-import database.adapters.JsonAdapter;
 import database.adapters.PasswordAdapter;
 import database.adapters.RequestAdapter;
+import database.handlers.codes.RegisterCode;
 import jakarta.servlet.ServletException;
 
 public class RegisterHandler extends ProcessHandler {
 
-	private static String[] keys = { "email", "name", "password", "avatar_url" };
+	private static final String[] KEYS = { "email", "name", "password", "avatar_url" };
 	private final String DATABASE_TABLE = "users";
-	private String message;
 	private final String BILKENT_DOMAIN = "bilkent.edu.tr";
 
 	public RegisterHandler(Map<String, String[]> params) {
-		super(RequestAdapter.convertParameters(params, keys));
-		message = "Account created.";
+		super(RequestAdapter.convertParameters(params, KEYS));
 	}
 
 	private void createUserId() throws ClassNotFoundException, SQLException {
@@ -98,46 +96,56 @@ public class RegisterHandler extends ProcessHandler {
 		return adapter.doesExist(DATABASE_TABLE, checkParams);
 	}
 
-	private boolean checkParams(DatabaseAdapter adapter) throws ClassNotFoundException, SQLException {
+	private RegisterCode checkParams(DatabaseAdapter adapter) throws ClassNotFoundException, SQLException {
 		if (params == null) {
-			message = "Invalid request";
-			return false;
-		} else if (!checkBilkentEmail()) {
-			message = "You need to use your Bilkent email to use this service!";
-			return false;
-		} else if (doesExist(adapter)) {
-			message = "Your email is already registered!";
-			return false;
+			return RegisterCode.INVALID_REQUEST;
+		} 
+		
+		if (!checkBilkentEmail()) {
+		//	message = "You need to use your Bilkent email to use this service!";
+			return RegisterCode.NOT_EDU_MAIL;
+		} 
+		
+		if (doesExist(adapter)) {
+		//	message = "Your email is already registered!";
+			return RegisterCode.ALREADY_REGISTERED;
 		}
-		message = "Account successfully registered.";
-		return true;
+		//message = "Account successfully registered.";
+		return RegisterCode.OK;
 
 	}
 
 	@Override
 	public JSONObject getResult() throws ServletException, IOException, ClassNotFoundException, SQLException {
+		JSONObject json;
+		String message;
 		DatabaseAdapter adapter;
-		boolean success;
+		RegisterCode status;
 
 		adapter = new DatabaseAdapter();
-		success = checkParams(adapter);
-		if (success) {
+		json = new JSONObject();
+		status = checkParams(adapter);
+		
+		if (status.equals(RegisterCode.OK)) {
 			createUserId();
 			hashPassword();
 			adapter.create(DATABASE_TABLE, params);
 		}
-		return getJSON(success);
 
-	}
-
-	private JSONObject getJSON(boolean success) {
-		Map<String, Object> values;
-
-		values = new HashMap<String, Object>();
-
-		values.put("success", success);
-		values.put("message", message);
-		return JsonAdapter.createJSON(values);
+		if (status == RegisterCode.INVALID_REQUEST) {
+			message = "Invalid request parameters! Please contact developers.";
+		} else if (status == RegisterCode.NOT_EDU_MAIL) {
+			message = "You need to use your Bilkent email to use this service!";
+		} else if (status == RegisterCode.ALREADY_REGISTERED) {
+			message = "Your email is already registered!";
+		} else { 
+			message = "Account successfully registered.";
+		}
+		
+		json.put("success", status == RegisterCode.OK);
+		json.put("message", message);
+		
+		return json;
 	}
 
 }

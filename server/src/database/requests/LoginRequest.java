@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import org.json.JSONObject;
 
-import database.adapters.JsonAdapter;
 import database.handlers.LoginHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -52,8 +51,8 @@ public class LoginRequest extends HttpServlet {
 		try {
 			json = handler.getResult();
 		} catch (ClassNotFoundException | ServletException | IOException | SQLException e) {
-			e.printStackTrace(out);
-			json = JsonAdapter.createNullJSON();
+			json = new JSONObject();
+			json.put("error", e.getMessage());
 		}
 		out.print(json);
 		out.flush();
