@@ -1,5 +1,6 @@
 package database.adapters;
 
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -59,6 +60,8 @@ public class DatabaseAdapter {
 		StringBuffer sql;
 		StringBuffer keySet;
 		StringBuffer valueSet;
+		String keys;
+		String values;
 		PreparedStatement statement;
 
 
@@ -71,18 +74,19 @@ public class DatabaseAdapter {
 
 		for (String param : params.keySet()) {
 			keySet.append(param + ", ");
-			valueSet.append(params.get(param) + ", ");
+			valueSet.append("'" + params.get(param) + "', ");
 		}
 
 		// removing the unnecessary comma and space.
-		keySet.substring(0, keySet.length() - 3);
-		valueSet.substring(0, valueSet.length() - 3);
+		keys = keySet.substring(0, keySet.length() - 2);
+		values = valueSet.substring(0, valueSet.length() - 2);
+		
 
 		// close parentheses
-		keySet.append(")");
-		valueSet.append(")");
+		keys = keys + ")";
+		values = values + ")";
 
-		sql = new StringBuffer("INSERT INTO " + tableName + " " + keySet + " VALUES " + valueSet);
+		sql = new StringBuffer("INSERT INTO " + tableName + " " + keys + " VALUES " + values);
 
 		connect();
 		statement = connection.prepareStatement(sql.toString());

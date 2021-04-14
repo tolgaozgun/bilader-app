@@ -16,6 +16,12 @@
   	<description></description>
   	<servlet-class>database.requests.TokenRequest</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>RegisterRequest</servlet-name>
+  	<display-name>RegisterRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.RegisterRequest</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -23,5 +29,9 @@
   <servlet-mapping>
   	<servlet-name>TokenRequest</servlet-name>
   	<url-pattern>/TokenRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RegisterRequest</servlet-name>
+  	<url-pattern>/RegisterRequest</url-pattern>
   </servlet-mapping>
 </web-app>
