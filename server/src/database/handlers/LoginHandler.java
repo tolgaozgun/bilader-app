@@ -2,18 +2,16 @@ package database.handlers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.json.JSONObject;
 
 import database.adapters.DatabaseAdapter;
-import database.adapters.JsonAdapter;
 import database.adapters.RequestAdapter;
 import jakarta.servlet.ServletException;
 
-public class LoginHandler extends ProcessHandler{
+public class LoginHandler extends ProcessHandler {
 
 	private static String[] keys = { "email", "password_hash" };
 	private final String DATABASE_TABLE = "users";
@@ -26,33 +24,27 @@ public class LoginHandler extends ProcessHandler{
 
 	@Override
 	public JSONObject getResult() throws ServletException, IOException, ClassNotFoundException, SQLException {
+		JSONObject json;
 		DatabaseAdapter adapter;
 		boolean result;
 
 		adapter = new DatabaseAdapter();
+		json = new JSONObject();
+
 		result = adapter.doesExist(DATABASE_TABLE, params);
-		return getJSON(result);
+		json.put("success", result);
+		json.put("token", "");
+		if (result) {
+			json.put("message", SUCCESS_MESSAGE);
+			json.put("token", createToken());
+		} else {
+			json.put("message", FAIL_MESSAGE);
+		}
+		return json;
 
 	}
 
 	private String createToken() {
 		return UUID.randomUUID().toString();
 	}
-
-	private JSONObject getJSON(boolean success) {
-		Map<String, Object> values;
-
-		values = new HashMap<String, Object>();
-
-		values.put("success", success);
-		values.put("token", "");
-		if (success) {
-			values.put("message", SUCCESS_MESSAGE);
-			values.put("token", createToken());
-		} else {
-			values.put("message", FAIL_MESSAGE);
-		}
-		return JsonAdapter.createJSON(values);
-	}
-
 }

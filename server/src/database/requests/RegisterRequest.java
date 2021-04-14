@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import org.json.JSONObject;
 
-import database.adapters.JsonAdapter;
 import database.handlers.RegisterHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -53,7 +52,7 @@ public class RegisterRequest extends HttpServlet {
 		try {
 			json = handler.getResult();
 		} catch (ClassNotFoundException | ServletException | IOException | SQLException e) {
-			json = JsonAdapter.createNullJSON();
+			json = new JSONObject();
 			json.put("error", e.getMessage());
 		}
 		out.print(json);
