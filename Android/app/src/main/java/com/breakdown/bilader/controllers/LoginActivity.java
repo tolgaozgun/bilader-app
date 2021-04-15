@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,7 +20,9 @@ import androidx.annotation.Nullable;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.VolleyCallback;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -32,6 +35,7 @@ public class LoginActivity extends Activity {
     private Button logInButton;
     private TextView forgotPassword;
     private ProgressDialog loadingBar;
+    private final String SESSION_TOKEN_KEY = "SESSION_TOKEN";
 
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
@@ -100,18 +104,54 @@ public class LoginActivity extends Activity {
     }
 
     private void allowAccessToAccount( String email, String password ) {
+        final String JSON_SUCCESS_PATH = "success";
+        final String JSON_TOKEN_PATH = "token";
+        final String JSON_MESSAGE_PATH = "message";
+        final VolleyCallback callback;
+        SharedPreferences sharedPreferences;
         Map< String, String > params;
-        JSONObject json;
         params = new HashMap< String, String >();
-        
-        // TODO: Check if the email exists in database.
-        // If exists, if users email = email && users password = password log
-        // in successfully.
-        // Intent intent = new Intent(LoginActivity.this,
-        // VerificationActivity.class );
-        // startActivity(intent);
+        params.put( "email", email );
+        params.put( "password", password );
 
-        json = HttpAdapter.getRequestJSON( RequestType.LOGIN, params,
+        sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences( this );
+
+        callback = new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject json ) {
+                try {
+                    String token;
+                    String message;
+                    if ( json == null ) {
+                        message = "Connection error.";
+                    } else {
+                        if ( json.getBoolean( JSON_SUCCESS_PATH ) ) {
+                            token = json.getString( JSON_TOKEN_PATH );
+                            sharedPreferences.edit().putString( SESSION_TOKEN_KEY, token );
+                        }
+                        message = json.getString( JSON_MESSAGE_PATH );
+                    }
+                    Toast.makeText( LoginActivity.this, message,
+                            Toast.LENGTH_SHORT ).show();
+                    loadingBar.dismiss();
+                } catch ( JSONException e ) {
+                    Toast.makeText( LoginActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
+                    loadingBar.dismiss();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                loadingBar.dismiss();
+                //Toast.makeText( LoginActivity.this, message,
+                //       Toast.LENGTH_SHORT ).show();
+
+            }
+        };
+
+        HttpAdapter.getRequestJSON( callback, RequestType.LOGIN, params,
                 LoginActivity.this );
     }
 

@@ -26,9 +26,13 @@ public class OthersProfileActivity extends Fragment {
     private Button sendMessage;
 
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView( LayoutInflater inflater, ViewGroup container,
+                              Bundle savedInstanceState ) {
 
         View view;
+        // this is required for variable view might not have been initialized
+        // for now.
+        view = null;
 
         //view.findViewById()s
 
@@ -38,47 +42,47 @@ public class OthersProfileActivity extends Fragment {
         getFollowersCount();
         getFollowingsCount();
 
-        recyclerViewProducts.setVisibility(View.VISIBLE);
-        recyclerViewReviews.setVisibility(View.GONE);
+        recyclerViewProducts.setVisibility( View.VISIBLE );
+        recyclerViewReviews.setVisibility( View.GONE );
 
-        onSale.setOnClickListener(new View.OnClickListener() {
+        onSale.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                recyclerViewProducts.setVisibility(View.VISIBLE);
-                recyclerViewReviews.setVisibility(View.GONE);
+            public void onClick( View v ) {
+                recyclerViewProducts.setVisibility( View.VISIBLE );
+                recyclerViewReviews.setVisibility( View.GONE );
             }
-        });
+        } );
 
-        reviews.setOnClickListener(new View.OnClickListener() {
+        reviews.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                recyclerViewProducts.setVisibility(View.GONE);
-                recyclerViewReviews.setVisibility(View.VISIBLE);
+            public void onClick( View v ) {
+                recyclerViewProducts.setVisibility( View.GONE );
+                recyclerViewReviews.setVisibility( View.VISIBLE );
             }
-        });
+        } );
 
         return view;
     }
 
-    private void userProducts(){
+    private void userProducts() {
         //TODO
     }
 
-    private void userReviews(){
+    private void userReviews() {
         //TODO
     }
 
-    private void getProductCount(){
+    private void getProductCount() {
         //TODO
         //numberOfProducts.setText( count);
     }
 
-    private void getFollowersCount(){
+    private void getFollowersCount() {
         //TODO
         //numberOfFollowers.setText( count);
     }
 
-    private void getFollowingsCount(){
+    private void getFollowingsCount() {
         //TODO
         //numberOfFollowings.setText( count);
     }
