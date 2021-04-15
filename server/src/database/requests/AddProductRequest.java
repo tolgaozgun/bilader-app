@@ -6,22 +6,22 @@ import java.sql.SQLException;
 
 import org.json.JSONObject;
 
-import database.handlers.LoginHandler;
+import database.handlers.AddProductHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class LoginRequest
+ * Servlet implementation class AddProductRequest
  */
-public class LoginRequest extends HttpServlet {
+public class AddProductRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public LoginRequest() {
+	public AddProductRequest() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -49,13 +49,13 @@ public class LoginRequest extends HttpServlet {
 	private void handleRequest( HttpServletRequest request,
 			HttpServletResponse response )
 			throws ServletException, IOException {
-		LoginHandler handler;
+		AddProductHandler handler;
 		JSONObject json;
 		PrintWriter out;
 
 		response.setContentType( "application/json" );
 		out = response.getWriter();
-		handler = new LoginHandler( request.getParameterMap() );
+		handler = new AddProductHandler( request.getParameterMap() );
 		try {
 			json = handler.getResult();
 		} catch ( ClassNotFoundException | ServletException | IOException
@@ -68,5 +68,4 @@ public class LoginRequest extends HttpServlet {
 		out.flush();
 
 	}
-
 }

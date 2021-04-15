@@ -22,6 +22,24 @@
   	<description></description>
   	<servlet-class>database.requests.RegisterRequest</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ProductRequest</servlet-name>
+  	<display-name>ProductRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.ProductRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AddProductRequest</servlet-name>
+  	<display-name>AddProductRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.AddProductRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AddReportRequest</servlet-name>
+  	<display-name>AddReportRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.AddReportRequest</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -33,5 +51,17 @@
   <servlet-mapping>
   	<servlet-name>RegisterRequest</servlet-name>
   	<url-pattern>/RegisterRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProductRequest</servlet-name>
+  	<url-pattern>/ProductRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AddProductRequest</servlet-name>
+  	<url-pattern>/AddProductRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AddReportRequest</servlet-name>
+  	<url-pattern>/AddReportRequest</url-pattern>
   </servlet-mapping>
 </web-app>

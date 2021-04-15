@@ -18,34 +18,35 @@ import jakarta.servlet.ServletException;
 
 public class RegisterHandler extends ProcessHandler {
 
-	private static final String[] KEYS = { "email", "name", "password", "avatar_url" };
+	private static final String[] KEYS = { "email", "name", "password",
+			"avatar_url" };
 	private final String DATABASE_TABLE = "users";
 	private final String BILKENT_DOMAIN = "bilkent.edu.tr";
 
-	public RegisterHandler(Map<String, String[]> params) {
-		super(RequestAdapter.convertParameters(params, KEYS));
+	public RegisterHandler( Map< String, String[] > params ) {
+		super( RequestAdapter.convertParameters( params, KEYS ) );
 	}
 
 	private void createUserId() throws ClassNotFoundException, SQLException {
-		Map<String, String> mapUserId;
+		Map< String, String > mapUserId;
 		UUID userId;
 		DatabaseAdapter adapter;
 		boolean doesExist;
 
-		if (params == null) {
+		if ( params == null ) {
 			return;
 		}
 
-		mapUserId = new HashMap<String, String>();
+		mapUserId = new HashMap< String, String >();
 		userId = UUID.randomUUID();
-		mapUserId.put("id", userId.toString());
+		mapUserId.put( "id", userId.toString() );
 		adapter = new DatabaseAdapter();
-		doesExist = adapter.doesExist(DATABASE_TABLE, mapUserId);
-		while (doesExist) {
+		doesExist = adapter.doesExist( DATABASE_TABLE, mapUserId );
+		while ( doesExist ) {
 			userId = UUID.randomUUID();
-			mapUserId.put("id", userId.toString());
+			mapUserId.put( "id", userId.toString() );
 		}
-		params.put("id", userId.toString());
+		params.put( "id", userId.toString() );
 
 	}
 
@@ -58,65 +59,69 @@ public class RegisterHandler extends ProcessHandler {
 		byte[] saltArray;
 		byte[] hashArray;
 
-		if (params == null) {
+		if ( params == null ) {
 			return;
 		}
 
 		encoder = Base64.getUrlEncoder().withoutPadding();
-		password = params.get("password");
+		password = params.get( "password" );
 		saltArray = PasswordAdapter.getNextSalt();
 		passwordArray = password.toCharArray();
-		hashArray = PasswordAdapter.hash(passwordArray, saltArray);
-		hash = encoder.encodeToString(hashArray);
-		salt = encoder.encodeToString(saltArray);
+		hashArray = PasswordAdapter.hash( passwordArray, saltArray );
+		hash = encoder.encodeToString( hashArray );
+		salt = encoder.encodeToString( saltArray );
 
-		params.put("password_hash", hash);
-		params.put("password_salt", salt);
-		params.remove("password");
+		params.put( "password_hash", hash );
+		params.put( "password_salt", salt );
+		params.remove( "password" );
 
 	}
 
 	private boolean checkBilkentEmail() {
 		String email;
 		String domain;
-		email = params.get("email");
-		domain = email.substring(email.length() - 14, email.length());
+		email = params.get( "email" );
+		domain = email.substring( email.length() - 14, email.length() );
 
-		if (domain.equals(BILKENT_DOMAIN)) {
+		if ( domain.equals( BILKENT_DOMAIN ) ) {
 			return true;
 		}
 		return false;
 	}
 
-	private boolean doesExist(DatabaseAdapter adapter) throws ClassNotFoundException, SQLException {
-		Map<String, String> checkParams;
-		checkParams = new HashMap<String, String>();
-		checkParams.put("email", params.get("email"));
+	private boolean doesExist( DatabaseAdapter adapter )
+			throws ClassNotFoundException, SQLException {
+		Map< String, String > checkParams;
+		checkParams = new HashMap< String, String >();
+		checkParams.put( "email", params.get( "email" ) );
 
-		return adapter.doesExist(DATABASE_TABLE, checkParams);
+		return adapter.doesExist( DATABASE_TABLE, checkParams );
 	}
 
-	private RegisterCode checkParams(DatabaseAdapter adapter) throws ClassNotFoundException, SQLException {
-		if (params == null) {
+	private RegisterCode checkParams( DatabaseAdapter adapter )
+			throws ClassNotFoundException, SQLException {
+		if ( params == null ) {
 			return RegisterCode.INVALID_REQUEST;
-		} 
-		
-		if (!checkBilkentEmail()) {
-		//	message = "You need to use your Bilkent email to use this service!";
+		}
+
+		if ( !checkBilkentEmail() ) {
+			// message = "You need to use your Bilkent email to use this
+			// service!";
 			return RegisterCode.NOT_EDU_MAIL;
-		} 
-		
-		if (doesExist(adapter)) {
-		//	message = "Your email is already registered!";
+		}
+
+		if ( doesExist( adapter ) ) {
+			// message = "Your email is already registered!";
 			return RegisterCode.ALREADY_REGISTERED;
 		}
-		//message = "Account successfully registered.";
+		// message = "Account successfully registered.";
 		return RegisterCode.OK;
 
 	}
 
 	@Override
-	public JSONObject getResult() throws ServletException, IOException, ClassNotFoundException, SQLException {
+	public JSONObject getResult() throws ServletException, IOException,
+			ClassNotFoundException, SQLException {
 		JSONObject json;
 		String message;
 		DatabaseAdapter adapter;
@@ -124,27 +129,27 @@ public class RegisterHandler extends ProcessHandler {
 
 		adapter = new DatabaseAdapter();
 		json = new JSONObject();
-		status = checkParams(adapter);
-		
-		if (status.equals(RegisterCode.OK)) {
+		status = checkParams( adapter );
+
+		if ( status.equals( RegisterCode.OK ) ) {
 			createUserId();
 			hashPassword();
-			adapter.create(DATABASE_TABLE, params);
+			adapter.create( DATABASE_TABLE, params );
 		}
 
-		if (status == RegisterCode.INVALID_REQUEST) {
+		if ( status == RegisterCode.INVALID_REQUEST ) {
 			message = "Invalid request parameters! Please contact developers.";
-		} else if (status == RegisterCode.NOT_EDU_MAIL) {
+		} else if ( status == RegisterCode.NOT_EDU_MAIL ) {
 			message = "You need to use your Bilkent email to use this service!";
-		} else if (status == RegisterCode.ALREADY_REGISTERED) {
+		} else if ( status == RegisterCode.ALREADY_REGISTERED ) {
 			message = "Your email is already registered!";
-		} else { 
+		} else {
 			message = "Account successfully registered.";
 		}
-		
-		json.put("success", status == RegisterCode.OK);
-		json.put("message", message);
-		
+
+		json.put( "success", status == RegisterCode.OK );
+		json.put( "message", message );
+
 		return json;
 	}
 
