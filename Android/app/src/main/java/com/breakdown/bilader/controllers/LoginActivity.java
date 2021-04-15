@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +21,7 @@ import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.RequestType;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -32,6 +34,7 @@ public class LoginActivity extends Activity {
     private Button logInButton;
     private TextView forgotPassword;
     private ProgressDialog loadingBar;
+    private final String SESSION_TOKEN_KEY = "SESSION_TOKEN";
 
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
@@ -100,19 +103,30 @@ public class LoginActivity extends Activity {
     }
 
     private void allowAccessToAccount( String email, String password ) {
+        SharedPreferences sharedPreferences;
         Map< String, String > params;
         JSONObject json;
+        String token;
+        String message;
         params = new HashMap< String, String >();
-        
-        // TODO: Check if the email exists in database.
-        // If exists, if users email = email && users password = password log
-        // in successfully.
-        // Intent intent = new Intent(LoginActivity.this,
-        // VerificationActivity.class );
-        // startActivity(intent);
+        params.put( "email", email );
+        params.put( "password", password );
+
+        sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences( this );
 
         json = HttpAdapter.getRequestJSON( RequestType.LOGIN, params,
                 LoginActivity.this );
+        try {
+            if ( json.getBoolean( "success" ) ) {
+                token = json.getString( "token" );
+                sharedPreferences.edit().putString( SESSION_TOKEN_KEY, token );
+            }
+            message = json.getString( "message" );
+            Toast.makeText( this, message, Toast.LENGTH_SHORT ).show();
+        } catch ( JSONException e ) {
+            Toast.makeText( this, e.getMessage(), Toast.LENGTH_SHORT ).show();
+        }
     }
 
     /**
