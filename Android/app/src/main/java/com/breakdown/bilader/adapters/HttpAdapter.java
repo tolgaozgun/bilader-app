@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class HttpAdapter {
 
-    private final static String MAIN_URL = "http://88.99.11.149:8080/backend/";
+    private final static String MAIN_URL = "http://88.99.11.149:8080/server/";
 
     /**
      * Sends a GET request to server with specified details and parameters to

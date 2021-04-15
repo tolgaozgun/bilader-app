@@ -2,14 +2,16 @@ package com.breakdown.bilader.adapters;
 
 public enum RequestType {
 
-    LOGIN( "login.jsp" ), REGISTER( "register.jsp" ),
-    PROFILE( "profile.jsp" ), PRODUCT( "product.jsp" ), FOLLOWERS( "followers"
-            + ".jsp" ), FOLLOWINGS( "followings.jsp" ), FOLLOW( "follow.jsp" );
+    LOGIN( "LoginRequest" ), REGISTER( "RegisterRequest" ), PROFILE(
+            "ProfileRequest" ), PRODUCT( "ProductRequest" ), FOLLOWERS(
+                    "FollowersRequest" ), FOLLOWINGS( "FollowingsRequest" ),
+    FOLLOW( "FollowRequest" );
 
     private String path;
 
     /**
      * Constructor
+     *
      * @param path String value of the URL path to request.
      */
     RequestType( String path ) {
@@ -18,6 +20,7 @@ public enum RequestType {
 
     /**
      * Get the path for current enum.
+     *
      * @return String value of the URL path to request.
      */
     public String getPath() {
