@@ -7,15 +7,18 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class HttpAdapter {
 
     private final static String MAIN_URL = "http://88.99.11.149:8080/server/";
+    private static JSONObject finalResponse;
 
     /**
      * Sends a GET request to server with specified details and parameters to
@@ -26,47 +29,54 @@ public class HttpAdapter {
      * @param instance    Instance of the activity for the request.
      * @return Response as a JSONObject.
      */
-    public static JSONObject getRequestJSON( RequestType requestType,
-                                             Map< String, String > params,
-                                             Activity instance ) {
-        JSONObject[] finalResponse;
-        JSONObject jsonParameters;
+    public static void getRequestJSON( final VolleyCallback callback,
+                                       RequestType requestType, Map< String,
+            String > params, Activity instance ) {
         String path;
         String url;
         RequestQueue queue;
         JsonObjectRequest jsonObjectRequest;
 
-        finalResponse = new JSONObject[ 1 ];
-        jsonParameters = null;
+        finalResponse = new JSONObject();
         queue = Volley.newRequestQueue( instance );
         path = requestType.getPath();
-        url = MAIN_URL + path;
-
-        // Since JsonObjectRequest only accepts JSONObject as parameters, we
-        // need to convert.
-        if ( params != null ) {
-            jsonParameters = new JSONObject( params );
-        }
+        url = addParameters( MAIN_URL + path, params );
+        System.out.println( "url: " + url );
 
         // Initialize the request.
-        jsonObjectRequest = new JsonObjectRequest( Request.Method.GET, url,
-                jsonParameters, new Response.Listener< JSONObject >() {
+        jsonObjectRequest = new JsonObjectRequest( Request.Method.POST, url,
+                null, new Response.Listener< JSONObject >() {
 
             @Override
             public void onResponse( JSONObject response ) {
-                finalResponse[ 0 ] = response;
+                System.out.println( "Success" );
+                System.out.println( response.toString() );
+                callback.onSuccess( response );
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse( VolleyError error ) {
-                finalResponse[ 0 ] = null;
+                error.printStackTrace();
+                callback.onFail( error.getMessage() );
 
             }
         } );
 
         // Add the request to the queue.
         queue.add( jsonObjectRequest );
-        return finalResponse[ 0 ];
+    }
+
+    private static String addParameters(String url, Map<String, String> params ){
+        if(params == null || params.size() == 0){
+            return url;
+        }
+        StringBuffer paramBuffer;
+        paramBuffer = new StringBuffer();
+        for(String key: params.keySet()){
+            paramBuffer.append( "&" + key + "=" + params.get( key ) );
+        }
+        paramBuffer.setCharAt( 0,'?');
+        return url + paramBuffer.toString();
     }
 }

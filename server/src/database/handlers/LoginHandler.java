@@ -74,9 +74,9 @@ public class LoginHandler extends ProcessHandler {
 		DatabaseAdapter adapter;
 		boolean result;
 
+		json = new JSONObject();
 		adapter = new DatabaseAdapter();
 		hashPassword( adapter );
-		json = new JSONObject();
 
 		result = adapter.doesExist( DATABASE_TABLE, params );
 		json.put( "success", result );

@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.VolleyCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -103,11 +104,12 @@ public class LoginActivity extends Activity {
     }
 
     private void allowAccessToAccount( String email, String password ) {
+        final String JSON_SUCCESS_PATH = "success";
+        final String JSON_TOKEN_PATH = "token";
+        final String JSON_MESSAGE_PATH = "message";
+        final VolleyCallback callback;
         SharedPreferences sharedPreferences;
         Map< String, String > params;
-        JSONObject json;
-        String token;
-        String message;
         params = new HashMap< String, String >();
         params.put( "email", email );
         params.put( "password", password );
@@ -115,18 +117,42 @@ public class LoginActivity extends Activity {
         sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences( this );
 
-        json = HttpAdapter.getRequestJSON( RequestType.LOGIN, params,
-                LoginActivity.this );
-        try {
-            if ( json.getBoolean( "success" ) ) {
-                token = json.getString( "token" );
-                sharedPreferences.edit().putString( SESSION_TOKEN_KEY, token );
+        callback = new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject json ) {
+                try {
+                    String token;
+                    String message;
+                    if ( json == null ) {
+                        message = "Connection error.";
+                    } else {
+                        if ( json.getBoolean( JSON_SUCCESS_PATH ) ) {
+                            token = json.getString( JSON_TOKEN_PATH );
+                            sharedPreferences.edit().putString( SESSION_TOKEN_KEY, token );
+                        }
+                        message = json.getString( JSON_MESSAGE_PATH );
+                    }
+                    Toast.makeText( LoginActivity.this, message,
+                            Toast.LENGTH_SHORT ).show();
+                    loadingBar.dismiss();
+                } catch ( JSONException e ) {
+                    Toast.makeText( LoginActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
+                    loadingBar.dismiss();
+                }
             }
-            message = json.getString( "message" );
-            Toast.makeText( this, message, Toast.LENGTH_SHORT ).show();
-        } catch ( JSONException e ) {
-            Toast.makeText( this, e.getMessage(), Toast.LENGTH_SHORT ).show();
-        }
+
+            @Override
+            public void onFail( String message ) {
+                loadingBar.dismiss();
+                //Toast.makeText( LoginActivity.this, message,
+                //       Toast.LENGTH_SHORT ).show();
+
+            }
+        };
+
+        HttpAdapter.getRequestJSON( callback, RequestType.LOGIN, params,
+                LoginActivity.this );
     }
 
     /**
