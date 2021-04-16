@@ -35,16 +35,16 @@ public class ReportActivity extends Activity {
 
     private void sendReport() {
         String report;
-        String userId;
+        String reportedId;
 
         report = reportText.getText().toString();
-        // userId =
-
-        // TODO: Send the report to us.
+        // reportedId =
 
         loadingBar.setTitle( "report" );
         loadingBar.setMessage( "Please wait while we send the report!" );
         loadingBar.setCanceledOnTouchOutside( false );
         loadingBar.show();
+
+        // TODO: Send the report to us.
     }
 }
