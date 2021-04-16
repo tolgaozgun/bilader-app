@@ -2,8 +2,6 @@ package database.handlers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Base64;
-import java.util.Base64.Encoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -11,7 +9,7 @@ import java.util.UUID;
 import org.json.JSONObject;
 
 import database.adapters.DatabaseAdapter;
-import database.adapters.PasswordAdapter;
+import database.adapters.PasscodeAdapter;
 import database.adapters.RequestAdapter;
 import database.handlers.codes.RegisterCode;
 import jakarta.servlet.ServletException;
@@ -22,6 +20,9 @@ public class RegisterHandler extends ProcessHandler {
 			"avatar_url" };
 	private final String DATABASE_TABLE = "users";
 	private final String BILKENT_DOMAIN = "bilkent.edu.tr";
+	private final static String PASSWORD_KEY = "password";
+	private final static String PASSWORD_HASH_KEY = "password_hash";
+	private final static String PASSWORD_SALT_KEY = "password_salt";
 
 	public RegisterHandler( Map< String, String[] > params ) {
 		super( RequestAdapter.convertParameters( params, KEYS ) );
@@ -50,37 +51,13 @@ public class RegisterHandler extends ProcessHandler {
 
 	}
 
-	private void hashPassword() {
-		String password;
-		String salt;
-		String hash;
-		Encoder encoder;
-		char[] passwordArray;
-		byte[] saltArray;
-		byte[] hashArray;
-
-		if ( params == null ) {
-			return;
-		}
-
-		encoder = Base64.getUrlEncoder().withoutPadding();
-		password = params.get( "password" );
-		saltArray = PasswordAdapter.getNextSalt();
-		passwordArray = password.toCharArray();
-		hashArray = PasswordAdapter.hash( passwordArray, saltArray );
-		hash = encoder.encodeToString( hashArray );
-		salt = encoder.encodeToString( saltArray );
-
-		params.put( "password_hash", hash );
-		params.put( "password_salt", salt );
-		params.remove( "password" );
-
-	}
-
 	private boolean checkBilkentEmail() {
 		String email;
 		String domain;
 		email = params.get( "email" );
+		if ( email.length() < 16 ) {
+			return false;
+		}
 		domain = email.substring( email.length() - 14, email.length() );
 
 		if ( domain.equals( BILKENT_DOMAIN ) ) {
@@ -133,7 +110,8 @@ public class RegisterHandler extends ProcessHandler {
 
 		if ( status.equals( RegisterCode.OK ) ) {
 			createUserId();
-			hashPassword();
+			params = PasscodeAdapter.hashPasswordWithoutSalt( params,
+					PASSWORD_KEY, PASSWORD_HASH_KEY, PASSWORD_SALT_KEY );
 			adapter.create( DATABASE_TABLE, params );
 		}
 

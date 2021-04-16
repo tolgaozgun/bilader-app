@@ -40,6 +40,30 @@
   	<description></description>
   	<servlet-class>database.requests.AddReportRequest</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>VerificationRequest</servlet-name>
+  	<display-name>VerificationRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.VerificationRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AddVerificationRequest</servlet-name>
+  	<display-name>AddVerificationRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.AddVerificationRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ForgotPasswordRequest</servlet-name>
+  	<display-name>ForgotPasswordRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.ForgotPasswordRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ChangePasswordRequest</servlet-name>
+  	<display-name>ChangePasswordRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.ChangePasswordRequest</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -63,5 +87,21 @@
   <servlet-mapping>
   	<servlet-name>AddReportRequest</servlet-name>
   	<url-pattern>/AddReportRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>VerificationRequest</servlet-name>
+  	<url-pattern>/VerificationRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AddVerificationRequest</servlet-name>
+  	<url-pattern>/AddVerificationRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ForgotPasswordRequest</servlet-name>
+  	<url-pattern>/ForgotPasswordRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ChangePasswordRequest</servlet-name>
+  	<url-pattern>/ChangePasswordRequest</url-pattern>
   </servlet-mapping>
 </web-app>

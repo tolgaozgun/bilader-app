@@ -2,9 +2,6 @@ package database.handlers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Base64;
-import java.util.Base64.Decoder;
-import java.util.Base64.Encoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -12,58 +9,53 @@ import java.util.UUID;
 import org.json.JSONObject;
 
 import database.adapters.DatabaseAdapter;
-import database.adapters.PasswordAdapter;
+import database.adapters.PasscodeAdapter;
 import database.adapters.RequestAdapter;
+import database.handlers.codes.LoginCode;
 import jakarta.servlet.ServletException;
 
 public class LoginHandler extends ProcessHandler {
 
 	private static String[] keys = { "email", "password" };
 	private final String DATABASE_TABLE = "users";
-	private final String SUCCESS_MESSAGE = "Login correct.";
-	private final String FAIL_MESSAGE = "Login details incorrect.";
+	private final String PASSWORD_KEY = "password";
+	private final String PASSWORD_HASH_KEY = "password_hash";
+	private final String PASSWORD_SALT_KEY = "password_salt";
+	private final String EMAIL_KEY = "email";
 
 	public LoginHandler( Map< String, String[] > params ) {
 		super( RequestAdapter.convertParameters( params, keys ) );
 	}
 
-	private void hashPassword( DatabaseAdapter adapter )
-			throws ClassNotFoundException, SQLException {
-		Map< String, String > requestParams;
-		String[] wanted;
-		String password;
-		String salt;
-		String hash;
-		Encoder encoder;
-		Decoder decoder;
-		char[] passwordArray;
-		byte[] saltArray;
-		byte[] hashArray;
 
-		if ( params == null ) {
-			return;
+	private boolean isVerified( DatabaseAdapter adapter )
+			throws ClassNotFoundException, SQLException {
+		String[] wanted;
+		Map< Integer, Object[] > map;
+
+		map = new HashMap< Integer, Object[] >();
+		wanted = new String[ 1 ];
+		wanted[ 0 ] = "verified";
+		map = adapter.select( DATABASE_TABLE, wanted, params );
+		return ( boolean ) map.get( 0 )[ 0 ];
+	}
+
+	private LoginCode checkParams( DatabaseAdapter adapter )
+			throws ClassNotFoundException, SQLException {
+
+		if ( params == null || params.size() == 0 ) {
+			return LoginCode.INVALID_REQUEST;
 		}
 
-		encoder = Base64.getUrlEncoder().withoutPadding();
-		decoder = Base64.getUrlDecoder();
-		requestParams = new HashMap< String, String >();
-		requestParams.put( "email", params.get( "email" ) );
-		wanted = new String[ 1 ];
-		wanted[ 0 ] = "password_salt";
+		if ( !isVerified( adapter ) ) {
+			return LoginCode.NOT_VERIFIED;
+		}
 
-		salt = ( String ) adapter
-				.select( DATABASE_TABLE, wanted, requestParams ).get( 0 )[ 0 ];
-		saltArray = decoder.decode( salt );
-		password = params.get( "password" );
-		passwordArray = password.toCharArray();
+		if ( adapter.doesExist( DATABASE_TABLE, params ) ) {
+			return LoginCode.OK;
+		}
 
-		hashArray = PasswordAdapter.hash( passwordArray, saltArray );
-		hash = encoder.encodeToString( hashArray );
-		salt = encoder.encodeToString( saltArray );
-
-		params.put( "password_hash", hash );
-		params.put( "password_salt", salt );
-		params.remove( "password" );
+		return LoginCode.WRONG_PASSWORD;
 
 	}
 
@@ -72,26 +64,25 @@ public class LoginHandler extends ProcessHandler {
 			ClassNotFoundException, SQLException {
 		JSONObject json;
 		DatabaseAdapter adapter;
-		boolean result;
+		LoginCode result;
+		String token;
 
 		json = new JSONObject();
 		adapter = new DatabaseAdapter();
-		hashPassword( adapter );
+		params = PasscodeAdapter.hashPasswordWithSalt( params, adapter, DATABASE_TABLE,
+				PASSWORD_KEY, PASSWORD_HASH_KEY, PASSWORD_SALT_KEY, EMAIL_KEY );
+		result = checkParams( adapter );
 
-		result = adapter.doesExist( DATABASE_TABLE, params );
-		json.put( "success", result );
-		json.put( "token", "" );
-		if ( result ) {
-			json.put( "message", SUCCESS_MESSAGE );
-			json.put( "token", createToken() );
+		if ( result == LoginCode.OK ) {
+			token = UUID.randomUUID().toString();
 		} else {
-			json.put( "message", FAIL_MESSAGE );
+			token = "";
 		}
+
+		json.put( "success", result == LoginCode.OK );
+		json.put( "message", result.getMessage() );
+		json.put( "token", token );
 		return json;
 
-	}
-
-	private String createToken() {
-		return UUID.randomUUID().toString();
 	}
 }

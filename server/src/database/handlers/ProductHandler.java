@@ -38,6 +38,8 @@ public class ProductHandler extends ProcessHandler {
 		adapter = new DatabaseAdapter();
 		json = new JSONObject();
 		jsonSqlResult = new JSONObject();
+		
+		// Wanted columns from the database
 		wanted = new String[ 8 ];
 		wanted[ 0 ] = "id";
 		wanted[ 1 ] = "picture_url";
