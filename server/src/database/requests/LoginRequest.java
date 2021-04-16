@@ -1,11 +1,8 @@
 package database.requests;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 
-import org.json.JSONObject;
-
+import database.adapters.RequestAdapter;
 import database.handlers.LoginHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -50,22 +47,8 @@ public class LoginRequest extends HttpServlet {
 			HttpServletResponse response )
 			throws ServletException, IOException {
 		LoginHandler handler;
-		JSONObject json;
-		PrintWriter out;
-
-		response.setContentType( "application/json" );
-		out = response.getWriter();
 		handler = new LoginHandler( request.getParameterMap() );
-		try {
-			json = handler.getResult();
-		} catch ( ClassNotFoundException | ServletException | IOException
-				| SQLException e ) {
-			json = new JSONObject();
-			json.put( "success", false );
-			json.put( "message", e.getMessage() );
-		}
-		out.print( json );
-		out.flush();
+		RequestAdapter.handleRequest( request, response, handler );
 
 	}
 

@@ -58,6 +58,38 @@ public class DatabaseAdapter {
 		return count != 0;
 	}
 
+	public void update( String tableName, Map< String, String > params,
+			Map< String, Object > updateList )
+			throws SQLException, ClassNotFoundException {
+		StringBuffer sql;
+		PreparedStatement statement;
+
+		sql = new StringBuffer( "UPDATE " + tableName + " " );
+		sql.append( createSetString( updateList ) + " " );
+		sql.append( createWhere( params ) );
+		connect();
+		statement = connection.prepareStatement( sql.toString() );
+		statement.executeUpdate();
+		disconnect();
+
+	}
+
+	private String createSetString( Map< String, Object > wantedList ) {
+		StringBuffer bufferString;
+
+		if ( wantedList == null || wantedList.size() == 0 ) {
+			return "";
+		}
+
+		bufferString = new StringBuffer( "SET " );
+		for ( String key : wantedList.keySet() ) {
+			bufferString.append( key + "='" + wantedList.get( key ) + "'," );
+		}
+		bufferString = bufferString.deleteCharAt( bufferString.length() - 1 );
+		return bufferString.toString();
+
+	}
+
 	public void create( String tableName, Map< String, String > params )
 			throws SQLException, ClassNotFoundException {
 		StringBuffer sql;
@@ -90,6 +122,9 @@ public class DatabaseAdapter {
 		sql = new StringBuffer(
 				"INSERT INTO " + tableName + " " + keys + " VALUES " + values );
 
+		// if ( overwrite ) {
+		// sql.append( "OVERWRITE " );
+		// }
 		connect();
 		statement = connection.prepareStatement( sql.toString() );
 		statement.executeUpdate();

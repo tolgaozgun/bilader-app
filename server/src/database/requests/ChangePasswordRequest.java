@@ -3,25 +3,25 @@ package database.requests;
 import java.io.IOException;
 
 import database.adapters.RequestAdapter;
-import database.handlers.AddReportHandler;
+import database.handlers.ChangePasswordHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class AddReportRequest
+ * Servlet implementation class ChangePasswordRequest
  */
-public class AddReportRequest extends HttpServlet {
+public class ChangePasswordRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public AddReportRequest() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ChangePasswordRequest() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -46,9 +46,10 @@ public class AddReportRequest extends HttpServlet {
 	private void handleRequest( HttpServletRequest request,
 			HttpServletResponse response )
 			throws ServletException, IOException {
-		AddReportHandler handler;
-		handler = new AddReportHandler( request.getParameterMap() );
+		ChangePasswordHandler handler;
+		handler = new ChangePasswordHandler( response.getWriter(), request.getParameterMap() );
 		RequestAdapter.handleRequest( request, response, handler );
+
 	}
 
 }
