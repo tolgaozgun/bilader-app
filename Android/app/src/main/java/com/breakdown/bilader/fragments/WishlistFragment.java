@@ -20,47 +20,56 @@ import java.util.ArrayList;
 public class WishlistFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private ArrayList<Product> productList;
+    private ArrayList< Product > productList;
     private ProductAdapter adapter;
-
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView( LayoutInflater inflater,
+                              @Nullable ViewGroup container,
+                              @Nullable Bundle savedInstanceState ) {
 
-        View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        View view = inflater.inflate( R.layout.fragment_wishlist, container,
+                false );
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.wishlistRecycler);
+        RecyclerView recyclerView =
+                ( RecyclerView ) view.findViewById( R.id.wishlistRecycler );
 
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize( true );
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        User user1 = new User("Yahya Demirel", "mail@mail.com","avatar_male","12");
-        User user2 = new User("Burcu Kaplan", "mail@mail.com","avatar_female","12");
-        User user3 = new User("Korhan Kaya", "mail@mail.com","avatar_male","12");
-        User user4 = new User("Deniz Gökçen", "mail@mail.com","avatar_female","12");
-        User user5 = new User("Tolga Özgün", "mail@mail.com","avatar_male","12");
+        recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
+        User user1 = new User( "Yahya Demirel", "mail@mail.com", "avatar_male"
+                , "12" );
+        User user2 = new User( "Burcu Kaplan", "mail@mail.com",
+                "avatar_female", "12" );
+        User user3 = new User( "Korhan Kaya", "mail@mail.com", "avatar_male",
+                "12" );
+        User user4 = new User( "Deniz Gökçen", "mail@mail.com",
+                "avatar_female", "12" );
+        User user5 = new User( "Tolga Özgün", "mail@mail.com", "avatar_male",
+                "12" );
 
-        Product product1 = new Product("product_sample3", "basys-3","demo1",120, user4);
-        Product product2 = new Product("featured_image_3", "vintage shoes","demo1",120, user3);
-        Product product3 = new Product("product_sample2", "brand new dress","demo1",120, user5);
-        Product product4 = new Product("product_sample", "random","demo1",120, user1);
-        Product product5 = new Product("product_sample", "random","demo1",120, user2);
-
-
+        Product product1 = new Product( "product_sample3", "basys-3", "demo1"
+                , 120, user4 );
+        Product product2 = new Product( "featured_image_3", "vintage shoes",
+                "demo1", 120, user3 );
+        Product product3 = new Product( "product_sample2", "brand new dress",
+                "demo1", 120, user5 );
+        Product product4 = new Product( "product_sample", "random", "demo1",
+                120, user1 );
+        Product product5 = new Product( "product_sample", "random", "demo1",
+                120, user2 );
 
         productList = new ArrayList<>();
-        productList.add(product1);
-        productList.add(product2);
-        productList.add(product3);
-        productList.add(product4);
-        productList.add(product5);
+        productList.add( product1 );
+        productList.add( product2 );
+        productList.add( product3 );
+        productList.add( product4 );
+        productList.add( product5 );
 
+        adapter = new ProductAdapter( this, productList );
+        recyclerView.setAdapter( adapter );
 
-
-        adapter = new ProductAdapter(this, productList);
-        recyclerView.setAdapter(adapter);
-
-    return view;
+        return view;
     }
 }
