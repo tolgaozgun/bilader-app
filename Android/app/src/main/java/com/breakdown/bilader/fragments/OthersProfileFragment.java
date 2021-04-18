@@ -1,4 +1,4 @@
-package com.breakdown.bilader.controllers;
+package com.breakdown.bilader.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,13 +9,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.models.User;
 
-public class OthersProfileActivity extends Fragment {
+public class OthersProfileFragment extends Fragment {
 
     private ImageView profilePhoto;
     private TextView userName;
@@ -79,7 +80,7 @@ public class OthersProfileActivity extends Fragment {
      * Sets user information of the current user.
      *
      */
-    private void getUserInfo() {
+    public void getUserInfo() {
         userName.setText(userOne.getUserName());
         // profilePhoto
         // rating?
@@ -89,7 +90,7 @@ public class OthersProfileActivity extends Fragment {
      * Sets the followings count of the current user.
      *
      */
-    private void getFollowingsCount() {
+    public void getFollowingsCount() {
         //TODO
         //numberOfFollowings.setText( count);
     }
@@ -98,7 +99,7 @@ public class OthersProfileActivity extends Fragment {
      * Sets the followers count of the current user.
      *
      */
-    private void getFollowersCount() {
+    public void getFollowersCount() {
         //TODO
         //numberOfFollowers.setText( count);
     }
@@ -107,11 +108,11 @@ public class OthersProfileActivity extends Fragment {
      * Shows the products of the current user.
      *
      */
-    private void userProducts() {
+    public void userProducts() {
         //TODO
     }
 
-    private void userReviews() {
+    public void userReviews() {
         //TODO
     }
 
@@ -119,8 +120,9 @@ public class OthersProfileActivity extends Fragment {
      * Sets the product count of the current user.
      *
      */
-    private void getProductCount() {
+    public void getProductCount() {
         //TODO
         //numberOfProducts.setText( count);
     }
+
 }
