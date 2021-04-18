@@ -1,6 +1,9 @@
 package com.breakdown.bilader.models;
 
-public class Product {
+import java.io.Serializable;
+import java.security.ProtectionDomain;
+
+public class Product implements Serializable {
 
     private String picture;
     private String title;
@@ -8,7 +11,16 @@ public class Product {
     private double price;
     private User seller;
     private Category category;
+    private boolean isSold;
     // CATEGORY IS ERASED
+
+
+    public Product( Category category, User seller){
+        this.category = category;
+        this.seller = seller;
+    };
+
+
     /**
      * Constructor
      *
@@ -20,13 +32,14 @@ public class Product {
      *
      */
     public Product( String picture, String title, String description,
-                    double price, User seller ) {
+                    double price, User seller, boolean isSold) {
         this.picture = picture;
         this.title = title;
         this.description = description;
         this.price = price;
         this.seller = seller;
         this.category = null;
+        this.isSold = false;
     }
 
     /**
@@ -64,5 +77,30 @@ public class Product {
 
     public double getPrice() {
         return price;
+    }
+
+    public boolean getIsSold() {
+        return isSold;
+    }
+
+    public boolean changeSoldSituation() {
+        isSold = !isSold; //I think we may use is sold in somewhere in future so I didnt directly return !isSold.
+        return isSold;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
