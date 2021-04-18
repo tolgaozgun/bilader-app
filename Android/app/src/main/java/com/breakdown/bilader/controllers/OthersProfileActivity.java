@@ -5,18 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.breakdown.bilader.R;
+import com.breakdown.bilader.models.User;
+
 public class OthersProfileActivity extends Fragment {
 
     private ImageView profilePhoto;
     private TextView userName;
-    private TextView numberOfFollowers;
-    private TextView numberOfFollowings;
+    private EditText numberOfFollowers;
+    private EditText numberOfFollowings;
     private TextView numberOfProducts;
     private RecyclerView recyclerViewProducts;
     private RecyclerView recyclerViewReviews;
@@ -24,6 +28,7 @@ public class OthersProfileActivity extends Fragment {
     private Button reviews;
     private Button follow;
     private Button sendMessage;
+    private User userOne;
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
@@ -34,8 +39,14 @@ public class OthersProfileActivity extends Fragment {
         // for now.
         view = null;
 
-        //view.findViewById()s
+        view = inflater.inflate(R.layout.activity_othersprofile, container, false);
 
+        profilePhoto = view.findViewById(R.id.profilePhoto);
+        onSale = view.findViewById(R.id.onSale);
+        reviews = view.findViewById(R.id.reviews);
+        follow = view.findViewById(R.id.follow);
+
+        getUserInfo();
         userProducts();
         userReviews();
         getProductCount();
@@ -64,6 +75,38 @@ public class OthersProfileActivity extends Fragment {
         return view;
     }
 
+    /**
+     * Sets user information of the current user.
+     *
+     */
+    private void getUserInfo() {
+        userName.setText(userOne.getUserName());
+        // profilePhoto
+        // rating?
+    }
+
+    /**
+     * Sets the followings count of the current user.
+     *
+     */
+    private void getFollowingsCount() {
+        //TODO
+        //numberOfFollowings.setText( count);
+    }
+
+    /**
+     * Sets the followers count of the current user.
+     *
+     */
+    private void getFollowersCount() {
+        //TODO
+        //numberOfFollowers.setText( count);
+    }
+
+    /**
+     * Shows the products of the current user.
+     *
+     */
     private void userProducts() {
         //TODO
     }
@@ -72,21 +115,12 @@ public class OthersProfileActivity extends Fragment {
         //TODO
     }
 
+    /**
+     * Sets the product count of the current user.
+     *
+     */
     private void getProductCount() {
         //TODO
         //numberOfProducts.setText( count);
     }
-
-    private void getFollowersCount() {
-        //TODO
-        //numberOfFollowers.setText( count);
-    }
-
-    private void getFollowingsCount() {
-        //TODO
-        //numberOfFollowings.setText( count);
-    }
-
-    //checkFollowingStatus()
-
 }

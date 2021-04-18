@@ -19,17 +19,24 @@ public class MyProfileActivity extends Activity {
     private Button settingsButton;
     private Button logOutButton;
 
-    // findViewById()s
+
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_main );
+
+        setContentView( R.layout.activity_myprofile);
+        myProductsButton = findViewById(R.id.myProducts);
+        followersButton = findViewById(R.id.myFollowers);
+        followingsButton = findViewById(R.id.myFollowings);
+        settingsButton = findViewById(R.id.settings);
+
         myProductsButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+                Intent newIntent;
 
-                Intent newIntent = new Intent( MyProfileActivity.this, MyProductsActivity.class );
+                newIntent = new Intent( MyProfileActivity.this, MyProductsActivity.class );
 
                 startActivity( newIntent );
             }
@@ -38,8 +45,9 @@ public class MyProfileActivity extends Activity {
         followersButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+                Intent newIntent;
 
-                Intent newIntent = new Intent( MyProfileActivity.this, FollowersActivity.class );
+                newIntent = new Intent( MyProfileActivity.this, FollowersActivity.class );
 
                 startActivity( newIntent );
             }
@@ -48,8 +56,9 @@ public class MyProfileActivity extends Activity {
         followingsButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+                Intent newIntent;
 
-                Intent newIntent = new Intent( MyProfileActivity.this, FollowingActivity.class );
+                newIntent = new Intent( MyProfileActivity.this, FollowingActivity.class );
 
                 startActivity( newIntent );
             }
@@ -58,8 +67,9 @@ public class MyProfileActivity extends Activity {
         settingsButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+                Intent newIntent;
 
-                Intent newIntent = new Intent( MyProfileActivity.this, SettingsActivity.class );
+                newIntent = new Intent( MyProfileActivity.this, SettingsActivity.class );
 
                 startActivity( newIntent );
             }

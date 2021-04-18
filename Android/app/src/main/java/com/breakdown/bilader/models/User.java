@@ -8,8 +8,8 @@ public class User {
     private String userName;
     private String eMail;
     private String userAvatar;
+    private String userId;
     private ProductList userWishlist;
-    private List< Product > userProducts;
 
     /**
      * Constructor for User class
@@ -17,13 +17,15 @@ public class User {
      * @param userName   String value of username.
      * @param eMail      String value of email address.
      * @param userAvatar String value of avatar URL.
+     * @param userId     String value of user id.
      */
-    public User( String userName, String eMail, String userAvatar ) {
+    public User( String userName, String eMail, String userAvatar, String userId ) {
         this.userName = userName;
         this.eMail = eMail;
         this.userAvatar = userAvatar;
+        this.userId = userId;
+
         userWishlist = new ProductList();
-        userProducts = new ArrayList< Product >();
     }
 
     /**
