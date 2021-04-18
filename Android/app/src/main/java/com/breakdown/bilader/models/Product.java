@@ -8,7 +8,7 @@ public class Product {
     private double price;
     private User seller;
     private Category category;
-
+    // CATEGORY IS ERASED
     /**
      * Constructor
      *
@@ -17,16 +17,16 @@ public class Product {
      * @param description String value of description.
      * @param price       double value of price.
      * @param seller      User instance of seller.
-     * @param category    Category instance of this product's category.
+     *
      */
     public Product( String picture, String title, String description,
-                    double price, User seller, Category category ) {
+                    double price, User seller ) {
         this.picture = picture;
         this.title = title;
         this.description = description;
         this.price = price;
         this.seller = seller;
-        this.category = category;
+        this.category = null;
     }
 
     /**
@@ -48,5 +48,21 @@ public class Product {
         // client to send messages only for themselves not on behalf of
         // someone else.
         return false;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public double getPrice() {
+        return price;
     }
 }
