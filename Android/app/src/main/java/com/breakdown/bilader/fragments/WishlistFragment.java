@@ -41,11 +41,11 @@ public class WishlistFragment extends Fragment {
         User user4 = new User("Deniz Gökçen", "mail@mail.com","avatar_female");
         User user5 = new User("Tolga Özgün", "mail@mail.com","avatar_male");
 
-        Product product1 = new Product("product_sample", "The Epic of Gilgamesh","demo1",120, user1);
-        Product product2 = new Product("product_sample2", "brand new dress","demo1",120, user2);
-        Product product3 = new Product("product_sample3", "basys-3","demo1",120, user3);
-        Product product4 = new Product("product_sample", "random","demo1",120, user4);
-        Product product5 = new Product("product_sample", "random","demo1",120, user5);
+        Product product1 = new Product("product_sample3", "basys-3","demo1",120, user4);
+        Product product2 = new Product("featured_image_3", "vintage shoes","demo1",120, user3);
+        Product product3 = new Product("product_sample2", "brand new dress","demo1",120, user5);
+        Product product4 = new Product("product_sample", "random","demo1",120, user1);
+        Product product5 = new Product("product_sample", "random","demo1",120, user2);
 
 
 
