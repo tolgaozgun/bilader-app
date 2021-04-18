@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.adapters.WishlistAdapter;
+import com.breakdown.bilader.adapters.ProductAdapter;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
@@ -21,7 +21,7 @@ public class WishlistFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList<Product> productList;
-    private WishlistAdapter adapter;
+    private ProductAdapter adapter;
 
 
     @Nullable
@@ -58,7 +58,7 @@ public class WishlistFragment extends Fragment {
 
 
 
-        adapter = new WishlistAdapter(this, productList);
+        adapter = new ProductAdapter(this, productList);
         recyclerView.setAdapter(adapter);
 
     return view;
