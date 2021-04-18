@@ -14,8 +14,6 @@ import com.breakdown.bilader.R;
 import com.breakdown.bilader.models.*;
 import java.util.*;
 
-import com.breakdown.bilader.controllers.FollowersActivity;
-
 public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowerHolder>{
     private Context mContext;
     private ArrayList<User> followers;

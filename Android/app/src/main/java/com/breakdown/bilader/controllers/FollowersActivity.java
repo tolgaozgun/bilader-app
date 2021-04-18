@@ -1,6 +1,5 @@
 package com.breakdown.bilader.controllers;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.adapters.FollowersAdapter;
 import com.breakdown.bilader.adapters.FollowersAdapter;
 import com.breakdown.bilader.models.*;
 
@@ -56,7 +56,7 @@ public class FollowersActivity extends AppCompatActivity {
         followerList.add(user11);
         followerList.add(user12);
 
-        adapter = new FollowersAdapter(this, followerList);
+        adapter = new FollowersAdapter(this,followerList);
         recyclerView.setAdapter(adapter);
 
     }

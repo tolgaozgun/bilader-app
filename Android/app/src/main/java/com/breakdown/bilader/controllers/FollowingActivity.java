@@ -1,6 +1,5 @@
 package com.breakdown.bilader.controllers;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.adapters.FollowersAdapter;
 import com.breakdown.bilader.adapters.FollowersAdapter;
 import com.breakdown.bilader.models.*;
 
@@ -24,6 +24,7 @@ public class FollowingActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following);
+        setSupportActionBar(findViewById(R.id.wishlistToolBar));
 
         recyclerView = findViewById(R.id.followingRecycler);
         recyclerView.setHasFixedSize(true);
