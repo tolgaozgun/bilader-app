@@ -35,11 +35,11 @@ public class WishlistFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        User user1 = new User("Yahya Demirel", "mail@mail.com","avatar_male");
-        User user2 = new User("Burcu Kaplan", "mail@mail.com","avatar_female");
-        User user3 = new User("Korhan Kaya", "mail@mail.com","avatar_male");
-        User user4 = new User("Deniz Gökçen", "mail@mail.com","avatar_female");
-        User user5 = new User("Tolga Özgün", "mail@mail.com","avatar_male");
+        User user1 = new User("Yahya Demirel", "mail@mail.com","avatar_male","12");
+        User user2 = new User("Burcu Kaplan", "mail@mail.com","avatar_female","12");
+        User user3 = new User("Korhan Kaya", "mail@mail.com","avatar_male","12");
+        User user4 = new User("Deniz Gökçen", "mail@mail.com","avatar_female","12");
+        User user5 = new User("Tolga Özgün", "mail@mail.com","avatar_male","12");
 
         Product product1 = new Product("product_sample3", "basys-3","demo1",120, user4);
         Product product2 = new Product("featured_image_3", "vintage shoes","demo1",120, user3);
