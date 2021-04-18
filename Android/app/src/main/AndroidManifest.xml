@@ -11,15 +11,16 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Bilader">
 
-        <!--<activity android:name=".controllers.BiltraderActivity"/>-->
 
-        <activity android:name=".controllers.LoginActivity">
+
+        <activity android:name=".controllers.BiltraderActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--<activity android:name=".controllers.BiltraderActivity"/>-->
         <activity android:name=".controllers.RegisterActivity"/>
         <activity android:name=".controllers.FollowersActivity"/>
         <activity android:name=".controllers.FollowingActivity"/>
