@@ -44,7 +44,6 @@ public class DatabaseAdapter {
 		sql.append( createWhere( params ) );
 
 		connect();
-		// out.println(sql.toString());
 		statement = connection.prepareStatement( sql.toString() );
 		resultSet = statement.executeQuery();
 

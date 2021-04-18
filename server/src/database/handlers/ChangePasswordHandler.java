@@ -25,6 +25,8 @@ public class ChangePasswordHandler extends ProcessHandler {
 	private final static String PASSWORD_KEY = "password";
 	private final static String PASSWORD_HASH_KEY = "password_hash";
 	private final static String PASSWORD_SALT_KEY = "password_salt";
+	private final static String VERIFIED_KEY = "verified";
+	private final static String REQUESTED_DATE_KEY = "requested_date";
 	private final static String EMAIL_KEY = "email";
 	private static String[] keys = { EMAIL_KEY, CODE_KEY, PASSWORD_KEY };
 	private final long EXPIRE_TIME_IN_MS = 1800000;
@@ -41,7 +43,7 @@ public class ChangePasswordHandler extends ProcessHandler {
 
 		map = new HashMap< Integer, Object[] >();
 		wanted = new String[ 1 ];
-		wanted[ 0 ] = "verified";
+		wanted[ 0 ] = VERIFIED_KEY;
 		map = adapter.select( DATABASE_TABLE_USER, wanted, params );
 		return ( boolean ) map.get( 0 )[ 0 ];
 	}
@@ -69,7 +71,7 @@ public class ChangePasswordHandler extends ProcessHandler {
 
 		// Gets Timestamp object of the verification request creation time.
 		wanted = new String[ 1 ];
-		wanted[ 0 ] = "requested_date";
+		wanted[ 0 ] = REQUESTED_DATE_KEY;
 		timeCreated = ( Timestamp ) adapter
 				.select( DATABASE_TABLE_VERIFICATION, wanted, params )
 				.get( 0 )[ 0 ];

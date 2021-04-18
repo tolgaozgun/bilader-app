@@ -69,7 +69,7 @@ public class RequestAdapter {
 		JSONObject json;
 		PrintWriter out;
 
-		//response.setContentType( "application/json" );
+		response.setContentType( "application/json" );
 		out = response.getWriter();
 		try {
 			json = handler.getResult();
