@@ -30,18 +30,18 @@ public class FollowingActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        User user1 = new User("Eren Demirel", "mail@mail.com","avatar_male");
-        User user2 = new User("Burcu Kaplan", "mail@mail.com","avatar_female");
-        User user3 = new User("Korhan Kaya", "mail@mail.com","avatar_male");
-        User user4 = new User("Deniz Gökçen", "mail@mail.com","avatar_female");
-        User user5 = new User("Tolga Özgün", "mail@mail.com","avatar_male");
-        User user6 = new User("Burak Yıldır", "mail@mail.com","avatar_male");
-        User user7 = new User("Mansur Yavaş", "mail@mail.com","avatar_male");
-        User user8 = new User("Okan Tekman", "mail@mail.com","avatar_no_gender");
-        User user9 = new User("Salim Çıracı", "mail@mail.com","avatar_male");
-        User user10 = new User("Mustafa Nakeeb", "mail@mail.com","avatar_male");
-        User user11 = new User("Kenan Demir", "mail@mail.com","avatar_no_gender");
-        User user12 = new User("Berşan Özgür", "mail@mail.com","avatar_no_gender");
+        User user1 = new User("Yahya Demirel", "mail@mail.com","avatar_male", "1");
+        User user2 = new User("Burcu Kaplan", "mail@mail.com","avatar_female", "2");
+        User user3 = new User("Korhan Kaya", "mail@mail.com","avatar_male", "3");
+        User user4 = new User("Deniz Gökçen", "mail@mail.com","avatar_female", "4");
+        User user5 = new User("Tolga Özgün", "mail@mail.com","avatar_male", "5");
+        User user6 = new User("Burak Yıldır", "mail@mail.com","avatar_male", "6");
+        User user7 = new User("Mansur Yavaş", "mail@mail.com","avatar_male", "7");
+        User user8 = new User("Okan Tekman", "mail@mail.com","avatar_no_gender", "8");
+        User user9 = new User("Salim Çıracı", "mail@mail.com","avatar_male", "9");
+        User user10 = new User("Mustafa Nakeeb", "mail@mail.com","avatar_male", "10");
+        User user11 = new User("Kenan Demir", "mail@mail.com","avatar_no_gender", "11");
+        User user12 = new User("Berşan Özgür", "mail@mail.com","avatar_no_gender", "12");
 
         followingList = new ArrayList<>();
         followingList.add(user1);
