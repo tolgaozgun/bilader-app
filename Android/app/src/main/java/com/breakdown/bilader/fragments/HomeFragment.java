@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.adapters.HomeAdapter;
+import com.breakdown.bilader.adapters.ProductAdapter;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
@@ -21,7 +21,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList<Product> productList;
-    private HomeAdapter adapter;
+    private ProductAdapter adapter;
 
 
     @Nullable
@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
 
 
 
-        adapter = new HomeAdapter(this, productList);
+        adapter = new ProductAdapter(this,productList);
         recyclerView.setAdapter(adapter);
 
         return view;

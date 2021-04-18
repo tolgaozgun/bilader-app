@@ -8,18 +8,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.fragments.WishlistFragment;
 import com.breakdown.bilader.models.*;
 import java.util.*;
 
-public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ProductHolder> {
-    private WishlistFragment mmContext;
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> {
+    private Fragment mmContext;
     private ArrayList<Product> products;
 
-    public WishlistAdapter(WishlistFragment mContext, ArrayList<Product> products) {
+    public ProductAdapter(Fragment mContext, ArrayList<Product> products) {
         this.mmContext = mContext;
         this.products = products;
     }
