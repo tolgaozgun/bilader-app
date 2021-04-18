@@ -17,11 +17,13 @@ import com.breakdown.bilader.models.Review;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsHolder>{
+public class ReviewsAdapter extends 
+                            RecyclerView.Adapter< ReviewsAdapter.ReviewsHolder > {
     private Fragment mContext;
     private List< Review > reviews;
 
     public ReviewsAdapter( Fragment mContext, ArrayList< Review > reviews) {
+
         this.mContext = mContext;
         this.reviews = reviews;
     }
@@ -32,10 +34,10 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsH
                                              int viewType ) {
         View itemView;
 
-        itemView = LayoutInflater.from(parent.getContext())
-                .inflate( R.layout.card_reviews,parent,false);
+        itemView =
+                LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_reviews, parent, false );
 
-        return new ReviewsHolder( itemView);
+        return new ReviewsHolder( itemView );
     }
 
     @Override
@@ -47,6 +49,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsH
         holder.userName.setText( enteredReview.getSentBy().getUserName());
         holder.imageUserAvatar.setImageResource(mContext.getResources().getIdentifier(enteredReview.getSentBy().getUserAvatar(),
                 "drawable", mContext.getActivity().getPackageName()));
+      
         // holder.content
     }
 
