@@ -17,28 +17,51 @@ import com.breakdown.bilader.models.User;
 
 import java.util.ArrayList;
 
+/**
+ * A class that makes connection between its layout and data
+ *
+ * @author Yahya Eren Demirel
+ * @version 16.04.2021
+ */
+
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;
     private ProductAdapter adapter;
 
-
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater            is the LayoutInflater object that can be used
+     *                            to inflate any views in the fragment
+     * @param container:          If non-null, this is the parent view that the
+     *                            fragment's UI should be attached to. The
+     *                            fragment should not add the view itself, but
+     *                            this can be used to generate the LayoutParams
+     *                            of the view.
+     * @param savedInstanceState: If non-null, this fragment is being
+     *                            re-constructed from a previous saved state as
+     *                            given here.
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView( LayoutInflater inflater,
                               @Nullable ViewGroup container,
                               @Nullable Bundle savedInstanceState ) {
+        View view;
+        RecyclerView recyclerView;
 
-        View view = inflater.inflate( R.layout.fragment_home, container,
-                false );
+        view = inflater.inflate( R.layout.fragment_home, container, false );
 
-        RecyclerView recyclerView =
+        recyclerView =
                 ( RecyclerView ) view.findViewById( R.id.biltraderRecycler );
 
         recyclerView.setHasFixedSize( true );
-
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
+
+        // sample users for testing
         User user1 = new User( "Yahya Demirel", "mail@mail.com", "avatar_male"
                 , "12" );
         User user2 = new User( "Burcu Kaplan", "mail@mail.com",
@@ -49,7 +72,7 @@ public class HomeFragment extends Fragment {
                 "avatar_female", "12" );
         User user5 = new User( "Tolga Özgün", "mail@mail.com", "avatar_male",
                 "12" );
-
+        // sample products for testing
         Product product1 = new Product( "product_sample", "The Epic of " +
                 "Gilgamesh", "demo1", 120, user1 );
         Product product2 = new Product( "product_sample2", "brand new dress",
@@ -63,6 +86,7 @@ public class HomeFragment extends Fragment {
 
 
         productList = new ArrayList<>();
+
         productList.add( product1 );
         productList.add( product2 );
         productList.add( product3 );

@@ -15,24 +15,55 @@ import com.breakdown.bilader.fragments.NotificationsFragment;
 import com.breakdown.bilader.fragments.WishlistFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/**
+ * A class that makes connection between main fragments and allows to
+ * make a transition between these fragments
+ *
+ * @author Yahya Eren Demirel
+ * @version 17.04.2021
+ */
+
 public class BiltraderActivity extends AppCompatActivity {
+
+    /**
+     * this is the method where most initialization made such as UI and widgets
+     *
+     * @param savedInstanceState: If the activity is being re-initialized after
+     *                            previously being shut down then this Bundle
+     *                            contains the data it most recently supplied
+     *                            in
+     */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_biltrader );
-        BottomNavigationView bottomNav = findViewById( R.id.bottom_navigation );
+
+        BottomNavigationView bottomNav;
+
+        bottomNav = findViewById( R.id.bottom_navigation );
         bottomNav.setOnNavigationItemSelectedListener( navListener );
-        //I added this if statement to keep the selected fragment when
-        // rotating the device
+        // shows home fragment at the opening
         if ( savedInstanceState == null ) {
             getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, new HomeFragment() ).commit();
         }
+
     }
 
+    // Listener for handling selection events on bottom navigation items.
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        /**
+         * Called when an item in the bottom navigation menu is selected.
+         * @param item is the selected item
+         * @return true to display the item as the selected item and false if
+         * the item should not be selected.
+         */
         @Override
         public boolean onNavigationItemSelected( @NonNull MenuItem item ) {
-            Fragment selectedFragment = null;
+
+            Fragment selectedFragment;
+
+            selectedFragment = null;
+
             switch ( item.getItemId() ) {
                 case R.id.nav_home:
                     selectedFragment = new HomeFragment();
@@ -50,6 +81,8 @@ public class BiltraderActivity extends AppCompatActivity {
                     selectedFragment = new MyProfileFragment();
                     break;
             }
+            //  that defines the location where the fragment should be placed
+            //  within the activity's
             getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, selectedFragment ).commit();
             return true;
         }

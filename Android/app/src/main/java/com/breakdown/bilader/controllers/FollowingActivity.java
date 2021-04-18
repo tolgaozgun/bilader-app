@@ -15,11 +15,26 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * A class that makes connection between its layout and data
+ *
+ * @author Yahya Eren Demirel
+ * @version 16.04.2021
+ */
+
 public class FollowingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList< User > followingList;
     private FollowersAdapter adapter;
 
+    /**
+     * this is the method where most initialization made such as UI and widgets
+     *
+     * @param savedInstanceState: If the activity is being re-initialized after
+     *                            previously being shut down then this Bundle
+     *                            contains the data it most recently supplied
+     *                            in
+     */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
