@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class RequestAdapter {
 
+
 	public static Map< String, String > convertParameters(
 			Map< String, String[] > map, String[] keys,
 			String[] optionalKeys ) {
@@ -61,15 +62,14 @@ public class RequestAdapter {
 			Map< String, String[] > map, String[] keys ) {
 		return convertParameters( map, keys, null );
 	}
-	
-	
+
 	public static void handleRequest( HttpServletRequest request,
 			HttpServletResponse response, ProcessHandler handler )
 			throws ServletException, IOException {
 		JSONObject json;
 		PrintWriter out;
 
-		//response.setContentType( "application/json" );
+		response.setContentType( "application/json" );
 		out = response.getWriter();
 		try {
 			json = handler.getResult();
