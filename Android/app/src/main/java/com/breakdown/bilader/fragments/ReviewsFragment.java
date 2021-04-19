@@ -11,24 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.adapters.ProductAdapter;
-import com.breakdown.bilader.models.Product;
+import com.breakdown.bilader.adapters.ReviewsAdapterByYahya;
+import com.breakdown.bilader.models.Review;
 import com.breakdown.bilader.models.User;
 
 import java.util.ArrayList;
 
-/**
- * A class that makes connection between its layout and data
- *
- * @author Yahya Eren Demirel
- * @version 16.04.2021
- */
-
-public class HomeFragment extends Fragment {
-
+public class ReviewsFragment extends Fragment {
     private RecyclerView recyclerView;
-    private ArrayList< Product > productList;
-    private ProductAdapter adapter;
+    private ArrayList< Review > reviewList;
+    private ReviewsAdapterByYahya adapter;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -47,16 +39,14 @@ public class HomeFragment extends Fragment {
      */
     @Nullable
     @Override
-    public View onCreateView( LayoutInflater inflater,
-                              @Nullable ViewGroup container,
-                              @Nullable Bundle savedInstanceState ) {
+    public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState ) {
         View view;
         RecyclerView recyclerView;
 
-        view = inflater.inflate( R.layout.fragment_home, container, false );
+        view = inflater.inflate( R.layout.fragment_reviews, container, false );
 
         recyclerView =
-                ( RecyclerView ) view.findViewById( R.id.biltraderRecycler );
+                ( RecyclerView ) view.findViewById( R.id.reviews_recycler );
 
         recyclerView.setHasFixedSize( true );
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
@@ -72,31 +62,23 @@ public class HomeFragment extends Fragment {
                 "avatar_female", "12" );
         User user5 = new User( "Tolga Özgün", "mail@mail.com", "avatar_male",
                 "12" );
-        // sample products for testing
-        Product product1 = new Product( "product_sample", "The Epic of " +
-                "Gilgamesh", "demo1", 120, user1 ,false);
-        Product product2 = new Product( "product_sample2", "brand new dress",
-                "demo1", 120, user2, false);
-        Product product3 = new Product( "product_sample3", "basys-3", "demo1"
-                , 120, user3, false);
-        Product product4 = new Product( "product_sample", "random", "demo1",
-                120, user4,false );
-        Product product5 = new Product( "product_sample", "random", "demo1",
-                120, user5, false);
 
+        Review review1 = new Review( user1, "I enjoyed with the trade");
+        Review review2 = new Review( user2,"Where is my money bro" );
+        Review review3 = new Review( user3,"Economy is just perfect" );
+        Review review4 = new Review( user3,"Economy is just perfect" );
+        Review review5 = new Review( user3,"Economy is just perfect" );
 
-        productList = new ArrayList<>();
+        reviewList = new ArrayList<>();
 
-        productList.add( product1 );
-        productList.add( product2 );
-        productList.add( product3 );
-        productList.add( product4 );
-        productList.add( product5 );
+        reviewList.add( review1 );
+        reviewList.add( review2 );
+        reviewList.add( review3 );
+        reviewList.add( review4 );
+        reviewList.add( review5 );
 
-
-        adapter = new ProductAdapter( this, productList );
+        adapter = new ReviewsAdapterByYahya( getContext(),reviewList ) ;
         recyclerView.setAdapter( adapter );
-
         return view;
     }
 }

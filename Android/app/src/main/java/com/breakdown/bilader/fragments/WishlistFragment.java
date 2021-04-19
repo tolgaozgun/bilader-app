@@ -75,15 +75,15 @@ public class WishlistFragment extends Fragment {
 
         // sample products for testing
         Product product1 = new Product( "product_sample3", "basys-3", "demo1"
-                , 120, user4 );
+                , 120, user4,true );
         Product product2 = new Product( "featured_image_3", "vintage shoes",
-                "demo1", 120, user3 );
+                "demo1", 120, user3,true );
         Product product3 = new Product( "product_sample2", "brand new dress",
-                "demo1", 120, user5 );
+                "demo1", 120, user5,true);
         Product product4 = new Product( "product_sample", "random", "demo1",
-                120, user1 );
+                120, user1 ,false);
         Product product5 = new Product( "product_sample", "random", "demo1",
-                120, user2 );
+                120, user2, false );
 
         productList = new ArrayList<>();
         productList.add( product1 );
