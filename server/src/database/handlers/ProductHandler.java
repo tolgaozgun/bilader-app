@@ -21,7 +21,7 @@ public class ProductHandler extends ProcessHandler {
 
 	public ProductHandler( Map< String, String[] > params ) {
 		super( RequestAdapter.convertParameters( params, KEYS,
-				OPTIONAL_KEYS ) );
+				OPTIONAL_KEYS, true ) );
 	}
 
 	@Override

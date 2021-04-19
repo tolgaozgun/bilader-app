@@ -13,12 +13,12 @@ import jakarta.servlet.ServletException;
 
 public class TokenHandler extends ProcessHandler {
 
-	private static String[] keys = { "user_id", "session_token" };
+	private static String[] keys = { "id", "session_token" };
 	private static String EXPIRE_DATE_KEY = "session_expire";
 	private final String DATABASE_TABLE = "sessions";
 
 	public TokenHandler( Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, keys ) );
+		super( RequestAdapter.convertParameters( params, keys, true ) );
 	}
 
 	@Override
