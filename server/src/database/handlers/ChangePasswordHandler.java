@@ -28,29 +28,37 @@ public class ChangePasswordHandler extends ProcessHandler {
 	private final static String VERIFIED_KEY = "verified";
 	private final static String REQUESTED_DATE_KEY = "requested_date";
 	private final static String EMAIL_KEY = "email";
-	private static String[] keys = { EMAIL_KEY, CODE_KEY, PASSWORD_KEY };
+	private static final String[] KEYS = { EMAIL_KEY, CODE_KEY, PASSWORD_KEY };
+	private static final String[] VERIFICATION_KEYS = { EMAIL_KEY };
 	private final long EXPIRE_TIME_IN_MS = 1800000;
 
 	public ChangePasswordHandler( PrintWriter out,
 			Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, keys ) );
+		super( RequestAdapter.convertParameters( params, KEYS ) );
 	}
 
-	private boolean isVerified( DatabaseAdapter adapter )
-			throws ClassNotFoundException, SQLException {
+	private boolean isVerified() throws ClassNotFoundException, SQLException {
+		DatabaseAdapter adapter;
 		String[] wanted;
 		Map< Integer, Object[] > map;
+		Map< String, String > verificationParams;
 
+		adapter = new DatabaseAdapter();
 		map = new HashMap< Integer, Object[] >();
+		verificationParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		if ( verificationParams == null ) {
+			return false;
+		}
+
 		wanted = new String[ 1 ];
 		wanted[ 0 ] = VERIFIED_KEY;
-		map = adapter.select( DATABASE_TABLE_USER, wanted, params );
+		map = adapter.select( DATABASE_TABLE_USER, wanted, verificationParams );
 		return ( boolean ) map.get( 0 )[ 0 ];
 	}
 
 	private ChangePasswordCode checkParams( DatabaseAdapter adapter )
 			throws ClassNotFoundException, SQLException {
-		
+
 		String newPassword;
 		String[] wanted;
 		Timestamp timeCreated;
@@ -62,10 +70,11 @@ public class ChangePasswordHandler extends ProcessHandler {
 			return ChangePasswordCode.INVALID_REQUEST;
 		}
 
+		// Use of new password parameter is not needed at the moment.
 		newPassword = params.get( PASSWORD_KEY );
 		params.remove( PASSWORD_KEY );
 		// Checks if the current user is already verified.
-		if ( !isVerified( adapter ) ) {
+		if ( !isVerified() ) {
 			return ChangePasswordCode.NOT_VERIFIED;
 		}
 
@@ -106,8 +115,6 @@ public class ChangePasswordHandler extends ProcessHandler {
 		params = PasscodeAdapter.hashPasswordWithSalt( params, adapter,
 				DATABASE_TABLE_VERIFICATION, CODE_KEY, CODE_HASH_KEY,
 				CODE_SALT_KEY, EMAIL_KEY );
-		params.remove( CODE_HASH_KEY );
-		params.remove( CODE_SALT_KEY );
 		result = checkParams( adapter );
 
 		// Updates the account to verified status.
@@ -119,9 +126,9 @@ public class ChangePasswordHandler extends ProcessHandler {
 			updateList.put( PASSWORD_HASH_KEY,
 					params.get( PASSWORD_HASH_KEY ) );
 			adapter.update( DATABASE_TABLE_USER, params, updateList );
-			
-			//TODO: Delete email's session token if exists.
-			//TODO: Delete the current verification code.
+
+			// TODO: Delete email's session token if exists.
+			// TODO: Delete the current verification code.
 		}
 
 		json.put( "success", result == ChangePasswordCode.OK );

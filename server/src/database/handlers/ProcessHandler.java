@@ -90,5 +90,20 @@ public abstract class ProcessHandler {
 		return json;
 
 	}
+	
+
+
+	protected Map< String, String > cloneMapWithKeys( String[] keys,
+			Map< String, String > map ) {
+
+		for ( String key : keys ) {
+			if ( !map.containsKey( key ) ) {
+				return null;
+			}
+			map.put( key, map.get( key ) );
+		}
+		return map;
+
+	}
 
 }

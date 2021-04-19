@@ -17,7 +17,7 @@ import database.handlers.codes.AddVerificationCode;
 import jakarta.servlet.ServletException;
 
 public class AddVerificationHandler extends ProcessHandler {
-	
+
 	private final static String DATABASE_TABLE_VERIFICATION = "verifications";
 	private final static String DATABASE_TABLE_USERS = "users";
 	private final static String PASSWORD_KEY = "code";
@@ -26,34 +26,51 @@ public class AddVerificationHandler extends ProcessHandler {
 	private final static String DATE_KEY = "requested_date";
 	private final static String EMAIL_KEY = "email";
 	private final int CODE_LENGTH = 6;
-	private static String[] keys = { EMAIL_KEY };
+	private static final String[] KEYS = { EMAIL_KEY };
+	private static final String[] VERIFICATION_KEYS = { EMAIL_KEY };
+	private final static String VERIFIED_KEY = "verified";
 
 	public AddVerificationHandler( Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, keys ) );
+		super( RequestAdapter.convertParameters( params, KEYS ) );
 	}
 
-	private boolean isVerified( DatabaseAdapter adapter )
-			throws ClassNotFoundException, SQLException {
+	private boolean isVerified() throws ClassNotFoundException, SQLException {
+		DatabaseAdapter adapter;
 		String[] wanted;
 		Map< Integer, Object[] > map;
+		Map< String, String > verificationParams;
 
 		map = new HashMap< Integer, Object[] >();
+		adapter = new DatabaseAdapter();
+		verificationParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		if ( verificationParams == null ) {
+			return false;
+		}
+
 		wanted = new String[ 1 ];
-		wanted[ 0 ] = "verified";
-		map = adapter.select( DATABASE_TABLE_USERS, wanted, params );
+		wanted[ 0 ] = VERIFIED_KEY;
+		map = adapter.select( DATABASE_TABLE_USERS, wanted,
+				verificationParams );
 		return ( boolean ) map.get( 0 )[ 0 ];
 	}
 
 	private AddVerificationCode checkParams( DatabaseAdapter adapter )
 			throws ClassNotFoundException, SQLException {
+		Map< String, String > checkParams;
 
 		// Checks if the parameters are non-existent.
 		if ( params == null || params.size() == 0 ) {
 			return AddVerificationCode.INVALID_REQUEST;
 		}
 
+		// Check if the current user exists in the database.
+		checkParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		if ( !adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
+			return AddVerificationCode.ACCOUNT_DOES_NOT_EXIST;
+		}
+
 		// Checks if the current user is already verified.
-		if ( isVerified( adapter ) ) {
+		if ( isVerified() ) {
 			return AddVerificationCode.ALREADY_VERIFIED;
 		}
 
@@ -106,7 +123,8 @@ public class AddVerificationHandler extends ProcessHandler {
 			} else {
 				adapter.create( DATABASE_TABLE_VERIFICATION, params );
 			}
-			MailAdapter.sendMail( MailType.VERIFICATION, code, params.get( EMAIL_KEY ) );
+			MailAdapter.sendMail( MailType.VERIFICATION, code,
+					params.get( EMAIL_KEY ) );
 		}
 
 		json.put( "success", result == AddVerificationCode.OK );
