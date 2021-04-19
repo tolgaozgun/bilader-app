@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/others_profile_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@color/bilader_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_others_profile_followers"
+        app:tabIndicatorColor="@color/bilader_blue_dark"
+        app:tabIndicatorHeight="6dp">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_item_on_sale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="On sale" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_item_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Revıews" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/others_profile_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/others_profile_tab_layout"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/wishlist_action_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Others Profile"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/image_others_profile_rating_star"
+        android:layout_width="17dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/image_others_profile_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/text_others_profile_user_name"
+        app:srcCompat="@drawable/ic_baseline_star_24"
+        tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:id="@+id/text_other_profile_reviews_in_parantheses"
+        android:layout_width="86dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="4dp"
+        android:text="(25 reviews)"
+        app:layout_constraintStart_toEndOf="@+id/image_others_profile_rating_star"
+        app:layout_constraintTop_toBottomOf="@+id/text_others_profile_user_name" />
+
+    <TextView
+        android:id="@+id/text_others_profile_sales"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="4dp"
+        android:text="sales"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_others_profile_sale_amount" />
+
+    <Button
+        android:id="@+id/button_others_profile_follow"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/others_profile_button"
+        android:hint="follow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/button_others_profile_chat"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <Button
+        android:id="@+id/button_others_profile_chat"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/others_profile_button"
+        android:hint="message"
+        app:layout_constraintStart_toEndOf="@+id/text_others_profile_user_name"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <TextView
+        android:id="@+id/text_others_profile_user_name"
+        android:layout_width="86dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Burcu Kaplan"
+        app:layout_constraintStart_toEndOf="@+id/image_others_profile_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <ImageView
+        android:id="@+id/image_others_profile_avatar"
+        android:layout_width="65dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:srcCompat="@drawable/avatar_female" />
+
+    <TextView
+        android:id="@+id/text_others_profile_following"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:text="Following"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_others_profile_following_number" />
+
+    <TextView
+        android:id="@+id/text_others_profile_following_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:text="165"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar" />
+
+    <TextView
+        android:id="@+id/text_others_profile_followers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="4dp"
+        android:text="Followers"
+        app:layout_constraintEnd_toStartOf="@+id/text_others_profile_following"
+        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintStart_toEndOf="@+id/text_others_profile_sales"
+        app:layout_constraintTop_toBottomOf="@+id/text_others_profile_follower_amount" />
+
+    <TextView
+        android:id="@+id/text_others_profile_follower_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="283"
+        app:layout_constraintEnd_toStartOf="@+id/text_others_profile_following_number"
+        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintStart_toEndOf="@+id/text_others_profile_sale_amount"
+        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar" />
+
+    <TextView
+        android:id="@+id/text_others_profile_sale_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="16dp"
+        android:text="28"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

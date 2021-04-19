@@ -17,14 +17,7 @@ import com.breakdown.bilader.models.User;
 
 import java.util.ArrayList;
 
-/**
- * A class that makes connection between its layout and data
- *
- * @author Yahya Eren Demirel
- * @version 16.04.2021
- */
-
-public class HomeFragment extends Fragment {
+public class OnSaleFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;
@@ -47,16 +40,13 @@ public class HomeFragment extends Fragment {
      */
     @Nullable
     @Override
-    public View onCreateView( LayoutInflater inflater,
-                              @Nullable ViewGroup container,
-                              @Nullable Bundle savedInstanceState ) {
+    public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState ) {
         View view;
         RecyclerView recyclerView;
 
-        view = inflater.inflate( R.layout.fragment_home, container, false );
-
+        view = inflater.inflate( R.layout.fragment_onsale, container, false );
         recyclerView =
-                ( RecyclerView ) view.findViewById( R.id.biltraderRecycler );
+                ( RecyclerView ) view.findViewById( R.id.onSaleRecycler );
 
         recyclerView.setHasFixedSize( true );
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );

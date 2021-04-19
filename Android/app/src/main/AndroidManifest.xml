@@ -25,6 +25,7 @@
         <activity android:name=".controllers.FollowersActivity"/>
         <activity android:name=".controllers.FollowingActivity"/>
         <activity android:name=".controllers.MyProductsActivity"/>
+        <activity android:name=".controllers.OtherProfileActivityByYahya"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

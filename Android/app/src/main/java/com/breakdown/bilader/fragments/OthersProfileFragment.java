@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +20,6 @@ import com.breakdown.bilader.controllers.ReportActivity;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.Review;
 import com.breakdown.bilader.models.User;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +56,7 @@ public class OthersProfileFragment extends Fragment {
         // for now.
         view = null;
 
-        view = inflater.inflate(R.layout.activity_othersprofile, container, false);
+        view = inflater.inflate(R.layout.fragment_othersprofile, container, false);
 
         userProducts = new ArrayList<>();
         userReviews = new ArrayList<>();

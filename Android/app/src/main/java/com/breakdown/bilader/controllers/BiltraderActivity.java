@@ -12,6 +12,7 @@ import com.breakdown.bilader.fragments.AddNewProductFragment;
 import com.breakdown.bilader.fragments.HomeFragment;
 import com.breakdown.bilader.fragments.MyProfileFragment;
 import com.breakdown.bilader.fragments.NotificationsFragment;
+import com.breakdown.bilader.fragments.OthersProfileFragment;
 import com.breakdown.bilader.fragments.WishlistFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -75,7 +76,7 @@ public class BiltraderActivity extends AppCompatActivity {
                     selectedFragment = new AddNewProductFragment();
                     break;
                 case R.id.nav_notifications:
-                    selectedFragment = new NotificationsFragment();
+                    selectedFragment = new OthersProfileFragment();
                     break;
                 case R.id.nav_person:
                     selectedFragment = new MyProfileFragment();
