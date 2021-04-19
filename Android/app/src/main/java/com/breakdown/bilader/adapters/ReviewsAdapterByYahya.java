@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewsAdapterByYahya extends
-                            RecyclerView.Adapter< ReviewsAdapterByYahya.ReviewHolder > {
+                                   RecyclerView.Adapter< ReviewsAdapterByYahya.ReviewHolder > {
     private Context mContext;
     private List< Review > reviewList;
 

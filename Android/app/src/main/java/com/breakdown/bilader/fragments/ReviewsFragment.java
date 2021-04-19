@@ -9,8 +9,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ConcatAdapter;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.adapters.CommentAdapter;
+import com.breakdown.bilader.adapters.ReviewsAdapter;
 import com.breakdown.bilader.adapters.ReviewsAdapterByYahya;
 import com.breakdown.bilader.models.Review;
 import com.breakdown.bilader.models.User;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 public class ReviewsFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList< Review > reviewList;
+    private ArrayList< String > comments;
     private ReviewsAdapterByYahya adapter;
 
     /**
@@ -68,7 +72,9 @@ public class ReviewsFragment extends Fragment {
         Review review3 = new Review( user3,"Economy is just perfect" );
         Review review4 = new Review( user3,"Economy is just perfect" );
         Review review5 = new Review( user3,"Economy is just perfect" );
-
+        comments = new ArrayList<>();
+        String comment = "";
+        comments.add( comment );
         reviewList = new ArrayList<>();
 
         reviewList.add( review1 );
@@ -76,9 +82,12 @@ public class ReviewsFragment extends Fragment {
         reviewList.add( review3 );
         reviewList.add( review4 );
         reviewList.add( review5 );
-
-        adapter = new ReviewsAdapterByYahya( getContext(),reviewList ) ;
-        recyclerView.setAdapter( adapter );
+        CommentAdapter adapter1;
+        ReviewsAdapterByYahya adapter2;
+        adapter1 = new CommentAdapter( getContext(),comments );
+        adapter2 = new ReviewsAdapterByYahya( getContext(),reviewList );
+        ConcatAdapter concatenated = new ConcatAdapter(adapter1, adapter2);
+        recyclerView.setAdapter( concatenated );
         return view;
     }
 }
