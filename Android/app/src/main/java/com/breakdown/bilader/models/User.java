@@ -1,5 +1,7 @@
 package com.breakdown.bilader.models;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,5 +80,14 @@ public class User {
         //TODO check if this method returns true in the method this is called
         //from so that we can display a success or fail message.
         return false;
+    }
+
+    @NonNull
+    @Override
+    /**
+     * Returns user's name to identify user.
+     */
+    public String toString() {
+        return userName;
     }
 }

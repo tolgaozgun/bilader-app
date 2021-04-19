@@ -1,5 +1,7 @@
 package com.breakdown.bilader.models;
 
+import androidx.annotation.NonNull;
+
 public class Category implements Comparable {
 
     private String name;
@@ -51,5 +53,14 @@ public class Category implements Comparable {
             return other.name.compareTo( this.name );
         }
         throw new ClassCastException();
+    }
+
+    @NonNull
+    @Override
+    /**
+     * Returns category's name to identify category.
+     */
+    public String toString() {
+        return this.name;
     }
 }
