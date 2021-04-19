@@ -12,20 +12,20 @@ import org.json.JSONObject;
 import database.adapters.DatabaseAdapter;
 import database.adapters.PasscodeAdapter;
 import database.adapters.RequestAdapter;
-import database.handlers.codes.ChangePasswordCode;
+import database.handlers.codes.ResultCode;
 import jakarta.servlet.ServletException;
 
 public class ChangePasswordHandler extends ProcessHandler {
 
 	private final static String DATABASE_TABLE_VERIFICATION = "pwverifications";
 	private final static String DATABASE_TABLE_USER = "users";
+	private final static String DATABASE_TABLE_SESSIONS = "sessions";
 	private final static String CODE_KEY = "code";
 	private final static String CODE_HASH_KEY = "verification_hash";
 	private final static String CODE_SALT_KEY = "verification_salt";
 	private final static String PASSWORD_KEY = "password";
 	private final static String PASSWORD_HASH_KEY = "password_hash";
 	private final static String PASSWORD_SALT_KEY = "password_salt";
-	private final static String VERIFIED_KEY = "verified";
 	private final static String REQUESTED_DATE_KEY = "requested_date";
 	private final static String EMAIL_KEY = "email";
 	private static final String[] KEYS = { EMAIL_KEY, CODE_KEY, PASSWORD_KEY };
@@ -34,31 +34,13 @@ public class ChangePasswordHandler extends ProcessHandler {
 
 	public ChangePasswordHandler( PrintWriter out,
 			Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, KEYS ) );
+		super( RequestAdapter.convertParameters( params, KEYS, false ) );
 	}
 
-	private boolean isVerified() throws ClassNotFoundException, SQLException {
-		DatabaseAdapter adapter;
-		String[] wanted;
-		Map< Integer, Object[] > map;
-		Map< String, String > verificationParams;
-
-		adapter = new DatabaseAdapter();
-		map = new HashMap< Integer, Object[] >();
-		verificationParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
-		if ( verificationParams == null ) {
-			return false;
-		}
-
-		wanted = new String[ 1 ];
-		wanted[ 0 ] = VERIFIED_KEY;
-		map = adapter.select( DATABASE_TABLE_USER, wanted, verificationParams );
-		return ( boolean ) map.get( 0 )[ 0 ];
-	}
-
-	private ChangePasswordCode checkParams( DatabaseAdapter adapter )
+	private ResultCode checkParams( DatabaseAdapter adapter )
 			throws ClassNotFoundException, SQLException {
 
+		Map< String, String > checkParams;
 		String newPassword;
 		String[] wanted;
 		Timestamp timeCreated;
@@ -67,17 +49,30 @@ public class ChangePasswordHandler extends ProcessHandler {
 
 		// Checks if the parameters are non-existent.
 		if ( params == null || params.size() == 0 ) {
-			return ChangePasswordCode.INVALID_REQUEST;
+			return ResultCode.INVALID_REQUEST;
 		}
 
-		// Use of new password parameter is not needed at the moment.
+		// Check if the current user exists in the database.
+		checkParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		if ( !adapter.doesExist( DATABASE_TABLE_USER, checkParams ) ) {
+			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
+		}
+
+		// Use of new password parameter is not needed, and current
+		// methods should not check for this new password parameter.
 		newPassword = params.get( PASSWORD_KEY );
 		params.remove( PASSWORD_KEY );
+
 		// Checks if the current user is already verified.
 		if ( !isVerified() ) {
-			return ChangePasswordCode.NOT_VERIFIED;
+			return ResultCode.NOT_VERIFIED;
 		}
 
+		// Check if there is a pending request linked to the current user.
+		if ( !adapter.doesExist( DATABASE_TABLE_VERIFICATION, checkParams ) ) {
+			return ResultCode.NO_PENDING_REQUEST;
+		}
+		
 		// Gets Timestamp object of the verification request creation time.
 		wanted = new String[ 1 ];
 		wanted[ 0 ] = REQUESTED_DATE_KEY;
@@ -89,16 +84,17 @@ public class ChangePasswordHandler extends ProcessHandler {
 		timeNow = new Timestamp( System.currentTimeMillis() );
 		diff = timeNow.getTime() - timeCreated.getTime();
 		if ( diff > EXPIRE_TIME_IN_MS ) {
-			return ChangePasswordCode.EXPIRED;
+			return ResultCode.VERIFICATION_EXPIRED;
 		}
 
 		// Checks if the current password is true.
 		if ( adapter.doesExist( DATABASE_TABLE_VERIFICATION, params ) ) {
+			// We need to use the password from now on.
 			params.put( PASSWORD_KEY, newPassword );
-			return ChangePasswordCode.OK;
+			return ResultCode.CHANGE_PASS_OK;
 		}
 
-		return ChangePasswordCode.WRONG_PASSWORD;
+		return ResultCode.WRONG_PASSWORD;
 
 	}
 
@@ -107,7 +103,7 @@ public class ChangePasswordHandler extends ProcessHandler {
 			ClassNotFoundException, SQLException {
 		JSONObject json;
 		DatabaseAdapter adapter;
-		ChangePasswordCode result;
+		ResultCode result;
 		Map< String, Object > updateList;
 
 		json = new JSONObject();
@@ -118,7 +114,7 @@ public class ChangePasswordHandler extends ProcessHandler {
 		result = checkParams( adapter );
 
 		// Updates the account to verified status.
-		if ( result == ChangePasswordCode.OK ) {
+		if ( result.isSuccess() ) {
 			params = PasscodeAdapter.hashPasswordWithSalt( params, adapter,
 					DATABASE_TABLE_USER, PASSWORD_KEY, PASSWORD_HASH_KEY,
 					PASSWORD_SALT_KEY, EMAIL_KEY );
@@ -126,12 +122,17 @@ public class ChangePasswordHandler extends ProcessHandler {
 			updateList.put( PASSWORD_HASH_KEY,
 					params.get( PASSWORD_HASH_KEY ) );
 			adapter.update( DATABASE_TABLE_USER, params, updateList );
+			
+			params.remove( PASSWORD_HASH_KEY );
+			params.remove( PASSWORD_SALT_KEY );
+			// Delete current verification code.
+			adapter.delete( DATABASE_TABLE_VERIFICATION, params );
+			// Delete email's session token if exists.
+			adapter.delete( DATABASE_TABLE_SESSIONS, params );
 
-			// TODO: Delete email's session token if exists.
-			// TODO: Delete the current verification code.
 		}
 
-		json.put( "success", result == ChangePasswordCode.OK );
+		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;
 

@@ -11,8 +11,7 @@ import org.json.JSONObject;
 import database.adapters.DatabaseAdapter;
 import database.adapters.PasscodeAdapter;
 import database.adapters.RequestAdapter;
-import database.handlers.codes.AddVerificationCode;
-import database.handlers.codes.VerificationCode;
+import database.handlers.codes.ResultCode;
 import jakarta.servlet.ServletException;
 
 public class VerificationHandler extends ProcessHandler {
@@ -23,13 +22,13 @@ public class VerificationHandler extends ProcessHandler {
 	private final static String PASSWORD_HASH_KEY = "verification_hash";
 	private final static String PASSWORD_SALT_KEY = "verification_salt";
 	private final static String EMAIL_KEY = "email";
-	private static String[] keys = { EMAIL_KEY, PASSWORD_KEY };
-	private static final String[] VERIFICATION_KEYS = { EMAIL_KEY };
+	private final static String[] keys = { EMAIL_KEY, PASSWORD_KEY };
+	private final static String[] VERIFICATION_KEYS = { EMAIL_KEY };
 	private final static String VERIFIED_KEY = "verified";
 	private final long EXPIRE_TIME_IN_MS = 1800000;
 
 	public VerificationHandler( Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, keys ) );
+		super( RequestAdapter.convertParameters( params, keys, false ) );
 	}
 
 	private boolean isVerified( DatabaseAdapter adapter )
@@ -47,33 +46,36 @@ public class VerificationHandler extends ProcessHandler {
 		return ( boolean ) map.get( 0 )[ 0 ];
 	}
 
-	private VerificationCode checkParams( DatabaseAdapter adapter )
+	private ResultCode checkParams()
 			throws ClassNotFoundException, SQLException {
-
+		DatabaseAdapter adapter;
 		String[] wanted;
 		Timestamp timeCreated;
 		Timestamp timeNow;
 		Map< String, String > checkParams;
 		long diff;
 
+		adapter = new DatabaseAdapter();
 		// Checks if the parameters are non-existent.
 		if ( params == null || params.size() == 0 ) {
-			return VerificationCode.INVALID_REQUEST;
+			return ResultCode.INVALID_REQUEST;
 		}
+		
 
 		// Check if the current user exists in the database.
 		checkParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
 		if ( !adapter.doesExist( DATABASE_TABLE_USER, checkParams ) ) {
-			return VerificationCode.ACCOUNT_DOES_NOT_EXIST;
-		}
-		
-		// Checks if the current user is already verified.
-		if ( isVerified( adapter ) ) {
-			return VerificationCode.ALREADY_VERIFIED;
+			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}
 
+		// Checks if the current user is already verified.
+		if ( isVerified( adapter ) ) {
+			return ResultCode.ALREADY_VERIFIED;
+		}
+
+		// Check if there is a pending request linked to the current user.
 		if ( !adapter.doesExist( DATABASE_TABLE_VERIFICATION, checkParams ) ) {
-			return VerificationCode.NO_PENDING_REQUEST;
+			return ResultCode.NO_PENDING_REQUEST;
 		}
 
 		// Hash the current password with the salt in the database.
@@ -95,13 +97,13 @@ public class VerificationHandler extends ProcessHandler {
 			timeNow = new Timestamp( System.currentTimeMillis() );
 			diff = timeNow.getTime() - timeCreated.getTime();
 			if ( diff > EXPIRE_TIME_IN_MS ) {
-				return VerificationCode.EXPIRED;
+				return ResultCode.VERIFICATION_EXPIRED;
 			}
 
-			return VerificationCode.OK;
+			return ResultCode.VERIFICATION_OK;
 		}
 
-		return VerificationCode.WRONG_PASSWORD;
+		return ResultCode.WRONG_PASSWORD;
 
 	}
 
@@ -110,15 +112,15 @@ public class VerificationHandler extends ProcessHandler {
 			ClassNotFoundException, SQLException {
 		JSONObject json;
 		DatabaseAdapter adapter;
-		VerificationCode result;
+		ResultCode result;
 		Map< String, Object > updateList;
 
 		json = new JSONObject();
 		adapter = new DatabaseAdapter();
-		result = checkParams( adapter );
+		result = checkParams();
 
 		// Updates the account to verified status.
-		if ( result == VerificationCode.OK ) {
+		if ( result.isSuccess() ) {
 			// Remove the current verification code.
 			adapter.delete( DATABASE_TABLE_VERIFICATION, params );
 
@@ -129,14 +131,14 @@ public class VerificationHandler extends ProcessHandler {
 
 			// Update users database to set the user verified.
 			updateList = new HashMap< String, Object >();
-			updateList.put( "verified", 1 );
+			updateList.put( VERIFIED_KEY, 1 );
 			adapter.update( DATABASE_TABLE_USER, params, updateList );
 
 		}
 
 		// TODO: Delete the current verification code.
 
-		json.put( "success", result == VerificationCode.OK );
+		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;
 

@@ -12,10 +12,12 @@ import jakarta.servlet.ServletException;
 
 public abstract class ProcessHandler {
 
-	private final String TOKENS_TABLE_NAME = "sessions";
-	private final String USERS_TABLE_NAME = "users";
-	protected final static String TOKEN_KEY = "session_token";
-	protected final static String USER_ID_KEY = "id";
+	private final String DATABASE_TABLE_SESSIONS = "sessions";
+	private final String DATABASE_TABLE_USERS = "users";
+	protected static final String TOKEN_KEY = "session_token";
+	protected static final String USER_ID_KEY = "id";
+	protected static final String VERIFIED_KEY = "verified";
+	protected static final String[] VERIFICATION_KEYS = {USER_ID_KEY};
 	protected Map< String, String > params;
 
 	public ProcessHandler( Map< String, String > params ) {
@@ -35,7 +37,27 @@ public abstract class ProcessHandler {
 		mailParam.put( USER_ID_KEY, params.get( USER_ID_KEY ) );
 		params.remove( TOKEN_KEY );
 		params.remove( USER_ID_KEY );
-		return adapter.doesExist( TOKENS_TABLE_NAME, params );
+		return adapter.doesExist( DATABASE_TABLE_SESSIONS, params );
+	}
+
+	protected boolean isVerified() throws ClassNotFoundException, SQLException {
+		DatabaseAdapter adapter;
+		String[] wanted;
+		Map< Integer, Object[] > map;
+		Map< String, String > verificationParams;
+
+		map = new HashMap< Integer, Object[] >();
+		adapter = new DatabaseAdapter();
+		verificationParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		if ( verificationParams == null ) {
+			return false;
+		}
+
+		wanted = new String[ 1 ];
+		wanted[ 0 ] = VERIFIED_KEY;
+		map = adapter.select( DATABASE_TABLE_USERS, wanted,
+				verificationParams );
+		return ( boolean ) map.get( 0 )[ 0 ];
 	}
 
 	protected JSONObject idToUserList( final String[] ids )
@@ -81,28 +103,26 @@ public abstract class ProcessHandler {
 		idParam = new HashMap< String, String >();
 		idParam.put( USER_ID_KEY, id );
 
-		userObj = adapter.select( USERS_TABLE_NAME, wanted, idParam );
+		userObj = adapter.select( DATABASE_TABLE_USERS, wanted, idParam );
 		objectArray = userObj.get( 0 );
 		for ( int i = 0; i < wanted.length; i++ ) {
 			json.put( wanted[ i ], objectArray[ i ] );
 		}
-
 		return json;
-
 	}
-	
-
 
 	protected Map< String, String > cloneMapWithKeys( String[] keys,
 			Map< String, String > map ) {
+		Map< String, String > clone;
+		clone = new HashMap< String, String >();
 
 		for ( String key : keys ) {
 			if ( !map.containsKey( key ) ) {
 				return null;
 			}
-			map.put( key, map.get( key ) );
+			clone.put( key, map.get( key ) );
 		}
-		return map;
+		return clone;
 
 	}
 
