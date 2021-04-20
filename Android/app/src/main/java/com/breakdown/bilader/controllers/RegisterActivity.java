@@ -121,7 +121,7 @@ public class RegisterActivity extends Activity {
                         if ( json.getBoolean( JSON_SUCCESS_PATH ) ) {
                             Intent intent;
                             intent = new Intent( RegisterActivity.this,
-                                    LoginActivity.class );
+                                    VerificationActivity.class );
                             startActivity( intent );
                         }
                         message = json.getString( JSON_MESSAGE_PATH );
