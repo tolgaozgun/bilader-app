@@ -1,5 +1,6 @@
 package com.breakdown.bilader.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.ProductAdapter;
+import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
@@ -24,7 +26,7 @@ import java.util.ArrayList;
  * @version 16.04.2021
  */
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment  {
 
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;
@@ -95,9 +97,10 @@ public class HomeFragment extends Fragment {
         productList.add( product5 );
 
 
-        adapter = new ProductAdapter( this, productList );
+        adapter = new ProductAdapter (getActivity(), productList);
         recyclerView.setAdapter( adapter );
 
         return view;
     }
+
 }
