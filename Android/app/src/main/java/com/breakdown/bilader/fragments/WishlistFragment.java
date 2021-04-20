@@ -74,16 +74,16 @@ public class WishlistFragment extends Fragment {
                 "12" );
 
         // sample products for testing
-        Product product1 = new Product( "product_sample3", "basys-3", "demo1"
-                , 120, user4,true );
-        Product product2 = new Product( "featured_image_3", "vintage shoes",
-                "demo1", 120, user3,true );
-        Product product3 = new Product( "product_sample2", "brand new dress",
-                "demo1", 120, user5,true);
+        Product product1 = new Product( "product_sample", "The Epic of " +
+                "Gilgamesh", "demo1", 120, user1 ,false, "10");
+        Product product2 = new Product( "product_sample2", "brand new dress",
+                "demo1", 120, user2, false, "11");
+        Product product3 = new Product( "product_sample3", "basys-3", "demo1"
+                , 120, user3, false, "12");
         Product product4 = new Product( "product_sample", "random", "demo1",
-                120, user1 ,false);
+                120, user4,false, "13" );
         Product product5 = new Product( "product_sample", "random", "demo1",
-                120, user2, false );
+                120, user5, false, "14");
 
         productList = new ArrayList<>();
         productList.add( product1 );
