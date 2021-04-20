@@ -19,6 +19,7 @@
         </activity>
         <!--<activity android:name=".controllers.BiltraderActivity"/>-->
         <activity android:name=".controllers.RegisterActivity"/>
+        <activity android:name=".controllers.ProductActivity"/>
         <activity android:name=".controllers.ForgotPasswordActivity"/>
         <activity android:name=".controllers.ChangePasswordActivity"/>
         <activity android:name=".controllers.FollowersActivity"/>
