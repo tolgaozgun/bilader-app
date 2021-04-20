@@ -11,8 +11,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.fragments.MyProfileFragment;
 
 public class SettingsActivity extends Activity {
     private Button changePasswordButton;
@@ -24,9 +27,12 @@ public class SettingsActivity extends Activity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_settings );
 
-        changePasswordButton = ( Button ) findViewById( R.id.buttonLogIn );
-        followSwitch = ( Switch ) findViewById( R.id.switch_follow_notifications );
-        messageSwitch = ( Switch ) findViewById( R.id.switch_message_notifications );
+        changePasswordButton =
+                ( Button ) findViewById( R.id.button_change_password );
+        followSwitch =
+                ( Switch ) findViewById( R.id.switch_follow_notifications );
+        messageSwitch =
+                ( Switch ) findViewById( R.id.switch_message_notifications );
 
         changePasswordButton.setOnClickListener( new View.OnClickListener() {
             @Override
