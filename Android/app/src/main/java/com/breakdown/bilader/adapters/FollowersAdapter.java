@@ -1,6 +1,8 @@
 package com.breakdown.bilader.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.controllers.OthersProfileActivity;
+import com.breakdown.bilader.controllers.SettingsActivity;
+import com.breakdown.bilader.fragments.OthersProfileFragment;
 import com.breakdown.bilader.models.*;
 
 import java.util.*;
@@ -46,6 +52,7 @@ public class FollowersAdapter extends
     public class FollowerHolder extends RecyclerView.ViewHolder {
         public ImageView imageFollowerScreenAvatar;
         public TextView textUserName;
+        public CardView followerCard;
 
         /**
          * A constructor that holds id's of views
@@ -57,6 +64,7 @@ public class FollowersAdapter extends
             imageFollowerScreenAvatar =
                     itemView.findViewById( R.id.image_follower_screen_avatar );
             textUserName = itemView.findViewById( R.id.text_user_name );
+            followerCard = itemView.findViewById( R.id.card_followers );
         }
     }
 
@@ -100,6 +108,22 @@ public class FollowersAdapter extends
         holder.textUserName.setText( follower.getUserName() );
         holder.imageFollowerScreenAvatar.setImageResource( mContext.getResources().getIdentifier( follower.getUserAvatar(), "drawable", mContext.getPackageName() ) );
 
+        holder.followerCard.setOnClickListener( new View.OnClickListener() {
+
+            public void onClick( View view ) {
+                Intent intent;
+
+                //To
+                intent = new Intent( mContext, OthersProfileActivity.class );
+
+                intent.putExtra( "follower", follower  );
+
+                Log.d("followersdebug", "debug");
+
+                mContext.startActivity( intent );
+
+            }
+        } );
     }
 
     /**
@@ -116,5 +140,7 @@ public class FollowersAdapter extends
 
         return followersSize;
     }
+
+
 
 }

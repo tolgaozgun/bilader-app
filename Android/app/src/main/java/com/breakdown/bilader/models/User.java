@@ -2,10 +2,11 @@ package com.breakdown.bilader.models;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
 
     private String userName;
     private String eMail;
@@ -57,6 +58,11 @@ public class User {
         return userAvatar;
     }
 
+    /**
+     * Returns the id number of the current user
+     *
+     * @return String value of the user id
+     */
     public String getUserId() { return userId; }
 
     /**
