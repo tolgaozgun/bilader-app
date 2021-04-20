@@ -113,12 +113,10 @@ public class FollowersAdapter extends
             public void onClick( View view ) {
                 Intent intent;
 
-                //To
                 intent = new Intent( mContext, OthersProfileActivity.class );
 
-                intent.putExtra( "follower", follower  );
+                //intent.putExtra( "follower", follower  );
 
-                Log.d("followersdebug", "debug");
 
                 mContext.startActivity( intent );
 
