@@ -19,7 +19,9 @@ public class LoginHandler extends ProcessHandler {
 	private final static String EMAIL_KEY = "email";
 	private final static String[] KEYS = { EMAIL_KEY, "password" };
 	private final static String[] USER_CHECK_KEYS = { EMAIL_KEY };
-	private final String DATABASE_TABLE = "users";
+	private final String DATABASE_TABLE_USERS = "users";
+	private final String DATABASE_TABLE_SESSIONS = "sessions";
+	private final String SESSION_TOKEN_KEY = "session_token";
 	private final String PASSWORD_KEY = "password";
 	private final String PASSWORD_HASH_KEY = "password_hash";
 	private final String PASSWORD_SALT_KEY = "password_salt";
@@ -28,22 +30,12 @@ public class LoginHandler extends ProcessHandler {
 		super( RequestAdapter.convertParameters( params, KEYS, false ) );
 	}
 
-	private boolean isVerified( DatabaseAdapter adapter )
+	private ResultCode checkParams()
 			throws ClassNotFoundException, SQLException {
-		String[] wanted;
-		Map< Integer, Object[] > map;
-
-		map = new HashMap< Integer, Object[] >();
-		wanted = new String[ 1 ];
-		wanted[ 0 ] = "verified";
-		map = adapter.select( DATABASE_TABLE, wanted, params );
-		return ( boolean ) map.get( 0 )[ 0 ];
-	}
-
-	private ResultCode checkParams( DatabaseAdapter adapter )
-			throws ClassNotFoundException, SQLException {
-
+		DatabaseAdapter adapter;
 		Map< String, String > checkParams;
+
+		adapter = new DatabaseAdapter();
 
 		if ( params == null || params.size() == 0 ) {
 			return ResultCode.INVALID_REQUEST;
@@ -51,15 +43,15 @@ public class LoginHandler extends ProcessHandler {
 
 		// Check if the current user exists in the database.
 		checkParams = cloneMapWithKeys( USER_CHECK_KEYS, params );
-		if ( !adapter.doesExist( DATABASE_TABLE, checkParams ) ) {
+		if ( !adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
 			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}
 
-		if ( !isVerified( adapter ) ) {
+		if ( !isVerified() ) {
 			return ResultCode.NOT_VERIFIED;
 		}
 
-		if ( adapter.doesExist( DATABASE_TABLE, params ) ) {
+		if ( adapter.doesExist( DATABASE_TABLE_USERS, params ) ) {
 			return ResultCode.LOGIN_OK;
 		}
 
@@ -74,16 +66,47 @@ public class LoginHandler extends ProcessHandler {
 		DatabaseAdapter adapter;
 		ResultCode result;
 		String token;
+		String[] requestedArray;
+		String userId;
+		Map< Integer, Object[] > returnArray;
+		Map< String, String > tokenSubmitParams;
+		Map< String, Object > updateMap;
 
 		json = new JSONObject();
 		adapter = new DatabaseAdapter();
 		params = PasscodeAdapter.hashPasswordWithSalt( params, adapter,
-				DATABASE_TABLE, PASSWORD_KEY, PASSWORD_HASH_KEY,
+				DATABASE_TABLE_USERS, PASSWORD_KEY, PASSWORD_HASH_KEY,
 				PASSWORD_SALT_KEY, EMAIL_KEY );
-		result = checkParams( adapter );
+		result = checkParams();
 
 		if ( result.isSuccess() ) {
+
+			requestedArray = new String[ 1 ];
+			requestedArray[ 0 ] = USER_ID_KEY;
+
+			returnArray = adapter.select( DATABASE_TABLE_USERS, requestedArray,
+					params );
+
+			userId = ( String ) returnArray.get( 0 )[ 0 ];
+			json.put( USER_ID_KEY, userId );
+
+			tokenSubmitParams = new HashMap< String, String >();
 			token = UUID.randomUUID().toString();
+			tokenSubmitParams.put( USER_ID_KEY, userId );
+
+			// If a session with the provided user id exists in the database,
+			// update it. If not, create new.
+			if ( adapter.doesExist( DATABASE_TABLE_SESSIONS,
+					tokenSubmitParams ) ) {
+				updateMap = new HashMap< String, Object >();
+				updateMap.put( SESSION_TOKEN_KEY, token );
+				adapter.update( DATABASE_TABLE_SESSIONS, tokenSubmitParams,
+						updateMap );
+			} else {
+				tokenSubmitParams.put( SESSION_TOKEN_KEY, token );
+				adapter.create( DATABASE_TABLE_SESSIONS, tokenSubmitParams );
+			}
+
 		} else {
 			token = "";
 		}

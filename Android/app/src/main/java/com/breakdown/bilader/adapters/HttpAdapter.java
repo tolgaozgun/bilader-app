@@ -1,10 +1,13 @@
 package com.breakdown.bilader.adapters;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -34,14 +37,25 @@ public class HttpAdapter {
             String > params, Activity instance ) {
         String path;
         String url;
+        String token;
+        String userId;
+        SharedPreferences sharedPreferences;
         RequestQueue queue;
         JsonObjectRequest jsonObjectRequest;
 
+        sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences( instance );
         finalResponse = new JSONObject();
         queue = Volley.newRequestQueue( instance );
         path = requestType.getPath();
         url = addParameters( MAIN_URL + path, params );
-        System.out.println( "url: " + url );
+        System.out.println("URL: " + url);
+
+        // Add session parameters to request
+        token = sharedPreferences.getString( "session_token", "" );
+        userId = sharedPreferences.getString( "id", "" );
+        params.put( "id", userId );
+        params.put( "session_token", token );
 
         // Initialize the request.
         jsonObjectRequest = new JsonObjectRequest( Request.Method.POST, url,
@@ -62,6 +76,23 @@ public class HttpAdapter {
 
             }
         } );
+
+        jsonObjectRequest.setRetryPolicy( new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
 
         // Add the request to the queue.
         queue.add( jsonObjectRequest );

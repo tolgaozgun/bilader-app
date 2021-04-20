@@ -15,9 +15,7 @@ import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
-public class
-
-EditProductActivity extends Activity {
+public class EditProductActivity extends Activity {
 
     private EditText editPrice;
     private EditText editTitle;

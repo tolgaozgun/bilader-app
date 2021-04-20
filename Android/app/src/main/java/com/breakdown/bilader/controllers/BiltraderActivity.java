@@ -1,6 +1,8 @@
 package com.breakdown.bilader.controllers;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -17,8 +19,8 @@ import com.breakdown.bilader.fragments.WishlistFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
- * A class that makes connection between main fragments and allows to
- * make a transition between these fragments
+ * A class that makes connection between main fragments and allows to make a
+ * transition between these fragments
  *
  * @author Yahya Eren Demirel
  * @version 17.04.2021
@@ -60,6 +62,17 @@ public class BiltraderActivity extends AppCompatActivity {
          */
         @Override
         public boolean onNavigationItemSelected( @NonNull MenuItem item ) {
+
+            String token;
+            String userId;
+            SharedPreferences sharedPreferences;
+            sharedPreferences =
+                    PreferenceManager.getDefaultSharedPreferences( BiltraderActivity.this );
+            token = sharedPreferences.getString( "session_token", null );
+            userId = sharedPreferences.getString( "id", null );
+
+            System.out.println( "TOKEN: " + token + " USER_ID: " + userId );
+
 
             Fragment selectedFragment;
 

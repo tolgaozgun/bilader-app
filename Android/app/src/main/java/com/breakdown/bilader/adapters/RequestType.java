@@ -5,7 +5,8 @@ public enum RequestType {
     LOGIN( "LoginRequest" ), REGISTER( "RegisterRequest" ), PROFILE(
             "ProfileRequest" ), PRODUCT( "ProductRequest" ), FOLLOWERS(
                     "FollowersRequest" ), FOLLOWINGS( "FollowingsRequest" ),
-    FOLLOW( "FollowRequest" );
+    FOLLOW( "FollowRequest" ), REPORT( "AddReportRequest" ),
+    FORGOT_PASSWORD( "ForgotPasswordRequest" ), CHANGE_PASSWORD("ChangePasswordRequest");
 
     private String path;
 

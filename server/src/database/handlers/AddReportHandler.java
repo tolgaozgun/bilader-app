@@ -21,13 +21,18 @@ public class AddReportHandler extends ProcessHandler {
 	private static final String REPORTER_ID_KEY = "reporter_id";
 	private static final String REPORTED_ID_KEY = "reported_id";
 	private static final String[] KEYS = { REPORT_TYPE_KEY, DESC_KEY,
-			REPORTER_ID_KEY, REPORTED_ID_KEY };
+			REPORTED_ID_KEY };
 	private static final String[] VERIFICATION_KEYS = { EMAIL_KEY };
 	private final String DATABASE_TABLE_REPORTS = "reports";
 	private final String DATABASE_TABLE_USERS = "users";
 
-	public AddReportHandler( Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, KEYS, true ) );
+	public AddReportHandler( Map< String, String[] > parameters ) {
+		super( RequestAdapter.convertParameters( parameters, KEYS, true ) );
+		if( params != null ) {
+			String id;
+			id = parameters.get( USER_ID_KEY )[0];
+			params.put(REPORTER_ID_KEY, id);
+		}
 	}
 
 	private ResultCode checkParams()
@@ -58,15 +63,12 @@ public class AddReportHandler extends ProcessHandler {
 
 		return ResultCode.ADD_PRODUCT_OK;
 	}
-	
-	
 
 	private void createReportId() throws ClassNotFoundException, SQLException {
 		Map< String, String > mapReportId;
 		UUID productId;
 		DatabaseAdapter adapter;
 		boolean doesExist;
-		
 
 		mapReportId = new HashMap< String, String >();
 		productId = UUID.randomUUID();

@@ -16,8 +16,10 @@ public abstract class ProcessHandler {
 	private final String DATABASE_TABLE_USERS = "users";
 	protected static final String TOKEN_KEY = "session_token";
 	protected static final String USER_ID_KEY = "id";
+	protected static final String MAIL_KEY = "email";
 	protected static final String VERIFIED_KEY = "verified";
-	protected static final String[] VERIFICATION_KEYS = {USER_ID_KEY};
+	protected static final String[] VERIFICATION_KEYS_ID = {USER_ID_KEY};
+	protected static final String[] VERIFICATION_KEYS_MAIL = {MAIL_KEY};
 	protected Map< String, String > params;
 
 	public ProcessHandler( Map< String, String > params ) {
@@ -48,9 +50,12 @@ public abstract class ProcessHandler {
 
 		map = new HashMap< Integer, Object[] >();
 		adapter = new DatabaseAdapter();
-		verificationParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		verificationParams = cloneMapWithKeys( VERIFICATION_KEYS_ID, params );
 		if ( verificationParams == null ) {
-			return false;
+			verificationParams = cloneMapWithKeys( VERIFICATION_KEYS_MAIL, params );
+			if ( verificationParams == null ) {
+				return false;
+			}
 		}
 
 		wanted = new String[ 1 ];

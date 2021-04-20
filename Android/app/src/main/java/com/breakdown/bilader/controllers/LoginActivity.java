@@ -35,7 +35,9 @@ public class LoginActivity extends Activity {
     private Button logInButton;
     private TextView forgotPassword;
     private ProgressDialog loadingBar;
-    private final String SESSION_TOKEN_KEY = "SESSION_TOKEN";
+    private final String SESSION_TOKEN_KEY = "session_token";
+    private final String USER_ID_KEY = "id";
+    private Intent intent;
 
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
@@ -48,6 +50,11 @@ public class LoginActivity extends Activity {
         inputPassword = ( EditText ) findViewById( R.id.editTextPassword );
         forgotPassword = ( TextView ) findViewById( R.id.forgotPassword );
         loadingBar = new ProgressDialog( this );
+        intent = getIntent();
+
+        if ( intent != null && intent.hasExtra( "email" ) ) {
+            inputEmail.setText( intent.getStringExtra( "email" ) );
+        }
 
         // buttonEffect( logInButton, 0xe01c79e4 );
         // buttonEffect( signUpButton, 0xe01c79e4 );
@@ -107,6 +114,7 @@ public class LoginActivity extends Activity {
         final String JSON_SUCCESS_PATH = "success";
         final String JSON_TOKEN_PATH = "token";
         final String JSON_MESSAGE_PATH = "message";
+        final String JSON_USER_ID_PATH = "id";
         final VolleyCallback callback;
         SharedPreferences sharedPreferences;
         Map< String, String > params;
@@ -123,12 +131,22 @@ public class LoginActivity extends Activity {
                 try {
                     String token;
                     String message;
+                    String userId;
                     if ( json == null ) {
                         message = "Connection error.";
                     } else {
                         if ( json.getBoolean( JSON_SUCCESS_PATH ) ) {
                             token = json.getString( JSON_TOKEN_PATH );
-                            sharedPreferences.edit().putString( SESSION_TOKEN_KEY, token );
+                            userId = json.getString( JSON_USER_ID_PATH );
+                            sharedPreferences.edit().putString( SESSION_TOKEN_KEY, token ).apply();
+                            sharedPreferences.edit().putString( USER_ID_KEY,
+                                    userId ).apply();
+
+
+                            Intent intent;
+                            intent = new Intent( LoginActivity.this,
+                                    BiltraderActivity.class );
+                            startActivity( intent );
                         }
                         message = json.getString( JSON_MESSAGE_PATH );
                     }

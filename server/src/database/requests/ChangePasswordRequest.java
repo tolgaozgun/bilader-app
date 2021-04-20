@@ -47,7 +47,7 @@ public class ChangePasswordRequest extends HttpServlet {
 			HttpServletResponse response )
 			throws ServletException, IOException {
 		ChangePasswordHandler handler;
-		handler = new ChangePasswordHandler( response.getWriter(), request.getParameterMap() );
+		handler = new ChangePasswordHandler( request.getParameterMap() );
 		RequestAdapter.handleRequest( request, response, handler );
 
 	}

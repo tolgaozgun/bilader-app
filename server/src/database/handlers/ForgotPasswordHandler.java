@@ -26,10 +26,11 @@ public class ForgotPasswordHandler extends ProcessHandler {
 	private final static String DATE_KEY = "requested_date";
 	private final static String EMAIL_KEY = "email";
 	private final int CODE_LENGTH = 6;
-	private static String[] keys = { EMAIL_KEY };
+	private final static String[] KEYS = { EMAIL_KEY };
+	private final static String[] CHECK_KEYS = { EMAIL_KEY };
 
 	public ForgotPasswordHandler( Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, keys, false ) );
+		super( RequestAdapter.convertParameters( params, KEYS, false ) );
 	}
 
 	private boolean isVerified( DatabaseAdapter adapter )
@@ -56,7 +57,7 @@ public class ForgotPasswordHandler extends ProcessHandler {
 		}
 
 		// Check if the current user exists in the database.
-		checkParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		checkParams = cloneMapWithKeys( CHECK_KEYS, params );
 		if ( !adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
 			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}

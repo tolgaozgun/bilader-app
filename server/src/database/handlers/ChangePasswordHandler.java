@@ -1,7 +1,6 @@
 package database.handlers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -29,17 +28,16 @@ public class ChangePasswordHandler extends ProcessHandler {
 	private final static String REQUESTED_DATE_KEY = "requested_date";
 	private final static String EMAIL_KEY = "email";
 	private static final String[] KEYS = { EMAIL_KEY, CODE_KEY, PASSWORD_KEY };
-	private static final String[] VERIFICATION_KEYS = { EMAIL_KEY };
+	private static final String[] CHECK_KEYS = { EMAIL_KEY };
 	private final long EXPIRE_TIME_IN_MS = 1800000;
 
-	public ChangePasswordHandler( PrintWriter out,
-			Map< String, String[] > params ) {
+	public ChangePasswordHandler( Map< String, String[] > params ) {
 		super( RequestAdapter.convertParameters( params, KEYS, false ) );
 	}
 
-	private ResultCode checkParams( DatabaseAdapter adapter )
+	private ResultCode checkParams()
 			throws ClassNotFoundException, SQLException {
-
+		DatabaseAdapter adapter;
 		Map< String, String > checkParams;
 		String newPassword;
 		String[] wanted;
@@ -52,8 +50,9 @@ public class ChangePasswordHandler extends ProcessHandler {
 			return ResultCode.INVALID_REQUEST;
 		}
 
+		adapter = new DatabaseAdapter();
 		// Check if the current user exists in the database.
-		checkParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		checkParams = cloneMapWithKeys( CHECK_KEYS, params );
 		if ( !adapter.doesExist( DATABASE_TABLE_USER, checkParams ) ) {
 			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}
@@ -72,7 +71,16 @@ public class ChangePasswordHandler extends ProcessHandler {
 		if ( !adapter.doesExist( DATABASE_TABLE_VERIFICATION, checkParams ) ) {
 			return ResultCode.NO_PENDING_REQUEST;
 		}
-		
+
+		params = PasscodeAdapter.hashPasswordWithSalt( params, adapter,
+				DATABASE_TABLE_VERIFICATION, CODE_KEY, CODE_HASH_KEY,
+				CODE_SALT_KEY, EMAIL_KEY );
+
+		// Check if the password is correct..
+		if ( !adapter.doesExist( DATABASE_TABLE_VERIFICATION, params ) ) {
+			return ResultCode.WRONG_VERIFICATION_CODE;
+		}
+
 		// Gets Timestamp object of the verification request creation time.
 		wanted = new String[ 1 ];
 		wanted[ 0 ] = REQUESTED_DATE_KEY;
@@ -94,7 +102,7 @@ public class ChangePasswordHandler extends ProcessHandler {
 			return ResultCode.CHANGE_PASS_OK;
 		}
 
-		return ResultCode.WRONG_PASSWORD;
+		return ResultCode.WRONG_VERIFICATION_CODE;
 
 	}
 
@@ -103,33 +111,46 @@ public class ChangePasswordHandler extends ProcessHandler {
 			ClassNotFoundException, SQLException {
 		JSONObject json;
 		DatabaseAdapter adapter;
+		String[] idColumn;
+		String userId;
 		ResultCode result;
 		Map< String, Object > updateList;
 
 		json = new JSONObject();
 		adapter = new DatabaseAdapter();
-		params = PasscodeAdapter.hashPasswordWithSalt( params, adapter,
-				DATABASE_TABLE_VERIFICATION, CODE_KEY, CODE_HASH_KEY,
-				CODE_SALT_KEY, EMAIL_KEY );
-		result = checkParams( adapter );
+
+		result = checkParams();
 
 		// Updates the account to verified status.
 		if ( result.isSuccess() ) {
+
+			params.remove( CODE_SALT_KEY );
+			params.remove( CODE_HASH_KEY );
+
 			params = PasscodeAdapter.hashPasswordWithSalt( params, adapter,
 					DATABASE_TABLE_USER, PASSWORD_KEY, PASSWORD_HASH_KEY,
 					PASSWORD_SALT_KEY, EMAIL_KEY );
+
 			updateList = new HashMap< String, Object >();
 			updateList.put( PASSWORD_HASH_KEY,
 					params.get( PASSWORD_HASH_KEY ) );
-			adapter.update( DATABASE_TABLE_USER, params, updateList );
-			
 			params.remove( PASSWORD_HASH_KEY );
 			params.remove( PASSWORD_SALT_KEY );
+
+			adapter.update( DATABASE_TABLE_USER, params, updateList );
+
 			// Delete current verification code.
 			adapter.delete( DATABASE_TABLE_VERIFICATION, params );
-			// Delete email's session token if exists.
-			adapter.delete( DATABASE_TABLE_SESSIONS, params );
 
+			// Delete email's session token if exists.
+			idColumn = new String[ 1 ];
+			idColumn[ 0 ] = USER_ID_KEY;
+			userId = ( String ) adapter
+					.select( DATABASE_TABLE_USER, idColumn, params )
+					.get( 0 )[ 0 ];
+			params.remove( EMAIL_KEY );
+			params.put( USER_ID_KEY, userId );
+			adapter.delete( DATABASE_TABLE_SESSIONS, params );
 		}
 
 		json.put( "success", result.isSuccess() );

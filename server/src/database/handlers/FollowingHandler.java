@@ -17,7 +17,7 @@ public class FollowingHandler extends ProcessHandler {
 	private static String[] keys = { "following_id" };
 	private final String DATABASE_TABLE = "followers";
 	private final String DATABASE_TABLE_USERS = "followers";
-	private final String FOLLOWING_KEY = "user_id";
+	private final String FOLLOWING_KEY = "id";
 
 	public FollowingHandler( Map< String, String[] > params ) {
 		super( RequestAdapter.convertParameters( params, keys, true ) );
@@ -34,7 +34,7 @@ public class FollowingHandler extends ProcessHandler {
 		}
 
 		// Check if the current user exists in the database.
-		checkParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		checkParams = cloneMapWithKeys( VERIFICATION_KEYS_ID, params );
 		if ( !adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
 			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}

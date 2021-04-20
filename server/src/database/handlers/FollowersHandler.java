@@ -14,7 +14,7 @@ import jakarta.servlet.ServletException;
 
 public class FollowersHandler extends ProcessHandler {
 
-	private final static String[] keys = { "user_id" };
+	private final static String[] keys = { "id" };
 	private final String DATABASE_TABLE = "followers";
 	private final String DATABASE_TABLE_USERS = "users";
 	private final String FOLLOWING_KEY = "following_id";
@@ -34,7 +34,7 @@ public class FollowersHandler extends ProcessHandler {
 		}
 
 		// Check if the current user exists in the database.
-		checkParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		checkParams = cloneMapWithKeys( VERIFICATION_KEYS_ID, params );
 		if ( !adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
 			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}

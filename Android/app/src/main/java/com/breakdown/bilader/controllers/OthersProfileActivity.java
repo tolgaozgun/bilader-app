@@ -18,7 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-public class OtherProfileActivityByYahya extends AppCompatActivity {
+public class OthersProfileActivity extends AppCompatActivity {
 
     private TabLayout tableLayout;
     private ViewPager2 viewPager2;

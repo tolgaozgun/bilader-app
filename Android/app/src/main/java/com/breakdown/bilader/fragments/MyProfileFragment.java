@@ -18,7 +18,7 @@ import com.breakdown.bilader.controllers.FollowersActivity;
 import com.breakdown.bilader.controllers.FollowingActivity;
 import com.breakdown.bilader.controllers.MyProductsActivity;
 import com.breakdown.bilader.controllers.MyProfileActivity;
-import com.breakdown.bilader.controllers.OtherProfileActivityByYahya;
+import com.breakdown.bilader.controllers.OthersProfileActivity;
 import com.breakdown.bilader.models.Product;
 
 /**
@@ -105,7 +105,7 @@ public class MyProfileFragment extends Fragment {
              */
             public void onClick( View view ) {
                 //create an Intent object
-                Intent intent = new Intent( context, OtherProfileActivityByYahya.class );
+                Intent intent = new Intent( context, OthersProfileActivity.class );
                 //start the second activity
                 startActivity( intent );
             }
