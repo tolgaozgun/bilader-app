@@ -16,15 +16,16 @@ import jakarta.servlet.ServletException;
 
 public class LoginHandler extends ProcessHandler {
 
-	private static String[] keys = { "email", "password" };
+	private final static String EMAIL_KEY = "email";
+	private final static String[] KEYS = { EMAIL_KEY, "password" };
+	private final static String[] USER_CHECK_KEYS = { EMAIL_KEY };
 	private final String DATABASE_TABLE = "users";
 	private final String PASSWORD_KEY = "password";
 	private final String PASSWORD_HASH_KEY = "password_hash";
 	private final String PASSWORD_SALT_KEY = "password_salt";
-	private final String EMAIL_KEY = "email";
 
 	public LoginHandler( Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, keys, false ) );
+		super( RequestAdapter.convertParameters( params, KEYS, false ) );
 	}
 
 	private boolean isVerified( DatabaseAdapter adapter )
@@ -49,7 +50,7 @@ public class LoginHandler extends ProcessHandler {
 		}
 
 		// Check if the current user exists in the database.
-		checkParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		checkParams = cloneMapWithKeys( USER_CHECK_KEYS, params );
 		if ( !adapter.doesExist( DATABASE_TABLE, checkParams ) ) {
 			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}
