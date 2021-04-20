@@ -97,6 +97,8 @@ public class RegisterActivity extends Activity {
                                 String password, String avatarURL ) {
         final String JSON_SUCCESS_PATH = "success";
         final String JSON_MESSAGE_PATH = "message";
+        final String JSON_VERIFICATION_SUCCESS_PATH = "verification_success";
+        final String JSON_VERIFICATION_MESSAGE_PATH = "verification_message";
         final VolleyCallback callback;
         SharedPreferences sharedPreferences;
         Map< String, String > params;
@@ -113,20 +115,25 @@ public class RegisterActivity extends Activity {
             @Override
             public void onSuccess( JSONObject json ) {
                 try {
-                    String token;
+
+                    String verificationMessage;
                     String message;
                     if ( json == null ) {
                         message = "Connection error.";
+                        verificationMessage = message;
                     } else {
-                        if ( json.getBoolean( JSON_SUCCESS_PATH ) ) {
+                        if ( json.getBoolean( JSON_SUCCESS_PATH ) && json.getBoolean( JSON_VERIFICATION_SUCCESS_PATH )) {
                             Intent intent;
                             intent = new Intent( RegisterActivity.this,
                                     VerificationActivity.class );
                             startActivity( intent );
                         }
                         message = json.getString( JSON_MESSAGE_PATH );
+                        verificationMessage = json.getString( JSON_VERIFICATION_MESSAGE_PATH );
                     }
                     Toast.makeText( RegisterActivity.this, message,
+                            Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( RegisterActivity.this, verificationMessage,
                             Toast.LENGTH_SHORT ).show();
                     loadingBar.dismiss();
                 } catch ( JSONException e ) {

@@ -75,8 +75,10 @@ public class RegisterHandler extends ProcessHandler {
 		return adapter.doesExist( DATABASE_TABLE, checkParams );
 	}
 
-	private ResultCode checkParams( DatabaseAdapter adapter )
+	private ResultCode checkParams()
 			throws ClassNotFoundException, SQLException {
+		DatabaseAdapter adapter;
+
 		if ( params == null ) {
 			return ResultCode.INVALID_REQUEST;
 		}
@@ -86,6 +88,8 @@ public class RegisterHandler extends ProcessHandler {
 			// service!";
 			return ResultCode.NOT_EDU_MAIL;
 		}
+
+		adapter = new DatabaseAdapter();
 
 		if ( doesExist( adapter ) ) {
 			// message = "Your email is already registered!";
@@ -100,22 +104,40 @@ public class RegisterHandler extends ProcessHandler {
 	public JSONObject getResult() throws ServletException, IOException,
 			ClassNotFoundException, SQLException {
 		JSONObject json;
+		JSONObject verificationJson;
 		DatabaseAdapter adapter;
+		boolean verificationSuccess;
+		String verificationMessage;
 		ResultCode status;
+		AddVerificationHandler handler;
+		Map< String, String[] > mailParam;
+		String[] mailArray;
 
 		adapter = new DatabaseAdapter();
 		json = new JSONObject();
-		status = checkParams( adapter );
+		status = checkParams();
+		verificationSuccess = false;
+		verificationMessage = "";
 
 		if ( status.isSuccess() ) {
 			createUserId();
 			params = PasscodeAdapter.hashPasswordWithoutSalt( params,
 					PASSWORD_KEY, PASSWORD_HASH_KEY, PASSWORD_SALT_KEY );
 			adapter.create( DATABASE_TABLE, params );
+			mailParam = new HashMap< String, String[] >();
+			mailArray = new String[ 1 ];
+			mailArray[ 0 ] = params.get( MAIL_KEY );
+			mailParam.put( MAIL_KEY, mailArray );
+			handler = new AddVerificationHandler( mailParam );
+			verificationJson = handler.getResult();
+			verificationSuccess = verificationJson.getBoolean( "success" );
+			verificationMessage = verificationJson.getString( "message" );
 		}
 
 		json.put( "success", status.isSuccess() );
 		json.put( "message", status.getMessage() );
+		json.put( "verification_success", verificationSuccess );
+		json.put( "verification_message", verificationMessage );
 
 		return json;
 	}
