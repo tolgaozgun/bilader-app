@@ -66,14 +66,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/followersButton" />
 
-    <TextView
+    <Button
         android:id="@+id/logOutButton"
         android:layout_width="260dp"
         android:layout_height="41dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/log_out"
         android:fontFamily="@font/roboto_bold"
-        android:text="Log out"
+        android:gravity="left"
+        android:hint="Log out"
         android:paddingVertical="9dp"
         android:paddingStart="40dp"
         android:paddingLeft="35dp"
@@ -83,7 +84,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settingButton" />
 
-    <TextView
+    <Button
         android:id="@+id/settingButton"
         android:layout_width="260dp"
         android:layout_height="41dp"
@@ -96,7 +97,7 @@
         android:paddingLeft="35dp"
         android:paddingEnd="5dp"
         android:paddingRight="5dp"
-        android:text="Settings"
+        android:hint="Settings"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
