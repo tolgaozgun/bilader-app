@@ -1,6 +1,7 @@
 package com.breakdown.bilader.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.FollowersActivity;
 import com.breakdown.bilader.controllers.FollowingActivity;
+import com.breakdown.bilader.controllers.LoginActivity;
 import com.breakdown.bilader.controllers.MyProductsActivity;
 import com.breakdown.bilader.controllers.MyProfileActivity;
 import com.breakdown.bilader.controllers.OthersProfileActivity;
@@ -37,6 +39,7 @@ public class MyProfileFragment extends Fragment {
     private Button followingButton;
     private Button settingsButton;
     private Button logOutButton;
+    private ProgressDialog loadingBar;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -121,7 +124,7 @@ public class MyProfileFragment extends Fragment {
              * @param view is the view that was clicked
              */
             public void onClick( View view ) {
-                // TODO: log out
+                logOut();
             }
 
         } );
@@ -140,6 +143,17 @@ public class MyProfileFragment extends Fragment {
             }
 
         } );
+    }
+    private void logOut() {
+        loadingBar.setTitle( "log out" );
+        loadingBar.setMessage( "Logging out!" );
+        loadingBar.setCanceledOnTouchOutside( false );
+        loadingBar.show();
+
+        // TODO: log user out
+
+        Intent intent = new Intent( context, LoginActivity.class );
+        startActivity( intent );
     }
 
 }
