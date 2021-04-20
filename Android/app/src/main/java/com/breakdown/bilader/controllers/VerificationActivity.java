@@ -27,8 +27,11 @@ public class VerificationActivity extends Activity {
      * https://github.com/raycoarana/material-code-input
      */
 
-    CodeInputView codeView;
-    Button resetButton;
+    private CodeInputView codeView;
+    private Button resetButton;
+
+    // send - resend button
+    private Button resendButton;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -38,7 +41,8 @@ public class VerificationActivity extends Activity {
         Intent intent;
         intent = getIntent();
 
-
+        // resend button here
+        resendButton = findViewById( R.id.button_verification_code_resend );
 
         codeView =
                 ( CodeInputView ) findViewById( R.id.codeInputView );
