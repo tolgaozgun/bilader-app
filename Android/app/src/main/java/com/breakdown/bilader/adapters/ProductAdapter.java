@@ -132,6 +132,8 @@ public class ProductAdapter extends
             holder.imageProduct.setImageResource( mmmContext.getResources().getIdentifier( product.getPicture(), "drawable", mmmContext.getPackageName() ) );
             holder.imageProductSeller.setImageResource( mmmContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mmmContext.getPackageName() ) );
         }
+
+        isWishlisted( product.getProductId());
     }
 
     /**
@@ -147,5 +149,11 @@ public class ProductAdapter extends
         productsSize = products.size();
 
         return productsSize;
+    }
+
+    public void isWishlisted( String productId) {
+        //TODO
+        // dye the heart if the post is added to the wishlist
+
     }
 }
