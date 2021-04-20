@@ -8,6 +8,15 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An adapter class that maintains the connection between MySQL Server and this
+ * JSP Server.
+ * 
+ * @author Tolga Özgün
+ * 
+ *
+ */
+
 public class DatabaseAdapter {
 
 	private Connection connection;
@@ -15,18 +24,39 @@ public class DatabaseAdapter {
 	private final String MYSQL_USERNAME = "biladeradmin";
 	private final String MYSQL_PASSWORD = "BILADERapp123#";
 
+	/**
+	 * Connects to the MySQL Server using credentials.
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	private void connect() throws SQLException, ClassNotFoundException {
 		Class.forName( "com.mysql.jdbc.Driver" );
 		connection = DriverManager.getConnection( MYSQL_URL, MYSQL_USERNAME,
 				MYSQL_PASSWORD );
 	}
 
+	/**
+	 * Ends the connection with MySQL Server if exists.
+	 * 
+	 * @throws SQLException
+	 */
 	private void disconnect() throws SQLException {
 		if ( connection != null ) {
 			connection.close();
 		}
 	}
 
+	/**
+	 * Checks if the provided table contains given parameters in MySQL Server.
+	 * 
+	 * @param tableName String value of table name.
+	 * @param params    String of column names mapped with their values.
+	 * @return Boolean whether there is a row with provided parameters
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public boolean doesExist( String tableName, Map< String, String > params )
 			throws SQLException, ClassNotFoundException {
 		StringBuffer sql;
@@ -41,10 +71,9 @@ public class DatabaseAdapter {
 		count = 0;
 		sql = new StringBuffer(
 				"SELECT COUNT(*) AS COUNT FROM " + tableName + " " );
-		sql.append( createWhere( params ) );
+		sql.append( createWhereString( params ) );
 
 		connect();
-		// out.println(sql.toString());
 		statement = connection.prepareStatement( sql.toString() );
 		resultSet = statement.executeQuery();
 
@@ -58,6 +87,20 @@ public class DatabaseAdapter {
 		return count != 0;
 	}
 
+	/**
+	 * Update the rows which contain the given parameters, in the provided table
+	 * with the new parameters in the MySQL Server.
+	 * 
+	 * In other words, updates the data with given values to a new map of
+	 * values.
+	 * 
+	 * @param tableName  String value of table name.
+	 * @param params     String of column names mapped with their values.
+	 * @param updateList String of column names mapped with their new values.
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public void update( String tableName, Map< String, String > params,
 			Map< String, Object > updateList )
 			throws SQLException, ClassNotFoundException {
@@ -66,7 +109,7 @@ public class DatabaseAdapter {
 
 		sql = new StringBuffer( "UPDATE " + tableName + " " );
 		sql.append( createSetString( updateList ) + " " );
-		sql.append( createWhere( params ) );
+		sql.append( createWhereString( params ) );
 		connect();
 		statement = connection.prepareStatement( sql.toString() );
 		statement.executeUpdate();
@@ -74,6 +117,36 @@ public class DatabaseAdapter {
 
 	}
 
+	/**
+	 * Delete rows with matching values in the MySQL Server.
+	 * 
+	 * @param tableName String value of table name.
+	 * @param params    String of column names mapped with their values.
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void delete( String tableName, Map< String, String > params )
+			throws ClassNotFoundException, SQLException {
+		StringBuffer sql;
+		PreparedStatement statement;
+
+		sql = new StringBuffer( "DELETE FROM " + tableName + " " );
+		sql.append( createWhereString( params ) );
+		connect();
+		statement = connection.prepareStatement( sql.toString() );
+		statement.executeUpdate();
+		disconnect();
+
+	}
+
+	/**
+	 * Creates the String with the "SET" syntax for SQL requests. Uses given Map
+	 * for appending the values.
+	 * 
+	 * @param wantedList String of column names mapped with their values.
+	 * @return
+	 */
 	private String createSetString( Map< String, Object > wantedList ) {
 		StringBuffer bufferString;
 
@@ -90,6 +163,66 @@ public class DatabaseAdapter {
 
 	}
 
+	/**
+	 * Creates the String with the "SELECT" syntax for SQL requests. Uses given
+	 * array for appending the values.
+	 * 
+	 * @param wanted String array of values.
+	 * @return
+	 */
+	private String createSelectString( String[] wanted ) {
+		StringBuffer buffer;
+		buffer = new StringBuffer( "SELECT " );
+
+		if ( wanted == null || wanted.length == 0 ) {
+			return "*";
+		}
+
+		for ( String key : wanted ) {
+			buffer.append( "`" + key + "`," );
+		}
+		return buffer.substring( 0, buffer.length() - 1 );
+
+	}
+
+	/**
+	 * Creates the String with the "WHERE" syntax for SQL requests. Uses given
+	 * Map for appending the values.
+	 * 
+	 * @param params String of column names mapped with their values.
+	 * @return
+	 */
+	private String createWhereString( Map< String, String > params ) {
+		StringBuffer sql;
+		String request;
+
+		if ( params == null ) {
+			return null;
+		}
+
+		sql = new StringBuffer( "WHERE (" );
+		for ( String param : params.keySet() ) {
+			sql.append( param + "='" + params.get( param ) + "' AND " );
+		}
+
+		if ( params.keySet().size() > 0 ) {
+			request = sql.substring( 0, sql.length() - 5 ) + ")";
+		} else {
+			request = sql.substring( 0, sql.length() - 7 );
+		}
+		return request;
+	}
+
+	/**
+	 * Creates a new row in the MySQL database in the given table name, using
+	 * the values provided.
+	 * 
+	 * @param tableName String value of table name.
+	 * @param params    String of column names mapped with their values.
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public void create( String tableName, Map< String, String > params )
 			throws SQLException, ClassNotFoundException {
 		StringBuffer sql;
@@ -131,42 +264,21 @@ public class DatabaseAdapter {
 		disconnect();
 	}
 
-	private String createWhere( Map< String, String > params ) {
-		StringBuffer sql;
-		String request;
-
-		if ( params == null ) {
-			return null;
-		}
-
-		sql = new StringBuffer( "WHERE (" );
-		for ( String param : params.keySet() ) {
-			sql.append( param + "='" + params.get( param ) + "' AND " );
-		}
-
-		if ( params.keySet().size() > 0 ) {
-			request = sql.substring( 0, sql.length() - 5 ) + ")";
-		} else {
-			request = sql.substring( 0, sql.length() - 7 );
-		}
-		return request;
-	}
-
-	private String createSeperatedString( String[] wanted ) {
-		StringBuffer buffer;
-		buffer = new StringBuffer();
-
-		if ( wanted == null || wanted.length == 0 ) {
-			return "*";
-		}
-
-		for ( String key : wanted ) {
-			buffer.append( "`" + key + "`," );
-		}
-		return buffer.substring( 0, buffer.length() - 1 );
-
-	}
-
+	/**
+	 * Returns the values with the requested column names for the rows in given
+	 * table with the given parameters in MySQL Server.
+	 * 
+	 * For example, gathering user id from the users table with a provided email
+	 * address.
+	 * 
+	 * @param tableName String value of table name.
+	 * @param wanted    String array of column names for the requested values.
+	 * @param params    String of column names mapped with their values.
+	 * @return Map of requested values.
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public Map< Integer, Object[] > select( String tableName, String[] wanted,
 			Map< String, String > params )
 			throws SQLException, ClassNotFoundException {
@@ -178,10 +290,10 @@ public class DatabaseAdapter {
 		int j;
 
 		result = new HashMap< Integer, Object[] >();
-		sql = new StringBuffer( "SELECT " );
-		sql.append( createSeperatedString( wanted ) + " " );
+		sql = new StringBuffer();
+		sql.append( createSelectString( wanted ) + " " );
 		sql.append( "FROM " + tableName + " " );
-		sql.append( createWhere( params ) );
+		sql.append( createWhereString( params ) );
 		connect();
 		statement = connection.prepareStatement( sql.toString() );
 		resultSet = statement.executeQuery();

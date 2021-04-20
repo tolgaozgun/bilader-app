@@ -15,11 +15,10 @@ public class Product implements Serializable {
     // CATEGORY IS ERASED
 
 
-    public Product( Category category, User seller){
+    public Product( Category category, User seller ) {
         this.category = category;
         this.seller = seller;
-    };
-
+    }
 
     /**
      * Constructor
@@ -29,10 +28,10 @@ public class Product implements Serializable {
      * @param description String value of description.
      * @param price       double value of price.
      * @param seller      User instance of seller.
-     *
+     * @param isSold      whether product is sold.
      */
     public Product( String picture, String title, String description,
-                    double price, User seller, boolean isSold) {
+                    double price, User seller, boolean isSold ) {
         this.picture = picture;
         this.title = title;
         this.description = description;
@@ -87,24 +86,24 @@ public class Product implements Serializable {
 
 
     public boolean changeSoldSituation() {
-        isSold = !isSold; //I think we may use is sold in somewhere in future so I didnt directly return !isSold.
+        isSold = !isSold; //I think we may use is sold in somewhere in future
+        // so I didnt directly return !isSold.
         return isSold;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture( String picture ) {
         this.picture = picture;
     }
 
-    public void setTitle(String title) {
+    public void setTitle( String title ) {
         this.title = title;
     }
 
-    public void setDescription(String description) {
+    public void setDescription( String description ) {
         this.description = description;
     }
 
-    
-    public void setPrice(double price) {
+    public void setPrice( double price ) {
         this.price = price;
     }
 }

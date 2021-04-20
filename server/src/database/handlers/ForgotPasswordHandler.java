@@ -13,11 +13,11 @@ import database.adapters.MailAdapter;
 import database.adapters.MailType;
 import database.adapters.PasscodeAdapter;
 import database.adapters.RequestAdapter;
-import database.handlers.codes.ForgotPasswordCode;
+import database.handlers.codes.ResultCode;
 import jakarta.servlet.ServletException;
 
-public class ForgotPasswordHandler extends ProcessHandler{
-	
+public class ForgotPasswordHandler extends ProcessHandler {
+
 	private final static String DATABASE_TABLE_VERIFICATION = "pwverifications";
 	private final static String DATABASE_TABLE_USERS = "users";
 	private final static String PASSWORD_KEY = "code";
@@ -29,7 +29,7 @@ public class ForgotPasswordHandler extends ProcessHandler{
 	private static String[] keys = { EMAIL_KEY };
 
 	public ForgotPasswordHandler( Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, keys ) );
+		super( RequestAdapter.convertParameters( params, keys, false ) );
 	}
 
 	private boolean isVerified( DatabaseAdapter adapter )
@@ -37,34 +37,41 @@ public class ForgotPasswordHandler extends ProcessHandler{
 		String[] wanted;
 		Map< Integer, Object[] > map;
 		map = new HashMap< Integer, Object[] >();
-		
+
 		wanted = new String[ 1 ];
 		wanted[ 0 ] = "verified";
-		
+
 		map = adapter.select( DATABASE_TABLE_USERS, wanted, params );
-		
+
 		return ( boolean ) map.get( 0 )[ 0 ];
 	}
 
-	private ForgotPasswordCode checkParams( DatabaseAdapter adapter )
+	private ResultCode checkParams( DatabaseAdapter adapter )
 			throws ClassNotFoundException, SQLException {
+		Map< String, String > checkParams;
 
 		// Checks if the parameters are non-existent.
 		if ( params == null || params.size() == 0 ) {
-			return ForgotPasswordCode.INVALID_REQUEST;
+			return ResultCode.INVALID_REQUEST;
+		}
+
+		// Check if the current user exists in the database.
+		checkParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		if ( !adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
+			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}
 
 		// Checks if the current user is already verified.
 		if ( !isVerified( adapter ) ) {
-			return ForgotPasswordCode.NOT_VERIFIED;
+			return ResultCode.NOT_VERIFIED;
 		}
 
 		// Checks if the current password is true.
 		if ( adapter.doesExist( DATABASE_TABLE_USERS, params ) ) {
-			return ForgotPasswordCode.OK;
+			return ResultCode.FORGOT_PASS_OK;
 		}
 
-		return ForgotPasswordCode.ACCOUNT_DOES_NOT_EXIST;
+		return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 
 	}
 
@@ -73,7 +80,7 @@ public class ForgotPasswordHandler extends ProcessHandler{
 			ClassNotFoundException, SQLException {
 		JSONObject json;
 		DatabaseAdapter adapter;
-		ForgotPasswordCode result;
+		ResultCode result;
 		String code;
 		Map< String, String > emailParam;
 		Map< String, Object > paramsObj;
@@ -83,7 +90,7 @@ public class ForgotPasswordHandler extends ProcessHandler{
 		result = checkParams( adapter );
 
 		// Updates the account to verified status.
-		if ( result == ForgotPasswordCode.OK ) {
+		if ( result.isSuccess() ) {
 			code = PasscodeAdapter.codeGenerator( CODE_LENGTH );
 			params.put( PASSWORD_KEY, code );
 			params = PasscodeAdapter.hashPasswordWithoutSalt( params,
@@ -108,10 +115,11 @@ public class ForgotPasswordHandler extends ProcessHandler{
 			} else {
 				adapter.create( DATABASE_TABLE_VERIFICATION, params );
 			}
-			MailAdapter.sendMail( MailType.FORGOT_PASSWORD, code, params.get( EMAIL_KEY ) );
+			MailAdapter.sendMail( MailType.FORGOT_PASSWORD, code,
+					params.get( EMAIL_KEY ) );
 		}
 
-		json.put( "success", result == ForgotPasswordCode.OK );
+		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;
 

@@ -64,6 +64,24 @@
   	<description></description>
   	<servlet-class>database.requests.ChangePasswordRequest</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>FollowersRequest</servlet-name>
+  	<display-name>FollowersRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.FollowersRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>FollowRequest</servlet-name>
+  	<display-name>FollowRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.FollowRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>FollowingRequest</servlet-name>
+  	<display-name>FollowingRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.FollowingRequest</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -103,5 +121,17 @@
   <servlet-mapping>
   	<servlet-name>ChangePasswordRequest</servlet-name>
   	<url-pattern>/ChangePasswordRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>FollowersRequest</servlet-name>
+  	<url-pattern>/FollowersRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>FollowRequest</servlet-name>
+  	<url-pattern>/FollowRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>FollowingRequest</servlet-name>
+  	<url-pattern>/FollowingRequest</url-pattern>
   </servlet-mapping>
 </web-app>

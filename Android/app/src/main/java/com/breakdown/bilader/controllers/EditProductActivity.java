@@ -11,10 +11,11 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
+import com.breakdown.bilader.models.User;
 
 public class
-
 
 EditProductActivity extends Activity {
 
@@ -31,8 +32,9 @@ EditProductActivity extends Activity {
 
         Product editedProduct;
 
+        //temporary values
+        editedProduct = new Product(new Category("Clothes",12), new User("Korhan","mail","avatar_male","12"));
 
-        editedProduct = new Product(category, currentUser);//In the next step, I will set them!
         editButton = findViewById(R.id.editButton);
         editTitle = findViewById(R.id.editTitle);
         editDescription = findViewById(R.id.editDescription);

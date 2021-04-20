@@ -27,7 +27,7 @@
         app:layout_constraintStart_toEndOf="@+id/image_myprofile_avatar"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <Button
         android:id="@+id/myProductsButton"
         android:layout_width="260dp"
         android:layout_height="41dp"
@@ -40,21 +40,23 @@
         android:paddingLeft="35dp"
         android:paddingEnd="5dp"
         android:paddingRight="5dp"
-        android:text="My products"
+        android:hint="My products"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_myprofile_avatar" />
 
-    <TextView
+    <Button
         android:id="@+id/followingButton"
         android:layout_width="260dp"
         android:layout_height="41dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/following"
         android:fontFamily="@font/roboto_bold"
-        android:text="My Followings"
+        android:foregroundGravity="left"
+        android:gravity="left"
+        android:hint="My Followings"
         android:paddingVertical="9dp"
         android:paddingStart="40dp"
         android:paddingLeft="35dp"

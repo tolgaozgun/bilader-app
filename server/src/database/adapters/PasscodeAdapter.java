@@ -17,6 +17,7 @@ public class PasscodeAdapter {
 			final String EMAIL_KEY )
 			throws ClassNotFoundException, SQLException {
 		Map< String, String > requestParams;
+		Map< Integer, Object[] > response;
 		String[] wanted;
 		String password;
 		String salt;
@@ -33,13 +34,18 @@ public class PasscodeAdapter {
 
 		encoder = Base64.getUrlEncoder().withoutPadding();
 		decoder = Base64.getUrlDecoder();
+		response = new HashMap< Integer, Object[] >();
 		requestParams = new HashMap< String, String >();
 		requestParams.put( EMAIL_KEY, params.get( EMAIL_KEY ) );
 		wanted = new String[ 1 ];
 		wanted[ 0 ] = PASSWORD_SALT_KEY;
 
-		salt = ( String ) adapter
-				.select( DATABASE_TABLE, wanted, requestParams ).get( 0 )[ 0 ];
+		response = adapter.select( DATABASE_TABLE, wanted, requestParams );
+		if ( response == null || response.size() == 0
+				|| response.get( 0 ).length == 0 ) {
+			return null;
+		}
+		salt = ( String ) response.get( 0 )[ 0 ];
 		saltArray = decoder.decode( salt );
 		password = params.get( PASSWORD_KEY );
 		passwordArray = password.toCharArray();
@@ -86,19 +92,17 @@ public class PasscodeAdapter {
 		return params;
 
 	}
-	
-	
 
 	public static String codeGenerator( int digits ) {
 		Random random;
 		StringBuffer buffer;
 		random = new Random();
 		buffer = new StringBuffer();
-		
-		for (int i = 0; i < digits; i++ ) {
-			buffer.append( random.nextInt(10) );
+
+		for ( int i = 0; i < digits; i++ ) {
+			buffer.append( random.nextInt( 10 ) );
 		}
-		
+
 		return buffer.toString();
 	}
 

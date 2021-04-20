@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="@drawable/card_border">
+
+            <EditText
+                android:id="@+id/text_card_reviews_comment"
+                android:layout_width="353dp"
+                android:layout_height="101dp"
+                android:layout_marginTop="16dp"
+                android:foregroundGravity="top|left|center_vertical|center"
+                android:gravity="start"
+                android:hint="Type your comment here..."
+                android:inputType="textImeMultiLine"
+                android:paddingVertical="8dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="35dp"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.476"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="69dp"
+                android:layout_height="27dp"
+                android:background="@drawable/log_in_button"
+                android:hint="submit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.957"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_card_reviews_comment"
+                app:layout_constraintVertical_bias="0.562" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

@@ -57,10 +57,6 @@ public class AddNewProductFragment extends Fragment {
                 newProduct = new Product("", titleText, descriptionText, Double.parseDouble(priceText),  currentUser, false);
                 Intent intent  = new Intent(mContext, ProductActivity.class);
                 intent.putExtra("product", newProduct);
-
-
-
-
             }
         });
 

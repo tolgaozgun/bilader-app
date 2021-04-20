@@ -14,10 +14,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class RequestAdapter {
+	protected final static String TOKEN_KEY = "session_token";
+	protected final static String USER_ID_KEY = "id";
+	protected final static String[] TOKEN_PARAMS = { TOKEN_KEY, USER_ID_KEY };
 
 	public static Map< String, String > convertParameters(
-			Map< String, String[] > map, String[] keys,
-			String[] optionalKeys ) {
+			Map< String, String[] > map, String[] keys, String[] optionalKeys,
+			boolean isLoggedIn ) {
 
 		Map< String, String > params;
 
@@ -43,6 +46,24 @@ public class RequestAdapter {
 					return null;
 				}
 			}
+
+		}
+
+		// Checks the token if the current request requires the user to be
+		// logged in.
+
+		if ( isLoggedIn ) {
+			for ( String key : TOKEN_PARAMS ) {
+				// Since our arrays will only contain one String, we can cast it
+				// into a String
+				// by taking the first element.
+				if ( map.containsKey( key ) ) {
+					paramValue = map.get( key )[ 0 ];
+					params.put( key, paramValue );
+				} else {
+					return null;
+				}
+			}
 		}
 
 		if ( optionalKeys != null && optionalKeys.length > 0 ) {
@@ -58,18 +79,17 @@ public class RequestAdapter {
 	}
 
 	public static Map< String, String > convertParameters(
-			Map< String, String[] > map, String[] keys ) {
-		return convertParameters( map, keys, null );
+			Map< String, String[] > map, String[] keys, boolean isLoggedIn ) {
+		return convertParameters( map, keys, null, isLoggedIn );
 	}
-	
-	
+
 	public static void handleRequest( HttpServletRequest request,
 			HttpServletResponse response, ProcessHandler handler )
 			throws ServletException, IOException {
 		JSONObject json;
 		PrintWriter out;
 
-		//response.setContentType( "application/json" );
+		response.setContentType( "application/json" );
 		out = response.getWriter();
 		try {
 			json = handler.getResult();
