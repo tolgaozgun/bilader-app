@@ -112,6 +112,7 @@ public class LoginActivity extends Activity {
 
     private void allowAccessToAccount( String email, String password ) {
         final String JSON_SUCCESS_PATH = "success";
+        final String JSON_VERIFIED_PATH = "verified-error";
         final String JSON_TOKEN_PATH = "token";
         final String JSON_MESSAGE_PATH = "message";
         final String JSON_USER_ID_PATH = "id";
@@ -129,6 +130,9 @@ public class LoginActivity extends Activity {
             @Override
             public void onSuccess( JSONObject json ) {
                 try {
+
+                    boolean verified;
+                    Intent intent;
                     String token;
                     String message;
                     String userId;
@@ -143,11 +147,17 @@ public class LoginActivity extends Activity {
                                     userId ).apply();
 
 
-                            Intent intent;
                             intent = new Intent( LoginActivity.this,
                                     BiltraderActivity.class );
                             startActivity( intent );
                         }
+
+                        if(json.getBoolean( JSON_VERIFIED_PATH )){
+                            intent = new Intent( LoginActivity.this,
+                                    VerificationActivity.class );
+                            startActivity( intent );
+                        }
+
                         message = json.getString( JSON_MESSAGE_PATH );
                     }
                     Toast.makeText( LoginActivity.this, message,
