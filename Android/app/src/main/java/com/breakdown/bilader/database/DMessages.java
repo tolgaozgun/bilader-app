@@ -1,5 +1,6 @@
 package com.breakdown.bilader.database;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -8,7 +9,7 @@ import java.util.Date;
 
 @Entity
 public class DMessages {
-
+    @NonNull
     @PrimaryKey
     @ColumnInfo(name="chatId")
     public String chatId;
@@ -23,6 +24,6 @@ public class DMessages {
     public String content;
 
     @ColumnInfo(name = "time")
-    public Date time;
+    public String time;
 
 }
