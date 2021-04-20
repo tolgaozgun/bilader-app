@@ -78,9 +78,12 @@ public class Product implements Serializable {
         return price;
     }
 
-    public boolean getIsSold() {
-        return isSold;
-    }
+    public String getDescription() { return this.description; }
+
+    public Category getCategory() { return this.category; }
+
+    public boolean getIsSold() { return isSold; }
+
 
     public boolean changeSoldSituation() {
         isSold = !isSold; //I think we may use is sold in somewhere in future

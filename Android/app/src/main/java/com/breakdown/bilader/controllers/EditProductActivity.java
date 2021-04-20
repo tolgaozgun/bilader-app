@@ -68,7 +68,7 @@ EditProductActivity extends Activity {
                 editedProduct.setTitle(editedTitle);
                 editedProduct.setPrice(Double.parseDouble(editedPrice));
                 Intent intent = new Intent(EditProductActivity.this, ProductActivity.class);
-                intent.putExtra("editedproduct", editedProduct);
+                intent.putExtra("product", editedProduct);
 
             }
 
