@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * @version 16.04.2021
  */
 
-public class HomeFragment extends Fragment {
+public class    HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;

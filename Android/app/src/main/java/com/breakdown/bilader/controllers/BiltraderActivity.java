@@ -76,7 +76,7 @@ public class BiltraderActivity extends AppCompatActivity {
                     selectedFragment = new AddNewProductFragment();
                     break;
                 case R.id.nav_notifications:
-                    selectedFragment = new OthersProfileFragment();
+                    selectedFragment = new NotificationsFragment();
                     break;
                 case R.id.nav_person:
                     selectedFragment = new MyProfileFragment();
