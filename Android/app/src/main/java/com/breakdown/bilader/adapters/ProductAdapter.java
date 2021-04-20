@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.*;
+import com.google.gson.Gson;
 
 import java.util.*;
 
@@ -143,22 +144,29 @@ public class ProductAdapter extends
             holder.imageProductSeller.setImageResource( mmmContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mmmContext.getPackageName() ) );
         }
 
-        isWishlisted( product.getProductId());
+        isWishlisted( product.getProductId() );
         holder.cardView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-            Intent intent = new Intent(mmmContext, ProductActivity.class );
-            intent.putExtra( "product_id", product.getProductId());
-            mmmContext.startActivity( intent );
+                Intent intent;
+                Gson gson;
+                String myJson;
+
+                intent = new Intent( mmmContext, ProductActivity.class );
+                gson = new Gson();
+                myJson = gson.toJson( product );
+                intent.putExtra( "product", myJson );
+                mmmContext.startActivity( intent );
             }
-        });
+        } );
     }
 
-                /**
-                 * Returns the total number of items in the data set held by the adapter.
-                 *
-                 * @return The total number of items in this adapter.
-                 */ @Override
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
+    @Override
     public int getItemCount() {
 
         int productsSize;
@@ -168,7 +176,7 @@ public class ProductAdapter extends
         return productsSize;
     }
 
-    public void isWishlisted( String productId) {
+    public void isWishlisted( String productId ) {
         //TODO
         // dye the heart if the post is added to the wishlist
 

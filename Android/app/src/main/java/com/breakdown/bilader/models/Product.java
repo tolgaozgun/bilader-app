@@ -3,7 +3,7 @@ package com.breakdown.bilader.models;
 import java.io.Serializable;
 import java.security.ProtectionDomain;
 
-public class Product implements Serializable {
+public class Product {
 
     private String picture;
     private String title;

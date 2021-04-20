@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.*;
+import com.google.gson.Gson;
 
 import java.util.*;
 
@@ -136,8 +137,14 @@ public class ProductAdapter2 extends RecyclerView.Adapter< ProductAdapter2.Produ
         holder.cardView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                Intent intent = new Intent( mContext, ProductActivity.class );
-                intent.putExtra( "product", product );
+                Intent intent;
+                Gson gson;
+                String myJson;
+
+                intent = new Intent( mContext, ProductActivity.class );
+                gson = new Gson();
+                myJson = gson.toJson( product );
+                intent.putExtra( "product", myJson );
                 mContext.startActivity( intent );
             }
         } );

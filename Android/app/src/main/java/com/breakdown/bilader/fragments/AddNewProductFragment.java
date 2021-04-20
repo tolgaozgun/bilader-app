@@ -19,6 +19,7 @@ import com.breakdown.bilader.controllers.EditProductActivity;
 import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
+import com.google.gson.Gson;
 
 public class AddNewProductFragment extends Fragment {
 
@@ -50,13 +51,19 @@ public class AddNewProductFragment extends Fragment {
                 String titleText;
                 String descriptionText;
                 Product newProduct;
+                Intent intent;
+                Gson gson;
+                String myJson;
 
                 priceText = price.getText().toString();
                 titleText = title.getText().toString();
                 descriptionText = description.getText().toString();
                 newProduct = new Product("", titleText, descriptionText, Double.parseDouble(priceText),  currentUser, false, "7");
-                Intent intent  = new Intent(mContext, ProductActivity.class);
-                intent.putExtra("product", newProduct);
+                intent = new Intent(mContext, ProductActivity.class);
+                gson = new Gson();
+                myJson = gson.toJson( newProduct );
+                intent.putExtra( "product", myJson );
+                startActivity( intent );
             }
         });
 

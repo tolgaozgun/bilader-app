@@ -14,6 +14,7 @@ import com.breakdown.bilader.R;
 import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
+import com.google.gson.Gson;
 
 public class EditProductActivity extends Activity {
 
@@ -61,12 +62,19 @@ public class EditProductActivity extends Activity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent;
+                Gson gson;
+                String myJson;
                 editedProduct.setDescription(editedDescription);
                 editedProduct.setPicture("pic");//It will change
                 editedProduct.setTitle(editedTitle);
                 editedProduct.setPrice(Double.parseDouble(editedPrice));
-                Intent intent = new Intent(EditProductActivity.this, ProductActivity.class);
-                intent.putExtra("product", editedProduct);
+
+                intent = new Intent( EditProductActivity.this, ProductActivity.class );
+                gson = new Gson();
+                myJson = gson.toJson( editedProduct );
+                intent.putExtra( "product", myJson );
+                startActivity( intent );
 
             }
 
