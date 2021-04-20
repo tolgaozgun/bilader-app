@@ -1,6 +1,7 @@
 package com.breakdown.bilader.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.*;
 
 import java.util.*;
@@ -68,6 +71,8 @@ public class ProductAdapter extends
         public TextView textUserName;
         public TextView textProductName;
         public TextView textProductPrice;
+        public CardView cardView;
+        public TextView textCategoryName;
 
         /**
          * A constructor that holds id's of views
@@ -82,6 +87,10 @@ public class ProductAdapter extends
                     itemView.findViewById( R.id.image_avatar_product_seller );
             textUserName =
                     itemView.findViewById( R.id.text_product_seller_name );
+            cardView = itemView.findViewById( R.id.card_product );
+            textProductPrice = itemView.findViewById( R.id.priceProduct );
+            textCategoryName = itemView.findViewById( R.id.categoryProduct );
+
         }
     }
 
@@ -124,6 +133,7 @@ public class ProductAdapter extends
 
         holder.textUserName.setText( product.getSeller().getUserName() );
         holder.textProductName.setText( product.getTitle() );
+        holder.textProductPrice.setText( String.valueOf( product.getPrice() ) );
 
         if ( controller == 0 ) {
             holder.imageProduct.setImageResource( mContext.getResources().getIdentifier( product.getPicture(), "drawable", mContext.getActivity().getPackageName() ) );
@@ -134,14 +144,21 @@ public class ProductAdapter extends
         }
 
         isWishlisted( product.getProductId());
+        holder.cardView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+            Intent intent = new Intent(mmmContext, ProductActivity.class );
+            intent.putExtra( "product", product );
+            mmmContext.startActivity( intent );
+            }
+        });
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
-    @Override
+                /**
+                 * Returns the total number of items in the data set held by the adapter.
+                 *
+                 * @return The total number of items in this adapter.
+                 */ @Override
     public int getItemCount() {
 
         int productsSize;

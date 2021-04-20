@@ -22,7 +22,7 @@ public class ProductActivity extends Activity {
     private Button directChatButton;
     private TextView productName;
     private TextView productDescription;
-    private TextView category;
+   // private TextView category;
     private TextView ownerName;
     private TextView price;
     private Product currentProduct;
@@ -39,14 +39,14 @@ public class ProductActivity extends Activity {
         productDescription = findViewById(R.id.description);
         ownerName = findViewById(R.id.ownerName);
         price = findViewById(R.id.price);
-        category = findViewById(R.id.categoryName);
+        //category = findViewById(R.id.categoryName);
 
         currentProduct = (Product) getIntent().getSerializableExtra("product");
         productName.setText(currentProduct.getTitle());
         productDescription.setText(currentProduct.getDescription());
         price.setText(String.valueOf(currentProduct.getPrice()));
         ownerName.setText(currentProduct.getOwner().toString());
-        category.setText(currentProduct.getCategory().toString());
+        //category.setText(currentProduct.getCategory().toString());
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
