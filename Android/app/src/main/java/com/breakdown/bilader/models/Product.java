@@ -12,6 +12,7 @@ public class Product implements Serializable {
     private User seller;
     private Category category;
     private boolean isSold;
+    private String productId;
     // CATEGORY IS ERASED
 
 
@@ -31,7 +32,7 @@ public class Product implements Serializable {
      * @param isSold      whether product is sold.
      */
     public Product( String picture, String title, String description,
-                    double price, User seller, boolean isSold ) {
+                    double price, User seller, boolean isSold, String productId ) {
         this.picture = picture;
         this.title = title;
         this.description = description;
@@ -39,6 +40,7 @@ public class Product implements Serializable {
         this.seller = seller;
         this.category = null;
         this.isSold = false;
+        this.productId = productId;
     }
 
     /**
@@ -83,6 +85,8 @@ public class Product implements Serializable {
     public Category getCategory() { return this.category; }
 
     public boolean getIsSold() { return isSold; }
+
+    public String getProductId() { return productId; }
 
 
     public boolean changeSoldSituation() {

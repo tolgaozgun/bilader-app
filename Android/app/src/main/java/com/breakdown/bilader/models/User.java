@@ -57,6 +57,8 @@ public class User {
         return userAvatar;
     }
 
+    public String getUserId() { return userId; }
+
     /**
      * Returns the wishlist of the current user.
      *

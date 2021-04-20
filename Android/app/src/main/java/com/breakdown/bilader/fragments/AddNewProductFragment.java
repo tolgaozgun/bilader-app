@@ -54,7 +54,7 @@ public class AddNewProductFragment extends Fragment {
                 priceText = price.getText().toString();
                 titleText = title.getText().toString();
                 descriptionText = description.getText().toString();
-                newProduct = new Product("", titleText, descriptionText, Double.parseDouble(priceText),  currentUser, false);
+                newProduct = new Product("", titleText, descriptionText, Double.parseDouble(priceText),  currentUser, false, "7");
                 Intent intent  = new Intent(mContext, ProductActivity.class);
                 intent.putExtra("product", newProduct);
             }

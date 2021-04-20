@@ -1,11 +1,15 @@
 package com.breakdown.bilader.controllers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.R;
@@ -65,7 +69,45 @@ public class ProductActivity extends Activity {
                 //TODO
             }
         });
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
 
+        String userId = "CURRENT_STRING_ID";
+
+        if ( currentProduct.getSeller().getUserId().equals( userId) ) {
+            getMenuInflater().inflate( R.menu.second_menu, menu );
+        }
+        else {
+            getMenuInflater().inflate( R.menu.first_menu, menu );
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( @NonNull MenuItem item ) {
+        int id;
+        Intent newIntent;
+
+        id = item.getItemId();
+
+        if ( id == R.id.reportMenu) {
+
+            newIntent = new Intent ( ProductActivity.this, ReportActivity.class);
+            startActivity( newIntent);
+            //TODO
+
+        }
+        else if ( id == R.id.editMenu) {
+
+            newIntent = new Intent ( ProductActivity.this, EditProductActivity.class);
+            startActivity( newIntent);
+            //TODO
+        }
+        else if ( id == R.id.removeMenu) {
+            //TODO
+        }
+        return true;
     }
 }
