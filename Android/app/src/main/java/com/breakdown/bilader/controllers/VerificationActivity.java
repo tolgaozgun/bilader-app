@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class VerificationActivity extends Activity {
     /**
-     * Verification kısmında 4 digit sayı girilen yer için external library
+     * Verification kısmında 6 digit sayı girilen yer için external library
      * kullandım. Hangi commandleri olduğu burada yazılı:
      * https://github.com/raycoarana/material-code-input
      */
@@ -40,7 +40,7 @@ public class VerificationActivity extends Activity {
 
         Intent intent;
         intent = getIntent();
-
+      
         // resend button here
         resendButton = findViewById( R.id.button_verification_code_resend );
 
@@ -49,11 +49,8 @@ public class VerificationActivity extends Activity {
         resetButton
                 =findViewById( R.id.button_verification_submit );
 
-        if ( intent != null && intent.hasExtra( "email" ) ) {
-                 }
 
-
-        resetButton.setOnClickListener( new View.OnClickListener() {
+           resetButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
                 sendRequest();
@@ -73,7 +70,8 @@ public class VerificationActivity extends Activity {
         }
 
         if ( code.length() < 6 ) {
-            Toast.makeText( this, "Code cannot be less than 6 digits!", Toast.LENGTH_SHORT ).show();
+            Toast.makeText( this, "Code cannot be less than 6 digits!",
+                    Toast.LENGTH_SHORT ).show();
             return;
         }
 
@@ -85,9 +83,12 @@ public class VerificationActivity extends Activity {
             public void onSuccess( JSONObject object ) {
                 Intent intent;
                 try {
-                    Toast.makeText( VerificationActivity.this, object.getString( "message" ), Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( VerificationActivity.this,
+                            object.getString( "message" ),
+                            Toast.LENGTH_SHORT ).show();
                     if ( object.getBoolean( "success" ) ) {
-                        intent = new Intent( VerificationActivity.this, BiltraderActivity.class );
+                        intent = new Intent( VerificationActivity.this,
+                                BiltraderActivity.class );
                         startActivity( intent );
                     } else {
                         codeView.setEditable( true );
@@ -101,7 +102,8 @@ public class VerificationActivity extends Activity {
 
             @Override
             public void onFail( String message ) {
-                Toast.makeText( VerificationActivity.this, message, Toast.LENGTH_SHORT ).show();
+                Toast.makeText( VerificationActivity.this, message,
+                        Toast.LENGTH_SHORT ).show();
             }
         }, RequestType.REGISTER, params, VerificationActivity.this );
 
