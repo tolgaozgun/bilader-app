@@ -78,6 +78,7 @@ public class LoginHandler extends ProcessHandler {
 				DATABASE_TABLE_USERS, PASSWORD_KEY, PASSWORD_HASH_KEY,
 				PASSWORD_SALT_KEY, EMAIL_KEY );
 		result = checkParams();
+		json.put( "verified-error", false );
 
 		if ( result.isSuccess() ) {
 
@@ -108,6 +109,9 @@ public class LoginHandler extends ProcessHandler {
 			}
 
 		} else {
+			if ( result == ResultCode.NOT_VERIFIED ) {
+				json.put( "verified-error", true );
+			}
 			token = "";
 		}
 

@@ -7,6 +7,7 @@
     android:padding="4dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_followers"
         android:layout_width="match_parent"
         android:layout_height="69dp">
 

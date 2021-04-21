@@ -1,6 +1,7 @@
 package com.breakdown.bilader.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
@@ -29,12 +28,10 @@ import java.util.*;
  * @version 18.04.2021
  */
 
-public class ProductAdapter extends
-                            RecyclerView.Adapter< ProductAdapter.ProductHolder > {
-    private int controller;
-    private Fragment mContext;
-    private Activity mmmContext;
+public class ProductAdapter2 extends RecyclerView.Adapter< ProductAdapter2.ProductHolder2 > {
+    private Context mContext;
     private ArrayList< Product > products;
+    private OnNOteListener onNOteListener;
 
     /**
      * A constructor that holds properties of fragment adapter
@@ -43,30 +40,17 @@ public class ProductAdapter extends
      *                 elements and methods
      * @param products list of the product
      */
-    public ProductAdapter( Fragment mContext, ArrayList< Product > products ) {
+    public ProductAdapter2( Context mContext, ArrayList< Product > products, OnNOteListener onNOteListener ) {
         this.mContext = mContext;
         this.products = products;
-        controller = 0;
+        this.onNOteListener = onNOteListener;
     }
 
-    /**
-     * A constructor that holds properties of fragment adapter
-     *
-     * @param mmmContext is the location of the current activity and its
-     *                   internal elements and methods
-     * @param products   list of the product
-     */
-    public ProductAdapter( Activity mmmContext,
-                           ArrayList< Product > products ) {
-        controller = 1;
-        this.mmmContext = mmmContext;
-        this.products = products;
-    }
 
     /**
      * A class that finds xml id's of layout elements
      */
-    public class ProductHolder extends RecyclerView.ViewHolder {
+    public class ProductHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView imageProductSeller;
         public ImageView imageProduct;
         public TextView textUserName;
@@ -75,24 +59,36 @@ public class ProductAdapter extends
         public CardView cardView;
         public TextView textCategoryName;
 
+        OnNOteListener onNOteListener;
+
         /**
          * A constructor that holds id's of views
          *
          * @param itemView is the references of an item
          */
-        public ProductHolder( @NonNull View itemView ) {
+        public ProductHolder2( @NonNull View itemView, OnNOteListener onNOteListener ) {
             super( itemView );
             textProductName = itemView.findViewById( R.id.text_product_name );
             imageProduct = itemView.findViewById( R.id.image_product );
-            imageProductSeller =
-                    itemView.findViewById( R.id.image_avatar_product_seller );
-            textUserName =
-                    itemView.findViewById( R.id.text_product_seller_name );
+            imageProductSeller = itemView.findViewById( R.id.image_avatar_product_seller );
+            textUserName = itemView.findViewById( R.id.text_product_seller_name );
             cardView = itemView.findViewById( R.id.card_product );
             textProductPrice = itemView.findViewById( R.id.priceProduct );
             textCategoryName = itemView.findViewById( R.id.categoryProduct );
+            this.onNOteListener = onNOteListener;
 
+
+            itemView.setOnClickListener( this );
         }
+
+        @Override
+        public void onClick( View v ) {
+            onNOteListener.onNoteClick( getAdapterPosition() );
+        }
+    }
+
+    public interface OnNOteListener {
+        void onNoteClick(int position);
     }
 
     /**
@@ -105,14 +101,12 @@ public class ProductAdapter extends
      */
     @NonNull
     @Override
-    public ProductHolder onCreateViewHolder( @NonNull ViewGroup parent,
-                                             int viewType ) {
+    public ProductHolder2 onCreateViewHolder( @NonNull ViewGroup parent, int viewType ) {
         View itemView;
 
-        itemView =
-                LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_products, parent, false );
+        itemView = LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_products, parent, false );
 
-        return new ProductHolder( itemView );
+        return new ProductHolder2( itemView, onNOteListener );
     }
 
     /**
@@ -126,8 +120,7 @@ public class ProductAdapter extends
      *                 set.
      */
     @Override
-    public void onBindViewHolder( @NonNull ProductHolder holder,
-                                  int position ) {
+    public void onBindViewHolder( @NonNull ProductHolder2 holder, int position ) {
         Product product;
 
         product = products.get( position );
@@ -136,13 +129,9 @@ public class ProductAdapter extends
         holder.textProductName.setText( product.getTitle() );
         holder.textProductPrice.setText( String.valueOf( product.getPrice() ) );
 
-        if ( controller == 0 ) {
-            holder.imageProduct.setImageResource( mContext.getResources().getIdentifier( product.getPicture(), "drawable", mContext.getActivity().getPackageName() ) );
-            holder.imageProductSeller.setImageResource( mContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mContext.getActivity().getPackageName() ) );
-        } else {
-            holder.imageProduct.setImageResource( mmmContext.getResources().getIdentifier( product.getPicture(), "drawable", mmmContext.getPackageName() ) );
-            holder.imageProductSeller.setImageResource( mmmContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mmmContext.getPackageName() ) );
-        }
+        holder.imageProduct.setImageResource( mContext.getResources().getIdentifier( product.getPicture(), "drawable", mContext.getPackageName() ) );
+        holder.imageProductSeller.setImageResource( mContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mContext.getPackageName() ) );
+
 
         isWishlisted( product.getProductId() );
         holder.cardView.setOnClickListener( new View.OnClickListener() {
@@ -152,11 +141,11 @@ public class ProductAdapter extends
                 Gson gson;
                 String myJson;
 
-                intent = new Intent( mmmContext, ProductActivity.class );
+                intent = new Intent( mContext, ProductActivity.class );
                 gson = new Gson();
                 myJson = gson.toJson( product );
                 intent.putExtra( "product", myJson );
-                mmmContext.startActivity( intent );
+                mContext.startActivity( intent );
             }
         } );
     }
@@ -181,4 +170,5 @@ public class ProductAdapter extends
         // dye the heart if the post is added to the wishlist
 
     }
+
 }

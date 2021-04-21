@@ -40,15 +40,15 @@ public class MyProductsActivity extends Activity {
                 "12" );
 
         Product product1 = new Product( "product_sample", "The Epic of " +
-                "Gilgamesh", "demo1", 120, user1,true );
+                "Gilgamesh", "demo1", 120, user1,true, "1" );
         Product product2 = new Product( "product_sample2", "brand new dress",
-                "demo1", 120, user2,true);
+                "demo1", 120, user2,true, "2");
         Product product3 = new Product( "product_sample3", "basys-3", "demo1"
-                , 120, user3, true);
+                , 120, user3, true, "3");
         Product product4 = new Product( "product_sample", "random", "demo1",
-                120, user4, true);
+                120, user4, true, "4");
         Product product5 = new Product( "product_sample", "random", "demo1",
-                120, user5, false );
+                120, user5, false, "5" );
 
         productList = new ArrayList<>();
         productList.add( product1 );

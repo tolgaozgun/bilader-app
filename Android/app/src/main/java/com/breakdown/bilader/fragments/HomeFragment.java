@@ -1,5 +1,6 @@
 package com.breakdown.bilader.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.ProductAdapter;
+import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
@@ -24,7 +26,7 @@ import java.util.ArrayList;
  * @version 16.04.2021
  */
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment  {
 
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;
@@ -72,17 +74,18 @@ public class HomeFragment extends Fragment {
                 "avatar_female", "12" );
         User user5 = new User( "Tolga Özgün", "mail@mail.com", "avatar_male",
                 "12" );
+
         // sample products for testing
         Product product1 = new Product( "product_sample", "The Epic of " +
-                "Gilgamesh", "demo1", 120, user1 ,false);
+                "Gilgamesh", "demo1", 120, user1 ,false, "10");
         Product product2 = new Product( "product_sample2", "brand new dress",
-                "demo1", 120, user2, false);
+                "demo1", 120, user2, false, "11");
         Product product3 = new Product( "product_sample3", "basys-3", "demo1"
-                , 120, user3, false);
+                , 120, user3, false, "12");
         Product product4 = new Product( "product_sample", "random", "demo1",
-                120, user4,false );
+                120, user4,false, "13" );
         Product product5 = new Product( "product_sample", "random", "demo1",
-                120, user5, false);
+                120, user5, false, "14");
 
 
         productList = new ArrayList<>();
@@ -94,9 +97,10 @@ public class HomeFragment extends Fragment {
         productList.add( product5 );
 
 
-        adapter = new ProductAdapter( this, productList );
+        adapter = new ProductAdapter (getActivity(), productList);
         recyclerView.setAdapter( adapter );
 
         return view;
     }
+
 }

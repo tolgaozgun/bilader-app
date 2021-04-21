@@ -61,8 +61,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/codeInputView" />
 
-    <TextView
-        android:id="@+id/editText_verification_code_resend"
+    <Button
+        android:id="@+id/button_verification_code_resend"
         android:layout_width="93dp"
         android:layout_height="23dp"
         android:layout_marginTop="8dp"
@@ -76,6 +76,7 @@
         android:inputType="textPersonName"
         android:padding="3dp"
         android:textColorHint="@color/bilader_blue"
+        android:background="@android:color/transparent"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_verification_submit"
