@@ -41,6 +41,7 @@ public class MyProfileFragment extends Fragment {
     private Button followingButton;
     private Button settingsButton;
     private Button logOutButton;
+    private ProgressDialog loadingBar;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -154,12 +155,16 @@ public class MyProfileFragment extends Fragment {
                 //start the second activity
                 startActivity( intent );
             }
-
         } );
     }
 
     private void logOut() {
         // TODO: log user out
+
+        loadingBar.setTitle( "log out" );
+        loadingBar.setMessage( "Logging out!" );
+        loadingBar.setCanceledOnTouchOutside( false );
+        loadingBar.show();
 
         Intent intent = new Intent( context, LoginActivity.class );
         startActivity( intent );
