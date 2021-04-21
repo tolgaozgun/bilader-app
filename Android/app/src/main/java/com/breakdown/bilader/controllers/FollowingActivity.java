@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.FollowersAdapter;
-import com.breakdown.bilader.adapters.FollowersAdapter;
 import com.breakdown.bilader.models.*;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+
+import static com.breakdown.bilader.controllers.FollowersActivity.showUsers;
 
 /**
  * A class that makes connection between its layout and data
@@ -87,5 +88,15 @@ public class FollowingActivity extends AppCompatActivity {
         adapter = new FollowersAdapter( this, followingList );
         recyclerView.setAdapter( adapter );
 
+        getFollowings();
+
     }
+    
+    public void getFollowings() {
+        //TODO
+        
+        showUsers();
+    }
+
+
 }

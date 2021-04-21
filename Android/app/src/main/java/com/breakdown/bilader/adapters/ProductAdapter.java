@@ -142,6 +142,7 @@ public class ProductAdapter extends
         }
 
         isWishlisted( product.getProductId() );
+
         holder.cardView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
@@ -156,6 +157,7 @@ public class ProductAdapter extends
                 mmmContext.startActivity( intent );
             }
         } );
+
     }
 
     /**
