@@ -11,15 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.ProductActivity;
-import com.breakdown.bilader.models.*;
+import com.breakdown.bilader.models.Product;
 import com.google.gson.Gson;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * The fragment class that makes connection between UI component and data source
@@ -131,11 +130,9 @@ public class ProductAdapter extends
         Product product;
 
         product = products.get( position );
-
         holder.textUserName.setText( product.getSeller().getUserName() );
         holder.textProductName.setText( product.getTitle() );
         holder.textProductPrice.setText( String.valueOf( product.getPrice() ) );
-
         if ( controller == 0 ) {
             holder.imageProduct.setImageResource( mContext.getResources().getIdentifier( product.getPicture(), "drawable", mContext.getActivity().getPackageName() ) );
             holder.imageProductSeller.setImageResource( mContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mContext.getActivity().getPackageName() ) );
