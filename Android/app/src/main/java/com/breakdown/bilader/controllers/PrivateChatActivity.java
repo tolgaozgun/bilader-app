@@ -26,8 +26,12 @@ public class PrivateChatActivity extends Activity {
         if (intent != null) {
 
         }
+
+        String senderId = "12";
         MessageInput inputView = findViewById( R.id.input );
         MessagesList messagesList = findViewById( R.id.messagesList );
+        MessagesListAdapter<MessageWrapper> adapter = new MessagesListAdapter<>(senderId, null);
+        messagesList.setAdapter(adapter);
         inputView.setInputListener(new MessageInput.InputListener() {
             @Override
             public boolean onSubmit(CharSequence input) {
@@ -37,28 +41,17 @@ public class PrivateChatActivity extends Activity {
             }
         });
 
-        String senderId = "12";
-        MessagesListAdapter<MessageWrapper> adapter = new MessagesListAdapter<>(senderId, null);
-        messagesList.setAdapter(adapter);
-        inputView.setInputListener(new MessageInput.InputListener() {
-            @Override
-            public boolean onSubmit(CharSequence input) {
-                //validate and send message
-               // adapter.addToStart(input, true);
-                return true;
-            }
-        });
-
-        
     }
-
 
     //TODO
     private void sendMessage( String message ) {
-        Message textMessage = new Message(null,null,null,null);
+        Message textMessage = new Message(null, ( long ) 0,null,null);
     }
 
 
+    private void addMessages ( Message message) {
+       // adapter.addToStart (new MessageWrapper(  message ),true);
+    }
 
  
 }
