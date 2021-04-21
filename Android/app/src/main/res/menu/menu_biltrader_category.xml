@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_category1"
+        android:title="Category 1"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_category2"
+        android:title="Category 2"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_category3"
+        android:title="Category 3"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_category4"
+        android:title="Category 4"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_category5"
+        android:title="Category 5"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_category6"
+        android:title="Category 6"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_category7"
+        android:title="Category 7"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_category8"
+        android:title="Category 8"
+        app:showAsAction="never"/>
+</menu>

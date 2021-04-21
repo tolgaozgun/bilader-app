@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/sort_alphabetically"
+        android:title="A - Z"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/sort_reverse_alphabetically"
+        android:title="Z - A"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/sort_price_low_to_high"
+        android:title="Price Low to High"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/sort_price_high_to_low"
+        android:title="Price High to Low"
+        app:showAsAction="never"/>
+
+</menu>
