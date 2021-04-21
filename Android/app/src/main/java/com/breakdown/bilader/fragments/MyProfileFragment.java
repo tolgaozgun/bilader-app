@@ -113,7 +113,7 @@ public class MyProfileFragment extends Fragment {
              */
             public void onClick( View view ) {
                 //create an Intent object
-                Intent intent = new Intent( context, OthersProfileActivity.class );
+                Intent intent = new Intent( context, FollowingActivity.class );
                 //start the second activity
                 startActivity( intent );
             }

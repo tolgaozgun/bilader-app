@@ -11,13 +11,12 @@ public class Message {
 
     /**
      * Constructor
-     *
-     * @param date        Date instance of the message date.
+     *  @param date        Date instance of the message date.
      * @param messageTime long value of message time.
      * @param sentBy      User instance of sender.
      * @param content     String value of the content.
      */
-    public Message( Date date, long messageTime, User sentBy, String content ) {
+    public Message(Date date, Long messageTime, User sentBy, String content ) {
         this.messageTime = messageTime;
         this.sentBy = sentBy;
         this.date = date;
