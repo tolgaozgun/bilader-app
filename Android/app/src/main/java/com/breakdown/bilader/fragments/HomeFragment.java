@@ -36,6 +36,7 @@ public class HomeFragment extends Fragment  {
     private ArrayList< Product > productList;
     private ProductAdapter adapter;
     private ImageView sortMenuImage;
+    private ImageView categoryMenuImage;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -133,6 +134,29 @@ public class HomeFragment extends Fragment  {
                 });
 
                 sortMenu.show();
+            }
+        });
+
+        categoryMenuImage = view.findViewById( R.id.imageView );
+        categoryMenuImage.setOnClickListener( new View.OnClickListener() {
+
+            public void onClick( View view ) {
+
+                PopupMenu categoryMenu = new PopupMenu( getActivity(), view );
+
+                categoryMenu.getMenuInflater().inflate( R.menu.menu_biltrader_category, categoryMenu.getMenu() );
+                categoryMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick( MenuItem item ) {
+                        /*if ( item.getItemId() == R.id.category1 ) {
+                            // TODO: All the categories
+                        }*/
+                        return false;
+                    }
+                });
+
+                categoryMenu.show();
             }
         });
 
