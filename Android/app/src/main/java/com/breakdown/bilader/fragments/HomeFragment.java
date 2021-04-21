@@ -1,10 +1,15 @@
 package com.breakdown.bilader.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.ProductAdapter;
-import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
@@ -31,6 +35,7 @@ public class HomeFragment extends Fragment  {
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;
     private ProductAdapter adapter;
+    private ImageView sortMenuImage;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -96,11 +101,41 @@ public class HomeFragment extends Fragment  {
         productList.add( product4 );
         productList.add( product5 );
 
-
         adapter = new ProductAdapter (getActivity(), productList);
         recyclerView.setAdapter( adapter );
 
+        sortMenuImage = view.findViewById( R.id.imageView2 );
+        sortMenuImage.setOnClickListener( new View.OnClickListener() {
+
+            public void onClick( View view ) {
+
+                PopupMenu sortMenu = new PopupMenu( getActivity(), view );
+
+                sortMenu.getMenuInflater().inflate( R.menu.menu_biltrader_sort, sortMenu.getMenu() );
+                sortMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick( MenuItem item ) {
+                        /*if ( item.getItemId() == R.id.sort_alphabetically ) {
+                            // TODO
+                        }
+                        if ( item.getItemId() == R.id.sort_reverse_alphabetically ) {
+                            // TODO
+                        }
+                        if ( item.getItemId() == R.id.sort_price_low_to_high ) {
+                            // TODO
+                        }
+                        if ( item.getItemId() == R.id.sort_price_high_to_low ) {
+                            // TODO
+                        }*/
+                        return false;
+                    }
+                });
+
+                sortMenu.show();
+            }
+        });
+
         return view;
     }
-
 }
