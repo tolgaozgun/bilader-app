@@ -1,6 +1,12 @@
 package com.breakdown.bilader.fragments;
 
 import android.app.Activity;
+<<<<<<< Updated upstream
+=======
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+>>>>>>> Stashed changes
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -121,10 +127,26 @@ public class MyProfileFragment extends Fragment {
              * @param view is the view that was clicked
              */
             public void onClick( View view ) {
+<<<<<<< Updated upstream
                 // TODO: log out
-            }
+=======
+                AlertDialog.Builder builder = new AlertDialog.Builder( context );
+                builder.setTitle( "Confirmation!" ).
+                        setMessage( "Are you sure you want to logout?" );
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick( DialogInterface dialog, int id ) {
+                                logOut();
+                            }
+                        });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick( DialogInterface dialog, int id ) { dialog.cancel(); }
+                        });
 
-        } );
+                AlertDialog logOutAlert = builder.create();
+                logOutAlert.show();
+>>>>>>> Stashed changes
+            }
+        });
 
         settingsButton = context.findViewById( R.id.settingButton );
         settingsButton.setOnClickListener( new View.OnClickListener() {
@@ -142,4 +164,18 @@ public class MyProfileFragment extends Fragment {
         } );
     }
 
+<<<<<<< Updated upstream
+=======
+    private void logOut() {
+        // TODO: log user out
+
+        loadingBar.setTitle( "log out" );
+        loadingBar.setMessage( "Logging out!" );
+        loadingBar.setCanceledOnTouchOutside( false );
+        loadingBar.show();
+
+        Intent intent = new Intent( context, LoginActivity.class );
+        startActivity( intent );
+    }
+>>>>>>> Stashed changes
 }
