@@ -1,7 +1,6 @@
 package com.breakdown.bilader.controllers;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 import com.google.gson.Gson;
@@ -32,7 +30,7 @@ public class EditProductActivity extends Activity {
         Product editedProduct;
 
         //temporary values
-        editedProduct = new Product(new Category("Clothes",12), new User("Korhan","mail","avatar_male","12"));
+        editedProduct = new Product( new User("Korhan","mail","avatar_male","12"), false ,"2");
 
         editButton = findViewById(R.id.editButton);
         editTitle = findViewById(R.id.editTitle);
