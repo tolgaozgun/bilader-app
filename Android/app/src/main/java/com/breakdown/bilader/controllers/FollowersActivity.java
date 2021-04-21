@@ -89,5 +89,20 @@ public class FollowersActivity extends AppCompatActivity {
         adapter = new FollowersAdapter( this, followerList );
         recyclerView.setAdapter( adapter );
 
+        getFollowers();
+
+    }
+
+    public void getFollowers() {
+        //TODO
+
+        showUsers();
+    }
+
+    public static void showUsers() {
+        //TODO
+        //static?
+
+        //FollowersAdapter
     }
 }

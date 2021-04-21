@@ -1,5 +1,6 @@
 package com.breakdown.bilader.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.ProductAdapter;
+import com.breakdown.bilader.adapters.ProductAdapter2;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 
 public class WishlistFragment extends Fragment {
 
+    private Activity context;
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;
     private ProductAdapter adapter;
@@ -52,6 +55,8 @@ public class WishlistFragment extends Fragment {
                               @Nullable Bundle savedInstanceState ) {
         View view;
         RecyclerView recyclerView;
+
+        context = getActivity();
 
         view = inflater.inflate( R.layout.fragment_wishlist, container, false );
 
@@ -92,7 +97,7 @@ public class WishlistFragment extends Fragment {
         productList.add( product4 );
         productList.add( product5 );
 
-        adapter = new ProductAdapter( this, productList );
+        adapter = new ProductAdapter( context, productList );
         recyclerView.setAdapter( adapter );
 
         return view;

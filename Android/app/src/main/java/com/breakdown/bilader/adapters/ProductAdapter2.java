@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
@@ -29,7 +30,7 @@ import java.util.*;
  */
 
 public class ProductAdapter2 extends RecyclerView.Adapter< ProductAdapter2.ProductHolder2 > {
-    private Context mContext;
+    private Fragment mContext;
     private ArrayList< Product > products;
     private OnNOteListener onNOteListener;
 
@@ -40,7 +41,7 @@ public class ProductAdapter2 extends RecyclerView.Adapter< ProductAdapter2.Produ
      *                 elements and methods
      * @param products list of the product
      */
-    public ProductAdapter2( Context mContext, ArrayList< Product > products, OnNOteListener onNOteListener ) {
+    public ProductAdapter2( Fragment mContext, ArrayList< Product > products, OnNOteListener onNOteListener ) {
         this.mContext = mContext;
         this.products = products;
         this.onNOteListener = onNOteListener;
@@ -129,8 +130,8 @@ public class ProductAdapter2 extends RecyclerView.Adapter< ProductAdapter2.Produ
         holder.textProductName.setText( product.getTitle() );
         holder.textProductPrice.setText( String.valueOf( product.getPrice() ) );
 
-        holder.imageProduct.setImageResource( mContext.getResources().getIdentifier( product.getPicture(), "drawable", mContext.getPackageName() ) );
-        holder.imageProductSeller.setImageResource( mContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mContext.getPackageName() ) );
+        holder.imageProduct.setImageResource( mContext.getResources().getIdentifier( product.getPicture(), "drawable", mContext.getActivity().getPackageName() ) );
+        holder.imageProductSeller.setImageResource( mContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mContext.getActivity().getPackageName() ) );
 
 
         isWishlisted( product.getProductId() );
@@ -141,7 +142,7 @@ public class ProductAdapter2 extends RecyclerView.Adapter< ProductAdapter2.Produ
                 Gson gson;
                 String myJson;
 
-                intent = new Intent( mContext, ProductActivity.class );
+                intent = new Intent( mContext.getActivity(), ProductActivity.class );
                 gson = new Gson();
                 myJson = gson.toJson( product );
                 intent.putExtra( "product", myJson );
