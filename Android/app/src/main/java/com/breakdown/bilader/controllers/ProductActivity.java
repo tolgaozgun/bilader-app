@@ -16,8 +16,6 @@ import com.breakdown.bilader.R;
 import com.breakdown.bilader.models.Product;
 import com.google.gson.Gson;
 
-import java.lang.reflect.Type;
-
 public class ProductActivity extends Activity {
 
     private Button settingsButton;
@@ -25,7 +23,7 @@ public class ProductActivity extends Activity {
     private Button directChatButton;
     private TextView productName;
     private TextView productDescription;
-    // private TextView category;
+    private TextView category;
     private TextView ownerName;
     private TextView price;
     private Product currentProduct;

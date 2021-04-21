@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+     <item
+         android:title="Book"
+         android:id="@+id/book"/>
+    <item
+        android:title="Electronic"
+        android:id="@+id/electronic"/>
+    <item
+        android:title="Clothes"
+        android:id="@+id/clothes"/>
+    <item
+        android:title="Hoby"
+        android:id="@+id/hoby"/>
+    <item
+        android:title="Others"
+        android:id="@+id/others"/>
+
+
+
+</menu>

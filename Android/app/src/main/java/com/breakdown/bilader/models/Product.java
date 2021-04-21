@@ -1,8 +1,5 @@
 package com.breakdown.bilader.models;
 
-import java.io.Serializable;
-import java.security.ProtectionDomain;
-
 public class Product {
 
     private String picture;
@@ -16,9 +13,11 @@ public class Product {
     // CATEGORY IS ERASED
 
 
-    public Product( Category category, User seller ) {
-        this.category = category;
+
+    public Product( User seller, boolean isSold, String productId ) {
+        this.isSold = false;
         this.seller = seller;
+        this.productId = productId;
     }
 
     /**
@@ -99,6 +98,7 @@ public class Product {
         this.picture = picture;
     }
 
+
     public void setTitle( String title ) {
         this.title = title;
     }
@@ -110,4 +110,11 @@ public class Product {
     public void setPrice( double price ) {
         this.price = price;
     }
+
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+
 }
