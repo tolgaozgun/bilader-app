@@ -60,9 +60,10 @@
         android:layout_marginTop="4dp"
         android:foregroundGravity="center"
         android:gravity="center"
-        android:paddingtop="3dp"
         android:text="Reviews"
         android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/image_report_star"
         app:layout_constraintTop_toBottomOf="@+id/text_report_user_name" />
 
@@ -91,12 +92,12 @@
         android:id="@+id/button_report_submit"
         android:layout_width="83dp"
         android:layout_height="27dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginRight="80dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/verification_submit_button"
         android:hint="@string/verification_submit_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_report_typing_place" />
 
 
