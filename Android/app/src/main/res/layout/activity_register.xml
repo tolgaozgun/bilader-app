@@ -20,39 +20,13 @@
 
     <ImageView
         android:id="@+id/image_avatar_no_gender"
-        android:layout_width="74dp"
-        android:layout_height="82dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:foregroundGravity="center"
-        android:src="@drawable/avatar_no_gender"
-        app:layout_constraintEnd_toStartOf="@+id/image_avatar_female"
-        app:layout_constraintHorizontal_bias="0.813"
-        app:layout_constraintStart_toEndOf="@+id/image_avatar_male"
-        app:layout_constraintTop_toBottomOf="@+id/text_options_declared" />
-
-    <ImageView
-        android:id="@+id/image_avatar_male"
-        android:layout_width="74dp"
-        android:layout_height="82dp"
+        android:layout_width="83dp"
+        android:layout_height="93dp"
         android:layout_marginTop="16dp"
         android:foregroundGravity="center"
-        android:src="@drawable/avatar_male"
+        android:src="@drawable/upload_avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.115"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_options_declared" />
-
-    <ImageView
-        android:id="@+id/image_avatar_female"
-        android:layout_width="74dp"
-        android:layout_height="82dp"
-        android:layout_marginTop="16dp"
-        android:foregroundGravity="center"
-        android:src="@drawable/avatar_female"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_options_declared" />
 
@@ -62,10 +36,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/roboto_bold"
-        android:text="@string/avatar_choice_declared"
+        android:text="Add your profile image"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_password_again_register" />
 
@@ -73,7 +47,7 @@
         android:id="@+id/button_sign_up_register"
         android:layout_width="121dp"
         android:layout_height="30dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/sign_up_register"
         android:fontFamily="@font/roboto_bold"
         android:gravity="center"
@@ -81,7 +55,6 @@
         android:padding="2dp"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_avatar_no_gender" />
 
