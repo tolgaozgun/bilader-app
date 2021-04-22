@@ -39,13 +39,13 @@ public class FollowersHandler extends ProcessHandler {
 			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}
 
-		if ( !checkToken() ) {
-			return ResultCode.INVALID_SESSION;
-		}
-
 		// Checks if the current user is not verified.
 		if ( !isVerified() ) {
 			return ResultCode.NOT_VERIFIED;
+		}
+
+		if ( !checkToken() ) {
+			return ResultCode.INVALID_SESSION;
 		}
 
 		if ( adapter.doesExist( DATABASE_TABLE, params ) ) {

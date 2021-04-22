@@ -39,7 +39,7 @@ public abstract class ProcessHandler {
 		mailParam.put( USER_ID_KEY, params.get( USER_ID_KEY ) );
 		params.remove( TOKEN_KEY );
 		params.remove( USER_ID_KEY );
-		return adapter.doesExist( DATABASE_TABLE_SESSIONS, params );
+		return adapter.doesExist( DATABASE_TABLE_SESSIONS, mailParam );
 	}
 
 	protected boolean isVerified() throws ClassNotFoundException, SQLException {
