@@ -63,22 +63,22 @@ public class AddNewProductFragment extends Fragment {
                     public boolean onMenuItemClick(MenuItem item) {
                         if ( item.getItemId() == R.id.book) {
                             newProduct.setCategory( new Category("0") );
-                            categoryButton.setText("Book");
+                            categoryButton.setText("Books");
                             return true;
                         }
                         else if (  item.getItemId() == R.id.electronic) {
                             newProduct.setCategory(new Category("1") );
-                            categoryButton.setText("Electronıc");
+                            categoryButton.setText("Electronics");
                             return true;
                         }
                         else if (  item.getItemId() == R.id.clothes ) {
                             newProduct.setCategory(new Category("2"));
-                            categoryButton.setText("Clothes");
+                            categoryButton.setText("Clothing");
                             return true;
                         }
                         else if (  item.getItemId() == R.id.hoby) {
                             newProduct.setCategory(new Category("3"));
-                            categoryButton.setText("Hoby");
+                            categoryButton.setText("Hobby");
                             return true;
                         }
                         else if (  item.getItemId() == R.id.others ) {
