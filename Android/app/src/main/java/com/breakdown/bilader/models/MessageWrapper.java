@@ -3,7 +3,11 @@ package com.breakdown.bilader.models;
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.commons.models.IUser;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class MessageWrapper implements IMessage {
     private Message message;
@@ -29,6 +33,6 @@ public class MessageWrapper implements IMessage {
 
     @Override
     public Date getCreatedAt() {
-        return null;
+        return new Date ( String.valueOf( message.getDate() ) );
     }
 }
