@@ -52,7 +52,6 @@
         android:src="@drawable/ic_baseline_star_24"
         tools:ignore="ContentDescription" />
 
-
     <TextView
         android:id="@+id/text_report_review_numbers"
         android:layout_width="60dp"

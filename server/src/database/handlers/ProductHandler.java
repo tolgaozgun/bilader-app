@@ -23,6 +23,8 @@ public class ProductHandler extends ProcessHandler {
 		super( RequestAdapter.convertParameters( params, KEYS,
 				OPTIONAL_KEYS, true ) );
 	}
+	
+	//TODO: Checkparams
 
 	@Override
 	public JSONObject getResult() throws ServletException, IOException,
