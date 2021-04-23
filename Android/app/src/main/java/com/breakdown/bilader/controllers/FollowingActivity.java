@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.adapters.FollowersAdapter;
+import com.breakdown.bilader.adapters.UserAdapter;
 import com.breakdown.bilader.models.*;
 
 import androidx.annotation.Nullable;
@@ -26,7 +26,7 @@ import static com.breakdown.bilader.controllers.FollowersActivity.showUsers;
 public class FollowingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList< User > followingList;
-    private FollowersAdapter adapter;
+    private UserAdapter adapter;
 
     /**
      * this is the method where most initialization made such as UI and widgets
@@ -85,7 +85,7 @@ public class FollowingActivity extends AppCompatActivity {
         followingList.add( user11 );
         followingList.add( user12 );
 
-        adapter = new FollowersAdapter( this, followingList );
+        adapter = new UserAdapter( this, followingList );
         recyclerView.setAdapter( adapter );
 
         getFollowings();
