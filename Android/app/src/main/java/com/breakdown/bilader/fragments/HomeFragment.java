@@ -171,7 +171,7 @@ public class HomeFragment extends Fragment  {
                         if ( item.getItemId() == R.id.menu_book ) {
                             ArrayList< Product > bookList = new ArrayList<>();
                             for ( Product product : productList ) {
-                                if ( product.getCategory().equals( new Category("0") ) ) {
+                                if ( product.getCategory().toString().equals( "Books" ) ) {
                                     bookList.add( product );
                                 }
                             }
@@ -181,7 +181,7 @@ public class HomeFragment extends Fragment  {
                         if ( item.getItemId() == R.id.menu_clothing ) {
                             ArrayList< Product > clothingList = new ArrayList<>();
                             for ( Product product : productList ) {
-                                if ( product.getCategory().equals( new Category("2") ) ) {
+                                if ( product.getCategory().toString().equals( "Clothing" ) ) {
                                     clothingList.add( product );
                                 }
                             }
@@ -191,7 +191,7 @@ public class HomeFragment extends Fragment  {
                         if ( item.getItemId() == R.id.menu_electronics ) {
                             ArrayList< Product > electronicsList = new ArrayList<>();
                             for ( Product product : productList ) {
-                                if ( product.getCategory().equals( new Category("1") ) ) {
+                                if ( product.getCategory().toString().equals( "Electronics" ) ) {
                                     electronicsList.add( product );
                                 }
                             }
@@ -201,7 +201,7 @@ public class HomeFragment extends Fragment  {
                         if ( item.getItemId() == R.id.menu_hobby ) {
                             ArrayList< Product > hobbyList = new ArrayList<>();
                             for ( Product product : productList ) {
-                                if ( product.getCategory().equals( new Category("3") ) ) {
+                                if ( product.getCategory().toString().equals( "Hobby Items" ) ) {
                                     hobbyList.add( product );
                                 }
                             }
@@ -211,7 +211,7 @@ public class HomeFragment extends Fragment  {
                         if ( item.getItemId() == R.id.menu_other ) {
                             ArrayList< Product > otherList = new ArrayList<>();
                             for ( Product product : productList ) {
-                                if ( product.getCategory().equals( new Category("4") ) ) {
+                                if ( product.getCategory().toString().equals( "Other" ) ) {
                                     otherList.add( product );
                                 }
                             }
