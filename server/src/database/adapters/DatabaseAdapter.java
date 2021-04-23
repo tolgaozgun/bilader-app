@@ -47,21 +47,24 @@ public class DatabaseAdapter {
 		}
 	}
 
-	/**
-	 * Checks if the provided table contains given parameters in MySQL Server.
-	 * 
-	 * @param tableName String value of table name.
-	 * @param params    String of column names mapped with their values.
-	 * @return Boolean whether there is a row with provided parameters
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
 	public boolean doesExist( String tableName, Map< String, String > params )
+			throws SQLException, ClassNotFoundException {
+		return doesExist( tableName, params, "AND" );
+	}
+
+	public boolean doesExist( String tableName, Map< String, String > params,
+			String additionParam ) throws SQLException, ClassNotFoundException {
+		return doesExist( tableName, params, additionParam, null, null );
+	}
+
+	public boolean doesExist( String tableName, Map< String, String > params,
+			String additionParam, Map< String, String > anotherParams,
+			String secondAddition )
 			throws SQLException, ClassNotFoundException {
 		StringBuffer sql;
 		PreparedStatement statement;
 		ResultSet resultSet;
+		String secondWhere;
 		int count;
 
 		if ( tableName == null | params == null ) {
@@ -71,8 +74,12 @@ public class DatabaseAdapter {
 		count = 0;
 		sql = new StringBuffer(
 				"SELECT COUNT(*) AS COUNT FROM " + tableName + " " );
-		sql.append( createWhereString( params ) );
-
+		sql.append( createWhereString( params, additionParam ) + " " );
+		if ( anotherParams != null && secondAddition != null ) {
+			secondWhere = createWhereString( anotherParams, secondAddition );
+			secondWhere = secondWhere.replaceAll( "WHERE", "AND" );
+			sql.append( secondWhere );
+		}
 		connect();
 		statement = connection.prepareStatement( sql.toString() );
 		resultSet = statement.executeQuery();
@@ -185,14 +192,23 @@ public class DatabaseAdapter {
 
 	}
 
-	/**
-	 * Creates the String with the "WHERE" syntax for SQL requests. Uses given
-	 * Map for appending the values.
-	 * 
-	 * @param params String of column names mapped with their values.
-	 * @return
-	 */
 	private String createWhereString( Map< String, String > params ) {
+		return createWhereString( params, null, null, "AND" );
+	}
+
+	private String createWhereString( Map< String, String > params,
+			String additionParam ) {
+		return createWhereString( params, null, null, additionParam );
+	}
+
+	private String createWhereString( Map< String, String > params,
+			Map< String, String > compare, CompareType type ) {
+		return createWhereString( params, compare, type, "AND" );
+	}
+
+	private String createWhereString( Map< String, String > params,
+			Map< String, String > compare, CompareType type,
+			String additionParam ) {
 		StringBuffer sql;
 		String request;
 
@@ -202,13 +218,24 @@ public class DatabaseAdapter {
 
 		sql = new StringBuffer( "WHERE (" );
 		for ( String param : params.keySet() ) {
-			sql.append( param + "='" + params.get( param ) + "' AND " );
+			sql.append( param + "='" + params.get( param ) + "' "
+					+ additionParam + " " );
 		}
 
-		if ( params.keySet().size() > 0 ) {
-			request = sql.substring( 0, sql.length() - 5 ) + ")";
+		if ( compare != null && type != null ) {
+			for ( String param : compare.keySet() ) {
+				sql.append( param + type.getOperator() + "'"
+						+ compare.get( param ) + "' " + additionParam + " " );
+			}
+		}
+
+		if ( params.keySet().size() > 0
+				|| ( compare != null && compare.keySet().size() > 0 ) ) {
+			request = sql.substring( 0,
+					sql.length() - ( 2 + additionParam.length() ) ) + ")";
 		} else {
-			request = sql.substring( 0, sql.length() - 7 );
+			request = sql.substring( 0,
+					sql.length() - ( 4 + additionParam.length() ) );
 		}
 		return request;
 	}
@@ -264,23 +291,14 @@ public class DatabaseAdapter {
 		disconnect();
 	}
 
-	/**
-	 * Returns the values with the requested column names for the rows in given
-	 * table with the given parameters in MySQL Server.
-	 * 
-	 * For example, gathering user id from the users table with a provided email
-	 * address.
-	 * 
-	 * @param tableName String value of table name.
-	 * @param wanted    String array of column names for the requested values.
-	 * @param params    String of column names mapped with their values.
-	 * @return Map of requested values.
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
 	public Map< Integer, Object[] > select( String tableName, String[] wanted,
 			Map< String, String > params )
+			throws SQLException, ClassNotFoundException {
+		return select( tableName, wanted, params, "AND" );
+	}
+
+	public Map< Integer, Object[] > select( String tableName, String[] wanted,
+			Map< String, String > params, String additionParam )
 			throws SQLException, ClassNotFoundException {
 		StringBuffer sql;
 		PreparedStatement statement;
@@ -293,7 +311,41 @@ public class DatabaseAdapter {
 		sql = new StringBuffer();
 		sql.append( createSelectString( wanted ) + " " );
 		sql.append( "FROM " + tableName + " " );
-		sql.append( createWhereString( params ) );
+		sql.append( createWhereString( params, additionParam ) );
+		connect();
+		statement = connection.prepareStatement( sql.toString() );
+		resultSet = statement.executeQuery();
+		j = 0;
+		while ( resultSet.next() ) {
+			iteration = new Object[ wanted.length ];
+			for ( int i = 0; i < wanted.length; i++ ) {
+				iteration[ i ] = resultSet.getObject( wanted[ i ] );
+			}
+			result.put( j, iteration );
+			j++;
+		}
+
+		resultSet.close();
+		disconnect();
+
+		return result;
+	}
+
+	public Map< Integer, Object[] > select( String tableName, String[] wanted,
+			Map< String, String > params, Map< String, String > compare,
+			CompareType type ) throws SQLException, ClassNotFoundException {
+		StringBuffer sql;
+		PreparedStatement statement;
+		ResultSet resultSet;
+		Map< Integer, Object[] > result;
+		Object[] iteration;
+		int j;
+
+		result = new HashMap< Integer, Object[] >();
+		sql = new StringBuffer();
+		sql.append( createSelectString( wanted ) + " " );
+		sql.append( "FROM " + tableName + " " );
+		sql.append( createWhereString( params, compare, type ) );
 		connect();
 		statement = connection.prepareStatement( sql.toString() );
 		resultSet = statement.executeQuery();
