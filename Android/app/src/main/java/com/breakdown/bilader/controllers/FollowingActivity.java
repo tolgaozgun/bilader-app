@@ -93,7 +93,7 @@ public class FollowingActivity extends AppCompatActivity {
     
     public void getFollowings() {
         //TODO
-        
+
     }
 
 

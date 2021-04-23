@@ -31,7 +31,7 @@
 
         <service
             android:name=".adapters.NotificationService"
-            android:exported="true" />
+            android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"
