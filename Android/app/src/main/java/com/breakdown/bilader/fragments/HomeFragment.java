@@ -176,7 +176,6 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             Collections.copy( productList, bookList );
-                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_clothing ) {
                             ArrayList< Product > clothingList = new ArrayList<>();
@@ -186,7 +185,6 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             Collections.copy( productList, clothingList );
-                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_electronics ) {
                             ArrayList< Product > electronicsList = new ArrayList<>();
@@ -196,7 +194,6 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             Collections.copy( productList, electronicsList );
-                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_hobby ) {
                             ArrayList< Product > hobbyList = new ArrayList<>();
@@ -206,7 +203,6 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             Collections.copy( productList, hobbyList );
-                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_other ) {
                             ArrayList< Product > otherList = new ArrayList<>();
@@ -216,8 +212,8 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             Collections.copy( productList, otherList );
-                            adapter.notifyDataSetChanged();
                         }
+                        adapter.notifyDataSetChanged();
                         return false;
                     }
                 });
