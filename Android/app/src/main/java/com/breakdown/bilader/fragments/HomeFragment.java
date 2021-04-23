@@ -169,7 +169,6 @@ public class HomeFragment extends Fragment  {
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
                         ArrayList< Product > newList = new ArrayList<>();
-                        ArrayList< Product > fullList = new ArrayList<>( productList );
 
                         if ( item.getItemId() == R.id.menu_book ) {
                             for ( Product product : productList ) {
@@ -181,7 +180,6 @@ public class HomeFragment extends Fragment  {
                             for ( Product book: newList ) {
                                 productList.add( book );
                             }
-                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_clothing ) {
                             for ( Product product : productList ) {
@@ -193,7 +191,6 @@ public class HomeFragment extends Fragment  {
                             for ( Product clothing: newList ) {
                                 productList.add( clothing );
                             }
-                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_electronics ) {
                             for ( Product product : productList ) {
@@ -205,7 +202,6 @@ public class HomeFragment extends Fragment  {
                             for ( Product electronics: newList ) {
                                 productList.add( electronics );
                             }
-                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_hobby ) {
                             ArrayList< Product > hobbyList = new ArrayList<>();
@@ -218,7 +214,6 @@ public class HomeFragment extends Fragment  {
                             for ( Product hobby: newList ) {
                                 productList.add( hobby );
                             }
-                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_other ) {
                             ArrayList< Product > otherList = new ArrayList<>();
@@ -231,13 +226,8 @@ public class HomeFragment extends Fragment  {
                             for ( Product other: newList ) {
                                 productList.add( other );
                             }
-                            adapter.notifyDataSetChanged();
                         }
-
-                        for ( Product product: fullList ) {
-                            productList.add( product );
-                        }
-                        return false;
+                        adapter.notifyDataSetChanged();
                     }
                 });
 
