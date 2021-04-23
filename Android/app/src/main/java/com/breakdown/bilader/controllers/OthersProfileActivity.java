@@ -20,6 +20,7 @@ import com.breakdown.bilader.fragments.ReviewsFragment;
 import com.breakdown.bilader.models.User;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -47,6 +48,9 @@ public class OthersProfileActivity extends AppCompatActivity {
     private ArrayList< Fragment > fragmentList = new ArrayList<>();
     private ArrayList< String > fragmentTitleList = new ArrayList<>();
 
+    private  User currentUser;
+    private Gson gson;
+
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -55,6 +59,8 @@ public class OthersProfileActivity extends AppCompatActivity {
         tableLayout = findViewById( R.id.others_profile_tab_layout );
         viewPager2 = findViewById( R.id.others_profile_view_pager );
         numberOfReviews = findViewById( R.id.text_other_profile_reviews_in_parantheses );
+        userName = findViewById(R.id.text_others_profile_user_name);
+        profilePhoto = findViewById(R.id.image_others_profile_avatar);
 
         fragmentForReview = new ReviewsFragment();
         fragmentForSale = new OnSaleFragment();
@@ -71,6 +77,10 @@ public class OthersProfileActivity extends AppCompatActivity {
 
 
         new TabLayoutMediator( tableLayout, viewPager2, ( tab, position ) -> tab.setText( fragmentTitleList.get( position ) + ("")) ).attach();
+        gson = new Gson();
+        currentUser = gson.fromJson(getIntent().getStringExtra("user"), User.class);
+        userName.setText(currentUser.getUserName());
+        profilePhoto.setImageResource(getResources().getIdentifier(currentUser.getUserAvatar(), "drawable", getPackageName()));
 
         getUserInfo();
         userProducts();
