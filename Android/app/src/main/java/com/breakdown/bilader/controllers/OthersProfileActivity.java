@@ -1,8 +1,6 @@
 package com.breakdown.bilader.controllers;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,23 +11,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.adapters.ProductAdapter;
-import com.breakdown.bilader.adapters.ReviewsAdapter;
 import com.breakdown.bilader.fragments.OnSaleFragment;
 import com.breakdown.bilader.fragments.ReviewsFragment;
-import com.breakdown.bilader.models.Product;
-import com.breakdown.bilader.models.Review;
 import com.breakdown.bilader.models.User;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class OthersProfileActivity extends AppCompatActivity {
 
@@ -48,7 +40,8 @@ public class OthersProfileActivity extends AppCompatActivity {
     private Button sendMessage;
     private Button reportButton;
     private Button submitReport; //?
-    private User userOne;
+    private ReviewsFragment fragmentForReview;
+    private OnSaleFragment fragmentForSale;
 
 
     private ArrayList< Fragment > fragmentList = new ArrayList<>();
@@ -61,9 +54,13 @@ public class OthersProfileActivity extends AppCompatActivity {
 
         tableLayout = findViewById( R.id.others_profile_tab_layout );
         viewPager2 = findViewById( R.id.others_profile_view_pager );
+        numberOfReviews = findViewById( R.id.text_other_profile_reviews_in_parantheses );
 
-        fragmentList.add( new OnSaleFragment() );
-        fragmentList.add( new ReviewsFragment() );
+        fragmentForReview = new ReviewsFragment();
+        fragmentForSale = new OnSaleFragment();
+
+        fragmentList.add( fragmentForSale);
+        fragmentList.add( fragmentForReview );
 
         MyViewpagerAdapter adapter = new MyViewpagerAdapter( this );
 
@@ -81,6 +78,7 @@ public class OthersProfileActivity extends AppCompatActivity {
         getSoldCount();
         getFollowersCount();
         getFollowingsCount();
+        //getReviewCount();
 
         /*reportButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -89,11 +87,33 @@ public class OthersProfileActivity extends AppCompatActivity {
 
                 newIntent = new Intent( OthersProfileActivity.this, ReportActivity.class );
 
-                // To be continue...
+                // TODO
                 newIntent.putExtra( "userName", "Hello" );
                 startActivity( newIntent );
             }
         } );*/
+
+        //TODO
+        /*follow.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+
+            }
+        } );*/
+
+        //TODO
+        /*sendMessage.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Intent newIntent;
+
+                newIntent = new Intent( OthersProfileActivity.this, PrivateChatActivity.class );
+
+                startActivity( newIntent );
+            }
+        } );*/
+
+
     }
 
     /**
@@ -151,6 +171,15 @@ public class OthersProfileActivity extends AppCompatActivity {
      */
     public void getSoldCount(){
         //TODO
+    }
+
+
+    /**
+     * Shows the number of reviews done of the current user.
+     *
+     */
+    public void getReviewCount() {
+        numberOfReviews.setText("(" +  fragmentForReview.getReviewNumber() + "Reviews )");
     }
 
     //??????
