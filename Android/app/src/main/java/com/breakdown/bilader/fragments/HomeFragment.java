@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment  {
                 "12" );
 
         // sample products for testing
-        Product product1 = new Product( "product_sample", "the epic of " +
+        Product product1 = new Product( "product_sample", "The epic of " +
                 "Gilgamesh", "demo1", 120, user1 ,false, "10");
         Product product2 = new Product( "product_sample2", "brand new dress",
                 "demo1", 120, user2, false, "11");
