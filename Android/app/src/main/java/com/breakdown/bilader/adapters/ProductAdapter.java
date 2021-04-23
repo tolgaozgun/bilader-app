@@ -140,6 +140,7 @@ public class ProductAdapter extends
             holder.imageProduct.setImageResource( mmmContext.getResources().getIdentifier( product.getPicture(), "drawable", mmmContext.getPackageName() ) );
             holder.imageProductSeller.setImageResource( mmmContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mmmContext.getPackageName() ) );
         }
+        holder.textCategoryName.setText(product.getCategory().toString());
 
         isWishlisted( product.getProductId() );
 

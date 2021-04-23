@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.ProductAdapter;
-import com.breakdown.bilader.adapters.ProductAdapter2;
+import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
@@ -80,15 +80,15 @@ public class WishlistFragment extends Fragment {
 
         // sample products for testing
         Product product1 = new Product( "product_sample", "The Epic of " +
-                "Gilgamesh", "demo1", 120, user1 ,false, "10");
+                "Gilgamesh", "demo1", 120, user1 ,false, "10", new Category("0"));
         Product product2 = new Product( "product_sample2", "brand new dress",
-                "demo1", 120, user2, false, "11");
+                "demo1", 120, user2, false, "11",new Category("2"));
         Product product3 = new Product( "product_sample3", "basys-3", "demo1"
-                , 120, user3, false, "12");
+                , 120, user3, false, "12", new Category("1"));
         Product product4 = new Product( "product_sample", "random", "demo1",
-                120, user4,false, "13" );
+                120, user4,false, "13", new Category("0") );
         Product product5 = new Product( "product_sample", "random", "demo1",
-                120, user5, false, "14");
+                120, user5, false, "14", new Category("0"));
 
         productList = new ArrayList<>();
         productList.add( product1 );

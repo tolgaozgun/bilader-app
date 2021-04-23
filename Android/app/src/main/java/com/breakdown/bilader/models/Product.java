@@ -31,7 +31,7 @@ public class Product {
      * @param isSold      whether product is sold.
      */
     public Product( String picture, String title, String description,
-                    double price, User seller, boolean isSold, String productId ) {
+                    double price, User seller, boolean isSold, String productId, Category category ) {
         this.picture = picture;
         this.title = title;
         this.description = description;
@@ -40,6 +40,7 @@ public class Product {
         this.category = null;
         this.isSold = false;
         this.productId = productId;
+        this.category = category;
     }
 
     /**
