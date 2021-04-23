@@ -171,7 +171,7 @@ public class HomeFragment extends Fragment  {
                         if ( item.getItemId() == R.id.menu_book ) {
                             ArrayList< Product > bookList = new ArrayList<>();
                             for ( Product product : productList ) {
-                                if ( product.getCategory().toString().equals( "Books" ) ) {
+                                if ( product.getCategory().toString().equals( "Book" ) ) {
                                     bookList.add( product );
                                 }
                             }
