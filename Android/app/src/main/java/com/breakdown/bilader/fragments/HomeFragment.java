@@ -176,7 +176,8 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            Collections.copy( productList, bookList );
+                            productList = bookList;
+                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_clothing ) {
                             ArrayList< Product > clothingList = new ArrayList<>();
@@ -186,7 +187,8 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            Collections.copy( productList, clothingList );
+                            productList = clothingList;
+                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_electronics ) {
                             ArrayList< Product > electronicsList = new ArrayList<>();
@@ -196,7 +198,8 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            Collections.copy( productList, electronicsList );
+                            productList = electronicsList;
+                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_hobby ) {
                             ArrayList< Product > hobbyList = new ArrayList<>();
@@ -206,7 +209,8 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            Collections.copy( productList, hobbyList );
+                            productList = hobbyList;
+                            adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_other ) {
                             ArrayList< Product > otherList = new ArrayList<>();
@@ -216,9 +220,9 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            Collections.copy( productList, otherList );
+                            productList = otherList;
+                            adapter.notifyDataSetChanged();
                         }
-                        adapter.notifyDataSetChanged();
                         return false;
                     }
                 });
