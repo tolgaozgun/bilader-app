@@ -168,38 +168,40 @@ public class HomeFragment extends Fragment  {
 
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
+                        ArrayList< Product > newList = new ArrayList<>();
+
                         if ( item.getItemId() == R.id.menu_book ) {
-                            ArrayList< Product > bookList = new ArrayList<>();
                             for ( Product product : productList ) {
                                 if ( product.getCategory().toString().equals( "Book" ) ) {
-                                    bookList.add( product );
+                                    newList.add( product );
                                 }
                             }
                             productList.clear();
-                            ArrayList< Product > productList = new ArrayList<>( bookList );
-                            adapter.notifyDataSetChanged();
+                            for ( Product book: newList ) {
+                                productList.add( book );
+                            }
                         }
                         else if ( item.getItemId() == R.id.menu_clothing ) {
-                            ArrayList< Product > clothingList = new ArrayList<>();
                             for ( Product product : productList ) {
                                 if ( product.getCategory().toString().equals( "Clothing" ) ) {
-                                    clothingList.add( product );
+                                    newList.add( product );
                                 }
                             }
                             productList.clear();
-                            productList = clothingList;
-                            adapter.notifyDataSetChanged();
+                            for ( Product book: newList ) {
+                                productList.add( book );
+                            }
                         }
                         else if ( item.getItemId() == R.id.menu_electronics ) {
-                            ArrayList< Product > electronicsList = new ArrayList<>();
                             for ( Product product : productList ) {
                                 if ( product.getCategory().toString().equals( "Electronics" ) ) {
-                                    electronicsList.add( product );
+                                    newList.add( product );
                                 }
                             }
                             productList.clear();
-                            productList = electronicsList;
-                            adapter.notifyDataSetChanged();
+                            for ( Product book: newList ) {
+                                productList.add( book );
+                            }
                         }
                         else if ( item.getItemId() == R.id.menu_hobby ) {
                             ArrayList< Product > hobbyList = new ArrayList<>();
@@ -209,8 +211,9 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            productList = hobbyList;
-                            adapter.notifyDataSetChanged();
+                            for ( Product book: newList ) {
+                                productList.add( book );
+                            }
                         }
                         else if ( item.getItemId() == R.id.menu_other ) {
                             ArrayList< Product > otherList = new ArrayList<>();
@@ -220,9 +223,11 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            productList = otherList;
-                            adapter.notifyDataSetChanged();
+                            for ( Product book: newList ) {
+                                productList.add( book );
+                            }
                         }
+                        adapter.notifyDataSetChanged();
                         return false;
                     }
                 });
