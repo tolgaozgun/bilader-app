@@ -25,4 +25,9 @@
         android:id="@+id/menu_other"
         android:title="Other"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_all"
+        android:title="All"
+        app:showAsAction="never"/>
 </menu>

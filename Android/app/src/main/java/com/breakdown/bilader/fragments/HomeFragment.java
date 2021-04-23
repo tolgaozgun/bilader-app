@@ -34,6 +34,7 @@ public class HomeFragment extends Fragment  {
 
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;
+    private ArrayList< Product > holderList;
     private ProductAdapter adapter;
     private ImageView sortMenuImage;
     private ImageView categoryMenuImage;
@@ -94,6 +95,10 @@ public class HomeFragment extends Fragment  {
         productList.add( product3 );
         productList.add( product4 );
         productList.add( product5 );
+        holderList = new ArrayList<>();
+        for( Product p : productList) {
+            holderList.add(p);
+        }
 
         adapter = new ProductAdapter (getActivity(), productList);
         recyclerView.setAdapter( adapter );
@@ -171,7 +176,11 @@ public class HomeFragment extends Fragment  {
                         ArrayList< Product > newList = new ArrayList<>();
 
                         if ( item.getItemId() == R.id.menu_book ) {
-                            for ( Product product : productList ) {
+                            productList.clear();
+                            for ( Product p : holderList) {
+                                productList.add(p);
+                            }
+                            for ( Product product : holderList ) {
                                 if ( product.getCategory().toString().equals( "Book" ) ) {
                                     newList.add( product );
                                 }
@@ -182,7 +191,11 @@ public class HomeFragment extends Fragment  {
                             }
                         }
                         else if ( item.getItemId() == R.id.menu_clothing ) {
-                            for ( Product product : productList ) {
+                            productList.clear();
+                            for ( Product p : holderList) {
+                                productList.add(p);
+                            }
+                            for ( Product product : holderList ) {
                                 if ( product.getCategory().toString().equals( "Clothing" ) ) {
                                     newList.add( product );
                                 }
@@ -193,7 +206,11 @@ public class HomeFragment extends Fragment  {
                             }
                         }
                         else if ( item.getItemId() == R.id.menu_electronics ) {
-                            for ( Product product : productList ) {
+                            productList.clear();
+                            for ( Product p : holderList) {
+                                productList.add(p);
+                            }
+                            for ( Product product : holderList ) {
                                 if ( product.getCategory().toString().equals( "Electronics" ) ) {
                                     newList.add( product );
                                 }
@@ -204,7 +221,11 @@ public class HomeFragment extends Fragment  {
                             }
                         }
                         else if ( item.getItemId() == R.id.menu_hobby ) {
-                            for ( Product product : productList ) {
+                            productList.clear();
+                            for ( Product p : holderList) {
+                                productList.add(p);
+                            }
+                            for ( Product product : holderList ) {
                                 if ( product.getCategory().toString().equals( "Hobby Items" ) ) {
                                     newList.add( product );
                                 }
@@ -215,7 +236,11 @@ public class HomeFragment extends Fragment  {
                             }
                         }
                         else if ( item.getItemId() == R.id.menu_other ) {
-                            for ( Product product : productList ) {
+                            productList.clear();
+                            for ( Product p : holderList) {
+                                productList.add(p);
+                            }
+                            for ( Product product : holderList ) {
                                 if ( product.getCategory().toString().equals( "Other" ) ) {
                                     newList.add( product );
                                 }
@@ -223,6 +248,12 @@ public class HomeFragment extends Fragment  {
                             productList.clear();
                             for ( Product other: newList ) {
                                 productList.add( other );
+                            }
+                        }
+                        else if ( item.getItemId() == R.id.menu_all ) {
+                            productList.clear();
+                            for (Product p : holderList ) {
+                                productList.add(p);
                             }
                         }
                         adapter.notifyDataSetChanged();
