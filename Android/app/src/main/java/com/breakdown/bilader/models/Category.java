@@ -18,19 +18,19 @@ public class Category implements Comparable {
         }
         else if ( id.equals("1") ) {
             this.id = id;
-            this.name = "Electronic";
+            this.name = "Electronics";
         }
         else if ( id.equals("2") ) {
             this.id = id;
-            this.name = "Clothes";
+            this.name = "Clothing";
         }
         else if ( id.equals("3")) {
             this.id = id;
-            this.name = "Hoby";
+            this.name = "Hobby Items";
         }
-        else  {
+        else if ( id.equals("4")) {
             this.id = id;
-            this.name = "Others";
+            this.name = "Other";
         }
     }
 
