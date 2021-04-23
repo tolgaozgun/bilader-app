@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -38,6 +39,7 @@ public class HomeFragment extends Fragment  {
     private ProductAdapter adapter;
     private ImageView sortMenuImage;
     private ImageView categoryMenuImage;
+    private SearchView searchView;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -102,6 +104,21 @@ public class HomeFragment extends Fragment  {
 
         adapter = new ProductAdapter (getActivity(), productList);
         recyclerView.setAdapter( adapter );
+
+        searchView = view.findViewById( R.id.searchView );
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // TODO:
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // TODO:
+                return false;
+            }
+        });
 
         sortMenuImage = view.findViewById( R.id.imageView2 );
         sortMenuImage.setOnClickListener( new View.OnClickListener() {
@@ -262,6 +279,7 @@ public class HomeFragment extends Fragment  {
                 });
 
                 categoryMenu.show();
+
             }
         });
 
