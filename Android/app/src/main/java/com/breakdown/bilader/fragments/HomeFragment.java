@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment  {
         Product product2 = new Product( "product_sample2", "Zara Dress", "demo1", 100, user2, false, "11", new Category("2"));
         Product product3 = new Product( "product_sample3", "Basys - 3", "demo1" , 800, user3, false, "12", new Category("1"));
         Product product4 = new Product( "product_sample", "L'oreal Mascara", "demo1", 120, user4,false, "13", new Category("4"));
-        Product product5 = new Product( "product_sample", "HP Wireless Mouse", "demo1", 500, user5, false, "14", new Category("3"));
+        Product product5 = new Product( "product_sample", "HP Wireless Mouse", "demo1", 500, user5, false, "14", new Category("1"));
 
         productList = new ArrayList<>();
 
@@ -168,9 +168,56 @@ public class HomeFragment extends Fragment  {
 
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
-                        /*if ( item.getItemId() == R.id.category1 ) {
-                            // TODO: All the categories
-                        }*/
+                        if ( item.getItemId() == R.id.menu_book ) {
+                            ArrayList< Product > bookList = new ArrayList<>();
+                            for ( Product product : productList ) {
+                                if ( product.getCategory().equals( new Category("0") ) ) {
+                                    bookList.add( product );
+                                }
+                            }
+                            productList = bookList;
+                            adapter.notifyDataSetChanged();
+                        }
+                        if ( item.getItemId() == R.id.menu_clothing ) {
+                            ArrayList< Product > clothingList = new ArrayList<>();
+                            for ( Product product : productList ) {
+                                if ( product.getCategory().equals( new Category("2") ) ) {
+                                    clothingList.add( product );
+                                }
+                            }
+                            productList = clothingList;
+                            adapter.notifyDataSetChanged();
+                        }
+                        if ( item.getItemId() == R.id.menu_electronics ) {
+                            ArrayList< Product > electronicsList = new ArrayList<>();
+                            for ( Product product : productList ) {
+                                if ( product.getCategory().equals( new Category("1") ) ) {
+                                    electronicsList.add( product );
+                                }
+                            }
+                            productList = electronicsList;
+                            adapter.notifyDataSetChanged();
+                        }
+                        if ( item.getItemId() == R.id.menu_hobby ) {
+                            ArrayList< Product > hobbyList = new ArrayList<>();
+                            for ( Product product : productList ) {
+                                if ( product.getCategory().equals( new Category("3") ) ) {
+                                    hobbyList.add( product );
+                                }
+                            }
+                            productList = hobbyList;
+                            adapter.notifyDataSetChanged();
+                        }
+                        if ( item.getItemId() == R.id.menu_other ) {
+                            ArrayList< Product > otherList = new ArrayList<>();
+                            for ( Product product : productList ) {
+                                if ( product.getCategory().equals( new Category("4") ) ) {
+                                    otherList.add( product );
+                                }
+                            }
+                            productList = otherList;
+                            adapter.notifyDataSetChanged();
+                        }
                         return false;
                     }
                 });
