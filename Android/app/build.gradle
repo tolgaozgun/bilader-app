@@ -32,12 +32,6 @@ dependencies {
 
     // Volley for HTTP Requests
     implementation 'com.android.volley:volley:1.2.0'
-    // Room Library for Local Database.
-    def room_version = "2.2.6"
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    // Test helpers for Room.
-    testImplementation "androidx.room:room-testing:$room_version"
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.4'
