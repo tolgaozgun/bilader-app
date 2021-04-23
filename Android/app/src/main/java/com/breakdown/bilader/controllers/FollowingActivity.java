@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-import static com.breakdown.bilader.controllers.FollowersActivity.showUsers;
 
 /**
  * A class that makes connection between its layout and data
@@ -95,7 +94,6 @@ public class FollowingActivity extends AppCompatActivity {
     public void getFollowings() {
         //TODO
         
-        showUsers();
     }
 
 
