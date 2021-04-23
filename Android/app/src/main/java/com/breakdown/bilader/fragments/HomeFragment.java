@@ -169,6 +169,7 @@ public class HomeFragment extends Fragment  {
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
                         ArrayList< Product > newList = new ArrayList<>();
+                        ArrayList< Product > fullList = new ArrayList<>( productList );
 
                         if ( item.getItemId() == R.id.menu_book ) {
                             for ( Product product : productList ) {
@@ -188,8 +189,8 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            for ( Product book: newList ) {
-                                productList.add( book );
+                            for ( Product clothing: newList ) {
+                                productList.add( clothing );
                             }
                         }
                         else if ( item.getItemId() == R.id.menu_electronics ) {
@@ -199,8 +200,8 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            for ( Product book: newList ) {
-                                productList.add( book );
+                            for ( Product electronics: newList ) {
+                                productList.add( electronics );
                             }
                         }
                         else if ( item.getItemId() == R.id.menu_hobby ) {
@@ -211,8 +212,8 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            for ( Product book: newList ) {
-                                productList.add( book );
+                            for ( Product hobby: newList ) {
+                                productList.add( hobby );
                             }
                         }
                         else if ( item.getItemId() == R.id.menu_other ) {
@@ -223,11 +224,14 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            for ( Product book: newList ) {
-                                productList.add( book );
+                            for ( Product other: newList ) {
+                                productList.add( other );
                             }
                         }
                         adapter.notifyDataSetChanged();
+                        for ( Product product: fullList ) {
+                            productList.add( product );
+                        }
                         return false;
                     }
                 });
