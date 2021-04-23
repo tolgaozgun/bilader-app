@@ -6,7 +6,8 @@ public enum RequestType {
             "ProfileRequest" ), PRODUCT( "ProductRequest" ), FOLLOWERS(
                     "FollowersRequest" ), FOLLOWINGS( "FollowingsRequest" ),
     FOLLOW( "FollowRequest" ), REPORT( "AddReportRequest" ),
-    FORGOT_PASSWORD( "ForgotPasswordRequest" ), CHANGE_PASSWORD("ChangePasswordRequest");
+    FORGOT_PASSWORD( "ForgotPasswordRequest" ), CHANGE_PASSWORD(
+            "ChangePasswordRequest" ), NOTIFICATION( "NotificationRequest" );
 
     private String path;
 

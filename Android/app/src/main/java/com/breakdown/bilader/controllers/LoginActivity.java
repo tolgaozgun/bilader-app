@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.NotificationService;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
 
@@ -55,6 +56,8 @@ public class LoginActivity extends Activity {
         if ( intent != null && intent.hasExtra( "email" ) ) {
             inputEmail.setText( intent.getStringExtra( "email" ) );
         }
+
+        startService( new Intent(this, NotificationService.class ) );
 
         // buttonEffect( logInButton, 0xe01c79e4 );
         // buttonEffect( signUpButton, 0xe01c79e4 );

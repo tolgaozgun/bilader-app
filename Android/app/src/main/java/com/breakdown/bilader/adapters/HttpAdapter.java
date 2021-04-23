@@ -1,6 +1,7 @@
 package com.breakdown.bilader.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -29,12 +30,12 @@ public class HttpAdapter {
      *
      * @param requestType Type of request as a RequestType enum.
      * @param params      Request parameters as String key-value map.
-     * @param instance    Instance of the activity for the request.
+     * @param context     Instance of the activity for the request.
      * @return Response as a JSONObject.
      */
     public static void getRequestJSON( final VolleyCallback callback,
                                        RequestType requestType, Map< String,
-            String > params, Activity instance ) {
+            String > params, Context context ) {
         String path;
         String url;
         String token;
@@ -44,9 +45,9 @@ public class HttpAdapter {
         JsonObjectRequest jsonObjectRequest;
 
         sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences( instance );
+                PreferenceManager.getDefaultSharedPreferences( context );
         finalResponse = new JSONObject();
-        queue = Volley.newRequestQueue( instance );
+        queue = Volley.newRequestQueue( context );
         path = requestType.getPath();
         url = addParameters( MAIN_URL + path, params );
         System.out.println("URL: " + url);

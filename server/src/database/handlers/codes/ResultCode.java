@@ -10,6 +10,7 @@ public enum ResultCode {
 	ADD_PRODUCT_OK( "Product creation success", true ),
 	REGISTER_OK( "Registered successfully", true ),
 	MESSAGES_OK( "Chat found", true ), CHATS_OK( "Chats retrieved.", true ),
+	NOTIFICATION_OK( "Notifications found!", true ),
 	CHAT_DOES_NOT_EXIST( "This chat does not exist!", false ),
 	CHATS_DO_NOT_EXIST( "Chats do not exist!", false ),
 	MESSAGES_FAIL( "Chat not found!", false ),
