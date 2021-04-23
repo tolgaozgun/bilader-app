@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.models.Product;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 public class ProductActivity extends Activity {
 
@@ -56,7 +57,8 @@ public class ProductActivity extends Activity {
         price.setText( String.valueOf( currentProduct.getPrice() ) );
         ownerName.setText( currentProduct.getOwner().toString() );
         category.setText(currentProduct.getCategory().toString());
-        productImage.setImageResource(getResources().getIdentifier( currentProduct.getPicture(), "drawable", getPackageName()));
+        //productImage.setImageResource(getResources().getIdentifier( currentProduct.getPicture(), "drawable", getPackageName()));
+        Picasso.get().load(getResources().getIdentifier( currentProduct.getPicture(), "drawable", getPackageName())).fit().centerInside().into( productImage );
         userAvatar.setImageResource(getResources().getIdentifier(currentProduct.getOwner().getUserAvatar(), "drawable" , getPackageName()));
         
 
