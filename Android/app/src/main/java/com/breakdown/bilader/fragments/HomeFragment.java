@@ -20,6 +20,8 @@ import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * A class that makes connection between its layout and data
@@ -79,7 +81,6 @@ public class HomeFragment extends Fragment  {
         User user5 = new User( "Tolga Özgün", "mail@mail.com", "avatar_male",
                 "12" );
 
-        // sample products for testing
         Product product1 = new Product( "product_sample", "The Epic of Gilgamesh", "demo1", 12, user1 ,false, "10", new Category("0") );
         Product product2 = new Product( "product_sample2", "Zara Dress", "demo1", 100, user2, false, "11", new Category("2"));
         Product product3 = new Product( "product_sample3", "Basys - 3", "demo1" , 800, user3, false, "12", new Category("1"));
@@ -109,18 +110,44 @@ public class HomeFragment extends Fragment  {
 
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
-                        /*if ( item.getItemId() == R.id.sort_alphabetically ) {
-                            // TODO
+                        if ( item.getItemId() == R.id.sort_alphabetically ) {
+                            Collections.sort( productList, new Comparator<Product>() {
+                                @Override
+                                public int compare( Product p1, Product p2 ) {
+                                    return p1.getTitle().compareToIgnoreCase( p2.getTitle() );
+                                }
+                            });
+                            adapter.notifyDataSetChanged();
                         }
                         if ( item.getItemId() == R.id.sort_reverse_alphabetically ) {
-                            // TODO
+                            Collections.sort( productList, new Comparator<Product>() {
+                                @Override
+                                public int compare( Product p1, Product p2 ) {
+                                    return p1.getTitle().compareToIgnoreCase( p2.getTitle() );
+                                }
+                            });
+                            Collections.reverse( productList );
+                            adapter.notifyDataSetChanged();
                         }
                         if ( item.getItemId() == R.id.sort_price_low_to_high ) {
-                            // TODO
+                            Collections.sort( productList, new Comparator<Product>() {
+                                @Override
+                                public int compare( Product p1, Product p2 ) {
+                                    return (int) (p1.getPrice() - p2.getPrice());
+                                }
+                            });
+                            adapter.notifyDataSetChanged();
                         }
                         if ( item.getItemId() == R.id.sort_price_high_to_low ) {
-                            // TODO
-                        }*/
+                            Collections.sort( productList, new Comparator<Product>() {
+                                @Override
+                                public int compare( Product p1, Product p2 ) {
+                                    return (int) (p1.getPrice() - p2.getPrice());
+                                }
+                            });
+                            Collections.reverse( productList );
+                            adapter.notifyDataSetChanged();
+                        }
                         return false;
                     }
                 });
