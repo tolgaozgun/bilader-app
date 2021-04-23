@@ -20,6 +20,7 @@ public class NotificationHandler extends ProcessHandler {
 	private final static String CONTENT_KEY = "content";
 	private final static String IMAGE_KEY = "image";
 	private final static String TIME_KEY = "time";
+	private final static String NOTIFICATION_ID_KEY = "notification_id";
 	private final static String NOTIFICATION_USER_ID_KEY = "user_id";
 
 	private final static String[] KEYS = { TIME_KEY };
@@ -83,10 +84,11 @@ public class NotificationHandler extends ProcessHandler {
 		adapter = new DatabaseAdapter();
 		result = checkParams();
 		usersMap = new HashMap< Integer, Object[] >();
-		wanted = new String[ 3 ];
+		wanted = new String[ 4 ];
 		wanted[ 0 ] = CONTENT_KEY;
 		wanted[ 1 ] = IMAGE_KEY;
 		wanted[ 2 ] = TIME_KEY;
+		wanted[ 3 ] = NOTIFICATION_ID_KEY;
 
 		if ( result.isSuccess() ) {
 			checkParams = new HashMap< String, String >();
@@ -101,6 +103,7 @@ public class NotificationHandler extends ProcessHandler {
 				tempJson.put( CONTENT_KEY, usersMap.get( i )[ 0 ] );
 				tempJson.put( IMAGE_KEY, usersMap.get( i )[ 1 ] );
 				tempJson.put( TIME_KEY, usersMap.get( i )[ 2 ] );
+				tempJson.put( NOTIFICATION_ID_KEY, usersMap.get( i )[ 3 ] );
 				messagesJson.put( String.valueOf( i ), tempJson );
 			}
 			json.put( "notifications", messagesJson );

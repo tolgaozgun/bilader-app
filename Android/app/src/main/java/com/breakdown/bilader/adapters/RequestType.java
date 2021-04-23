@@ -7,7 +7,8 @@ public enum RequestType {
                     "FollowersRequest" ), FOLLOWINGS( "FollowingsRequest" ),
     FOLLOW( "FollowRequest" ), REPORT( "AddReportRequest" ),
     FORGOT_PASSWORD( "ForgotPasswordRequest" ), CHANGE_PASSWORD(
-            "ChangePasswordRequest" ), NOTIFICATION( "NotificationRequest" );
+            "ChangePasswordRequest" ), NOTIFICATION( "NotificationRequest" ),
+    SEND_MESSAGE( "SendMessageRequest" ), RETRIEVE_MESSAGES("RetrieveMessagesRequest");
 
     private String path;
 

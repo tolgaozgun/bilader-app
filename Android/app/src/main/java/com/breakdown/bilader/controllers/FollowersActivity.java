@@ -9,11 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.FollowersAdapter;
 import com.breakdown.bilader.adapters.FollowersAdapter;
+import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.models.*;
 
 import androidx.annotation.Nullable;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A class that makes connection between its layout and data
@@ -86,23 +92,29 @@ public class FollowersActivity extends AppCompatActivity {
         followerList.add( user11 );
         followerList.add( user12 );
 
+        //followerList = getFollowers();
+
         adapter = new FollowersAdapter( this, followerList );
         recyclerView.setAdapter( adapter );
 
-        getFollowers();
 
     }
 
-    public void getFollowers() {
+    public ArrayList< User > getFollowers() {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
         //TODO
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                
+            }
 
+            @Override
+            public void onFail( String message ) {
+
+            }
+        }, RequestType.FOLLOWERS, params, this );
         showUsers();
-    }
-
-    public static void showUsers() {
-        //TODO
-        //static?
-
-        //FollowersAdapter
     }
 }

@@ -16,23 +16,33 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.breakdown.bilader.R;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class NotificationService extends Service {
-    private int mInterval = 5000; // 5 seconds by default, can be changed later
+    private int mInterval = 60000; // 60 seconds by default, can be changed
+    // later
     private Handler mHandler;
     private Runnable mStatusChecker;
     private SharedPreferences sharedPreferences;
-    private Map<String, String> params;
+    private Map< String, String > params;
     private String token;
     private String userId;
+    private String content;
+    private String avatarURL;
+    private NotificationAdapter adapter;
+    private long time;
+    private int notificationId;
 
-    void updateStatus(){
+    void updateStatus() {
 
     }
 
@@ -48,37 +58,69 @@ public class NotificationService extends Service {
         mHandler = new Handler();
         sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences( this );
-        params = new HashMap<String, String>();
-        params.put( "time", "0" );
+        params = new HashMap< String, String >();
         mStatusChecker = new Runnable() {
             @Override
             public void run() {
                 try {
-                    updateStatus(); //this function can change value of mInterval.
+                    updateStatus(); //this function can change value of
+                    // mInterval.
                 } finally {
-                    if(sharedPreferences.contains( "session_token" ) && sharedPreferences.contains( "id" )){
-                        token = sharedPreferences.getString( "session_token", "" );
-                        userId = sharedPreferences.getString( "id", "" );
-                        HttpAdapter.getRequestJSON( new VolleyCallback() {
-                            @Override
-                            public void onSuccess( JSONObject object ) {
-                                System.out.println(object.toString());
-                            }
-
-                            @Override
-                            public void onFail( String message ) {
-
-                            }
-                        }, RequestType.NOTIFICATION, params, getApplicationContext() );
-                    }
+                    doTask();
                     // 100% guarantee that this always happens, even if
                     // your update method throws an exception
-                    mHandler.postDelayed(mStatusChecker, mInterval);
+                    mHandler.postDelayed( mStatusChecker, mInterval );
                 }
             }
         };
         startRepeatingTask();
         return START_STICKY;
+    }
+
+    private void doTask() {
+        long lastTime;
+        lastTime = sharedPreferences.getLong( "LAST_NOTIFICATION_TIME", 0L );
+        params.put( "time", String.valueOf( lastTime ) );
+        if ( sharedPreferences.contains( "session_token" ) && sharedPreferences.contains( "id" ) ) {
+            token = sharedPreferences.getString( "session_token", "" );
+            userId = sharedPreferences.getString( "id", "" );
+            HttpAdapter.getRequestJSON( new VolleyCallback() {
+                @Override
+                public void onSuccess( JSONObject object ) {
+                    Iterator< String > keys;
+                    JSONObject tempNotif;
+
+                    try {
+                        if ( object.getBoolean( "success" ) ) {
+                            keys = object.getJSONObject( "notifications" ).keys();
+                            while ( keys.hasNext() ) {
+                                String key = keys.next();
+                                tempNotif = object.getJSONObject(
+                                        "notifications" ).getJSONObject( key );
+
+                                time = tempNotif.getLong( "time" );
+                                sharedPreferences.edit().putLong(
+                                        "LAST_NOTIFICATION_TIME", time ).apply();
+                                content = tempNotif.getString( "content" );
+                                avatarURL = tempNotif.getString( "image" );
+                                notificationId = tempNotif.getInt(
+                                        "notification_id" );
+                                adapter =
+                                        new NotificationAdapter( notificationId, content, avatarURL, time, NotificationService.this );
+                                adapter.buildNotification();
+                            }
+                        }
+                    } catch ( JSONException e ) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFail( String message ) {
+
+                }
+            }, RequestType.NOTIFICATION, params, getApplicationContext() );
+        }
     }
 
     @Override
@@ -92,6 +134,6 @@ public class NotificationService extends Service {
     }
 
     void stopRepeatingTask() {
-        mHandler.removeCallbacks(mStatusChecker);
+        mHandler.removeCallbacks( mStatusChecker );
     }
 }

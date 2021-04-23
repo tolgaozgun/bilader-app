@@ -11,13 +11,14 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Bilader">
 
-        <activity android:name=".controllers.BiltraderActivity">
+        <activity android:name=".controllers.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".controllers.BiltraderActivity"/>-->
+        <activity android:name=".controllers.VerificationActivity"/>
+        <activity android:name=".controllers.BiltraderActivity"/>
         <activity android:name=".controllers.RegisterActivity"/>
         <activity android:name=".controllers.ProductActivity"/>
         <activity android:name=".controllers.ForgotPasswordActivity"/>
@@ -27,6 +28,10 @@
         <activity android:name=".controllers.MyProductsActivity"/>
         <activity android:name=".controllers.OthersProfileActivity"/>
         <activity android:name=".controllers.SettingsActivity"/>
+
+        <service
+            android:name=".adapters.NotificationService"
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"
