@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class ProductAdapter extends
     private Fragment mContext;
     private Activity mmmContext;
     private ArrayList< Product > products;
+    // private ArrayList< Product > productsFull = new ArrayList<>( products );
 
     /**
      * A constructor that holds properties of fragment adapter
@@ -61,6 +63,42 @@ public class ProductAdapter extends
         this.mmmContext = mmmContext;
         this.products = products;
     }
+
+    /*public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering( CharSequence constraint ) {
+            ArrayList< Product > filteredList = new ArrayList< Product >();
+
+            if ( constraint == null || constraint.length() == 0 ) {
+                filteredList.addAll( productsFull );
+            }
+            else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for ( Product item : productsFull ) {
+                    if ( item.getTitle().toLowerCase().contains( filterPattern ) ) {
+                        filteredList.add( item );
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults( CharSequence constraint, FilterResults results ) {
+            products.clear();
+            products.addAll( ( ArrayList ) results.values );
+            notifyDataSetChanged();
+        }
+    };*/
 
     /**
      * A class that finds xml id's of layout elements

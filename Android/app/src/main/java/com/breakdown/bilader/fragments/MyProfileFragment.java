@@ -42,6 +42,7 @@ public class MyProfileFragment extends Fragment {
     private Button settingsButton;
     private Button logOutButton;
     private ProgressDialog loadingBar;
+    private TextView name;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -75,6 +76,9 @@ public class MyProfileFragment extends Fragment {
      */
     public void onStart() {
         super.onStart();
+
+        /*name = ( TextView ) context.findViewById( R.id.text_myprofile_fullname );
+        name.setText( user.getName() );*/
 
         myProductsButton = context.findViewById( R.id.myProductsButton );
         myProductsButton.setOnClickListener( new View.OnClickListener() {
