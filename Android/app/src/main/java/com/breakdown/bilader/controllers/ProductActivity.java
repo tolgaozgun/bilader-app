@@ -73,6 +73,7 @@ public class ProductActivity extends Activity {
             @Override
             public void onClick( View v ) {
                 //TODO
+                addToWishlist();
             }
         } );
 
@@ -121,5 +122,9 @@ public class ProductActivity extends Activity {
             //TODO
         }
         return true;
+    }
+
+    public void addToWishlist(){
+        //TODO
     }
 }
