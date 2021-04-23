@@ -228,6 +228,7 @@ public class HomeFragment extends Fragment  {
                             }
                         }
                         adapter.notifyDataSetChanged();
+                        return false;
                     }
                 });
 
