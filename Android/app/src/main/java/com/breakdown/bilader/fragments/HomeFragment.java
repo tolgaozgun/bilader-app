@@ -175,7 +175,7 @@ public class HomeFragment extends Fragment  {
                                     bookList.add( product );
                                 }
                             }
-                            productList = bookList;
+                            Collections.copy( productList, bookList );
                             adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_clothing ) {
@@ -185,7 +185,7 @@ public class HomeFragment extends Fragment  {
                                     clothingList.add( product );
                                 }
                             }
-                            productList = clothingList;
+                            Collections.copy( productList, clothingList );
                             adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_electronics ) {
@@ -195,7 +195,7 @@ public class HomeFragment extends Fragment  {
                                     electronicsList.add( product );
                                 }
                             }
-                            productList = electronicsList;
+                            Collections.copy( productList, electronicsList );
                             adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_hobby ) {
@@ -205,7 +205,7 @@ public class HomeFragment extends Fragment  {
                                     hobbyList.add( product );
                                 }
                             }
-                            productList = hobbyList;
+                            Collections.copy( productList, hobbyList );
                             adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_other ) {
@@ -215,7 +215,7 @@ public class HomeFragment extends Fragment  {
                                     otherList.add( product );
                                 }
                             }
-                            productList = otherList;
+                            Collections.copy( productList, otherList );
                             adapter.notifyDataSetChanged();
                         }
                         return false;
