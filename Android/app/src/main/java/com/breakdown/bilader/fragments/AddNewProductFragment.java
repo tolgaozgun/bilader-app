@@ -129,27 +129,7 @@ public class AddNewProductFragment extends Fragment {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String priceText;
-                String titleText;
-                String descriptionText;
-                Category category;
-
-                Intent intent;
-                Gson gson;
-                String myJson;
-
-                priceText = price.getText().toString();
-                titleText = title.getText().toString();
-                descriptionText = description.getText().toString();
-                newProduct.setTitle(titleText);
-                newProduct.setPrice(Double.parseDouble(priceText));
-                newProduct.setPicture("");
-                newProduct.setDescription(descriptionText);
-                intent = new Intent(mContext, ProductActivity.class);
-                gson = new Gson();
-                myJson = gson.toJson(newProduct);
-                intent.putExtra("product", myJson);
-                startActivity(intent);
+                submitProduct(newProduct);
             }
         });
 
@@ -195,6 +175,32 @@ public class AddNewProductFragment extends Fragment {
         }
         adapter = new ImageLoadAdapter( getContext(), uriList );
         recyclerView.setAdapter( adapter );
+    }
+
+    private void submitProduct(Product product){
+        String priceText;
+        String titleText;
+        String descriptionText;
+        Category category;
+
+        Intent intent;
+        Gson gson;
+        String myJson;
+
+        priceText = price.getText().toString();
+        titleText = title.getText().toString();
+        descriptionText = description.getText().toString();
+        newProduct.setTitle(titleText);
+        newProduct.setPrice(Double.parseDouble(priceText));
+        newProduct.setPicture("");
+        newProduct.setDescription(descriptionText);
+        intent = new Intent(mContext, ProductActivity.class);
+        gson = new Gson();
+        myJson = gson.toJson(newProduct);
+        intent.putExtra("product", myJson);
+        startActivity(intent);
+        //TODO
+        //I copied the above  part into this method to not create a problem when clicking the product to go to product screen
     }
 
 }

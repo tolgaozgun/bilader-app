@@ -22,26 +22,20 @@ public class EditProductActivity extends Activity {
     private Button editButton;
     private Button onSaleButton;
     private Button soldButton;
+    private Product editedProduct;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editproduct);
 
-        Product editedProduct;
 
         //temporary values
         editedProduct = new Product( new User("Korhan","mail","avatar_male","12"), false ,"2");
 
         editButton = findViewById(R.id.editButton);
-        editTitle = findViewById(R.id.editTitle);
-        editDescription = findViewById(R.id.editDescription);
         onSaleButton = findViewById(R.id.onSale);
         soldButton = findViewById(R.id.soldButton);
-        editPrice = findViewById(R.id.editPrice);
 
-        String editedDescription = editDescription.getText().toString();
-        String editedTitle = editTitle.getText().toString();
-        String editedPrice = editPrice.getText().toString();
 
         soldButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,22 +54,43 @@ public class EditProductActivity extends Activity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
-                Gson gson;
-                String myJson;
-                editedProduct.setDescription(editedDescription);
-                editedProduct.setPicture("pic");//It will change
-                editedProduct.setTitle(editedTitle);
-                editedProduct.setPrice(Double.parseDouble(editedPrice));
 
-                intent = new Intent( EditProductActivity.this, ProductActivity.class );
-                gson = new Gson();
-                myJson = gson.toJson( editedProduct );
-                intent.putExtra( "product", myJson );
-                startActivity( intent );
 
             }
 
         });
+    }
+
+    private void editProduct( Product editedProduct ) {
+        String editedDescription;
+        String editedTitle;
+        String editedPrice;
+
+        editDescription = findViewById(R.id.editDescription);
+        editTitle = findViewById(R.id.editTitle);
+        editPrice = findViewById(R.id.editPrice);
+
+        editedDescription = editDescription.getText().toString();
+        editedTitle = editTitle.getText().toString();
+        editedPrice = editPrice.getText().toString();
+
+
+
+        Intent intent;
+        Gson gson;
+        String myJson;
+        editedProduct.setDescription(editedDescription);
+        editedProduct.setPicture("pic");//It will change
+        editedProduct.setTitle(editedTitle);
+        editedProduct.setPrice(Double.parseDouble(editedPrice));
+
+        intent = new Intent( EditProductActivity.this, ProductActivity.class );
+        gson = new Gson();
+        myJson = gson.toJson( editedProduct );
+        intent.putExtra( "product", myJson );
+        startActivity( intent );
+
+        //TODO
+        //Those above is here the reason same as add new product
     }
 }
