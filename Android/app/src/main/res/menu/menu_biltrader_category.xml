@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/menu_hobby"
-        android:title="Hobby"
+        android:title="Hobby Items"
         app:showAsAction="never"/>
 
     <item

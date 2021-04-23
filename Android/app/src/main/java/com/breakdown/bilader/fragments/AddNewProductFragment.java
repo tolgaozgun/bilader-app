@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -28,7 +27,6 @@ import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,12 +97,12 @@ public class AddNewProductFragment extends Fragment {
                         }
                         else if (  item.getItemId() == R.id.electronic) {
                             newProduct.setCategory(new Category("1") );
-                            categoryButton.setText("Electronics");
+                            categoryButton.setText("Electronıcs");
                             return true;
                         }
                         else if (  item.getItemId() == R.id.clothes ) {
                             newProduct.setCategory(new Category("2"));
-                            categoryButton.setText("Clothing");
+                            categoryButton.setText("Clothıng");
                             return true;
                         }
                         else if (  item.getItemId() == R.id.hoby) {

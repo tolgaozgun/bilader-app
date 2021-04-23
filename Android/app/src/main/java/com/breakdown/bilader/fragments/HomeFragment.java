@@ -2,14 +2,11 @@ package com.breakdown.bilader.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.ProductAdapter;
+import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
@@ -83,18 +81,11 @@ public class HomeFragment extends Fragment  {
         User user5 = new User( "Tolga Özgün", "mail@mail.com", "avatar_male",
                 "12" );
 
-        // sample products for testing
-        Product product1 = new Product( "product_sample", "The epic of " +
-                "Gilgamesh", "demo1", 12, user1 ,false, "10");
-        Product product2 = new Product( "product_sample2", "brand new dress",
-                "demo1", 100, user2, false, "11");
-        Product product3 = new Product( "product_sample3", "basys-3", "demo1"
-                , 800, user3, false, "12");
-        Product product4 = new Product( "product_sample", "random", "demo1",
-                120, user4,false, "13" );
-        Product product5 = new Product( "product_sample", "random", "demo1",
-                500, user5, false, "14");
-
+        Product product1 = new Product( "product_sample", "The Epic of Gilgamesh", "demo1", 12, user1 ,false, "10", new Category("0") );
+        Product product2 = new Product( "product_sample2", "Zara Dress", "demo1", 100, user2, false, "11", new Category("2"));
+        Product product3 = new Product( "product_sample3", "Basys - 3", "demo1" , 800, user3, false, "12", new Category("1"));
+        Product product4 = new Product( "product_sample", "L'oreal Mascara", "demo1", 120, user4,false, "13", new Category("4"));
+        Product product5 = new Product( "product_sample", "HP Wireless Mouse", "demo1", 500, user5, false, "14", new Category("3"));
 
         productList = new ArrayList<>();
 

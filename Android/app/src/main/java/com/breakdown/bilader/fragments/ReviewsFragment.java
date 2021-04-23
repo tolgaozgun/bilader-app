@@ -72,9 +72,12 @@ public class ReviewsFragment extends Fragment {
         Review review3 = new Review( user3,"Economy is just perfect" );
         Review review4 = new Review( user3,"Economy is just perfect" );
         Review review5 = new Review( user3,"Economy is just perfect" );
+
         comments = new ArrayList<>();
+
         String comment = "";
         comments.add( comment );
+
         reviewList = new ArrayList<>();
 
         reviewList.add( review1 );
@@ -82,12 +85,18 @@ public class ReviewsFragment extends Fragment {
         reviewList.add( review3 );
         reviewList.add( review4 );
         reviewList.add( review5 );
+
         CommentAdapter adapter1;
+
         ReviewsAdapterByYahya adapter2;
+
         adapter1 = new CommentAdapter( getContext(),comments );
         adapter2 = new ReviewsAdapterByYahya( getContext(),reviewList );
+
         ConcatAdapter concatenated = new ConcatAdapter(adapter1, adapter2);
+
         recyclerView.setAdapter( concatenated );
+
         return view;
     }
 }
