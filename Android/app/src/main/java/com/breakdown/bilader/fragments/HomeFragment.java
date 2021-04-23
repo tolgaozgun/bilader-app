@@ -204,10 +204,9 @@ public class HomeFragment extends Fragment  {
                             }
                         }
                         else if ( item.getItemId() == R.id.menu_hobby ) {
-                            ArrayList< Product > hobbyList = new ArrayList<>();
                             for ( Product product : productList ) {
                                 if ( product.getCategory().toString().equals( "Hobby Items" ) ) {
-                                    hobbyList.add( product );
+                                    newList.add( product );
                                 }
                             }
                             productList.clear();
@@ -216,10 +215,9 @@ public class HomeFragment extends Fragment  {
                             }
                         }
                         else if ( item.getItemId() == R.id.menu_other ) {
-                            ArrayList< Product > otherList = new ArrayList<>();
                             for ( Product product : productList ) {
                                 if ( product.getCategory().toString().equals( "Other" ) ) {
-                                    otherList.add( product );
+                                    newList.add( product );
                                 }
                             }
                             productList.clear();

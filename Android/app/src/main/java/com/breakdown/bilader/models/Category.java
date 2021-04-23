@@ -28,7 +28,7 @@ public class Category implements Comparable {
             this.id = id;
             this.name = "Hobby Items";
         }
-        else  {
+        else if ( id.equals("4")) {
             this.id = id;
             this.name = "Other";
         }
