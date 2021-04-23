@@ -1,5 +1,6 @@
 package com.breakdown.bilader.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ public class OnSaleFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;
     private ProductAdapter adapter;
+    private Activity mContext;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -44,6 +46,8 @@ public class OnSaleFragment extends Fragment {
     public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState ) {
         View view;
         RecyclerView recyclerView;
+
+        mContext = getActivity();
 
         view = inflater.inflate( R.layout.fragment_onsale, container, false );
         recyclerView =
@@ -85,9 +89,10 @@ public class OnSaleFragment extends Fragment {
         productList.add( product5 );
 
 
-        adapter = new ProductAdapter( this, productList );
+        adapter = new ProductAdapter( mContext, productList );
         recyclerView.setAdapter( adapter );
 
         return view;
     }
+
 }

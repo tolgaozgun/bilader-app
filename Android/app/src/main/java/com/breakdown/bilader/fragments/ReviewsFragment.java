@@ -25,6 +25,8 @@ public class ReviewsFragment extends Fragment {
     private ArrayList< Review > reviewList;
     private ArrayList< String > comments;
     private ReviewsAdapterByYahya adapter;
+    private CommentAdapter adapter1;
+    private ReviewsAdapterByYahya adapter2;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -86,17 +88,17 @@ public class ReviewsFragment extends Fragment {
         reviewList.add( review4 );
         reviewList.add( review5 );
 
-        CommentAdapter adapter1;
-
-        ReviewsAdapterByYahya adapter2;
-
-        adapter1 = new CommentAdapter( getContext(),comments );
-        adapter2 = new ReviewsAdapterByYahya( getContext(),reviewList );
+        adapter1 = new CommentAdapter( getContext(), comments );
+        adapter2 = new ReviewsAdapterByYahya( getContext(), reviewList );
 
         ConcatAdapter concatenated = new ConcatAdapter(adapter1, adapter2);
 
         recyclerView.setAdapter( concatenated );
 
         return view;
+    }
+
+    public int getReviewNumber() {
+        return adapter2.getItemCount();
     }
 }
