@@ -97,9 +97,10 @@ public class HomeFragment extends Fragment  {
         productList.add( product3 );
         productList.add( product4 );
         productList.add( product5 );
+
         holderList = new ArrayList<>();
-        for( Product p : productList) {
-            holderList.add(p);
+        for( Product product : productList ) {
+            holderList.add( product );
         }
 
         adapter = new ProductAdapter (getActivity(), productList);
@@ -194,8 +195,8 @@ public class HomeFragment extends Fragment  {
 
                         if ( item.getItemId() == R.id.menu_book ) {
                             productList.clear();
-                            for ( Product p : holderList) {
-                                productList.add(p);
+                            for ( Product p : holderList ) {
+                                productList.add( p );
                             }
                             for ( Product product : holderList ) {
                                 if ( product.getCategory().toString().equals( "Book" ) ) {
@@ -209,8 +210,8 @@ public class HomeFragment extends Fragment  {
                         }
                         else if ( item.getItemId() == R.id.menu_clothing ) {
                             productList.clear();
-                            for ( Product p : holderList) {
-                                productList.add(p);
+                            for ( Product p : holderList ) {
+                                productList.add( p );
                             }
                             for ( Product product : holderList ) {
                                 if ( product.getCategory().toString().equals( "Clothing" ) ) {
@@ -224,8 +225,8 @@ public class HomeFragment extends Fragment  {
                         }
                         else if ( item.getItemId() == R.id.menu_electronics ) {
                             productList.clear();
-                            for ( Product p : holderList) {
-                                productList.add(p);
+                            for ( Product p : holderList ) {
+                                productList.add( p );
                             }
                             for ( Product product : holderList ) {
                                 if ( product.getCategory().toString().equals( "Electronics" ) ) {
@@ -239,8 +240,8 @@ public class HomeFragment extends Fragment  {
                         }
                         else if ( item.getItemId() == R.id.menu_hobby ) {
                             productList.clear();
-                            for ( Product p : holderList) {
-                                productList.add(p);
+                            for ( Product p : holderList ) {
+                                productList.add( p );
                             }
                             for ( Product product : holderList ) {
                                 if ( product.getCategory().toString().equals( "Hobby Items" ) ) {
@@ -254,8 +255,8 @@ public class HomeFragment extends Fragment  {
                         }
                         else if ( item.getItemId() == R.id.menu_other ) {
                             productList.clear();
-                            for ( Product p : holderList) {
-                                productList.add(p);
+                            for ( Product p : holderList ) {
+                                productList.add( p );
                             }
                             for ( Product product : holderList ) {
                                 if ( product.getCategory().toString().equals( "Other" ) ) {
@@ -269,8 +270,8 @@ public class HomeFragment extends Fragment  {
                         }
                         else if ( item.getItemId() == R.id.menu_all ) {
                             productList.clear();
-                            for (Product p : holderList ) {
-                                productList.add(p);
+                            for ( Product p : holderList ) {
+                                productList.add( p );
                             }
                         }
                         adapter.notifyDataSetChanged();
