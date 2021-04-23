@@ -98,6 +98,8 @@ public class HomeFragment extends Fragment  {
         adapter = new ProductAdapter (getActivity(), productList);
         recyclerView.setAdapter( adapter );
 
+        ArrayList< Product > fullProductList = new ArrayList<>( productList );
+
         sortMenuImage = view.findViewById( R.id.imageView2 );
         sortMenuImage.setOnClickListener( new View.OnClickListener() {
 
@@ -231,8 +233,15 @@ public class HomeFragment extends Fragment  {
                 });
 
                 categoryMenu.show();
+
             }
         });
+
+        for ( Product product: fullProductList ) {
+            productList.add( product );
+        }
+
+        adapter.notifyDataSetChanged();
 
         return view;
     }
