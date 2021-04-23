@@ -1,32 +1,37 @@
 package com.breakdown.bilader.fragments;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.adapters.ImageLoadAdapter;
 import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddNewProductFragment extends Fragment {
 
@@ -40,8 +45,13 @@ public class AddNewProductFragment extends Fragment {
     private PopupMenu popupMenu;
     private Product newProduct;
     private Uri imageUri;
-    private ImageView profileImage;
+    private RecyclerView profileImage;
     private Button pickPhotoButton;
+
+    private ArrayList<Uri> uriList;
+    private List<String> imagesEncodedList;
+    private ImageLoadAdapter adapter;
+    RecyclerView recyclerView;
 
 
 
@@ -49,7 +59,15 @@ public class AddNewProductFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_addnewproduct, container, false);
+        View view;
+
+        view = inflater.inflate( R.layout.fragment_addnewproduct, container, false );
+
+        recyclerView =
+                ( RecyclerView ) view.findViewById( R.id.recyclerImageHolder);
+
+
+        recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,StaggeredGridLayoutManager.VERTICAL ) );
 
         mContext = getActivity();
         price = view.findViewById(R.id.priceAddNewProduct);
@@ -58,10 +76,12 @@ public class AddNewProductFragment extends Fragment {
         postButton = view.findViewById(R.id.postButton);
         categoryButton = view.findViewById(R.id.category_button);
         pickPhotoButton = view.findViewById(R.id.button_add);
-        profileImage = view.findViewById( R.id.added_image );
+        profileImage = view.findViewById( R.id.recyclerImageHolder );
+        uriList = new ArrayList<Uri>();
         newProduct = new Product(currentUser,false, "1");
         //For now, current user is
         currentUser =    new User("Korhan","mail","avatar_male","12");
+
 
 
         categoryButton.setOnClickListener(new View.OnClickListener() {
@@ -142,8 +162,8 @@ public class AddNewProductFragment extends Fragment {
 
                 galery = new Intent();
                 galery.setType( "image/*" );
+                galery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 galery.setAction( Intent.ACTION_GET_CONTENT );
-
                 startActivityForResult( Intent.createChooser( galery, "Sellect Picture" ), 1 );
             }
         });
@@ -154,20 +174,28 @@ public class AddNewProductFragment extends Fragment {
     @Override
     public void onActivityResult( int requestCode, int resultCode,
                                   @Nullable Intent data ) {
+        int position;
         super.onActivityResult( requestCode, resultCode, data );
-
-        if ( requestCode == 1 && resultCode == -1){
-            imageUri = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap( mContext.getContentResolver(), imageUri );
-
-                profileImage.setImageBitmap( bitmap);
-            } catch ( IOException e ) {
-                e.printStackTrace();
+        if (requestCode == 1 && resultCode == -1 && null != data) {
+            // Get the Image from data
+            if (data.getClipData() != null) {
+                ClipData mClipData = data.getClipData();
+                int cout = data.getClipData().getItemCount();
+                for (int i = 0; i < cout; i++) {
+                    // adding imageuri in array
+                    Uri imageurl = data.getClipData().getItemAt(i).getUri();
+                    uriList.add(imageurl);
+                }
+                position = 0;
+            } else {
+                Uri imageurl = data.getData();
             }
+        } else {
+            // show this if no image is selected
+            Toast.makeText(getContext(), "You haven't picked Image", Toast.LENGTH_LONG).show();
         }
-
-
+        adapter = new ImageLoadAdapter( getContext(), uriList );
+        recyclerView.setAdapter( adapter );
     }
 
 }
