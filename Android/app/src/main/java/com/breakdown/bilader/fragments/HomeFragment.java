@@ -176,7 +176,7 @@ public class HomeFragment extends Fragment  {
                                 }
                             }
                             productList.clear();
-                            productList = bookList;
+                            ArrayList< Product > productList = new ArrayList<>( bookList );
                             adapter.notifyDataSetChanged();
                         }
                         else if ( item.getItemId() == R.id.menu_clothing ) {
