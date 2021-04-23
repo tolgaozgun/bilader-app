@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.adapters.FollowersAdapter;
-import com.breakdown.bilader.adapters.FollowersAdapter;
 import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.UserAdapter;
 import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.models.*;
 
@@ -32,7 +31,7 @@ import java.util.HashMap;
 public class FollowersActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList< User > followerList;
-    private FollowersAdapter adapter;
+    private UserAdapter adapter;
 
     /**
      * this is the method where most initialization made such as UI and widgets
@@ -94,7 +93,7 @@ public class FollowersActivity extends AppCompatActivity {
 
         //followerList = getFollowers();
 
-        adapter = new FollowersAdapter( this, followerList );
+        adapter = new UserAdapter( this, followerList );
         recyclerView.setAdapter( adapter );
 
 
@@ -115,6 +114,7 @@ public class FollowersActivity extends AppCompatActivity {
 
             }
         }, RequestType.FOLLOWERS, params, this );
-        showUsers();
+
+        return null;
     }
 }
