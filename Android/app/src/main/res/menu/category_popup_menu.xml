@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
      <item
-         android:title="Book"
+         android:title="Books"
          android:id="@+id/book"/>
     <item
-        android:title="Electronic"
+        android:title="Electronics"
         android:id="@+id/electronic"/>
     <item
-        android:title="Clothes"
+        android:title="Clothing"
         android:id="@+id/clothes"/>
     <item
-        android:title="Hoby"
+        android:title="Hobby Items"
         android:id="@+id/hoby"/>
     <item
-        android:title="Others"
+        android:title="Other"
         android:id="@+id/others"/>
 
 

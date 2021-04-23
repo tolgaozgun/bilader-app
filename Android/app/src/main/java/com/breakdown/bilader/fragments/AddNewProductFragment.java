@@ -109,7 +109,7 @@ public class AddNewProductFragment extends Fragment {
                         }
                         else if (  item.getItemId() == R.id.hoby) {
                             newProduct.setCategory(new Category("3"));
-                            categoryButton.setText("Hobby");
+                            categoryButton.setText("Hobby Items");
                             return true;
                         }
                         else if (  item.getItemId() == R.id.others ) {
