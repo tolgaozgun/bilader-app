@@ -22,6 +22,8 @@ import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * A class that makes connection between its layout and data
@@ -117,13 +119,18 @@ public class HomeFragment extends Fragment  {
 
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
-                        /*if ( item.getItemId() == R.id.sort_alphabetically ) {
-                            // TODO
+                        if ( item.getItemId() == R.id.sort_alphabetically ) {
+                            Collections.sort( productList, new Comparator<Product>() {
+                                @Override
+                                public int compare( Product p1, Product p2 ) {
+                                    return p1.getTitle().compareTo( p2.getTitle() );
+                                }
+                            });
+                            adapter.notifyDataSetChanged();
                         }
-                        if ( item.getItemId() == R.id.sort_reverse_alphabetically ) {
-                            // TODO
+                        /**if ( item.getItemId() == R.id.sort_reverse_alphabetically ) {
                         }
-                        if ( item.getItemId() == R.id.sort_price_low_to_high ) {
+                        /**if ( item.getItemId() == R.id.sort_price_low_to_high ) {
                             // TODO
                         }
                         if ( item.getItemId() == R.id.sort_price_high_to_low ) {
