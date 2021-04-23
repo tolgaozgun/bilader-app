@@ -175,6 +175,7 @@ public class HomeFragment extends Fragment  {
                                     bookList.add( product );
                                 }
                             }
+                            productList.clear();
                             Collections.copy( productList, bookList );
                         }
                         else if ( item.getItemId() == R.id.menu_clothing ) {
@@ -184,6 +185,7 @@ public class HomeFragment extends Fragment  {
                                     clothingList.add( product );
                                 }
                             }
+                            productList.clear();
                             Collections.copy( productList, clothingList );
                         }
                         else if ( item.getItemId() == R.id.menu_electronics ) {
@@ -193,6 +195,7 @@ public class HomeFragment extends Fragment  {
                                     electronicsList.add( product );
                                 }
                             }
+                            productList.clear();
                             Collections.copy( productList, electronicsList );
                         }
                         else if ( item.getItemId() == R.id.menu_hobby ) {
@@ -202,6 +205,7 @@ public class HomeFragment extends Fragment  {
                                     hobbyList.add( product );
                                 }
                             }
+                            productList.clear();
                             Collections.copy( productList, hobbyList );
                         }
                         else if ( item.getItemId() == R.id.menu_other ) {
@@ -211,6 +215,7 @@ public class HomeFragment extends Fragment  {
                                     otherList.add( product );
                                 }
                             }
+                            productList.clear();
                             Collections.copy( productList, otherList );
                         }
                         adapter.notifyDataSetChanged();
