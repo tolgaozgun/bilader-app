@@ -180,15 +180,16 @@ public class AddNewProductFragment extends Fragment {
             // Get the Image from data
             if (data.getClipData() != null) {
                 ClipData mClipData = data.getClipData();
-                int cout = data.getClipData().getItemCount();
-                for (int i = 0; i < cout; i++) {
+                int count = data.getClipData().getItemCount();
+                for (int i = 0; i < count; i++) {
                     // adding imageuri in array
-                    Uri imageurl = data.getClipData().getItemAt(i).getUri();
-                    uriList.add(imageurl);
+                    Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                    uriList.add(imageUri);
                 }
                 position = 0;
             } else {
-                Uri imageurl = data.getData();
+                Uri imageUriSingle = data.getData();
+                uriList.add( imageUriSingle );
             }
         } else {
             // show this if no image is selected
