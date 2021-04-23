@@ -85,15 +85,15 @@ public class HomeFragment extends Fragment  {
 
         // sample products for testing
         Product product1 = new Product( "product_sample", "The epic of " +
-                "Gilgamesh", "demo1", 120, user1 ,false, "10");
+                "Gilgamesh", "demo1", 12, user1 ,false, "10");
         Product product2 = new Product( "product_sample2", "brand new dress",
-                "demo1", 120, user2, false, "11");
+                "demo1", 100, user2, false, "11");
         Product product3 = new Product( "product_sample3", "basys-3", "demo1"
-                , 120, user3, false, "12");
+                , 800, user3, false, "12");
         Product product4 = new Product( "product_sample", "random", "demo1",
                 120, user4,false, "13" );
         Product product5 = new Product( "product_sample", "random", "demo1",
-                120, user5, false, "14");
+                500, user5, false, "14");
 
 
         productList = new ArrayList<>();
@@ -128,14 +128,35 @@ public class HomeFragment extends Fragment  {
                             });
                             adapter.notifyDataSetChanged();
                         }
-                        /**if ( item.getItemId() == R.id.sort_reverse_alphabetically ) {
+                        if ( item.getItemId() == R.id.sort_reverse_alphabetically ) {
+                            Collections.sort( productList, new Comparator<Product>() {
+                                @Override
+                                public int compare( Product p1, Product p2 ) {
+                                    return p1.getTitle().compareToIgnoreCase( p2.getTitle() );
+                                }
+                            });
+                            Collections.reverse( productList );
+                            adapter.notifyDataSetChanged();
                         }
-                        /**if ( item.getItemId() == R.id.sort_price_low_to_high ) {
-                            // TODO
+                        if ( item.getItemId() == R.id.sort_price_low_to_high ) {
+                            Collections.sort( productList, new Comparator<Product>() {
+                                @Override
+                                public int compare( Product p1, Product p2 ) {
+                                    return (int) (p1.getPrice() - p2.getPrice());
+                                }
+                            });
+                            adapter.notifyDataSetChanged();
                         }
                         if ( item.getItemId() == R.id.sort_price_high_to_low ) {
-                            // TODO
-                        }*/
+                            Collections.sort( productList, new Comparator<Product>() {
+                                @Override
+                                public int compare( Product p1, Product p2 ) {
+                                    return (int) (p1.getPrice() - p2.getPrice());
+                                }
+                            });
+                            Collections.reverse( productList );
+                            adapter.notifyDataSetChanged();
+                        }
                         return false;
                     }
                 });
