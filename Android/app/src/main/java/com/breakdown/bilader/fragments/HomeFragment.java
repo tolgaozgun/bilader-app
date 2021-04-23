@@ -178,7 +178,7 @@ public class HomeFragment extends Fragment  {
                             productList = bookList;
                             adapter.notifyDataSetChanged();
                         }
-                        if ( item.getItemId() == R.id.menu_clothing ) {
+                        else if ( item.getItemId() == R.id.menu_clothing ) {
                             ArrayList< Product > clothingList = new ArrayList<>();
                             for ( Product product : productList ) {
                                 if ( product.getCategory().toString().equals( "Clothing" ) ) {
@@ -188,7 +188,7 @@ public class HomeFragment extends Fragment  {
                             productList = clothingList;
                             adapter.notifyDataSetChanged();
                         }
-                        if ( item.getItemId() == R.id.menu_electronics ) {
+                        else if ( item.getItemId() == R.id.menu_electronics ) {
                             ArrayList< Product > electronicsList = new ArrayList<>();
                             for ( Product product : productList ) {
                                 if ( product.getCategory().toString().equals( "Electronics" ) ) {
@@ -198,7 +198,7 @@ public class HomeFragment extends Fragment  {
                             productList = electronicsList;
                             adapter.notifyDataSetChanged();
                         }
-                        if ( item.getItemId() == R.id.menu_hobby ) {
+                        else if ( item.getItemId() == R.id.menu_hobby ) {
                             ArrayList< Product > hobbyList = new ArrayList<>();
                             for ( Product product : productList ) {
                                 if ( product.getCategory().toString().equals( "Hobby Items" ) ) {
@@ -208,7 +208,7 @@ public class HomeFragment extends Fragment  {
                             productList = hobbyList;
                             adapter.notifyDataSetChanged();
                         }
-                        if ( item.getItemId() == R.id.menu_other ) {
+                        else if ( item.getItemId() == R.id.menu_other ) {
                             ArrayList< Product > otherList = new ArrayList<>();
                             for ( Product product : productList ) {
                                 if ( product.getCategory().toString().equals( "Other" ) ) {
