@@ -75,7 +75,6 @@ public class VerificationActivity extends Activity {
             return;
         }
 
-
         params = new HashMap< String, String >();
         params.put( "code", code );
         HttpAdapter.getRequestJSON( new VolleyCallback() {
