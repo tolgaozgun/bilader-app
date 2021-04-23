@@ -106,20 +106,19 @@ public class HomeFragment extends Fragment  {
         adapter = new ProductAdapter (getActivity(), productList);
         recyclerView.setAdapter( adapter );
 
-        searchView = view.findViewById( R.id.searchView );
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        /*searchView = view.findViewById( R.id.searchView );
+        searchView.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                // TODO:
+            public boolean onQueryTextSubmit( String query ) {
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                // TODO:
+            public boolean onQueryTextChange( String newText ) {
+                adapter.getFilter().filter( newText );
                 return false;
             }
-        });
+        });*/
 
         sortMenuImage = view.findViewById( R.id.imageView2 );
         sortMenuImage.setOnClickListener( new View.OnClickListener() {
