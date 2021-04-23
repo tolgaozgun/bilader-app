@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,8 @@ import com.google.gson.Gson;
 
 public class ProductActivity extends Activity {
 
+    private ImageView userAvatar;
+    private ImageView productImage;
     private Button settingsButton;
     private Button addWishlistButton;
     private Button directChatButton;
@@ -41,7 +44,9 @@ public class ProductActivity extends Activity {
         productDescription = findViewById( R.id.description );
         ownerName = findViewById( R.id.ownerName );
         price = findViewById( R.id.price );
-        //category = findViewById(R.id.categoryName);
+        category = findViewById(R.id.categoryName);
+        productImage = findViewById(R.id.image_product_view);
+        userAvatar = findViewById(R.id.userAvatar);
         gson = new Gson();
         currentProduct =
                 gson.fromJson( getIntent().getStringExtra( "product" ),
@@ -50,7 +55,10 @@ public class ProductActivity extends Activity {
         productDescription.setText( currentProduct.getDescription() );
         price.setText( String.valueOf( currentProduct.getPrice() ) );
         ownerName.setText( currentProduct.getOwner().toString() );
-        //category.setText(currentProduct.getCategory().toString());
+        category.setText(currentProduct.getCategory().toString());
+        productImage.setImageResource(getResources().getIdentifier( currentProduct.getPicture(), "drawable", getPackageName()));
+        userAvatar.setImageResource(getResources().getIdentifier(currentProduct.getOwner().getUserAvatar(), "drawable" , getPackageName()));
+        
 
         settingsButton.setOnClickListener( new View.OnClickListener() {
             @Override

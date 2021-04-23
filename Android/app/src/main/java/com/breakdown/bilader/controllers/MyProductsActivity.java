@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.ProductAdapter;
+import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
@@ -40,15 +41,15 @@ public class MyProductsActivity extends Activity {
                 "12" );
 
         Product product1 = new Product( "product_sample", "The Epic of " +
-                "Gilgamesh", "demo1", 120, user1,true, "1" );
+                "Gilgamesh", "demo1", 120, user1,true, "1", new Category("0"));
         Product product2 = new Product( "product_sample2", "brand new dress",
-                "demo1", 120, user2,true, "2");
+                "demo1", 120, user2,true, "2", new Category("2"));
         Product product3 = new Product( "product_sample3", "basys-3", "demo1"
-                , 120, user3, true, "3");
+                , 120, user3, true, "3", new Category("1"));
         Product product4 = new Product( "product_sample", "random", "demo1",
-                120, user4, true, "4");
+                120, user4, true, "4", new Category("0"));
         Product product5 = new Product( "product_sample", "random", "demo1",
-                120, user5, false, "5" );
+                120, user5, false, "5", new Category("0") );
 
         productList = new ArrayList<>();
         productList.add( product1 );
