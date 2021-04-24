@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+<<<<<<< Updated upstream
 import android.view.Menu;
+=======
+>>>>>>> Stashed changes
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.R;
@@ -104,9 +106,49 @@ public class ProductActivity extends Activity {
         settingsButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+<<<<<<< Updated upstream
                 //This will identify who is the clicker than display two diff
                 // pop-ups.
                 //TODO
+=======
+                PopupMenu settingsMenu = new PopupMenu( ProductActivity.this, v );
+                String userId = "CURRENT_STRING_ID";
+
+                if ( currentProduct.getSeller().getUserId().equals( userId ) ) {
+                    settingsMenu.getMenuInflater().inflate( R.menu.second_menu, settingsMenu.getMenu() );
+                } else {
+                    settingsMenu.getMenuInflater().inflate( R.menu.first_menu, settingsMenu.getMenu() );
+                }
+
+                settingsMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick( MenuItem item ) {
+                        int id;
+                        Intent newIntent;
+
+                        id = item.getItemId();
+
+                        if ( id == R.id.reportMenu ) {
+
+                            newIntent = new Intent( ProductActivity.this,
+                                    ReportActivity.class );
+                            startActivity( newIntent );
+                            //TODO
+
+                        } else if ( id == R.id.editMenu ) {
+
+                            newIntent = new Intent( ProductActivity.this,
+                                    EditProductActivity.class );
+                            startActivity( newIntent );
+                            //TODO
+                        } else if ( id == R.id.removeMenu ) {
+                            //TODO
+                        }
+                        return true;
+                    }
+                } );
+                settingsMenu.show();
+>>>>>>> Stashed changes
             }
         } );
 
@@ -138,6 +180,7 @@ public class ProductActivity extends Activity {
             }
         } );
     }
+<<<<<<< Updated upstream
 
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
@@ -178,6 +221,9 @@ public class ProductActivity extends Activity {
         return true;
     }
 
+=======
+    
+>>>>>>> Stashed changes
     public void addToWishlist() {
         //TODO
     }
