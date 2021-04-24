@@ -51,14 +51,16 @@ public class HttpAdapter {
             queue = Volley.newRequestQueue( context );
         }
         path = requestType.getPath();
-        url = addParameters( MAIN_URL + path, params );
-        System.out.println( "URL: " + url );
 
         // Add session parameters to request
         token = sharedPreferences.getString( "session_token", "" );
         userId = sharedPreferences.getString( "id", "" );
         params.put( "id", userId );
         params.put( "session_token", token );
+
+        url = addParameters( MAIN_URL + path, params );
+        System.out.println( "URL: " + url );
+
 
         // Initialize the request.
         jsonObjectRequest = new JsonObjectRequest( Request.Method.POST, url,

@@ -14,6 +14,7 @@ import com.breakdown.bilader.models.Message;
 import com.breakdown.bilader.models.MessageWrapper;
 import com.breakdown.bilader.models.User;
 import com.stfalcon.chatkit.commons.models.IMessage;
+import com.stfalcon.chatkit.commons.models.IUser;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
@@ -112,8 +113,9 @@ public class PrivateChatActivity extends Activity {
     }
 
     //TODO
- /*   private void addMessages ( List<PreviousMessages> previousMessages) {
-        List<IMessage> list;
+   /*private void addMessages ( List<IMessage> previousMessages) {
+        IMessage message;
+
         adapter.addToEnd ( list,true);
     }*/
 

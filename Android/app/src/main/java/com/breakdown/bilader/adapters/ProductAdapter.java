@@ -18,6 +18,7 @@ import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.Product;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -77,10 +78,12 @@ public class ProductAdapter extends
                 filteredList.addAll( productsFull );
             }
             else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
+                String filterPattern = constraint.toString().toLowerCase()
+                .trim();
 
                 for ( Product item : productsFull ) {
-                    if ( item.getTitle().toLowerCase().contains( filterPattern ) ) {
+                    if ( item.getTitle().toLowerCase().contains(
+                    filterPattern ) ) {
                         filteredList.add( item );
                     }
                 }
@@ -93,7 +96,8 @@ public class ProductAdapter extends
         }
 
         @Override
-        protected void publishResults( CharSequence constraint, FilterResults results ) {
+        protected void publishResults( CharSequence constraint, FilterResults
+         results ) {
             products.clear();
             products.addAll( ( ArrayList ) results.values );
             notifyDataSetChanged();
@@ -171,14 +175,13 @@ public class ProductAdapter extends
         holder.textUserName.setText( product.getSeller().getUserName() );
         holder.textProductName.setText( product.getTitle() );
         holder.textProductPrice.setText( String.valueOf( product.getPrice() ) );
-        if ( controller == 0 ) {
-            holder.imageProduct.setImageResource( mContext.getResources().getIdentifier( product.getPicture(), "drawable", mContext.getActivity().getPackageName() ) );
-            holder.imageProductSeller.setImageResource( mContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mContext.getActivity().getPackageName() ) );
-        } else {
-            holder.imageProduct.setImageResource( mmmContext.getResources().getIdentifier( product.getPicture(), "drawable", mmmContext.getPackageName() ) );
-            holder.imageProductSeller.setImageResource( mmmContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mmmContext.getPackageName() ) );
+        if ( product.getPicture() != null && !product.getPicture().equals( "" ) ) {
+            Picasso.get().load( product.getPicture() ).fit().centerInside().into( holder.imageProduct );
         }
-        holder.textCategoryName.setText(product.getCategory().toString());
+        if ( product.getSeller().getUserAvatar() != null && !product.getSeller().getUserAvatar().equals( "" ) ) {
+            Picasso.get().load( product.getSeller().getUserAvatar() ).fit().centerInside().into( holder.imageProductSeller );
+        }
+        holder.textCategoryName.setText( product.getCategory().toString() );
 
         isWishlisted( product.getProductId() );
 
@@ -207,11 +210,10 @@ public class ProductAdapter extends
     @Override
     public int getItemCount() {
 
-        int productsSize;
-
-        productsSize = products.size();
-
-        return productsSize;
+        if ( products != null ) {
+            return products.size();
+        }
+        return 0;
     }
 
     public void isWishlisted( String productId ) {

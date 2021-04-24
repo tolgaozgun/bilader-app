@@ -28,6 +28,7 @@
         <activity android:name=".controllers.MyProductsActivity"/>
         <activity android:name=".controllers.OthersProfileActivity"/>
         <activity android:name=".controllers.SettingsActivity"/>
+        <activity android:name=".controllers.PrivateChatActivity"/>
 
         <service
             android:name=".adapters.NotificationService"

@@ -2,9 +2,7 @@ package database.requests;
 
 import java.io.IOException;
 
-import database.adapters.DatabaseAdapter;
 import database.adapters.RequestAdapter;
-import database.handlers.ProcessHandler;
 import database.handlers.RetrieveMessagesHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

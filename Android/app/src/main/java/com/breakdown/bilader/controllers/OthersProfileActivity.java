@@ -21,6 +21,7 @@ import com.breakdown.bilader.models.User;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -48,7 +49,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     private ArrayList< Fragment > fragmentList = new ArrayList<>();
     private ArrayList< String > fragmentTitleList = new ArrayList<>();
 
-    private  User currentUser;
+    private User currentUser;
     private Gson gson;
 
     @Override
@@ -58,14 +59,15 @@ public class OthersProfileActivity extends AppCompatActivity {
 
         tableLayout = findViewById( R.id.others_profile_tab_layout );
         viewPager2 = findViewById( R.id.others_profile_view_pager );
-        numberOfReviews = findViewById( R.id.text_other_profile_reviews_in_parantheses );
-        userName = findViewById(R.id.text_others_profile_user_name);
-        profilePhoto = findViewById(R.id.image_others_profile_avatar);
+        numberOfReviews =
+                findViewById( R.id.text_other_profile_reviews_in_parantheses );
+        userName = findViewById( R.id.text_others_profile_user_name );
+        profilePhoto = findViewById( R.id.image_others_profile_avatar );
 
         fragmentForReview = new ReviewsFragment();
         fragmentForSale = new OnSaleFragment();
 
-        fragmentList.add( fragmentForSale);
+        fragmentList.add( fragmentForSale );
         fragmentList.add( fragmentForReview );
 
         MyViewpagerAdapter adapter = new MyViewpagerAdapter( this );
@@ -76,11 +78,14 @@ public class OthersProfileActivity extends AppCompatActivity {
         fragmentTitleList.add( "Revıews" );
 
 
-        new TabLayoutMediator( tableLayout, viewPager2, ( tab, position ) -> tab.setText( fragmentTitleList.get( position ) + ("")) ).attach();
+        new TabLayoutMediator( tableLayout, viewPager2,
+                ( tab, position ) -> tab.setText( fragmentTitleList.get( position ) + ( "" ) ) ).attach();
         gson = new Gson();
-        currentUser = gson.fromJson(getIntent().getStringExtra("user"), User.class);
-        userName.setText(currentUser.getUserName());
-        profilePhoto.setImageResource(getResources().getIdentifier(currentUser.getUserAvatar(), "drawable", getPackageName()));
+        currentUser = gson.fromJson( getIntent().getStringExtra( "user" ),
+                User.class );
+        userName.setText( currentUser.getUserName() );
+
+        Picasso.get().load( currentUser.getUserAvatar() ).fit().centerInside().into( profilePhoto );
 
         getUserInfo();
         userProducts();
@@ -95,7 +100,8 @@ public class OthersProfileActivity extends AppCompatActivity {
             public void onClick( View v ) {
                 Intent newIntent;
 
-                newIntent = new Intent( OthersProfileActivity.this, ReportActivity.class );
+                newIntent = new Intent( OthersProfileActivity.this,
+                ReportActivity.class );
 
                 // TODO
                 newIntent.putExtra( "userName", "Hello" );
@@ -117,7 +123,8 @@ public class OthersProfileActivity extends AppCompatActivity {
             public void onClick( View v ) {
                 Intent newIntent;
 
-                newIntent = new Intent( OthersProfileActivity.this, PrivateChatActivity.class );
+                newIntent = new Intent( OthersProfileActivity.this,
+                PrivateChatActivity.class );
 
                 startActivity( newIntent );
             }
@@ -128,7 +135,6 @@ public class OthersProfileActivity extends AppCompatActivity {
 
     /**
      * Sets the followings count of the current user.
-     *
      */
     public void getFollowingsCount() {
         //TODO
@@ -137,7 +143,6 @@ public class OthersProfileActivity extends AppCompatActivity {
 
     /**
      * Sets the followers count of the current user.
-     *
      */
     public void getFollowersCount() {
         //TODO
@@ -146,7 +151,6 @@ public class OthersProfileActivity extends AppCompatActivity {
 
     /**
      * Sets user information of the current user.
-     *
      */
     public void getUserInfo() {
         //TODO
@@ -158,7 +162,6 @@ public class OthersProfileActivity extends AppCompatActivity {
 
     /**
      * Shows the products of the current user.
-     *
      */
     public void userProducts() {
         //TODO
@@ -167,7 +170,6 @@ public class OthersProfileActivity extends AppCompatActivity {
 
     /**
      * Shows the reviews of the current user.
-     *
      */
     public void userReviews() {
         //TODO
@@ -175,25 +177,25 @@ public class OthersProfileActivity extends AppCompatActivity {
     }
 
     //?????
+
     /**
      * Shows the number of soles done of the current user.
-     *
      */
-    public void getSoldCount(){
+    public void getSoldCount() {
         //TODO
     }
 
 
     /**
      * Shows the number of reviews done of the current user.
-     *
      */
     public void getReviewCount() {
-        numberOfReviews.setText("(" +  fragmentForReview.getReviewNumber() + "Reviews )");
+        numberOfReviews.setText( "(" + fragmentForReview.getReviewNumber() +
+                "Reviews )" );
     }
 
     //??????
-    public boolean isFollowing( User user) {
+    public boolean isFollowing( User user ) {
         //TODO
         /* if the user is followed --> follow.setText("following")
            if the user is not followed --> follow.setText("follow");

@@ -13,16 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.models.Review;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewsAdapter extends 
+public class ReviewsAdapter extends
                             RecyclerView.Adapter< ReviewsAdapter.ReviewsHolder > {
     private Fragment mContext;
     private List< Review > reviews;
 
-    public ReviewsAdapter( Fragment mContext, ArrayList< Review > reviews) {
+    public ReviewsAdapter( Fragment mContext, ArrayList< Review > reviews ) {
 
         this.mContext = mContext;
         this.reviews = reviews;
@@ -45,11 +46,10 @@ public class ReviewsAdapter extends
                                   int position ) {
         Review enteredReview;
 
-        enteredReview = reviews.get( position);
-        holder.userName.setText( enteredReview.getSentBy().getUserName());
-        holder.imageUserAvatar.setImageResource(mContext.getResources().getIdentifier(enteredReview.getSentBy().getUserAvatar(),
-                "drawable", mContext.getActivity().getPackageName()));
-      
+        enteredReview = reviews.get( position );
+        holder.userName.setText( enteredReview.getSentBy().getUserName() );
+        Picasso.get().load( enteredReview.getSentBy().getUserAvatar() ).fit().centerInside().into( holder.imageUserAvatar );
+
         // holder.content
     }
 

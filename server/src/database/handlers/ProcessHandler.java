@@ -12,8 +12,8 @@ import jakarta.servlet.ServletException;
 
 public abstract class ProcessHandler {
 
-	private final String DATABASE_TABLE_SESSIONS = "sessions";
-	private final String DATABASE_TABLE_USERS = "users";
+	protected final String DATABASE_TABLE_SESSIONS = "sessions";
+	protected final String DATABASE_TABLE_USERS = "users";
 	protected static final String TOKEN_KEY = "session_token";
 	protected static final String USER_ID_KEY = "id";
 	protected static final String MAIL_KEY = "email";
@@ -99,11 +99,10 @@ public abstract class ProcessHandler {
 		userObj = new HashMap< Integer, Object[] >();
 		json = new JSONObject();
 		adapter = new DatabaseAdapter();
-		wanted = new String[ 4 ];
+		wanted = new String[ 3 ];
 		wanted[ 0 ] = "id";
-		wanted[ 1 ] = "email";
-		wanted[ 2 ] = "name";
-		wanted[ 3 ] = "avatar_url";
+		wanted[ 1 ] = "name";
+		wanted[ 2 ] = "avatar_url";
 
 		idParam = new HashMap< String, String >();
 		idParam.put( USER_ID_KEY, id );

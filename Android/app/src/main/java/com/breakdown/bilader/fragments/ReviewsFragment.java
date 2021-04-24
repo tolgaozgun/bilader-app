@@ -56,7 +56,7 @@ public class ReviewsFragment extends Fragment {
 
         recyclerView.setHasFixedSize( true );
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
-
+        /*
         // sample users for testing
         User user1 = new User( "Yahya Demirel", "mail@mail.com", "avatar_male"
                 , "12" );
@@ -74,6 +74,7 @@ public class ReviewsFragment extends Fragment {
         Review review3 = new Review( user3,"Economy is just perfect" );
         Review review4 = new Review( user3,"Economy is just perfect" );
         Review review5 = new Review( user3,"Economy is just perfect" );
+        */
 
         comments = new ArrayList<>();
 
@@ -81,12 +82,12 @@ public class ReviewsFragment extends Fragment {
         comments.add( comment );
 
         reviewList = new ArrayList<>();
-
+        /*
         reviewList.add( review1 );
         reviewList.add( review2 );
         reviewList.add( review3 );
         reviewList.add( review4 );
-        reviewList.add( review5 );
+        reviewList.add( review5 );*/
 
         adapter1 = new CommentAdapter( getContext(), comments );
         adapter2 = new ReviewsAdapterByYahya( getContext(), reviewList );

@@ -16,6 +16,7 @@ import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.OthersProfileActivity;
 import com.breakdown.bilader.models.User;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ import java.util.ArrayList;
  */
 
 public class UserAdapter extends
-                              RecyclerView.Adapter< UserAdapter.FollowerHolder > {
+                         RecyclerView.Adapter< UserAdapter.FollowerHolder > {
     private Context mContext;
     private ArrayList< User > followers;
 
@@ -39,7 +40,7 @@ public class UserAdapter extends
      *                  elements and methods
      * @param followers list of the follower
      */
-    public UserAdapter(Context mContext, ArrayList< User > followers ) {
+    public UserAdapter( Context mContext, ArrayList< User > followers ) {
         this.mContext = mContext;
         this.followers = followers;
     }
@@ -104,9 +105,9 @@ public class UserAdapter extends
         user = followers.get( position );
 
         holder.textUserName.setText( user.getUserName() );
-        holder.imageFollowerScreenAvatar.setImageResource( mContext.getResources().getIdentifier( user.getUserAvatar(), "drawable", mContext.getPackageName() ) );
+        Picasso.get().load( user.getUserAvatar() ).fit().centerInside().into( holder.imageFollowerScreenAvatar );
 
-        holder.userCard.setOnClickListener(new View.OnClickListener() {
+        holder.userCard.setOnClickListener( new View.OnClickListener() {
 
             public void onClick( View view ) {
                 Intent intent;
@@ -116,8 +117,8 @@ public class UserAdapter extends
 
                 intent = new Intent( mContext, OthersProfileActivity.class );
                 gson = new Gson();
-                myJson = gson.toJson(user);
-                intent.putExtra( "user", myJson  );
+                myJson = gson.toJson( user );
+                intent.putExtra( "user", myJson );
                 mContext.startActivity( intent );
 
             }
@@ -131,14 +132,11 @@ public class UserAdapter extends
      */
     @Override
     public int getItemCount() {
-
-        int followersSize;
-
-        followersSize = followers.size();
-
-        return followersSize;
+        if ( followers != null ) {
+            return followers.size();
+        }
+        return 0;
     }
-
 
 
 }

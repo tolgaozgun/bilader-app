@@ -53,7 +53,7 @@ public class AddProductHandler extends ProcessHandler {
 		return ResultCode.ADD_PRODUCT_OK;
 	}
 
-	private void createProductId() throws ClassNotFoundException, SQLException {
+	private String createProductId() throws ClassNotFoundException, SQLException {
 		Map< String, String > mapProductId;
 		UUID productId;
 		DatabaseAdapter adapter;
@@ -69,6 +69,7 @@ public class AddProductHandler extends ProcessHandler {
 			mapProductId.put( "id", productId.toString() );
 		}
 		params.put( "id", productId.toString() );
+		return productId.toString();
 
 	}
 
@@ -78,17 +79,19 @@ public class AddProductHandler extends ProcessHandler {
 		JSONObject json;
 		DatabaseAdapter adapter;
 		ResultCode result;
+		String productId;
 
 		adapter = new DatabaseAdapter();
 		json = new JSONObject();
 		result = checkParams();
-
+		productId = "";
 		if ( result.isSuccess()) {
-			createProductId();
+			productId = createProductId();
 			// Adds the new product to database.
 			adapter.create( DATABASE_TABLE, params );
 		}
 
+		json.put( "product_id", productId );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;

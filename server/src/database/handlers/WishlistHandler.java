@@ -1,6 +1,7 @@
 package database.handlers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,16 +13,19 @@ import database.adapters.RequestAdapter;
 import database.handlers.codes.ResultCode;
 import jakarta.servlet.ServletException;
 
-public class ProductHandler extends ProcessHandler {
+public class WishlistHandler extends ProcessHandler {
 
+	private static final String WISHLIST_USER_ID_KEY = "user_id";
 	private static final String[] KEYS = {};
 	private static final String[] OPTIONAL_KEYS = { "id", "price", "seller_id",
 			"category_id" };
-	private final String DATABASE_TABLE = "products";
+	private final String DATABASE_TABLE_WISHLIST = "wishlist";
+	private final String DATABASE_TABLE_PRODUCT = "products";
 
-	public ProductHandler( Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, KEYS, OPTIONAL_KEYS,
-				true ) );
+	public WishlistHandler( Map< String, String[] > parameters ) {
+		super( RequestAdapter.convertParameters( parameters, KEYS,
+				OPTIONAL_KEYS, true ) );
+		params.put( WISHLIST_USER_ID_KEY, parameters.get( USER_ID_KEY )[ 0 ] );
 	}
 
 	private ResultCode checkParams()
@@ -49,7 +53,7 @@ public class ProductHandler extends ProcessHandler {
 			return ResultCode.INVALID_SESSION;
 		}
 
-		if ( adapter.doesExist( DATABASE_TABLE, params ) ) {
+		if ( adapter.doesExist( DATABASE_TABLE_WISHLIST, params ) ) {
 			return ResultCode.PRODUCT_OK;
 		}
 
@@ -65,10 +69,13 @@ public class ProductHandler extends ProcessHandler {
 		JSONObject jsonSqlResult;
 		Map< Integer, Object[] > sqlResult;
 
+		Map< Integer, Object[] > productResult;
 		Map< Integer, Object[] > userResult;
 		DatabaseAdapter adapter;
 		String[] wanted;
 		String[] sellerWanted;
+		String[] productWanted;
+		String productId;
 		String sellerId;
 		Object[] objectList;
 		ResultCode result;
@@ -79,26 +86,34 @@ public class ProductHandler extends ProcessHandler {
 		result = checkParams();
 
 		// Wanted columns from the database
-		wanted = new String[ 8 ];
-		wanted[ 0 ] = "id";
-		wanted[ 1 ] = "picture_url";
-		wanted[ 2 ] = "title";
-		wanted[ 3 ] = "description";
-		wanted[ 4 ] = "price";
-		wanted[ 5 ] = "seller_id";
-		wanted[ 6 ] = "category_id";
-		wanted[ 7 ] = "creation_date";
+		wanted = new String[ 2 ];
+		wanted[ 0 ] = "product_id";
+		wanted[ 1 ] = "creation_date";
+
+		productWanted = new String[ 6 ];
+		productWanted[ 0 ] = "picture_url";
+		productWanted[ 1 ] = "title";
+		productWanted[ 2 ] = "description";
+		productWanted[ 3 ] = "price";
+		productWanted[ 4 ] = "seller_id";
+		productWanted[ 5 ] = "category_id";
 
 		sellerWanted = new String[ 2 ];
 		sellerWanted[ 0 ] = "avatar_url";
 		sellerWanted[ 1 ] = "name";
 
 		if ( result.isSuccess() ) {
-			sqlResult = adapter.select( DATABASE_TABLE, wanted, params );
+			sqlResult = adapter.select( DATABASE_TABLE_WISHLIST, wanted,
+					params );
 			if ( sqlResult != null && sqlResult.size() > 0 ) {
 				for ( int key : sqlResult.keySet() ) {
 					tempJson = new JSONObject();
-					sellerId = ( String ) sqlResult.get( key )[ 5 ];
+					productId = ( String ) sqlResult.get( key )[ 0 ];
+					params = new HashMap< String, String >();
+					params.put( "id", productId );
+					productResult = adapter.select( DATABASE_TABLE_PRODUCT,
+							productWanted, params );
+					sellerId = ( String ) productResult.get( key )[ 4 ];
 					params = new HashMap< String, String >();
 					params.put( USER_ID_KEY, sellerId );
 					userResult = adapter.select( DATABASE_TABLE_USERS,
@@ -106,6 +121,10 @@ public class ProductHandler extends ProcessHandler {
 					objectList = sqlResult.get( key );
 					for ( int i = 0; i < wanted.length; i++ ) {
 						tempJson.put( wanted[ i ], objectList[ i ] );
+					}
+					for ( int i = 0; i < productWanted.length; i++ ) {
+						tempJson.put( productWanted[ i ],
+								productResult.get( 0 )[ i ] );
 					}
 					for ( int i = 0; i < sellerWanted.length; i++ ) {
 						tempJson.put( "seller_" + sellerWanted[ i ],

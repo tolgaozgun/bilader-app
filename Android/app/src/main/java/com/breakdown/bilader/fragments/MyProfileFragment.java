@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,8 @@ public class MyProfileFragment extends Fragment {
     private Button settingsButton;
     private Button logOutButton;
     private ProgressDialog loadingBar;
+    private SharedPreferences sharedPreferences;
+    private String currentUserId;
     private TextView name;
 
     /**
@@ -67,6 +71,9 @@ public class MyProfileFragment extends Fragment {
         super.onCreateView( inflater, container, savedInstanceState );
         View view = inflater.inflate( R.layout.fragment_myprofile, container,
                 false );
+        sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences( this.getContext() );
+        currentUserId = sharedPreferences.getString( "id", "" );
         context = getActivity();
         return view;
     }
@@ -77,7 +84,8 @@ public class MyProfileFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        /*name = ( TextView ) context.findViewById( R.id.text_myprofile_fullname );
+        /*name = ( TextView ) context.findViewById( R.id
+        .text_myprofile_fullname );
         name.setText( user.getName() );*/
 
         myProductsButton = context.findViewById( R.id.myProductsButton );
@@ -104,6 +112,7 @@ public class MyProfileFragment extends Fragment {
             public void onClick( View view ) {
                 //create an Intent object
                 Intent intent = new Intent( context, FollowersActivity.class );
+                intent.putExtra( "user_id", currentUserId );
                 //start the second activity
                 startActivity( intent );
             }
@@ -118,6 +127,7 @@ public class MyProfileFragment extends Fragment {
             public void onClick( View view ) {
                 //create an Intent object
                 Intent intent = new Intent( context, FollowingActivity.class );
+                intent.putExtra( "user_id", currentUserId );
                 //start the second activity
                 startActivity( intent );
             }
@@ -130,22 +140,27 @@ public class MyProfileFragment extends Fragment {
              * @param view is the view that was clicked
              */
             public void onClick( View view ) {
-                AlertDialog.Builder builder = new AlertDialog.Builder( context );
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder( context );
                 builder.setTitle( "Confirmation!" ).
                         setMessage( "Are you sure you want to logout?" );
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick( DialogInterface dialog, int id ) {
-                                logOut();
-                            }
-                        });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick( DialogInterface dialog, int id ) { dialog.cancel(); }
-                        });
+                builder.setPositiveButton( "Yes",
+                        new DialogInterface.OnClickListener() {
+                    public void onClick( DialogInterface dialog, int id ) {
+                        logOut();
+                    }
+                } );
+                builder.setNegativeButton( "No",
+                        new DialogInterface.OnClickListener() {
+                    public void onClick( DialogInterface dialog, int id ) {
+                        dialog.cancel();
+                    }
+                } );
 
                 AlertDialog logOutAlert = builder.create();
                 logOutAlert.show();
             }
-        });
+        } );
 
         settingsButton = context.findViewById( R.id.settingButton );
         settingsButton.setOnClickListener( new View.OnClickListener() {

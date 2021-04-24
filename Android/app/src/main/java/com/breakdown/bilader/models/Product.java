@@ -10,15 +10,6 @@ public class Product {
     private Category category;
     private boolean isSold;
     private String productId;
-    // CATEGORY IS ERASED
-
-
-
-    public Product( User seller, boolean isSold, String productId ) {
-        this.isSold = false;
-        this.seller = seller;
-        this.productId = productId;
-    }
 
     /**
      * Constructor

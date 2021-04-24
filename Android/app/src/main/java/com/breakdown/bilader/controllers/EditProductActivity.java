@@ -30,7 +30,7 @@ public class EditProductActivity extends Activity {
 
 
         //temporary values
-        editedProduct = new Product( new User("Korhan","mail","avatar_male","12"), false ,"2");
+        //editedProduct = new Product( new User("Korhan","mail","avatar_male","12"), false ,"2");
 
         editButton = findViewById(R.id.editButton);
         onSaleButton = findViewById(R.id.onSale);

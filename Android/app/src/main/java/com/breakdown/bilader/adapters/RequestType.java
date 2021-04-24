@@ -4,11 +4,13 @@ public enum RequestType {
 
     LOGIN( "LoginRequest" ), REGISTER( "RegisterRequest" ), PROFILE(
             "ProfileRequest" ), PRODUCT( "ProductRequest" ), FOLLOWERS(
-                    "FollowersRequest" ), FOLLOWINGS( "FollowingsRequest" ),
+                    "FollowersRequest" ), FOLLOWINGS( "FollowingRequest" ),
     FOLLOW( "FollowRequest" ), REPORT( "AddReportRequest" ),
     FORGOT_PASSWORD( "ForgotPasswordRequest" ), CHANGE_PASSWORD(
             "ChangePasswordRequest" ), NOTIFICATION( "NotificationRequest" ),
-    SEND_MESSAGE( "SendMessageRequest" ), RETRIEVE_MESSAGES("RetrieveMessagesRequest");
+    SEND_MESSAGE( "SendMessageRequest" ), RETRIEVE_MESSAGES(
+            "RetrieveMessagesRequest" ), TOKEN( "TokenRequest" ), WISHLIST(
+                    "WishlistRequest" ), ADD_PRODUCT("AddProductRequest");
 
     private String path;
 

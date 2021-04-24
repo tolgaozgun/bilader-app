@@ -39,7 +39,11 @@ public class LoginActivity extends Activity {
     private ProgressDialog loadingBar;
     private final String SESSION_TOKEN_KEY = "session_token";
     private final String USER_ID_KEY = "id";
+    private String token;
+    private String userId;
+    private SharedPreferences sharedPreferences;
     private Intent intent;
+    private HashMap< String, String > requestParams;
 
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
@@ -58,7 +62,37 @@ public class LoginActivity extends Activity {
             inputEmail.setText( intent.getStringExtra( "email" ) );
         }
 
-        startService( new Intent(this, NotificationService.class ) );
+        startService( new Intent( this, NotificationService.class ) );
+
+        // Check if there is an ongoing session.
+        requestParams = new HashMap< String, String >();
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                Intent intent;
+                try {
+                    if ( object != null && object.getBoolean( "success" ) ) {
+                        Toast.makeText( LoginActivity.this,
+                                object.getString( "message" ),
+                                Toast.LENGTH_SHORT ).show();
+                        intent = new Intent( LoginActivity.this,
+                                BiltraderActivity.class );
+                        startActivity( intent );
+                    } else {
+                        System.out.println( "Success false" );
+                        System.out.println( "id " + userId + " token; " + token );
+                    }
+                } catch ( JSONException e ) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+
+            }
+        }, RequestType.TOKEN, requestParams, this );
+
 
         // buttonEffect( logInButton, 0xe01c79e4 );
         // buttonEffect( signUpButton, 0xe01c79e4 );
@@ -156,7 +190,7 @@ public class LoginActivity extends Activity {
                             startActivity( intent );
                         }
 
-                        if(json.getBoolean( JSON_VERIFIED_PATH )){
+                        if ( json.getBoolean( JSON_VERIFIED_PATH ) ) {
                             intent = new Intent( LoginActivity.this,
                                     VerificationActivity.class );
                             startActivity( intent );

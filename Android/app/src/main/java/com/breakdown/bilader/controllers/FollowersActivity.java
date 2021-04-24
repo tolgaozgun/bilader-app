@@ -1,6 +1,7 @@
 package com.breakdown.bilader.controllers;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,10 +16,12 @@ import com.breakdown.bilader.models.*;
 
 import androidx.annotation.Nullable;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * A class that makes connection between its layout and data
@@ -32,6 +35,7 @@ public class FollowersActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList< User > followerList;
     private UserAdapter adapter;
+    private String userId;
 
     /**
      * this is the method where most initialization made such as UI and widgets
@@ -51,70 +55,61 @@ public class FollowersActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
 
-        // sample users created for testing
-        User user1 = new User( "Yahya Demirel", "mail@mail.com", "avatar_male"
-                , "1" );
-        User user2 = new User( "Burcu Kaplan", "mail@mail.com",
-                "avatar_female", "2" );
-        User user3 = new User( "Korhan Kaya", "mail@mail.com", "avatar_male",
-                "3" );
-        User user4 = new User( "Deniz Gökçen", "mail@mail.com",
-                "avatar_female", "4" );
-        User user5 = new User( "Tolga Özgün", "mail@mail.com", "avatar_male",
-                "5" );
-        User user6 = new User( "Burak Yıldır", "mail@mail.com", "avatar_male"
-                , "6" );
-        User user7 = new User( "Mansur Yavaş", "mail@mail.com", "avatar_male"
-                , "7" );
-        User user8 = new User( "Okan Tekman", "mail@mail.com",
-                "avatar_no_gender", "8" );
-        User user9 = new User( "Salim Çıracı", "mail@mail.com", "avatar_male"
-                , "9" );
-        User user10 = new User( "Mustafa Nakeeb", "mail@mail.com",
-                "avatar_male", "10" );
-        User user11 = new User( "Kenan Demir", "mail@mail.com",
-                "avatar_no_gender", "11" );
-        User user12 = new User( "Berşan Özgür", "mail@mail.com",
-                "avatar_no_gender", "12" );
-
-        followerList = new ArrayList<>();
-        followerList.add( user1 );
-        followerList.add( user2 );
-        followerList.add( user3 );
-        followerList.add( user4 );
-        followerList.add( user5 );
-        followerList.add( user6 );
-        followerList.add( user7 );
-        followerList.add( user8 );
-        followerList.add( user9 );
-        followerList.add( user10 );
-        followerList.add( user11 );
-        followerList.add( user12 );
-
-        //followerList = getFollowers();
-
-        adapter = new UserAdapter( this, followerList );
-        recyclerView.setAdapter( adapter );
+        getFollowers(recyclerView, getIntent().getStringExtra( "user_id" ));
 
 
     }
 
-    public ArrayList< User > getFollowers() {
+    public ArrayList< User > getFollowers(RecyclerView recyclerView, String userId) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
-        //TODO
+        params.put("following_id", userId);
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {
-                
+                String avatarURL;
+                String name;
+                String id;
+                Iterator< String > keys;
+                JSONObject tempJson;
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+
+                        followerList = new ArrayList< User >();
+                        keys = object.getJSONObject( "users" ).keys();
+                        while ( keys.hasNext() ) {
+                            String key = keys.next();
+                            tempJson =
+                                    object.getJSONObject( "users" ).getJSONObject( key );
+                            name = tempJson.getString( "name" );
+                            avatarURL = tempJson.getString( "avatar_url" );
+                            id = tempJson.getString( "id" );
+                            followerList.add( new User(name, avatarURL, id) );
+                        }
+                    }
+                    printView(recyclerView);
+                    Toast.makeText( FollowersActivity.this,
+                            object.getString( "message" ),
+                            Toast.LENGTH_SHORT ).show();
+                } catch ( JSONException e ) {
+                    printView(recyclerView);
+                    Toast.makeText( FollowersActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onFail( String message ) {
-
+                printView(recyclerView);
             }
         }, RequestType.FOLLOWERS, params, this );
 
         return null;
+    }
+
+    private void printView( RecyclerView recyclerView ) {
+        adapter = new UserAdapter( this, followerList );
+        recyclerView.setAdapter( adapter );
     }
 }

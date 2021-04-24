@@ -22,9 +22,11 @@ public class LoginHandler extends ProcessHandler {
 	private final String DATABASE_TABLE_USERS = "users";
 	private final String DATABASE_TABLE_SESSIONS = "sessions";
 	private final String SESSION_TOKEN_KEY = "session_token";
+	private final String SESSION_EXPIRE_KEY = "session_expire";
 	private final String PASSWORD_KEY = "password";
 	private final String PASSWORD_HASH_KEY = "password_hash";
 	private final String PASSWORD_SALT_KEY = "password_salt";
+	private final long SESSION_LENGTH_IN_MS = 86400000;
 
 	public LoginHandler( Map< String, String[] > params ) {
 		super( RequestAdapter.convertParameters( params, KEYS, false ) );
@@ -71,6 +73,8 @@ public class LoginHandler extends ProcessHandler {
 		Map< Integer, Object[] > returnArray;
 		Map< String, String > tokenSubmitParams;
 		Map< String, Object > updateMap;
+		long timeNow;
+		long expireTime;
 
 		json = new JSONObject();
 		adapter = new DatabaseAdapter();
@@ -95,16 +99,21 @@ public class LoginHandler extends ProcessHandler {
 			token = UUID.randomUUID().toString();
 			tokenSubmitParams.put( USER_ID_KEY, userId );
 
+			timeNow = System.currentTimeMillis();
+			expireTime = timeNow + SESSION_LENGTH_IN_MS;
 			// If a session with the provided user id exists in the database,
 			// update it. If not, create new.
 			if ( adapter.doesExist( DATABASE_TABLE_SESSIONS,
 					tokenSubmitParams ) ) {
 				updateMap = new HashMap< String, Object >();
 				updateMap.put( SESSION_TOKEN_KEY, token );
+				updateMap.put( SESSION_EXPIRE_KEY, expireTime );
 				adapter.update( DATABASE_TABLE_SESSIONS, tokenSubmitParams,
 						updateMap );
 			} else {
 				tokenSubmitParams.put( SESSION_TOKEN_KEY, token );
+				tokenSubmitParams.put( SESSION_EXPIRE_KEY,
+						String.valueOf( expireTime ) );
 				adapter.create( DATABASE_TABLE_SESSIONS, tokenSubmitParams );
 			}
 

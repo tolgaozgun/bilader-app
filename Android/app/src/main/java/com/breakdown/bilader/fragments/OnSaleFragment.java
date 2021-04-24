@@ -57,6 +57,7 @@ public class OnSaleFragment extends Fragment {
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
 
         // sample users for testing
+        /*
         User user1 = new User( "Yahya Demirel", "mail@mail.com", "avatar_male"
                 , "12" );
         User user2 = new User( "Burcu Kaplan", "mail@mail.com",
@@ -78,15 +79,15 @@ public class OnSaleFragment extends Fragment {
                 120, user4,false, "13", new Category("0") );
         Product product5 = new Product( "product_sample", "random", "demo1",
                 120, user5, false, "14", new Category("0"));
-
+        */
 
         productList = new ArrayList<>();
-
+        /*
         productList.add( product1 );
         productList.add( product2 );
         productList.add( product3 );
         productList.add( product4 );
-        productList.add( product5 );
+        productList.add( product5 );*/
 
 
         adapter = new ProductAdapter( mContext, productList );
