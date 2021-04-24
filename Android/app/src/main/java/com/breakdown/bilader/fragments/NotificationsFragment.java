@@ -33,7 +33,9 @@ public class NotificationsFragment extends Fragment {
 
         view = inflater.inflate( R.layout.fragment_notifications, container, false );
 
-        //recyclerView = view.findViewById( R.id.blahblah )
+        recyclerView = view.findViewById( R.id.notificationRecycler );
+        recyclerView.setHasFixedSize( true );
+        recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
 
         //notificationAdapter = new NotificationAdapter(  )
         //recyclerView.setAdapter( notificationAdapter );
