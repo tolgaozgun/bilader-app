@@ -106,10 +106,10 @@ public class ProductActivity extends Activity {
         settingsButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                PopupMenu settingsMenu = new PopupMenu( ProductActivity.this, v );
-                String userId = "CURRENT_STRING_ID";
+                PopupMenu settingsMenu;
+                settingsMenu = new PopupMenu( ProductActivity.this, v );
 
-                if ( currentProduct.getSeller().getUserId().equals( userId ) ) {
+                if ( currentProduct.getSeller().getUserId().equals( currentUserId ) ) {
                     settingsMenu.getMenuInflater().inflate( R.menu.second_menu, settingsMenu.getMenu() );
                 } else {
                     settingsMenu.getMenuInflater().inflate( R.menu.first_menu, settingsMenu.getMenu() );
@@ -142,6 +142,8 @@ public class ProductActivity extends Activity {
                         return true;
                     }
                 } );
+
+                settingsMenu.show();
 
             }
         } );

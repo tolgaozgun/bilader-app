@@ -1,5 +1,5 @@
 package database.handlers;
 
-public class ReviewRequest {
+public class ReviewsHandler {
 
 }
