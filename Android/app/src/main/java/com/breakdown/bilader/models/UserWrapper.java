@@ -21,6 +21,7 @@ public class UserWrapper implements IUser {
 
     @Override
     public String getAvatar() {
-        return null;
+
+        return user.getUserAvatar();
     }
 }
