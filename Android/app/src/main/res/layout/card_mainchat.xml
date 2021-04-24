@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/image_notifications_avatar"
+            android:id="@+id/image_main_chat_avatar"
             android:layout_width="76dp"
             android:layout_height="78dp"
             android:layout_marginStart="20dp"
@@ -33,7 +33,7 @@
             android:text="@string/main_chat_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/image_notifications_avatar"
+            app:layout_constraintStart_toEndOf="@+id/image_main_chat_avatar"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_marginLeft="20dp"
             android:text="@string/main_chat_overview"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_notifications_avatar"
+            app:layout_constraintStart_toEndOf="@+id/image_main_chat_avatar"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -55,7 +55,7 @@
             android:layout_marginLeft="20dp"
             android:text="@string/full_name"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_notifications_avatar"
+            app:layout_constraintStart_toEndOf="@+id/image_main_chat_avatar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.232" />
     </androidx.constraintlayout.widget.ConstraintLayout>
