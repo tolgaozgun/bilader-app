@@ -2,25 +2,24 @@ package database.requests;
 
 import java.io.IOException;
 
-import database.adapters.RequestAdapter;
-import database.handlers.ReviewsHandler;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import database.adapters.RequestAdapter;
-import database.handlers.ReviewsHandler;
+import database.handlers.AddWishlistHandler;
+
 /**
- * Servlet implementation class ReviewsRequest
+ * Servlet implementation class AddWishlistRequest
  */
-public class ReviewsRequest extends HttpServlet {
+public class AddWishlistRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewsRequest() {
+    public AddWishlistRequest() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,10 +47,9 @@ public class ReviewsRequest extends HttpServlet {
 	private void handleRequest( HttpServletRequest request,
 			HttpServletResponse response )
 			throws ServletException, IOException {
-		ReviewsHandler handler;
-		handler = new ReviewsHandler( request.getParameterMap() );
+		AddWishlistHandler handler;
+		handler = new AddWishlistHandler( request.getParameterMap() );
 		RequestAdapter.handleRequest( request, response, handler );
-
 	}
 
 }

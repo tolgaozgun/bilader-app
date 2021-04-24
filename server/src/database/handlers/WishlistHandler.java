@@ -16,9 +16,7 @@ import jakarta.servlet.ServletException;
 public class WishlistHandler extends ProcessHandler {
 
 	private static final String WISHLIST_USER_ID_KEY = "user_id";
-	private static final String[] KEYS = {};
-	private static final String[] OPTIONAL_KEYS = { "id", "price", "seller_id",
-			"category_id" };
+	private static final String[] KEYS = { WISHLIST_USER_ID_KEY };
 	private final String DATABASE_TABLE_WISHLIST = "wishlist";
 	private final String DATABASE_TABLE_PRODUCT = "products";
 

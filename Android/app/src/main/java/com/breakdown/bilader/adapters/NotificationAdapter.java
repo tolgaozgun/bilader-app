@@ -44,7 +44,6 @@ public class NotificationAdapter {
         notificationManager = NotificationManagerCompat.from( context );
         notificationManager.notify( notificationId, builder.build() );
 
-
     }
 
     private void createNotificationChannel() {
