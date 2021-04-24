@@ -18,7 +18,7 @@ public class MessageWrapper implements IMessage {
 
     @Override
     public String getId() {
-        return null;
+        return message.getMessageId();
     }
 
     @Override
@@ -32,7 +32,6 @@ public class MessageWrapper implements IMessage {
     }
 
     @Override
-    public Date getCreatedAt() {
-        return new Date ( String.valueOf( message.getDate() ) );
+    public Date getCreatedAt() { return new Date( message.getMessageTime() );
     }
 }

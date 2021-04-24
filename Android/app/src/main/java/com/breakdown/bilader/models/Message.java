@@ -8,19 +8,24 @@ public class Message {
     private User sentBy;
     private Date date;
     private String content;
+    private String messageId;
 
     /**
      * Constructor
-     *  @param date        Date instance of the message date.
+     *
+     * @param date        Date instance of the message date.
      * @param messageTime long value of message time.
      * @param sentBy      User instance of sender.
      * @param content     String value of the content.
+     * @param messageId   String id of the message.
      */
-    public Message(Date date, Long messageTime, User sentBy, String content ) {
+    public Message( Date date, Long messageTime, User sentBy, String content,
+                    String messageId ) {
         this.messageTime = messageTime;
         this.sentBy = sentBy;
         this.date = date;
         this.content = content;
+        this.messageId = messageId;
     }
 
     /**
@@ -57,5 +62,13 @@ public class Message {
      */
     public String getContent() {
         return content;
+    }
+
+    /**
+     * Returns the String value of id.
+     *
+     * @return String value of message id.
+     */
+    public String getMessageId() { return messageId;
     }
 }

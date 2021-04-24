@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.OthersProfileActivity;
 import com.breakdown.bilader.models.Message;
-import com.breakdown.bilader.models.User;
 
 import java.util.ArrayList;
 
@@ -48,6 +47,7 @@ import java.util.ArrayList;
             public ImageView imageMainChatAvatar;
             public TextView textLastMessage;
             public TextView textTimeAgo;
+            public TextView textLastMessageSender;
             public CardView cardMainChat;
 
             /**
@@ -58,9 +58,9 @@ import java.util.ArrayList;
             public DialogHolder( @NonNull View itemView ) {
                 super( itemView );
                 imageMainChatAvatar =
-                        itemView.findViewById( R.id.image_main_chat_avatar );
-                textLastMessage = itemView.findViewById( R.id.text_main_last_message );
-                textTimeAgo = itemView.findViewById( R.id.text_time_ago );
+                        itemView.findViewById( R.id.image_notifications_avatar );
+                textLastMessage = itemView.findViewById( R.id.text_notifications_context );
+                textTimeAgo = itemView.findViewById( R.id.text_notifications_time );
             }
         }
 
