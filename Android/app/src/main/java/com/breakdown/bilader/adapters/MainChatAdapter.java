@@ -24,135 +24,134 @@ import java.util.List;
 
 
 /**
-     * The fragment class that makes connection between UI component and data source
-     * of the followers that helps us to fill data in UI component.
-     *
-     * @author Yahya Eren Demirel
-     * @version 18.04.2021
+ * The fragment class that makes connection between UI component and data source
+ * of the followers that helps us to fill data in UI component.
+ *
+ * @author Yahya Eren Demirel
+ * @version 18.04.2021
+ */
+
+public class MainChatAdapter extends
+                             RecyclerView.Adapter< MainChatAdapter.DialogHolder > {
+    private Context mContext;
+    private List< User > userList;
+    private String otherUserId;
+    private String lastMessage;
+
+
+    public MainChatAdapter( Context mContext, ArrayList< User > userList ) {
+        this.mContext = mContext;
+        this.userList = userList;
+    }
+
+    /**
+     * A class that finds xml id's of layout elements
      */
-
-    public class MainChatAdapter extends
-                                  RecyclerView.Adapter< MainChatAdapter.DialogHolder > {
-        private Context mContext;
-        private List< User > userList;
-        private String otherUserId;
-        private String lastMessage;
-
-
-        public MainChatAdapter( Context mContext, ArrayList< User > userList) {
-            this.mContext = mContext;
-            this.userList = userList;
-        }
+    public class DialogHolder extends RecyclerView.ViewHolder {
+        public ImageView imageMainChatAvatar;
+        public TextView textLastMessage;
+        public TextView textTimeAgo;
+        public TextView textLastMessageSender;
+        public CardView cardMainChat;
 
         /**
-         * A class that finds xml id's of layout elements
-         */
-        public class DialogHolder extends RecyclerView.ViewHolder {
-            public ImageView imageMainChatAvatar;
-            public TextView textLastMessage;
-            public TextView textTimeAgo;
-            public TextView textLastMessageSender;
-            public CardView cardMainChat;
-
-            /**
-             * A constructor that holds id's of views
-             *
-             * @param itemView is the references of an item
-             */
-            public DialogHolder( @NonNull View itemView ) {
-                super( itemView );
-                imageMainChatAvatar =
-                        itemView.findViewById( R.id.image_main_chat_avatar );
-                textLastMessage = itemView.findViewById( R.id.text_main_chat_overview );
-                textTimeAgo = itemView.findViewById( R.id.text_main_chat_time );
-                textLastMessageSender = itemView.findViewById( R.id.text_card_reviews_user_name);
-            }
-        }
-
-        /**
-         * a method that creates new card view elements
+         * A constructor that holds id's of views
          *
-         * @param parent   is the The ViewGroup into which the new View will be
-         *                 added after it is bound to an adapter position.
-         * @param viewType The view type of the new View
-         * @return a new ViewHolder that holds a View of the given view type
+         * @param itemView is the references of an item
          */
-        @NonNull
-        @Override
-        public com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder onCreateViewHolder( @NonNull ViewGroup parent,
-                                                                                                  int viewType ) {
-            View itemView;
-
-            itemView =
-                    LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_mainchat, parent, false );
-
-            return new com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder( itemView );
+        public DialogHolder( @NonNull View itemView ) {
+            super( itemView );
+            imageMainChatAvatar =
+                    itemView.findViewById( R.id.image_main_chat_avatar );
+            textLastMessage =
+                    itemView.findViewById( R.id.text_main_chat_overview );
+            textTimeAgo = itemView.findViewById( R.id.text_main_chat_time );
+            textLastMessageSender =
+                    itemView.findViewById( R.id.text_card_reviews_user_name );
         }
+    }
 
-        /**
-         * a method called by RecyclerView to display the data at the specified
-         * position
-         *
-         * @param holder   is the ViewHolder which should be updated to represent
-         *                 the contents of the item at the given position in the
-         *                 data set.
-         * @param position is The position of the item within the adapter's data
-         *                 set.
-         */
-        @Override
-        public void onBindViewHolder( @NonNull com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder holder,
-                                      int position ) {
-            User user;
+    /**
+     * a method that creates new card view elements
+     *
+     * @param parent   is the The ViewGroup into which the new View will be
+     *                 added after it is bound to an adapter position.
+     * @param viewType The view type of the new View
+     * @return a new ViewHolder that holds a View of the given view type
+     */
+    @NonNull
+    @Override
+    public com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ) {
+        View itemView;
 
-            user = userList.get( position );
+        itemView =
+                LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_mainchat, parent, false );
 
-            otherUserId = user.getUserId();
+        return new com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder( itemView );
+    }
 
-            holder.textLastMessageSender.setText( user.getUserName() );
+    /**
+     * a method called by RecyclerView to display the data at the specified
+     * position
+     *
+     * @param holder   is the ViewHolder which should be updated to
+     *                 represent
+     *                 the contents of the item at the given position in the
+     *                 data set.
+     * @param position is The position of the item within the adapter's data
+     *                 set.
+     */
+    @Override
+    public void onBindViewHolder( @NonNull com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder holder, int position ) {
+        User user;
 
-            if (user.getUserAvatar().isEmpty()) {
-                holder.imageMainChatAvatar.setImageResource( R.drawable.avatar_no_gender );
-            }
-            else {
-                Picasso.get().load( user.getUserAvatar()).fit().centerInside().into( holder.imageMainChatAvatar );
-            }
+        user = userList.get( position );
+        otherUserId = user.getUserId();
 
-           // getLastMessage(  );
-            
-            holder.cardMainChat.setOnClickListener( new View.OnClickListener() {
+        holder.textLastMessageSender.setText( user.getUserName() );
 
-                public void onClick( View view ) {
-
-                    User users = userList.get(position);
-                    otherUserId = user.getUserId();
-
-                    Intent intent;
-
-                    intent = new Intent( mContext, PrivateChatActivity.class );
-                    //intent.putExtra( "otherUserId", otherUserId );
-                    mContext.startActivity( intent );
-
-                }
-            } );
-        }
-
-        /**
-         * Returns the total number of items in the data set held by the adapter.
-         *
-         * @return The total number of items in this adapter.
-         */
-        @Override
-        public int getItemCount() {
-
-            int size;
-            size = userList.size();
-            return size;
+        if ( user.getUserAvatar().isEmpty() ) {
+            holder.imageMainChatAvatar.setImageResource( R.drawable.avatar_no_gender );
+        } else {
+            Picasso.get().load( user.getUserAvatar() ).fit().centerInside().into( holder.imageMainChatAvatar );
         }
 
         // TODO
-        private void getLastMessage (String otherUserId, TextView lastMsg) {
-        }
+        //getLastMessage(  );
 
+        holder.cardMainChat.setOnClickListener( new View.OnClickListener() {
 
+            public void onClick( View view ) {
 
+                User users = userList.get( position );
+                otherUserId = user.getUserId();
+
+                Intent intent;
+
+                intent = new Intent( mContext, PrivateChatActivity.class );
+                //intent.putExtra( "otherUserId", otherUserId );
+                mContext.startActivity( intent );
+
+            }
+        } );
     }
+
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
+    @Override
+    public int getItemCount() {
+
+        int size;
+        size = userList.size();
+        return size;
+    }
+
+    // TODO
+    private void getLastMessage( String otherUserId, TextView lastMsg ) {
+    }
+
+
+}

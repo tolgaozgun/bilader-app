@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.MainChatAdapter;
+import com.breakdown.bilader.adapters.UserAdapter;
 import com.breakdown.bilader.models.Message;
 import com.breakdown.bilader.models.User;
 
@@ -33,14 +34,19 @@ public class MainChatActivity extends Activity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_mainchat );
         recyclerView = findViewById( R.id.recyclerMainChat);
-
+        recyclerView.setHasFixedSize( true );
         recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
+
+
         //TODO
-      /*  public ArrayList < Message > getLastMessages() {
+        /*public ArrayList < Message > getLastMessages() {
 
         }*/
+    }
 
-
+    private void printView( RecyclerView recyclerView ) {
+        adapter = new MainChatAdapter(this, chatUsers   );
+        recyclerView.setAdapter( adapter );
     }
 }
 
