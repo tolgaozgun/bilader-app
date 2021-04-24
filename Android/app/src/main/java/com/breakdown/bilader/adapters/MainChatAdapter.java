@@ -14,12 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.OthersProfileActivity;
+import com.breakdown.bilader.controllers.PrivateChatActivity;
 import com.breakdown.bilader.models.Message;
+import com.breakdown.bilader.models.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-    /**
+/**
      * The fragment class that makes connection between UI component and data source
      * of the followers that helps us to fill data in UI component.
      *
@@ -30,14 +34,14 @@ import java.util.ArrayList;
     public class MainChatAdapter extends
                                   RecyclerView.Adapter< MainChatAdapter.DialogHolder > {
         private Context mContext;
-        private ArrayList< Message > lastMessages;
-        private String chatId;
+        private List< User > userList;
+        private String otherUserId;
+        private String lastMessage;
 
 
-        public MainChatAdapter( Context mContext, ArrayList< Message > lastMessages , String chatId) {
+        public MainChatAdapter( Context mContext, ArrayList< User > userList) {
             this.mContext = mContext;
-            this.lastMessages = lastMessages;
-            this.chatId = chatId;
+            this.userList = userList;
         }
 
         /**
@@ -58,9 +62,10 @@ import java.util.ArrayList;
             public DialogHolder( @NonNull View itemView ) {
                 super( itemView );
                 imageMainChatAvatar =
-                        itemView.findViewById( R.id.image_notifications_avatar );
-                textLastMessage = itemView.findViewById( R.id.text_notifications_context );
-                textTimeAgo = itemView.findViewById( R.id.text_notifications_time );
+                        itemView.findViewById( R.id.image_main_chat_avatar );
+                textLastMessage = itemView.findViewById( R.id.text_main_chat_overview );
+                textTimeAgo = itemView.findViewById( R.id.text_main_chat_time );
+                textLastMessageSender = itemView.findViewById( R.id.text_card_reviews_user_name);
             }
         }
 
@@ -79,7 +84,7 @@ import java.util.ArrayList;
             View itemView;
 
             itemView =
-                    LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_main_chat, parent, false );
+                    LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_mainchat, parent, false );
 
             return new com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder( itemView );
         }
@@ -97,20 +102,34 @@ import java.util.ArrayList;
         @Override
         public void onBindViewHolder( @NonNull com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder holder,
                                       int position ) {
-            Message follower;
+            User user;
 
-            follower = lastMessages.get( position );
+            user = userList.get( position );
+
+            otherUserId = user.getUserId();
+
+            holder.textLastMessageSender.setText( user.getUserName() );
+
+            if (user.getUserAvatar().isEmpty()) {
+                holder.imageMainChatAvatar.setImageResource( R.drawable.avatar_no_gender );
+            }
+            else {
+                Picasso.get().load( user.getUserAvatar()).fit().centerInside().into( holder.imageMainChatAvatar );
+            }
+
+           // getLastMessage(  );
             
             holder.cardMainChat.setOnClickListener( new View.OnClickListener() {
 
                 public void onClick( View view ) {
+
+                    User users = userList.get(position);
+                    otherUserId = user.getUserId();
+
                     Intent intent;
 
-                    intent = new Intent( mContext, OthersProfileActivity.class );
-
-                    //intent.putExtra( "follower", follower  );
-
-
+                    intent = new Intent( mContext, PrivateChatActivity.class );
+                    //intent.putExtra( "otherUserId", otherUserId );
                     mContext.startActivity( intent );
 
                 }
@@ -126,10 +145,12 @@ import java.util.ArrayList;
         public int getItemCount() {
 
             int size;
-
-            size = lastMessages.size();
-
+            size = userList.size();
             return size;
+        }
+
+        // TODO
+        private void getLastMessage (String otherUserId, TextView lastMsg) {
         }
 
 
