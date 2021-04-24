@@ -108,8 +108,11 @@ public class ProductActivity extends Activity {
             @Override
             public void onClick( View v ) {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 //TODO
 =======
+=======
+>>>>>>> Stashed changes
                 addToWishlist();
 >>>>>>> Stashed changes
             }
@@ -183,6 +186,35 @@ public class ProductActivity extends Activity {
     }*/
 
     public void addToWishlist() {
+<<<<<<< Updated upstream
+=======
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    Toast.makeText( ProductActivity.this, object.getString(
+                            "message" ), Toast.LENGTH_SHORT ).show();
+                } catch ( JSONException e ) {
+                    Toast.makeText( ProductActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                Toast.makeText( ProductActivity.this, message,
+                        Toast.LENGTH_SHORT ).show();
+            }
+        }, RequestType.WISHLIST, params, this );
+    }
+
+    private Product retrieveProduct( String productId ) {
+
+>>>>>>> Stashed changes
         HashMap< String, String > params;
         params = new HashMap< String, String >();
 

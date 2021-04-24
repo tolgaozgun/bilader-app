@@ -132,6 +132,9 @@
   	<description></description>
   	<servlet-class>database.requests.AddWishlistRequest</servlet-class>
   </servlet>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
@@ -219,5 +222,8 @@
   	<servlet-name>AddWishlistRequest</servlet-name>
   	<url-pattern>/AddWishlistRequest</url-pattern>
   </servlet-mapping>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 </web-app>
