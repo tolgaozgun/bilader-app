@@ -27,5 +27,7 @@
     <string name="report_title">Keep us informed</string>
     <string name="main_chat_overview">the last message is ....</string>
     <string name="main_chat_time">1m. ago</string>
+    <string name="channel_name">bilader_notification_channel</string>
+    <string name="channel_description">desc_bilader_notif_channel</string>
 
 </resources>

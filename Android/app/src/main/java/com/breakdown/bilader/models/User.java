@@ -9,7 +9,6 @@ import java.util.List;
 public class User implements Serializable {
 
     private String userName;
-    private String eMail;
     private String userAvatar;
     private String userId;
     private ProductList userWishlist;
@@ -18,13 +17,11 @@ public class User implements Serializable {
      * Constructor for User class
      *
      * @param userName   String value of username.
-     * @param eMail      String value of email address.
      * @param userAvatar String value of avatar URL.
      * @param userId     String value of user id.
      */
-    public User( String userName, String eMail, String userAvatar, String userId ) {
+    public User( String userName, String userAvatar, String userId ) {
         this.userName = userName;
-        this.eMail = eMail;
         this.userAvatar = userAvatar;
         this.userId = userId;
 
@@ -38,15 +35,6 @@ public class User implements Serializable {
      */
     public String getUserName() {
         return userName;
-    }
-
-    /**
-     * Returns the email of the current user.
-     *
-     * @return String value of email address.
-     */
-    public String getEmail() {
-        return eMail;
     }
 
     /**

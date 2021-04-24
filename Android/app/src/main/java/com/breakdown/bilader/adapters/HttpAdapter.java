@@ -1,6 +1,7 @@
 package com.breakdown.bilader.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -22,6 +23,7 @@ public class HttpAdapter {
 
     private final static String MAIN_URL = "http://88.99.11.149:8080/server/";
     private static JSONObject finalResponse;
+    private static RequestQueue queue;
 
     /**
      * Sends a GET request to server with specified details and parameters to
@@ -29,33 +31,36 @@ public class HttpAdapter {
      *
      * @param requestType Type of request as a RequestType enum.
      * @param params      Request parameters as String key-value map.
-     * @param instance    Instance of the activity for the request.
+     * @param context     Instance of the activity for the request.
      * @return Response as a JSONObject.
      */
     public static void getRequestJSON( final VolleyCallback callback,
                                        RequestType requestType, Map< String,
-            String > params, Activity instance ) {
+            String > params, Context context ) {
         String path;
         String url;
         String token;
         String userId;
         SharedPreferences sharedPreferences;
-        RequestQueue queue;
         JsonObjectRequest jsonObjectRequest;
 
         sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences( instance );
+                PreferenceManager.getDefaultSharedPreferences( context );
         finalResponse = new JSONObject();
-        queue = Volley.newRequestQueue( instance );
+        if ( queue == null ) {
+            queue = Volley.newRequestQueue( context );
+        }
         path = requestType.getPath();
-        url = addParameters( MAIN_URL + path, params );
-        System.out.println("URL: " + url);
 
         // Add session parameters to request
         token = sharedPreferences.getString( "session_token", "" );
         userId = sharedPreferences.getString( "id", "" );
         params.put( "id", userId );
         params.put( "session_token", token );
+
+        url = addParameters( MAIN_URL + path, params );
+        System.out.println( "URL: " + url );
+
 
         // Initialize the request.
         jsonObjectRequest = new JsonObjectRequest( Request.Method.POST, url,
@@ -89,25 +94,26 @@ public class HttpAdapter {
             }
 
             @Override
-            public void retry(VolleyError error) throws VolleyError {
+            public void retry( VolleyError error ) throws VolleyError {
 
             }
-        });
+        } );
 
         // Add the request to the queue.
         queue.add( jsonObjectRequest );
     }
 
-    private static String addParameters(String url, Map<String, String> params ){
-        if(params == null || params.size() == 0){
+    private static String addParameters( String url,
+                                         Map< String, String > params ) {
+        if ( params == null || params.size() == 0 ) {
             return url;
         }
         StringBuffer paramBuffer;
         paramBuffer = new StringBuffer();
-        for(String key: params.keySet()){
+        for ( String key : params.keySet() ) {
             paramBuffer.append( "&" + key + "=" + params.get( key ) );
         }
-        paramBuffer.setCharAt( 0,'?');
+        paramBuffer.setCharAt( 0, '?' );
         return url + paramBuffer.toString();
     }
 }

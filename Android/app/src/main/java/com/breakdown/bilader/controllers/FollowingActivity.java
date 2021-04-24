@@ -1,20 +1,28 @@
 package com.breakdown.bilader.controllers;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.adapters.FollowersAdapter;
+import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.UserAdapter;
+import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.models.*;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import static com.breakdown.bilader.controllers.FollowersActivity.showUsers;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
 
 /**
  * A class that makes connection between its layout and data
@@ -26,7 +34,7 @@ import static com.breakdown.bilader.controllers.FollowersActivity.showUsers;
 public class FollowingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList< User > followingList;
-    private FollowersAdapter adapter;
+    private UserAdapter adapter;
 
     /**
      * this is the method where most initialization made such as UI and widgets
@@ -46,6 +54,7 @@ public class FollowingActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize( true );
 
         recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
+        /*
         User user1 = new User( "Yahya Demirel", "mail@mail.com", "avatar_male"
                 , "1" );
         User user2 = new User( "Burcu Kaplan", "mail@mail.com",
@@ -83,20 +92,68 @@ public class FollowingActivity extends AppCompatActivity {
         followingList.add( user9 );
         followingList.add( user10 );
         followingList.add( user11 );
-        followingList.add( user12 );
+        followingList.add( user12 );*/
 
-        adapter = new FollowersAdapter( this, followingList );
+        adapter = new UserAdapter( this, followingList );
         recyclerView.setAdapter( adapter );
 
-        getFollowings();
+        getFollowings( recyclerView, getIntent().getStringExtra( "user_id" ) );
 
     }
-    
-    public void getFollowings() {
-        //TODO
-        
-        showUsers();
+
+    public ArrayList< User > getFollowings( RecyclerView recyclerView,
+                                            String userId ) {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "user_id", userId );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                String avatarURL;
+                String name;
+                String id;
+                Iterator< String > keys;
+                JSONObject tempJson;
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+
+                        followingList = new ArrayList< User >();
+                        keys = object.getJSONObject( "users" ).keys();
+                        while ( keys.hasNext() ) {
+                            String key = keys.next();
+                            tempJson =
+                                    object.getJSONObject( "users" ).getJSONObject( key );
+                            name = tempJson.getString( "name" );
+                            avatarURL = tempJson.getString( "avatar_url" );
+                            id = tempJson.getString( "id" );
+                            followingList.add( new User( name, avatarURL,
+                                    id ) );
+                        }
+                    }
+                    printView( recyclerView );
+                    Toast.makeText( FollowingActivity.this,
+                            object.getString( "message" ),
+                            Toast.LENGTH_SHORT ).show();
+                } catch ( JSONException e ) {
+                    printView( recyclerView );
+                    Toast.makeText( FollowingActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                printView( recyclerView );
+            }
+        }, RequestType.FOLLOWINGS, params, this );
+
+        return null;
     }
 
+    private void printView( RecyclerView recyclerView ) {
+        adapter = new UserAdapter( this, followingList );
+        recyclerView.setAdapter( adapter );
+    }
 
 }

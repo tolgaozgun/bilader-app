@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import database.adapters.RequestAdapter;
+import database.handlers.ReviewsHandler;
 /**
  * Servlet implementation class ReviewsRequest
  */

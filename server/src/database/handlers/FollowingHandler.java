@@ -14,10 +14,11 @@ import jakarta.servlet.ServletException;
 
 public class FollowingHandler extends ProcessHandler {
 
-	private static String[] keys = { "following_id" };
 	private final String DATABASE_TABLE = "followers";
-	private final String DATABASE_TABLE_USERS = "followers";
-	private final String FOLLOWING_KEY = "id";
+	private final String DATABASE_TABLE_USERS = "users";
+	private final static String FOLLOWING_KEY = "following_id";
+	private final static String FOLLOWERS_USER_ID_KEY = "user_id";
+	private final static String[] keys = { FOLLOWERS_USER_ID_KEY };
 
 	public FollowingHandler( Map< String, String[] > params ) {
 		super( RequestAdapter.convertParameters( params, keys, true ) );
@@ -47,9 +48,9 @@ public class FollowingHandler extends ProcessHandler {
 		if ( !checkToken() ) {
 			return ResultCode.INVALID_SESSION;
 		}
-
+		
 		if ( adapter.doesExist( DATABASE_TABLE, params ) ) {
-			return ResultCode.FOLLOWING_OK;
+			return ResultCode.FOLLOWERS_OK;
 		}
 
 		return ResultCode.NONE_FOUND;

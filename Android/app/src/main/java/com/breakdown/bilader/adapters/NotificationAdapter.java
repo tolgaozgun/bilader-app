@@ -43,6 +43,7 @@ public class NotificationAdapter {
                 .setPriority( NotificationCompat.PRIORITY_DEFAULT );
         notificationManager = NotificationManagerCompat.from( context );
         notificationManager.notify( notificationId, builder.build() );
+
     }
 
     private void createNotificationChannel() {

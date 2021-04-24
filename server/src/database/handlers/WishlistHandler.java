@@ -21,7 +21,8 @@ public class WishlistHandler extends ProcessHandler {
 	private final String DATABASE_TABLE_PRODUCT = "products";
 
 	public WishlistHandler( Map< String, String[] > parameters ) {
-		super( RequestAdapter.convertParameters( parameters, KEYS, true ) );
+		super( RequestAdapter.convertParameters( parameters, KEYS,
+				OPTIONAL_KEYS, true ) );
 		params.put( WISHLIST_USER_ID_KEY, parameters.get( USER_ID_KEY )[ 0 ] );
 	}
 

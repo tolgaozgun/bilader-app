@@ -27,11 +27,11 @@ public class TokenHandler extends ProcessHandler {
 		DatabaseAdapter adapter;
 		String[] wanted;
 		JSONObject json;
-		Timestamp expirationDate;
-		Timestamp dateNow;
+		long expirationDate;
+		long dateNow;
 		Map< Integer, Object[] > result;
 
-		dateNow = new Timestamp( System.currentTimeMillis() );
+		dateNow =  System.currentTimeMillis();
 		adapter = new DatabaseAdapter();
 		json = new JSONObject();
 
@@ -41,14 +41,18 @@ public class TokenHandler extends ProcessHandler {
 		result = adapter.select( DATABASE_TABLE, wanted, params );
 
 		if ( result != null && result.size() > 0 ) {
-			expirationDate = ( Timestamp ) result.get( 0 )[ 0 ];
-			if ( expirationDate.after( dateNow ) ) {
+			expirationDate = ( long ) result.get( 0 )[ 0 ];
+			if ( expirationDate > dateNow ) {
 				json.put( "success", true );
 				json.put( "message", "Session resumed." );
+			}else {
+				json.put( "success", false );
+				json.put( "message", "Session expired1." );
 			}
+		}else {
+			json.put( "success", false );
+			json.put( "message", "Session expired." );
 		}
-		json.put( "success", false );
-		json.put( "message", "Session expired." );
 
 		return json;
 	}

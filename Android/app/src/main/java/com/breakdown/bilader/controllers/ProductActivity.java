@@ -2,31 +2,62 @@ package com.breakdown.bilader.controllers;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.VolleyCallback;
+import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
+import com.breakdown.bilader.models.User;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class ProductActivity extends Activity {
 
+    private ImageView userAvatar;
+    private ImageView productImage;
     private Button settingsButton;
     private Button addWishlistButton;
     private Button directChatButton;
     private TextView productName;
     private TextView productDescription;
-    private TextView category;
+    private TextView categoryText;
     private TextView ownerName;
-    private TextView price;
+    private TextView priceText;
     private Product currentProduct;
+    private Category category;
+    private String title;
+    private String description;
+    private String pictureURL;
+    private String sellerId;
+    private String categoryId;
+    private String sellerAvatar;
+    private String sellerName;
+    private String currentUserId;
+    private double price;
+    private SharedPreferences sharedPreferences;
+    private User seller;
     private Gson gson;
 
     @Override
@@ -40,26 +71,41 @@ public class ProductActivity extends Activity {
         productName = findViewById( R.id.titleProduct );
         productDescription = findViewById( R.id.description );
         ownerName = findViewById( R.id.ownerName );
-        price = findViewById( R.id.price );
-        //category = findViewById(R.id.categoryName);
+        priceText = findViewById( R.id.price );
+        categoryText = findViewById( R.id.categoryName );
+        productImage = findViewById( R.id.image_product_view );
+        userAvatar = findViewById( R.id.userAvatar );
+        sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences( this );
+        currentUserId = sharedPreferences.getString( "id", "" );
         gson = new Gson();
-        currentProduct =
-                gson.fromJson( getIntent().getStringExtra( "product" ),
-                        Product.class );
-        productName.setText( currentProduct.getTitle() );
-        productDescription.setText( currentProduct.getDescription() );
-        price.setText( String.valueOf( currentProduct.getPrice() ) );
-        ownerName.setText( currentProduct.getOwner().toString() );
-        //category.setText(currentProduct.getCategory().toString());
+        if ( getIntent().hasExtra( "product" ) ) {
+            currentProduct = gson.fromJson( getIntent().getStringExtra(
+                    "product" ), Product.class );
+        } else if ( getIntent().hasExtra( "product_id" ) ) {
+            currentProduct = retrieveProduct( getIntent().getStringExtra(
+                    "product_id" ) );
+        }
+
+        if ( currentProduct != null ) {
+            sellerId = currentProduct.getSeller().getUserId();
+            productName.setText( currentProduct.getTitle() );
+            productDescription.setText( currentProduct.getDescription() );
+            priceText.setText( String.valueOf( currentProduct.getPrice() ) );
+            ownerName.setText( currentProduct.getOwner().toString() );
+            categoryText.setText( currentProduct.getCategory().toString() );
+            if ( currentProduct.getPicture() != null && !currentProduct.getPicture().equals( "" ) ) {
+                Picasso.get().load( currentProduct.getPicture() ).fit().centerInside().into( productImage );
+            }
+            if ( currentProduct.getOwner().getUserAvatar() != null && !currentProduct.getOwner().getUserAvatar().equals( "" ) ) {
+                Picasso.get().load( currentProduct.getOwner().getUserAvatar() ).fit().centerInside().into( userAvatar );
+            }
+        }
+
 
         settingsButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-<<<<<<< Updated upstream
-                //This will identify who is the clicker than display two diff
-                // pop-ups.
-                //TODO
-=======
                 PopupMenu settingsMenu;
                 settingsMenu = new PopupMenu( ProductActivity.this, v );
 
@@ -99,39 +145,26 @@ public class ProductActivity extends Activity {
                 } );
 
                 settingsMenu.show();
-
->>>>>>> Stashed changes
             }
         } );
 
         addWishlistButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                //TODO
-=======
-=======
->>>>>>> Stashed changes
                 addToWishlist();
->>>>>>> Stashed changes
             }
         } );
 
         directChatButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-<<<<<<< Updated upstream
-                //TODO
-=======
                 if ( sellerId == null || currentUserId == null ) {
-                    Toast.makeText( ProductActivity.this,
-                            "Error retrieving " + "info",
-                            Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( ProductActivity.this, "Error retrieving " +
+                            "info", Toast.LENGTH_SHORT ).show();
                 }
                 if ( sellerId.equals( currentUserId ) ) {
-                    Toast.makeText( ProductActivity.this, "You cannot " +
-                            "message" + " yourself!", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( ProductActivity.this, "You cannot message" +
+                            " yourself!", Toast.LENGTH_SHORT ).show();
                 } else {
                     Intent intent;
                     intent = new Intent( ProductActivity.this,
@@ -139,20 +172,23 @@ public class ProductActivity extends Activity {
                     intent.putExtra( "user_id", sellerId );
                     startActivity( intent );
                 }
->>>>>>> Stashed changes
             }
         } );
+
+
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu( Menu menu ) {
 
         String userId = "CURRENT_STRING_ID";
+        MenuInflater inflater;
+        inflater = getMenuInflater();
 
         if ( currentProduct.getSeller().getUserId().equals( userId ) ) {
-            getMenuInflater().inflate( R.menu.second_menu, menu );
+            inflater.inflate( R.menu.second_menu, menu );
         } else {
-            getMenuInflater().inflate( R.menu.first_menu, menu );
+            inflater.inflate( R.menu.first_menu, menu );
         }
         return true;
     }
@@ -181,13 +217,9 @@ public class ProductActivity extends Activity {
             //TODO
         }
         return true;
-<<<<<<< Updated upstream
-=======
     }*/
 
     public void addToWishlist() {
-<<<<<<< Updated upstream
-=======
         HashMap< String, String > params;
         params = new HashMap< String, String >();
 
@@ -214,29 +246,41 @@ public class ProductActivity extends Activity {
 
     private Product retrieveProduct( String productId ) {
 
->>>>>>> Stashed changes
         HashMap< String, String > params;
         params = new HashMap< String, String >();
-
+        params.put( "product_id", productId );
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {
                 try {
-                    Toast.makeText( ProductActivity.this, object.getString(
-                            "message" ), Toast.LENGTH_SHORT ).show();
+                    if ( object.getBoolean( "success" ) ) {
+                        title = object.getString( "title" );
+                        pictureURL = object.getString( "picture_url" );
+                        description = object.getString( "description" );
+                        sellerId = object.getString( "seller_id" );
+                        sellerAvatar = object.getString( "seller_avatar_url" );
+                        sellerName = object.getString( "seller_name" );
+                        categoryId = object.getString( "category_id" );
+                        price = object.getDouble( "price" );
+                        seller = new User( sellerName, sellerAvatar, sellerId );
+                        category = new Category( categoryId );
+                        currentProduct = new Product( pictureURL, title,
+                                description, price, seller, false, productId,
+                                category );
+                    }
                 } catch ( JSONException e ) {
-                    Toast.makeText( ProductActivity.this, e.getMessage(),
-                            Toast.LENGTH_SHORT ).show();
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void onFail( String message ) {
-                Toast.makeText( ProductActivity.this, message,
-                        Toast.LENGTH_SHORT ).show();
+
             }
-        }, RequestType.WISHLIST, params, this );
->>>>>>> Stashed changes
+        }, RequestType.PRODUCT, params, this );
+
+
+        return currentProduct;
     }
+
 }

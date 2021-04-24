@@ -3,22 +3,22 @@ package database.requests;
 import java.io.IOException;
 
 import database.adapters.RequestAdapter;
-import database.handlers.RetrieveChatsHandler;
+import database.handlers.NotificationHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class RetrieveChatsRequest
+ * Servlet implementation class NotificationRequest
  */
-public class RetrieveChatsRequest extends HttpServlet {
+public class NotificationRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RetrieveChatsRequest() {
+    public NotificationRequest() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,8 +46,8 @@ public class RetrieveChatsRequest extends HttpServlet {
 	private void handleRequest( HttpServletRequest request,
 			HttpServletResponse response )
 			throws ServletException, IOException {
-		RetrieveChatsHandler handler;
-		handler = new RetrieveChatsHandler( request.getParameterMap() );
+		NotificationHandler handler;
+		handler = new NotificationHandler( request.getParameterMap() );
 		RequestAdapter.handleRequest( request, response, handler );
 
 	}

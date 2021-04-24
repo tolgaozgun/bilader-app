@@ -1,5 +1,6 @@
 package com.breakdown.bilader.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.ProductAdapter;
+import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 
@@ -22,6 +24,7 @@ public class OnSaleFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;
     private ProductAdapter adapter;
+    private Activity mContext;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -44,6 +47,8 @@ public class OnSaleFragment extends Fragment {
         View view;
         RecyclerView recyclerView;
 
+        mContext = getActivity();
+
         view = inflater.inflate( R.layout.fragment_onsale, container, false );
         recyclerView =
                 ( RecyclerView ) view.findViewById( R.id.onSaleRecycler );
@@ -52,6 +57,7 @@ public class OnSaleFragment extends Fragment {
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
 
         // sample users for testing
+        /*
         User user1 = new User( "Yahya Demirel", "mail@mail.com", "avatar_male"
                 , "12" );
         User user2 = new User( "Burcu Kaplan", "mail@mail.com",
@@ -64,29 +70,30 @@ public class OnSaleFragment extends Fragment {
                 "12" );
         // sample products for testing
         Product product1 = new Product( "product_sample", "The Epic of " +
-                "Gilgamesh", "demo1", 120, user1 ,false, "10");
+                "Gilgamesh", "demo1", 120, user1 ,false, "10", new Category("0"));
         Product product2 = new Product( "product_sample2", "brand new dress",
-                "demo1", 120, user2, false, "11");
+                "demo1", 120, user2, false, "11", new Category("2"));
         Product product3 = new Product( "product_sample3", "basys-3", "demo1"
-                , 120, user3, false, "12");
+                , 120, user3, false, "12", new Category("1"));
         Product product4 = new Product( "product_sample", "random", "demo1",
-                120, user4,false, "13" );
+                120, user4,false, "13", new Category("0") );
         Product product5 = new Product( "product_sample", "random", "demo1",
-                120, user5, false, "14");
-
+                120, user5, false, "14", new Category("0"));
+        */
 
         productList = new ArrayList<>();
-
+        /*
         productList.add( product1 );
         productList.add( product2 );
         productList.add( product3 );
         productList.add( product4 );
-        productList.add( product5 );
+        productList.add( product5 );*/
 
 
-        adapter = new ProductAdapter( this, productList );
+        adapter = new ProductAdapter( mContext, productList );
         recyclerView.setAdapter( adapter );
 
         return view;
     }
+
 }

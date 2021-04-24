@@ -1,33 +1,37 @@
 package com.breakdown.bilader.controllers;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
 
-import com.breakdown.bilader.database.ChatDatabase;
-import com.breakdown.bilader.database.DChat;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.breakdown.bilader.R;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainChatActivity extends Activity {
+    private View groupFragmentVİew;
+    private RecyclerView recyclerView;
+    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> listOfLastMessages = new ArrayList<>();
+
+    public MainChatActivity() {
+
+    }
+
+    @Override
+    protected void onCreate( @Nullable Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_mainchat );
+
+        recyclerView = findViewById( R.id.recyclerMainChat);
 
 
-    // TODO: Implement method that displays all DCHat instances. On clicked,
-    //  creates an intent to PrivateChatActivity with the chat id in the
-    //  intent extras.
-    //  To get values out of DChat use,
-    //  DChat dChat;
-    //  dChat.get("id") for example
-    //  Check DChat class for available values.
-
-
-    /**
-     * Loads all the messages from the local database.
-     *
-     * @return List of DChat instances.
-     */
-    private List< DChat > loadChats() {
-        ChatDatabase database;
-        database = ChatDatabase.getInstance( this.getApplicationContext() );
-        return database.chatDao().getAllChats();
     }
 }
 

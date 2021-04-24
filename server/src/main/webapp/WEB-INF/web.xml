@@ -106,8 +106,6 @@
   	<description></description>
   	<servlet-class>database.requests.SendMessageRequest</servlet-class>
   </servlet>
-<<<<<<< Updated upstream
-=======
   <servlet>
   	<servlet-name>NotificationRequest</servlet-name>
   	<display-name>NotificationRequest</display-name>
@@ -132,10 +130,6 @@
   	<description></description>
   	<servlet-class>database.requests.AddWishlistRequest</servlet-class>
   </servlet>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -204,8 +198,6 @@
   	<servlet-name>SendMessageRequest</servlet-name>
   	<url-pattern>/SendMessageRequest</url-pattern>
   </servlet-mapping>
-<<<<<<< Updated upstream
-=======
   <servlet-mapping>
   	<servlet-name>NotificationRequest</servlet-name>
   	<url-pattern>/NotificationRequest</url-pattern>
@@ -222,8 +214,4 @@
   	<servlet-name>AddWishlistRequest</servlet-name>
   	<url-pattern>/AddWishlistRequest</url-pattern>
   </servlet-mapping>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 </web-app>

@@ -2,7 +2,6 @@ package com.breakdown.bilader.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.OthersProfileActivity;
-import com.breakdown.bilader.controllers.SettingsActivity;
-import com.breakdown.bilader.fragments.OthersProfileFragment;
-import com.breakdown.bilader.models.*;
+import com.breakdown.bilader.models.User;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * The fragment class that makes connection between UI component and data source
@@ -29,8 +28,8 @@ import java.util.*;
  * @version 18.04.2021
  */
 
-public class FollowersAdapter extends
-                              RecyclerView.Adapter< FollowersAdapter.FollowerHolder > {
+public class UserAdapter extends
+                         RecyclerView.Adapter< UserAdapter.FollowerHolder > {
     private Context mContext;
     private ArrayList< User > followers;
 
@@ -41,7 +40,7 @@ public class FollowersAdapter extends
      *                  elements and methods
      * @param followers list of the follower
      */
-    public FollowersAdapter( Context mContext, ArrayList< User > followers ) {
+    public UserAdapter( Context mContext, ArrayList< User > followers ) {
         this.mContext = mContext;
         this.followers = followers;
     }
@@ -52,7 +51,7 @@ public class FollowersAdapter extends
     public class FollowerHolder extends RecyclerView.ViewHolder {
         public ImageView imageFollowerScreenAvatar;
         public TextView textUserName;
-        public CardView followerCard;
+        public CardView userCard;
 
         /**
          * A constructor that holds id's of views
@@ -64,7 +63,7 @@ public class FollowersAdapter extends
             imageFollowerScreenAvatar =
                     itemView.findViewById( R.id.image_follower_screen_avatar );
             textUserName = itemView.findViewById( R.id.text_user_name );
-            followerCard = itemView.findViewById( R.id.card_followers );
+            userCard = itemView.findViewById( R.id.card_followers );
         }
     }
 
@@ -101,23 +100,25 @@ public class FollowersAdapter extends
     @Override
     public void onBindViewHolder( @NonNull FollowerHolder holder,
                                   int position ) {
-        User follower;
+        User user;
 
-        follower = followers.get( position );
+        user = followers.get( position );
 
-        holder.textUserName.setText( follower.getUserName() );
-        holder.imageFollowerScreenAvatar.setImageResource( mContext.getResources().getIdentifier( follower.getUserAvatar(), "drawable", mContext.getPackageName() ) );
+        holder.textUserName.setText( user.getUserName() );
+        Picasso.get().load( user.getUserAvatar() ).fit().centerInside().into( holder.imageFollowerScreenAvatar );
 
-        holder.followerCard.setOnClickListener( new View.OnClickListener() {
+        holder.userCard.setOnClickListener( new View.OnClickListener() {
 
             public void onClick( View view ) {
                 Intent intent;
+                Gson gson;
+                String myJson;
+
 
                 intent = new Intent( mContext, OthersProfileActivity.class );
-
-                //intent.putExtra( "follower", follower  );
-
-
+                gson = new Gson();
+                myJson = gson.toJson( user );
+                intent.putExtra( "user", myJson );
                 mContext.startActivity( intent );
 
             }
@@ -131,14 +132,11 @@ public class FollowersAdapter extends
      */
     @Override
     public int getItemCount() {
-
-        int followersSize;
-
-        followersSize = followers.size();
-
-        return followersSize;
+        if ( followers != null ) {
+            return followers.size();
+        }
+        return 0;
     }
-
 
 
 }

@@ -4,20 +4,21 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/vector_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/vector_logo"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Bilader">
 
-        <activity android:name=".controllers.BiltraderActivity">
+        <activity android:name=".controllers.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".controllers.BiltraderActivity"/>-->
+        <activity android:name=".controllers.VerificationActivity"/>
+        <activity android:name=".controllers.BiltraderActivity"/>
         <activity android:name=".controllers.RegisterActivity"/>
         <activity android:name=".controllers.ProductActivity"/>
         <activity android:name=".controllers.ForgotPasswordActivity"/>
@@ -27,6 +28,11 @@
         <activity android:name=".controllers.MyProductsActivity"/>
         <activity android:name=".controllers.OthersProfileActivity"/>
         <activity android:name=".controllers.SettingsActivity"/>
+        <activity android:name=".controllers.PrivateChatActivity"/>
+
+        <service
+            android:name=".adapters.NotificationService"
+            android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"

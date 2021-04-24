@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.Product;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,7 @@ public class ProductAdapter extends
     private Fragment mContext;
     private Activity mmmContext;
     private ArrayList< Product > products;
+    // private ArrayList< Product > productsFull = new ArrayList<>( products );
 
     /**
      * A constructor that holds properties of fragment adapter
@@ -61,6 +64,45 @@ public class ProductAdapter extends
         this.mmmContext = mmmContext;
         this.products = products;
     }
+
+    /*public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering( CharSequence constraint ) {
+            ArrayList< Product > filteredList = new ArrayList< Product >();
+
+            if ( constraint == null || constraint.length() == 0 ) {
+                filteredList.addAll( productsFull );
+            }
+            else {
+                String filterPattern = constraint.toString().toLowerCase()
+                .trim();
+
+                for ( Product item : productsFull ) {
+                    if ( item.getTitle().toLowerCase().contains(
+                    filterPattern ) ) {
+                        filteredList.add( item );
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults( CharSequence constraint, FilterResults
+         results ) {
+            products.clear();
+            products.addAll( ( ArrayList ) results.values );
+            notifyDataSetChanged();
+        }
+    };*/
 
     /**
      * A class that finds xml id's of layout elements
@@ -133,13 +175,13 @@ public class ProductAdapter extends
         holder.textUserName.setText( product.getSeller().getUserName() );
         holder.textProductName.setText( product.getTitle() );
         holder.textProductPrice.setText( String.valueOf( product.getPrice() ) );
-        if ( controller == 0 ) {
-            holder.imageProduct.setImageResource( mContext.getResources().getIdentifier( product.getPicture(), "drawable", mContext.getActivity().getPackageName() ) );
-            holder.imageProductSeller.setImageResource( mContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mContext.getActivity().getPackageName() ) );
-        } else {
-            holder.imageProduct.setImageResource( mmmContext.getResources().getIdentifier( product.getPicture(), "drawable", mmmContext.getPackageName() ) );
-            holder.imageProductSeller.setImageResource( mmmContext.getResources().getIdentifier( product.getSeller().getUserAvatar(), "drawable", mmmContext.getPackageName() ) );
+        if ( product.getPicture() != null && !product.getPicture().equals( "" ) ) {
+            Picasso.get().load( product.getPicture() ).fit().centerInside().into( holder.imageProduct );
         }
+        if ( product.getSeller().getUserAvatar() != null && !product.getSeller().getUserAvatar().equals( "" ) ) {
+            Picasso.get().load( product.getSeller().getUserAvatar() ).fit().centerInside().into( holder.imageProductSeller );
+        }
+        holder.textCategoryName.setText( product.getCategory().toString() );
 
         isWishlisted( product.getProductId() );
 
@@ -168,11 +210,10 @@ public class ProductAdapter extends
     @Override
     public int getItemCount() {
 
-        int productsSize;
-
-        productsSize = products.size();
-
-        return productsSize;
+        if ( products != null ) {
+            return products.size();
+        }
+        return 0;
     }
 
     public void isWishlisted( String productId ) {
