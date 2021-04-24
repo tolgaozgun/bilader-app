@@ -55,23 +55,88 @@ public class ProductActivity extends Activity {
         settingsButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+<<<<<<< Updated upstream
                 //This will identify who is the clicker than display two diff
                 // pop-ups.
                 //TODO
+=======
+                PopupMenu settingsMenu;
+                settingsMenu = new PopupMenu( ProductActivity.this, v );
+
+                if ( currentProduct.getSeller().getUserId().equals( currentUserId ) ) {
+                    settingsMenu.getMenuInflater().inflate( R.menu.second_menu, settingsMenu.getMenu() );
+                } else {
+                    settingsMenu.getMenuInflater().inflate( R.menu.first_menu
+                            , settingsMenu.getMenu() );
+                }
+
+                settingsMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick( MenuItem item ) {
+                        int id;
+                        Intent newIntent;
+
+                        id = item.getItemId();
+
+                        if ( id == R.id.reportMenu ) {
+
+                            newIntent = new Intent( ProductActivity.this,
+                                    ReportActivity.class );
+                            startActivity( newIntent );
+                            //TODO
+
+                        } else if ( id == R.id.editMenu ) {
+
+                            newIntent = new Intent( ProductActivity.this,
+                                    EditProductActivity.class );
+                            startActivity( newIntent );
+                            //TODO
+                        } else if ( id == R.id.removeMenu ) {
+                            //TODO
+                        }
+                        return true;
+                    }
+                } );
+
+                settingsMenu.show();
+
+>>>>>>> Stashed changes
             }
         } );
 
         addWishlistButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+<<<<<<< Updated upstream
                 //TODO
+=======
+                addToWishlist();
+>>>>>>> Stashed changes
             }
         } );
 
         directChatButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+<<<<<<< Updated upstream
                 //TODO
+=======
+                if ( sellerId == null || currentUserId == null ) {
+                    Toast.makeText( ProductActivity.this,
+                            "Error retrieving " + "info",
+                            Toast.LENGTH_SHORT ).show();
+                }
+                if ( sellerId.equals( currentUserId ) ) {
+                    Toast.makeText( ProductActivity.this, "You cannot " +
+                            "message" + " yourself!", Toast.LENGTH_SHORT ).show();
+                } else {
+                    Intent intent;
+                    intent = new Intent( ProductActivity.this,
+                            PrivateChatActivity.class );
+                    intent.putExtra( "user_id", sellerId );
+                    startActivity( intent );
+                }
+>>>>>>> Stashed changes
             }
         } );
     }
@@ -113,5 +178,33 @@ public class ProductActivity extends Activity {
             //TODO
         }
         return true;
+<<<<<<< Updated upstream
+=======
+    }*/
+
+    public void addToWishlist() {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    Toast.makeText( ProductActivity.this, object.getString(
+                            "message" ), Toast.LENGTH_SHORT ).show();
+                } catch ( JSONException e ) {
+                    Toast.makeText( ProductActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                Toast.makeText( ProductActivity.this, message,
+                        Toast.LENGTH_SHORT ).show();
+            }
+        }, RequestType.WISHLIST, params, this );
+>>>>>>> Stashed changes
     }
 }

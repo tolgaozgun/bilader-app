@@ -106,6 +106,33 @@
   	<description></description>
   	<servlet-class>database.requests.SendMessageRequest</servlet-class>
   </servlet>
+<<<<<<< Updated upstream
+=======
+  <servlet>
+  	<servlet-name>NotificationRequest</servlet-name>
+  	<display-name>NotificationRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.NotificationRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>WishlistRequest</servlet-name>
+  	<display-name>WishlistRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.WishlistRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ReviewsRequest</servlet-name>
+  	<display-name>ReviewsRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.ReviewsRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AddWishlistRequest</servlet-name>
+  	<display-name>AddWishlistRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.AddWishlistRequest</servlet-class>
+  </servlet>
+>>>>>>> Stashed changes
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -174,4 +201,23 @@
   	<servlet-name>SendMessageRequest</servlet-name>
   	<url-pattern>/SendMessageRequest</url-pattern>
   </servlet-mapping>
+<<<<<<< Updated upstream
+=======
+  <servlet-mapping>
+  	<servlet-name>NotificationRequest</servlet-name>
+  	<url-pattern>/NotificationRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>WishlistRequest</servlet-name>
+  	<url-pattern>/WishlistRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ReviewsRequest</servlet-name>
+  	<url-pattern>/ReviewsRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AddWishlistRequest</servlet-name>
+  	<url-pattern>/AddWishlistRequest</url-pattern>
+  </servlet-mapping>
+>>>>>>> Stashed changes
 </web-app>
