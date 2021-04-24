@@ -5,17 +5,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-<<<<<<< Updated upstream
 import android.view.Menu;
-=======
->>>>>>> Stashed changes
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.R;
@@ -106,11 +106,6 @@ public class ProductActivity extends Activity {
         settingsButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-<<<<<<< Updated upstream
-                //This will identify who is the clicker than display two diff
-                // pop-ups.
-                //TODO
-=======
                 PopupMenu settingsMenu = new PopupMenu( ProductActivity.this, v );
                 String userId = "CURRENT_STRING_ID";
 
@@ -147,8 +142,7 @@ public class ProductActivity extends Activity {
                         return true;
                     }
                 } );
-                settingsMenu.show();
->>>>>>> Stashed changes
+
             }
         } );
 
@@ -179,18 +173,21 @@ public class ProductActivity extends Activity {
                 }
             }
         } );
-    }
-<<<<<<< Updated upstream
 
-    @Override
+
+    }
+
+    /*@Override
     public boolean onCreateOptionsMenu( Menu menu ) {
 
         String userId = "CURRENT_STRING_ID";
+        MenuInflater inflater;
+        inflater = getMenuInflater();
 
         if ( currentProduct.getSeller().getUserId().equals( userId ) ) {
-            getMenuInflater().inflate( R.menu.second_menu, menu );
+            inflater.inflate( R.menu.second_menu, menu );
         } else {
-            getMenuInflater().inflate( R.menu.first_menu, menu );
+            inflater.inflate( R.menu.first_menu, menu );
         }
         return true;
     }
@@ -219,11 +216,8 @@ public class ProductActivity extends Activity {
             //TODO
         }
         return true;
-    }
+    }*/
 
-=======
-    
->>>>>>> Stashed changes
     public void addToWishlist() {
         //TODO
     }
