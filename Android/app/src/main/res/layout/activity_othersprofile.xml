@@ -88,7 +88,7 @@
         android:id="@+id/button_others_profile_follow"
         android:layout_width="70dp"
         android:layout_height="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:background="@drawable/others_profile_button"
@@ -102,9 +102,9 @@
         android:id="@+id/button_others_profile_chat"
         android:layout_width="70dp"
         android:layout_height="25dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/others_profile_button"
         android:hint="message"
         app:layout_constraintStart_toEndOf="@+id/text_others_profile_user_name"
@@ -132,27 +132,31 @@
         app:layout_constraintTop_toBottomOf="@+id/include"
         app:srcCompat="@drawable/avatar_female" />
 
-    <TextView
-        android:id="@+id/text_others_profile_following"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:text="Following"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_others_profile_following_number" />
-
-    <TextView
-        android:id="@+id/text_others_profile_following_number"
+    <LinearLayout
+        android:id="@+id/followingView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginRight="60dp"
-        android:text="165"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar" />
+        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar">
+
+        <TextView
+            android:id="@+id/text_others_profile_following_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="165" />
+        <TextView
+            android:id="@+id/text_others_profile_following"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Following" />
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/followersView"
@@ -162,10 +166,10 @@
         android:layout_marginLeft="72dp"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/text_others_profile_following"
+        app:layout_constraintEnd_toStartOf="@+id/followingView"
         app:layout_constraintHorizontal_bias="0.164"
         app:layout_constraintStart_toEndOf="@+id/saleView"
-        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar">">
+        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar">
 
         <TextView
             android:id="@+id/text_others_profile_follower_amount"
@@ -173,6 +177,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
             android:text="283" />
+
         <TextView
             android:id="@+id/text_others_profile_followers"
             android:layout_width="wrap_content"
@@ -204,7 +209,7 @@
             android:id="@+id/text_others_profile_sales"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="sales" />
+            android:text="Sales" />
     </LinearLayout>
 
 

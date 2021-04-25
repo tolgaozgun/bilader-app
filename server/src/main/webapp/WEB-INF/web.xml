@@ -154,6 +154,12 @@
   	<description></description>
   	<servlet-class>database.requests.LogoutRequest</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>CreateChatRequest</servlet-name>
+  	<display-name>CreateChatRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.CreateChatRequest</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -253,5 +259,9 @@
   <servlet-mapping>
   	<servlet-name>LogoutRequest</servlet-name>
   	<url-pattern>/LogoutRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CreateChatRequest</servlet-name>
+  	<url-pattern>/CreateChatRequest</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -22,6 +22,7 @@ import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -52,16 +53,17 @@ public class PrivateChatActivity extends Activity {
 
         //TODO
         if ( intent != null ) {
-            userChatted = gson.fromJson(getIntent().getStringExtra("user"), User.class);
-            chatId = intent.getStringExtra( "chat_id" );
+            userChatted = gson.fromJson( getIntent().getStringExtra( "user" )
+                    , User.class );
             userName = userChatted.getUserName();
             userAvatar = userChatted.getUserAvatar();
             userId = userChatted.getUserId();
-        }else{
+            setChatId();
+        } else {
             Toast.makeText( this, "User not found!", Toast.LENGTH_SHORT ).show();
             return;
         }
-        System.out.println("NEW_THING");
+        System.out.println( "NEW_THING" );
         userNameView.setText( userName );
         Picasso.get().load( userAvatar ).fit().centerInside().into( userAvatarView );
 
@@ -98,6 +100,61 @@ public class PrivateChatActivity extends Activity {
             }
         }
     }*/
+
+    private void setChatId() {
+
+        Map< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "participant_one", userId );
+
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+                        chatId =
+                                object.getJSONObject( "chats" ).getJSONObject( "0" ).getString( "chat_id" );
+                    }else{
+                        createChat();
+                    }
+                } catch ( JSONException e ) {
+                    createChat();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                createChat();
+            }
+        }, RequestType.MAIN_CHAT, params, this, true );
+    }
+
+    private void createChat(){
+
+        Map< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "participant_one", userId );
+
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    if(object.getBoolean("success")){
+                        chatId = object.getString( "chat_id" );
+                    }
+                } catch ( JSONException e ) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFail( String message ) {
+
+            }
+        }, RequestType.CREATE_CHAT, params, this, true );
+    }
 
     private void sendMessage( String message ) {
 

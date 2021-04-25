@@ -87,18 +87,21 @@ public class ProductActivity extends Activity {
                     "product" ), Product.class );
             setView();
         } else if ( getIntent().hasExtra( "product_id" ) ) {
-            retrieveProduct( getIntent().getStringExtra(
-                    "product_id" ) );
+            retrieveProduct( getIntent().getStringExtra( "product_id" ) );
         }
 
         userAvatar.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
                 Intent intent;
-                intent = new Intent(ProductActivity.this, OthersProfileActivity.class);
-                intent.putExtra( "user_id",currentProduct.getSeller().getUserId() );
-                intent.putExtra( "user_name",currentProduct.getSeller().getUserName());
-                intent.putExtra( "user_avatar",currentProduct.getSeller().getUserAvatar() );
+                intent = new Intent( ProductActivity.this,
+                        OthersProfileActivity.class );
+                intent.putExtra( "user_id",
+                        currentProduct.getSeller().getUserId() );
+                intent.putExtra( "user_name",
+                        currentProduct.getSeller().getUserName() );
+                intent.putExtra( "user_avatar",
+                        currentProduct.getSeller().getUserAvatar() );
                 startActivity( intent );
             }
         } );
@@ -107,10 +110,14 @@ public class ProductActivity extends Activity {
             @Override
             public void onClick( View v ) {
                 Intent intent;
-                intent = new Intent(ProductActivity.this, OthersProfileActivity.class);
-                intent.putExtra( "user_id",currentProduct.getSeller().getUserId() );
-                intent.putExtra( "user_name",currentProduct.getSeller().getUserName());
-                intent.putExtra( "user_avatar",currentProduct.getSeller().getUserAvatar() );
+                intent = new Intent( ProductActivity.this,
+                        OthersProfileActivity.class );
+                intent.putExtra( "user_id",
+                        currentProduct.getSeller().getUserId() );
+                intent.putExtra( "user_name",
+                        currentProduct.getSeller().getUserName() );
+                intent.putExtra( "user_avatar",
+                        currentProduct.getSeller().getUserAvatar() );
                 startActivity( intent );
             }
         } );
@@ -182,6 +189,8 @@ public class ProductActivity extends Activity {
         directChatButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+                String myJson;
+                Intent intent;
                 if ( sellerId == null || currentUserId == null ) {
                     Toast.makeText( ProductActivity.this,
                             "Error retrieving " + "info",
@@ -191,10 +200,11 @@ public class ProductActivity extends Activity {
                     Toast.makeText( ProductActivity.this, "You cannot " +
                             "message" + " yourself!", Toast.LENGTH_SHORT ).show();
                 } else {
-                    Intent intent;
                     intent = new Intent( ProductActivity.this,
                             PrivateChatActivity.class );
-                    intent.putExtra( "user_id", sellerId );
+                    gson = new Gson();
+                    myJson = gson.toJson( currentProduct.getOwner() );
+                    intent.putExtra( "user", myJson );
                     startActivity( intent );
                 }
             }
@@ -204,11 +214,12 @@ public class ProductActivity extends Activity {
     @Override
     public void onBackPressed() {
         Intent intent;
-        if(getIntent().getBooleanExtra( "goBack" ,true)){
+        if ( getIntent().getBooleanExtra( "goBack", true ) ) {
             super.onBackPressed();
-        }else{
-            intent = new Intent(ProductActivity.this, BiltraderActivity.class);
-            startActivity(intent);
+        } else {
+            intent = new Intent( ProductActivity.this,
+                    BiltraderActivity.class );
+            startActivity( intent );
         }
     }
     /*@Override
@@ -252,10 +263,10 @@ public class ProductActivity extends Activity {
         return true;
     }*/
 
-    private void setView(){
+    private void setView() {
 
         if ( currentProduct != null ) {
-            System.out.println("XOXOXOX");
+            System.out.println( "XOXOXOX" );
             sellerId = currentProduct.getSeller().getUserId();
             productName.setText( currentProduct.getTitle() );
             productDescription.setText( currentProduct.getDescription() );
@@ -297,7 +308,7 @@ public class ProductActivity extends Activity {
                         Toast.LENGTH_SHORT ).show();
                 checkIfWishlisted();
             }
-        }, RequestType.ADD_WISHLIST, params, this, true);
+        }, RequestType.ADD_WISHLIST, params, this, true );
     }
 
     public void removeFromWishlist() {
@@ -338,17 +349,20 @@ public class ProductActivity extends Activity {
                 JSONObject tempJson;
                 try {
                     if ( object.getBoolean( "success" ) ) {
-                        tempJson = object.getJSONObject( "result" ).getJSONObject( "0" );
+                        tempJson =
+                                object.getJSONObject( "result" ).getJSONObject( "0" );
                         title = tempJson.getString( "title" );
                         pictureURL = tempJson.getString( "picture_url" );
                         description = tempJson.getString( "description" );
                         sellerId = tempJson.getString( "seller_id" );
-                        sellerAvatar = tempJson.getString( "seller_avatar_url" );
+                        sellerAvatar = tempJson.getString( "seller_avatar_url"
+                        );
                         sellerName = tempJson.getString( "seller_name" );
                         categoryId = tempJson.getInt( "category_id" );
                         price = tempJson.getDouble( "price" );
                         seller = new User( sellerName, sellerAvatar, sellerId );
-                        category = new Category( categoryId, ProductActivity.this );
+                        category = new Category( categoryId,
+                                ProductActivity.this );
                         currentProduct = new Product( pictureURL, title,
                                 description, price, seller, false, productId,
                                 category );

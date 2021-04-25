@@ -108,9 +108,6 @@ public class MainChatAdapter extends
         if ( userList != null && userList.size() > position ) {
             user = userList.get( position );
             otherUserId = user.getUserId();
-            System.out.println( "SIZE: " + userList.size() + " position: " + position );
-            System.out.println("N1" + holder.textLastMessageSender == null);
-            System.out.println("N2" + user.getUserName() == null);
             holder.textLastMessage.setText( user.getLastMessage() );
             holder.textLastMessageSender.setText( user.getUserName() );
             holder.textTimeAgo.setText( "1m ago" );

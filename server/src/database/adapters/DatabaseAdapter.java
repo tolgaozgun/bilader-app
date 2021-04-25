@@ -54,12 +54,21 @@ public class DatabaseAdapter {
 
 	public boolean doesExist( String tableName, Map< String, String > params,
 			String additionParam ) throws SQLException, ClassNotFoundException {
-		return doesExist( tableName, params, additionParam, null, null );
+		return doesExist( tableName, params, additionParam, "AND", null, null );
 	}
 
 	public boolean doesExist( String tableName, Map< String, String > params,
 			String additionParam, Map< String, String > anotherParams,
 			String secondAddition )
+			throws ClassNotFoundException, SQLException {
+		return doesExist( tableName, params, additionParam, "AND",
+				anotherParams, secondAddition );
+
+	}
+
+	public boolean doesExist( String tableName, Map< String, String > params,
+			String additionParam, String connectionParam,
+			Map< String, String > anotherParams, String secondAddition )
 			throws SQLException, ClassNotFoundException {
 		StringBuffer sql;
 		PreparedStatement statement;
@@ -77,7 +86,7 @@ public class DatabaseAdapter {
 		sql.append( createWhereString( params, additionParam ) + " " );
 		if ( anotherParams != null && secondAddition != null ) {
 			secondWhere = createWhereString( anotherParams, secondAddition );
-			secondWhere = secondWhere.replaceAll( "WHERE", "AND" );
+			secondWhere = secondWhere.replaceAll( "WHERE", connectionParam );
 			sql.append( secondWhere );
 		}
 		connect();
@@ -346,6 +355,48 @@ public class DatabaseAdapter {
 		sql.append( createSelectString( wanted ) + " " );
 		sql.append( "FROM " + tableName + " " );
 		sql.append( createWhereString( params, compare, type ) );
+		connect();
+		statement = connection.prepareStatement( sql.toString() );
+		resultSet = statement.executeQuery();
+		j = 0;
+		while ( resultSet.next() ) {
+			iteration = new Object[ wanted.length ];
+			for ( int i = 0; i < wanted.length; i++ ) {
+				iteration[ i ] = resultSet.getObject( wanted[ i ] );
+			}
+			result.put( j, iteration );
+			j++;
+		}
+
+		resultSet.close();
+		disconnect();
+
+		return result;
+	}
+
+	public Map< Integer, Object[] > select( String tableName, String[] wanted,
+			Map< String, String > params, String additionParam,
+			String connectionParam, Map< String, String > anotherParams,
+			String secondAddition )
+			throws SQLException, ClassNotFoundException {
+		StringBuffer sql;
+		PreparedStatement statement;
+		ResultSet resultSet;
+		Map< Integer, Object[] > result;
+		String secondWhere;
+		Object[] iteration;
+		int j;
+
+		result = new HashMap< Integer, Object[] >();
+		sql = new StringBuffer();
+		sql.append( createSelectString( wanted ) + " " );
+		sql.append( "FROM " + tableName + " " );
+		sql.append( createWhereString( params, additionParam ) + " " );
+		if ( anotherParams != null && secondAddition != null ) {
+			secondWhere = createWhereString( anotherParams, secondAddition );
+			secondWhere = secondWhere.replaceAll( "WHERE", connectionParam );
+			sql.append( secondWhere );
+		}
 		connect();
 		statement = connection.prepareStatement( sql.toString() );
 		resultSet = statement.executeQuery();

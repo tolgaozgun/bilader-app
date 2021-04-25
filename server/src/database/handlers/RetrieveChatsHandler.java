@@ -23,16 +23,19 @@ public class RetrieveChatsHandler extends ProcessHandler {
 	private final static String USER_AVATAR_KEY = "avatar_url";
 	private final static String DATE_KEY = "last_message_date";
 	private final static String LAST_MESSAGE_KEY = "last_message";
+	private final static String[] OPTIONAL_KEYS = { PARTICIPANT_ONE_KEY };
 	private final static String[] KEYS = {};
 
 	public RetrieveChatsHandler( Map< String, String[] > parameters ) {
-		super( RequestAdapter.convertParameters( parameters, KEYS, true ) );
+		super( RequestAdapter.convertParameters( parameters, KEYS,
+				OPTIONAL_KEYS, true ) );
 	}
 
 	private ResultCode checkParams()
 			throws ClassNotFoundException, SQLException {
 		DatabaseAdapter adapter;
 		Map< String, String > checkParams;
+		Map< String, String > anotherParams;
 		String userId;
 		adapter = new DatabaseAdapter();
 
@@ -58,10 +61,28 @@ public class RetrieveChatsHandler extends ProcessHandler {
 
 		checkParams = new HashMap< String, String >();
 
-		checkParams.put( PARTICIPANT_ONE_KEY, userId );
-		checkParams.put( PARTICIPANT_TWO_KEY, userId );
-		if ( adapter.doesExist( DATABASE_TABLE, checkParams, "OR" ) ) {
-			return ResultCode.CHATS_OK;
+		if ( params.containsKey( PARTICIPANT_ONE_KEY ) ) {
+
+			checkParams.put( PARTICIPANT_ONE_KEY,
+					params.get( PARTICIPANT_ONE_KEY ) );
+			checkParams.put( PARTICIPANT_TWO_KEY, userId );
+
+			anotherParams = new HashMap< String, String >();
+
+			anotherParams.put( PARTICIPANT_ONE_KEY, userId );
+			anotherParams.put( PARTICIPANT_TWO_KEY,
+					params.get( PARTICIPANT_ONE_KEY ) );
+
+			if ( adapter.doesExist( DATABASE_TABLE, checkParams, "AND", "OR",
+					anotherParams, "AND" ) ) {
+				return ResultCode.CHATS_OK;
+			}
+		} else {
+			checkParams.put( PARTICIPANT_ONE_KEY, userId );
+			checkParams.put( PARTICIPANT_TWO_KEY, userId );
+			if ( adapter.doesExist( DATABASE_TABLE, checkParams, "OR" ) ) {
+				return ResultCode.CHATS_OK;
+			}
 		}
 
 		return ResultCode.CHATS_DO_NOT_EXIST;
@@ -74,6 +95,7 @@ public class RetrieveChatsHandler extends ProcessHandler {
 		Map< Integer, Object[] > usersMap;
 		Map< Integer, Object[] > userDetailsMap;
 		Map< String, String > checkParams;
+		Map< String, String > anotherParams;
 		DatabaseAdapter adapter;
 		ResultCode result;
 		String[] wanted;
@@ -102,10 +124,27 @@ public class RetrieveChatsHandler extends ProcessHandler {
 		if ( result.isSuccess() ) {
 			currentUserId = params.get( USER_ID_KEY );
 			checkParams = new HashMap< String, String >();
-			checkParams.put( PARTICIPANT_ONE_KEY, currentUserId );
-			checkParams.put( PARTICIPANT_TWO_KEY, currentUserId );
-			usersMap = adapter.select( DATABASE_TABLE, wanted, checkParams,
-					"OR" );
+
+			if ( params.containsKey( PARTICIPANT_ONE_KEY ) ) {
+
+				checkParams.put( PARTICIPANT_ONE_KEY, currentUserId );
+				checkParams.put( PARTICIPANT_TWO_KEY,
+						params.get( PARTICIPANT_ONE_KEY ) );
+				anotherParams = new HashMap< String, String >();
+
+				anotherParams.put( PARTICIPANT_ONE_KEY,
+						params.get( PARTICIPANT_ONE_KEY ) );
+				anotherParams.put( PARTICIPANT_TWO_KEY, currentUserId );
+				
+				usersMap = adapter.select( DATABASE_TABLE, wanted, checkParams, "AND",
+						"OR", anotherParams, "AND" );
+
+			} else {
+				checkParams.put( PARTICIPANT_ONE_KEY, currentUserId );
+				checkParams.put( PARTICIPANT_TWO_KEY, currentUserId );
+				usersMap = adapter.select( DATABASE_TABLE, wanted, checkParams,
+						"OR" );
+			}
 			messagesJson = new JSONObject();
 			for ( int i = 0; i < usersMap.size(); i++ ) {
 				tempJson = new JSONObject();

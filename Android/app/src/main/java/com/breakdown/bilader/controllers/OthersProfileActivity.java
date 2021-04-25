@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,24 +18,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.adapters.HttpAdapter;
-import com.breakdown.bilader.adapters.RequestType;
-import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.fragments.OnSaleFragment;
 import com.breakdown.bilader.fragments.ReviewsFragment;
-import com.breakdown.bilader.models.Category;
-import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class OthersProfileActivity extends AppCompatActivity {
 
@@ -61,6 +53,9 @@ public class OthersProfileActivity extends AppCompatActivity {
     private ArrayList< String > fragmentTitleList = new ArrayList<>();
 
     private User currentUser;
+    private LinearLayout followingView;
+    private LinearLayout followersView;
+    private LinearLayout salesView;
     private Gson gson;
     private Bundle bundle;
     private String userId;
@@ -70,7 +65,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_othersprofilebyyahya );
+        setContentView( R.layout.activity_othersprofile );
 
         tableLayout = findViewById( R.id.others_profile_tab_layout );
         viewPager2 = findViewById( R.id.others_profile_view_pager );
@@ -80,6 +75,9 @@ public class OthersProfileActivity extends AppCompatActivity {
         profilePhoto = findViewById( R.id.image_others_profile_avatar );
         follow = findViewById( R.id.button_others_profile_follow );
         sendMessage = findViewById( R.id.button_others_profile_chat );
+        followingView = findViewById( R.id.followingView );
+        followersView = findViewById( R.id.followersView );
+        salesView = findViewById( R.id.saleView );
 
         fragmentForReview = new ReviewsFragment();
         fragmentForSale = new OnSaleFragment();
@@ -148,14 +146,38 @@ public class OthersProfileActivity extends AppCompatActivity {
         sendMessage.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                Intent newIntent;
-                newIntent = new Intent( OthersProfileActivity.this,
+                Intent intent;
+                String myJson;
+                intent = new Intent( OthersProfileActivity.this,
                         PrivateChatActivity.class );
-                newIntent.putExtra( "user_id", currentUser.getUserId() );
-                startActivity( newIntent );
+                gson = new Gson();
+                myJson = gson.toJson(currentUser);
+                
+                intent.putExtra("user", myJson);
+                startActivity( intent );
             }
         } );
 
+        followingView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Intent intent;
+                intent = new Intent(OthersProfileActivity.this, FollowingActivity.class);
+                intent.putExtra( "user_id", currentUser.getUserId() );
+                startActivity( intent );
+            }
+        } );
+
+
+        followersView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Intent intent;
+                intent = new Intent(OthersProfileActivity.this, FollowersActivity.class);
+                intent.putExtra( "user_id", currentUser.getUserId() );
+                startActivity( intent );
+            }
+        } );
 
     }
 

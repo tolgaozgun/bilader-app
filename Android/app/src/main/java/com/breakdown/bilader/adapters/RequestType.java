@@ -23,7 +23,8 @@ public enum RequestType {
     CHECK_WISHLIST( "CheckWishlistRequest" ),
     REMOVE_WISHLIST( "RemoveWishlistRequest" ),
     MAIN_CHAT("RetrieveChatsRequest"),
-    PRIVATE_CHAT("RetrieveMessagesRequest");
+    PRIVATE_CHAT("RetrieveMessagesRequest"),
+    CREATE_CHAT("CreateChatRequest");
 
     private String path;
 

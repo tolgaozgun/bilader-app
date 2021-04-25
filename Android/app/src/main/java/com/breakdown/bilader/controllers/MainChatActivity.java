@@ -74,7 +74,6 @@ public class MainChatActivity extends Activity {
                     if ( object.getBoolean( "success" ) ) {
                         System.out.println("AAA");
                         keys = object.getJSONObject( "chats" ).keys();
-                        System.out.println("AAA");
                         while ( keys.hasNext() ) {
                             String key = keys.next();
                             tempJson =
