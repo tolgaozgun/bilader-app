@@ -3,11 +3,8 @@ package com.breakdown.bilader.controllers;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +13,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.android.volley.toolbox.Volley;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.RequestType;
@@ -268,6 +263,7 @@ public class ProductActivity extends Activity {
         if ( currentProduct != null ) {
             System.out.println( "XOXOXOX" );
             sellerId = currentProduct.getSeller().getUserId();
+            seller = currentProduct.getSeller();
             productName.setText( currentProduct.getTitle() );
             productDescription.setText( currentProduct.getDescription() );
             priceText.setText( String.valueOf( currentProduct.getPrice() ) );
