@@ -10,7 +10,9 @@ public enum RequestType {
             "ChangePasswordRequest" ), NOTIFICATION( "NotificationRequest" ),
     SEND_MESSAGE( "SendMessageRequest" ), RETRIEVE_MESSAGES(
             "RetrieveMessagesRequest" ), TOKEN( "TokenRequest" ), WISHLIST(
-                    "WishlistRequest" ), ADD_PRODUCT("AddProductRequest");
+                    "WishlistRequest" ), ADD_PRODUCT( "AddProductRequest" ),
+    ADD_WISHLIST( "AddWishlistRequest" ), CHECK_WISHLIST(
+            "CheckWishlistRequest" );
 
     private String path;
 

@@ -3,6 +3,7 @@ package com.breakdown.bilader.controllers;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.volley.toolbox.Volley;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.RequestType;
@@ -55,6 +57,7 @@ public class ProductActivity extends Activity {
     private String sellerAvatar;
     private String sellerName;
     private String currentUserId;
+    private boolean isWishlisted;
     private double price;
     private SharedPreferences sharedPreferences;
     private User seller;
@@ -101,7 +104,7 @@ public class ProductActivity extends Activity {
                 Picasso.get().load( currentProduct.getOwner().getUserAvatar() ).fit().centerInside().into( userAvatar );
             }
         }
-
+        checkIfWishlisted();
 
         settingsButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -128,8 +131,11 @@ public class ProductActivity extends Activity {
 
                             newIntent = new Intent( ProductActivity.this,
                                     ReportActivity.class );
+                            newIntent.putExtra( "image_url", currentProduct.getPicture() );
+                            newIntent.putExtra( "title", currentProduct.getTitle() );
+                            newIntent.putExtra( "report-type", 1 );
+                            newIntent.putExtra( "id", currentProduct.getProductId() );
                             startActivity( newIntent );
-                            //TODO
 
                         } else if ( id == R.id.editMenu ) {
 
@@ -151,7 +157,13 @@ public class ProductActivity extends Activity {
         addWishlistButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                addToWishlist();
+                if(isWishlisted){
+                    Toast.makeText( ProductActivity.this, "This product is already wishlisted!",
+                            Toast.LENGTH_SHORT ).show();
+                }else{
+                    addToWishlist();
+                }
+                addWishlistButton.setBackgroundColor( Color.RED );
             }
         } );
 
@@ -159,12 +171,13 @@ public class ProductActivity extends Activity {
             @Override
             public void onClick( View v ) {
                 if ( sellerId == null || currentUserId == null ) {
-                    Toast.makeText( ProductActivity.this, "Error retrieving " +
-                            "info", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( ProductActivity.this,
+                            "Error retrieving " + "info",
+                            Toast.LENGTH_SHORT ).show();
                 }
                 if ( sellerId.equals( currentUserId ) ) {
-                    Toast.makeText( ProductActivity.this, "You cannot message" +
-                            " yourself!", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( ProductActivity.this, "You cannot " +
+                            "message" + " yourself!", Toast.LENGTH_SHORT ).show();
                 } else {
                     Intent intent;
                     intent = new Intent( ProductActivity.this,
@@ -222,6 +235,7 @@ public class ProductActivity extends Activity {
     public void addToWishlist() {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
+        params.put( "product_id", currentProduct.getProductId() );
 
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
@@ -241,7 +255,7 @@ public class ProductActivity extends Activity {
                 Toast.makeText( ProductActivity.this, message,
                         Toast.LENGTH_SHORT ).show();
             }
-        }, RequestType.WISHLIST, params, this );
+        }, RequestType.ADD_WISHLIST, params, this );
     }
 
     private Product retrieveProduct( String productId ) {
@@ -282,5 +296,40 @@ public class ProductActivity extends Activity {
 
         return currentProduct;
     }
+
+    public void checkIfWishlisted() {
+        isWishlisted = false;
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "product_id", currentProduct.getProductId() );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+                        isWishlisted = object.getBoolean( "wishlisted" );
+                    }
+                    updateWishlistButton();
+                } catch ( JSONException e ) {
+                    e.printStackTrace();
+                    updateWishlistButton();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                updateWishlistButton();
+            }
+        }, RequestType.CHECK_WISHLIST, params, this );
+    }
+
+    private void updateWishlistButton() {
+        if ( isWishlisted ) {
+            addWishlistButton.setBackgroundColor( Color.RED );
+        } else {
+            addWishlistButton.setBackgroundColor( Color.BLACK );
+        }
+    }
+
 
 }

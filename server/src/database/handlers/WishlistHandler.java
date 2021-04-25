@@ -16,14 +16,12 @@ import jakarta.servlet.ServletException;
 public class WishlistHandler extends ProcessHandler {
 
 	private static final String WISHLIST_USER_ID_KEY = "user_id";
-	private static final String[] KEYS = { WISHLIST_USER_ID_KEY };
+	private static final String[] KEYS = {};
 	private final String DATABASE_TABLE_WISHLIST = "wishlist";
 	private final String DATABASE_TABLE_PRODUCT = "products";
 
 	public WishlistHandler( Map< String, String[] > parameters ) {
-		super( RequestAdapter.convertParameters( parameters, KEYS,
-				OPTIONAL_KEYS, true ) );
-		params.put( WISHLIST_USER_ID_KEY, parameters.get( USER_ID_KEY )[ 0 ] );
+		super( RequestAdapter.convertParameters( parameters, KEYS, true ) );
 	}
 
 	private ResultCode checkParams()
@@ -35,6 +33,8 @@ public class WishlistHandler extends ProcessHandler {
 		if ( params == null || params.size() == 0 ) {
 			return ResultCode.INVALID_REQUEST;
 		}
+
+		params.put( WISHLIST_USER_ID_KEY, params.get( USER_ID_KEY ) );
 
 		// Check if the current user exists in the database.
 		checkParams = cloneMapWithKeys( VERIFICATION_KEYS_ID, params );
@@ -111,7 +111,7 @@ public class WishlistHandler extends ProcessHandler {
 					params.put( "id", productId );
 					productResult = adapter.select( DATABASE_TABLE_PRODUCT,
 							productWanted, params );
-					sellerId = ( String ) productResult.get( key )[ 4 ];
+					sellerId = ( String ) productResult.get( 0 )[ 4 ];
 					params = new HashMap< String, String >();
 					params.put( USER_ID_KEY, sellerId );
 					userResult = adapter.select( DATABASE_TABLE_USERS,

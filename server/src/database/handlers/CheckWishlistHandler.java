@@ -11,17 +11,15 @@ import database.adapters.RequestAdapter;
 import database.handlers.codes.ResultCode;
 import jakarta.servlet.ServletException;
 
-public class AddWishlistHandler extends ProcessHandler {
+public class CheckWishlistHandler extends ProcessHandler {
 
 	private static final String PRODUCT_ID_KEY = "product_id";
-	private static final String TIME_KEY = "creation_date";
 	private static final String WISHLIST_USER_ID_KEY = "user_id";
 	private static final String[] KEYS = { PRODUCT_ID_KEY };
-	private static final String[] PRODUCT_CHECK_KEYS = { PRODUCT_ID_KEY, WISHLIST_USER_ID_KEY };
+	private static final String[] PRODUCT_CHECK_KEYS = { PRODUCT_ID_KEY };
 	private final String DATABASE_TABLE_WISHLIST = "wishlist";
-	private final String DATABASE_TABLE_PRODUCTS = "products";
 
-	public AddWishlistHandler( Map< String, String[] > parameters ) {
+	public CheckWishlistHandler( Map< String, String[] > parameters ) {
 		super( RequestAdapter.convertParameters( parameters, KEYS, true ) );
 		params.put( WISHLIST_USER_ID_KEY, parameters.get( USER_ID_KEY )[ 0 ] );
 	}
@@ -55,15 +53,8 @@ public class AddWishlistHandler extends ProcessHandler {
 		if ( adapter.doesExist( DATABASE_TABLE_WISHLIST, checkParams ) ) {
 			return ResultCode.ALREADY_WISHLISTED;
 		}
-		
-		
-		checkParams.clear();
-		checkParams.put( "id", params.get( PRODUCT_ID_KEY ) );
-		if ( adapter.doesExist( DATABASE_TABLE_PRODUCTS, checkParams ) ) {
-			return ResultCode.PRODUCT_OK;
-		}
 
-		return ResultCode.NONE_FOUND;
+		return ResultCode.CHECK_NOT_WISHLISTED;
 
 	}
 
@@ -71,22 +62,19 @@ public class AddWishlistHandler extends ProcessHandler {
 	public JSONObject getResult() throws ServletException, IOException,
 			ClassNotFoundException, SQLException {
 		JSONObject json;
-		DatabaseAdapter adapter;
 		ResultCode result;
-		long timeNow;
 
-		adapter = new DatabaseAdapter();
 		json = new JSONObject();
 		result = checkParams();
-		timeNow = System.currentTimeMillis();
 
-		if ( result.isSuccess() ) {
-			params.put( TIME_KEY, String.valueOf( timeNow ) );
-			adapter.create( DATABASE_TABLE_WISHLIST, params );
+		if ( result == ResultCode.ALREADY_WISHLISTED ) {
+			json.put( "wishlisted", true );
+		}else {
+			json.put( "wishlisted", false );
 		}
+
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;
 	}
-
 }

@@ -1,6 +1,8 @@
 package com.breakdown.bilader.controllers;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -63,6 +65,8 @@ public class OthersProfileActivity extends AppCompatActivity {
                 findViewById( R.id.text_other_profile_reviews_in_parantheses );
         userName = findViewById( R.id.text_others_profile_user_name );
         profilePhoto = findViewById( R.id.image_others_profile_avatar );
+        follow = findViewById( R.id.button_others_profile_follow );
+        sendMessage = findViewById( R.id.button_others_profile_chat );
 
         fragmentForReview = new ReviewsFragment();
         fragmentForSale = new OnSaleFragment();
@@ -99,36 +103,34 @@ public class OthersProfileActivity extends AppCompatActivity {
             @Override
             public void onClick( View v ) {
                 Intent newIntent;
-
                 newIntent = new Intent( OthersProfileActivity.this,
-                ReportActivity.class );
-
-                // TODO
-                newIntent.putExtra( "userName", "Hello" );
+                        ReportActivity.class );
+                newIntent.putExtra( "id", currentUser.getUserId() );
+                newIntent.putExtra( "title", currentUser.getUserName() );
+                newIntent.putExtra( "image_url", currentUser.getUserAvatar() );
+                newIntent.putExtra( "report-type", 0 );
                 startActivity( newIntent );
             }
         } );*/
 
         //TODO
-        /*follow.setOnClickListener( new View.OnClickListener() {
+        follow.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
 
             }
-        } );*/
+        } );
 
-        //TODO
-        /*sendMessage.setOnClickListener( new View.OnClickListener() {
+        sendMessage.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
                 Intent newIntent;
-
                 newIntent = new Intent( OthersProfileActivity.this,
-                PrivateChatActivity.class );
-
+                        PrivateChatActivity.class );
+                newIntent.putExtra( "user_id", currentUser.getUserId() );
                 startActivity( newIntent );
             }
-        } );*/
+        } );
 
 
     }

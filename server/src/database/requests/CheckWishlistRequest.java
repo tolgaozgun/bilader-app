@@ -3,22 +3,22 @@ package database.requests;
 import java.io.IOException;
 
 import database.adapters.RequestAdapter;
-import database.handlers.AddWishlistHandler;
+import database.handlers.CheckWishlistHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class AddWishlistRequest
+ * Servlet implementation class CheckWishlistRequest
  */
-public class AddWishlistRequest extends HttpServlet {
+public class CheckWishlistRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddWishlistRequest() {
+    public CheckWishlistRequest() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,9 +46,10 @@ public class AddWishlistRequest extends HttpServlet {
 	private void handleRequest( HttpServletRequest request,
 			HttpServletResponse response )
 			throws ServletException, IOException {
-		AddWishlistHandler handler;
-		handler = new AddWishlistHandler( request.getParameterMap() );
+		CheckWishlistHandler handler;
+		handler = new CheckWishlistHandler( request.getParameterMap() );
 		RequestAdapter.handleRequest( request, response, handler );
+
 	}
 
 }
