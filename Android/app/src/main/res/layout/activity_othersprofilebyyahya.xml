@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_others_profile_followers"
+        app:layout_constraintTop_toBottomOf="@+id/saleView"
         app:tabIndicatorColor="@color/bilader_blue_dark"
         app:tabIndicatorHeight="6dp">
 
@@ -83,17 +83,6 @@
         android:text="(25 reviews)"
         app:layout_constraintStart_toEndOf="@+id/image_others_profile_rating_star"
         app:layout_constraintTop_toBottomOf="@+id/text_others_profile_user_name" />
-
-    <TextView
-        android:id="@+id/text_others_profile_sales"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginTop="4dp"
-        android:text="sales"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_others_profile_sale_amount" />
 
     <Button
         android:id="@+id/button_others_profile_follow"
@@ -165,40 +154,58 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar" />
 
-    <TextView
-        android:id="@+id/text_others_profile_followers"
+    <LinearLayout
+        android:id="@+id/followersView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginLeft="72dp"
-        android:layout_marginTop="4dp"
-        android:text="Followers"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@+id/text_others_profile_following"
         app:layout_constraintHorizontal_bias="0.164"
-        app:layout_constraintStart_toEndOf="@+id/text_others_profile_sales"
-        app:layout_constraintTop_toBottomOf="@+id/text_others_profile_follower_amount" />
+        app:layout_constraintStart_toEndOf="@+id/saleView"
+        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar">">
 
-    <TextView
-        android:id="@+id/text_others_profile_follower_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="283"
-        app:layout_constraintEnd_toStartOf="@+id/text_others_profile_following_number"
-        app:layout_constraintHorizontal_bias="0.525"
-        app:layout_constraintStart_toEndOf="@+id/text_others_profile_sale_amount"
-        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar" />
+        <TextView
+            android:id="@+id/text_others_profile_follower_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:text="283" />
+        <TextView
+            android:id="@+id/text_others_profile_followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Followers" />
 
-    <TextView
-        android:id="@+id/text_others_profile_sale_amount"
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/saleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:layout_marginLeft="56dp"
         android:layout_marginTop="16dp"
-        android:text="28"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar" />
+        app:layout_constraintTop_toBottomOf="@+id/image_others_profile_avatar">
+
+        <TextView
+            android:id="@+id/text_others_profile_sale_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:text="28" />
+
+        <TextView
+            android:id="@+id/text_others_profile_sales"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sales" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
