@@ -45,7 +45,6 @@ public class OthersProfileActivity extends AppCompatActivity {
     private Button follow;
     private Button sendMessage;
     private Button reportButton;
-    private Button submitReport; //?
     private ReviewsFragment fragmentForReview;
     private OnSaleFragment fragmentForSale;
 
@@ -80,6 +79,7 @@ public class OthersProfileActivity extends AppCompatActivity {
         followersView = findViewById( R.id.followersView );
         salesView = findViewById( R.id.saleView );
         activityTitle = findViewById( R.id.othersProfileTitle );
+        reportButton = findViewById( R.id.reportButton );
 
         fragmentForReview = new ReviewsFragment();
         fragmentForSale = new OnSaleFragment();
@@ -124,7 +124,7 @@ public class OthersProfileActivity extends AppCompatActivity {
         getFollowingsCount();
         //getReviewCount();
 
-        /*reportButton.setOnClickListener( new View.OnClickListener() {
+        reportButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
                 Intent newIntent;
@@ -136,7 +136,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                 newIntent.putExtra( "report-type", 0 );
                 startActivity( newIntent );
             }
-        } );*/
+        } );
 
         //TODO
         follow.setOnClickListener( new View.OnClickListener() {

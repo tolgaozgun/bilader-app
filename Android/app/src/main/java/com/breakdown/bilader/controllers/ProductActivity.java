@@ -116,58 +116,55 @@ public class ProductActivity extends Activity {
                 startActivity( intent );
             }
         } );
+        if ( currentProduct.getSeller().getUserId().equals( currentUserId ) ) {
+            settingsButton.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick( View v ) {
+                    PopupMenu settingsMenu;
+                    settingsMenu = new PopupMenu( ProductActivity.this, v );
 
-
-        settingsButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick( View v ) {
-                PopupMenu settingsMenu;
-                settingsMenu = new PopupMenu( ProductActivity.this, v );
-
-                if ( currentProduct.getSeller().getUserId().equals( currentUserId ) ) {
                     settingsMenu.getMenuInflater().inflate( R.menu.second_menu, settingsMenu.getMenu() );
-                } else {
-                    settingsMenu.getMenuInflater().inflate( R.menu.first_menu
-                            , settingsMenu.getMenu() );
-                }
+                    settingsMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick( MenuItem item ) {
+                            int id;
+                            Intent newIntent;
 
-                settingsMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick( MenuItem item ) {
-                        int id;
-                        Intent newIntent;
+                            id = item.getItemId();
 
-                        id = item.getItemId();
+                            if ( id == R.id.editMenu ) {
 
-                        if ( id == R.id.reportMenu ) {
-
-                            newIntent = new Intent( ProductActivity.this,
-                                    ReportActivity.class );
-                            newIntent.putExtra( "image_url",
-                                    currentProduct.getPicture() );
-                            newIntent.putExtra( "title",
-                                    currentProduct.getTitle() );
-                            newIntent.putExtra( "report-type", 1 );
-                            newIntent.putExtra( "id",
-                                    currentProduct.getProductId() );
-                            startActivity( newIntent );
-
-                        } else if ( id == R.id.editMenu ) {
-
-                            newIntent = new Intent( ProductActivity.this,
-                                    EditProductActivity.class );
-                            startActivity( newIntent );
-                            //TODO
-                        } else if ( id == R.id.removeMenu ) {
-                            //TODO
+                                newIntent = new Intent( ProductActivity.this,
+                                        EditProductActivity.class );
+                                startActivity( newIntent );
+                                //TODO
+                            } else if ( id == R.id.removeMenu ) {
+                                //TODO
+                            }
+                            return true;
                         }
-                        return true;
-                    }
-                } );
+                    } );
 
-                settingsMenu.show();
-            }
-        } );
+                    settingsMenu.show();
+                }
+            } );
+        } else {
+            settingsButton.setBackgroundResource( R.drawable.baseline_report_problem_24 );
+            settingsButton.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick( View v ) {
+                    Intent intent;
+                    intent = new Intent( ProductActivity.this,
+                            ReportActivity.class );
+                    intent.putExtra( "id", currentProduct.getProductId() );
+                    intent.putExtra( "title", currentProduct.getTitle() );
+                    intent.putExtra( "image_url", currentProduct.getPicture() );
+                    intent.putExtra( "report-type", 1 );
+                    startActivity( intent );
+                }
+            } );
+        }
+
 
         addWishlistButton.setOnClickListener( new View.OnClickListener() {
             @Override
