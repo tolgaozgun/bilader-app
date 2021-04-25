@@ -12,17 +12,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.controllers.FollowersActivity;
 import com.breakdown.bilader.controllers.FollowingActivity;
 import com.breakdown.bilader.controllers.LoginActivity;
 import com.breakdown.bilader.controllers.MyProductsActivity;
 import com.breakdown.bilader.controllers.SettingsActivity;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * A class that makes connection between its layout and data and additionally
@@ -42,7 +52,8 @@ public class MyProfileFragment extends Fragment {
     private ProgressDialog loadingBar;
     private SharedPreferences sharedPreferences;
     private String currentUserId;
-    private TextView name;
+    private TextView nameView;
+    private ImageView avatarView;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -65,13 +76,57 @@ public class MyProfileFragment extends Fragment {
                               @Nullable ViewGroup container,
                               @Nullable Bundle savedInstanceState ) {
         super.onCreateView( inflater, container, savedInstanceState );
-        View view = inflater.inflate( R.layout.fragment_myprofile, container,
+        View view;
+        view = inflater.inflate( R.layout.fragment_myprofile, container,
                 false );
         sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences( this.getContext() );
         currentUserId = sharedPreferences.getString( "id", "" );
+        avatarView = view.findViewById( R.id.image_myprofile_avatar );
+        nameView = view.findViewById( R.id.text_myprofile_fullname );
+        updateInfo();
         context = getActivity();
         return view;
+    }
+
+    private void updateInfo() {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "user_id", currentUserId );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                String avatarUrl;
+                String name;
+
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+                        name = object.getJSONObject( "user" ).getString(
+                                "name" );
+                        avatarUrl =
+                                object.getJSONObject( "user" ).getString(
+                                        "avatar_url" );
+                        nameView.setText( name );
+                        Picasso.get().load( avatarUrl ).fit().centerInside().into( avatarView );
+                    }else{
+                        name = "ERROR";
+                        nameView.setText( name );
+                    }
+                } catch ( JSONException e ) {
+                    name = "ERROR";
+                    nameView.setText( name );
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                String name;
+                name = "ERROR";
+                nameView.setText( name );
+
+            }
+        }, RequestType.USER, params, getContext(), true );
     }
 
     /**

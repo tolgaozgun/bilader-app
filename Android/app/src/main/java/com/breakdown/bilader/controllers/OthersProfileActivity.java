@@ -38,6 +38,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     private TextView numberOfFollowers;
     private TextView numberOfFollowings;
     private TextView numberOfReviews;
+    private TextView activityTitle;
     private TextView numberOfProducts;
     private EditText contentOfTheReview; //?
 
@@ -78,6 +79,7 @@ public class OthersProfileActivity extends AppCompatActivity {
         followingView = findViewById( R.id.followingView );
         followersView = findViewById( R.id.followersView );
         salesView = findViewById( R.id.saleView );
+        activityTitle = findViewById( R.id.othersProfileTitle );
 
         fragmentForReview = new ReviewsFragment();
         fragmentForSale = new OnSaleFragment();
@@ -89,6 +91,7 @@ public class OthersProfileActivity extends AppCompatActivity {
             userName = getIntent().getStringExtra( "user_name" );
             userId = getIntent().getStringExtra( "user_id" );
             userAvatar = getIntent().getStringExtra( "user_avatar" );
+            activityTitle.setText( userName + "'s Profile" );
             currentUser = new User( userName, userAvatar, userId );
         }
         bundle = new Bundle();
@@ -151,9 +154,9 @@ public class OthersProfileActivity extends AppCompatActivity {
                 intent = new Intent( OthersProfileActivity.this,
                         PrivateChatActivity.class );
                 gson = new Gson();
-                myJson = gson.toJson(currentUser);
-                
-                intent.putExtra("user", myJson);
+                myJson = gson.toJson( currentUser );
+
+                intent.putExtra( "user", myJson );
                 startActivity( intent );
             }
         } );
@@ -162,7 +165,8 @@ public class OthersProfileActivity extends AppCompatActivity {
             @Override
             public void onClick( View v ) {
                 Intent intent;
-                intent = new Intent(OthersProfileActivity.this, FollowingActivity.class);
+                intent = new Intent( OthersProfileActivity.this,
+                        FollowingActivity.class );
                 intent.putExtra( "user_id", currentUser.getUserId() );
                 startActivity( intent );
             }
@@ -173,7 +177,8 @@ public class OthersProfileActivity extends AppCompatActivity {
             @Override
             public void onClick( View v ) {
                 Intent intent;
-                intent = new Intent(OthersProfileActivity.this, FollowersActivity.class);
+                intent = new Intent( OthersProfileActivity.this,
+                        FollowersActivity.class );
                 intent.putExtra( "user_id", currentUser.getUserId() );
                 startActivity( intent );
             }

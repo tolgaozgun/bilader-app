@@ -18,6 +18,7 @@ public enum ResultCode {
 	REMOVE_OK( "Product removed from wishlist", true ),
 	LOGOUT_OK( "Logout successful!", true ),
 	CHAT_CREATE_OK("Chat created successfully!", true),
+	USERS_OK("User found!", true),
 	NOTIFICATION_OK( "Notifications found!", true ),
 	CHAT_DOES_NOT_EXIST( "This chat does not exist!", false ),
 	CHATS_DO_NOT_EXIST( "Chats do not exist!", false ),
