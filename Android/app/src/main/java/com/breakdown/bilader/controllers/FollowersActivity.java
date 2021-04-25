@@ -103,7 +103,7 @@ public class FollowersActivity extends AppCompatActivity {
             public void onFail( String message ) {
                 printView(recyclerView);
             }
-        }, RequestType.FOLLOWERS, params, this );
+        }, RequestType.FOLLOWERS, params, this, true );
 
         return null;
     }

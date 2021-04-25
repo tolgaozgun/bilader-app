@@ -112,7 +112,7 @@ public class MyProductsActivity extends Activity {
             public void onFail( String message ) {
                 printView( recyclerView );
             }
-        }, RequestType.PRODUCT, params, this );
+        }, RequestType.PRODUCT, params, this ,true);
 
 
     }

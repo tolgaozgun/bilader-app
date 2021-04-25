@@ -46,7 +46,7 @@ public class TokenHandler extends ProcessHandler {
 				json.put( "message", "Session resumed." );
 			}else {
 				json.put( "success", false );
-				json.put( "message", "Session expired1." );
+				json.put( "message", "Session expired." );
 			}
 		}else {
 			json.put( "success", false );

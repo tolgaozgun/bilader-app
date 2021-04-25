@@ -90,7 +90,8 @@ public class AddProductHandler extends ProcessHandler {
 			// Adds the new product to database.
 			adapter.create( DATABASE_TABLE, params );
 		}
-
+		
+		json.put( "session_error", result == ResultCode.INVALID_SESSION );
 		json.put( "product_id", productId );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );

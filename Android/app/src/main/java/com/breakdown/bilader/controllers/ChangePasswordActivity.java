@@ -135,7 +135,7 @@ public class ChangePasswordActivity extends Activity {
                 Toast.makeText( ChangePasswordActivity.this, message,
                         Toast.LENGTH_SHORT ).show();
             }
-        }, RequestType.CHANGE_PASSWORD, params, ChangePasswordActivity.this );
+        }, RequestType.CHANGE_PASSWORD, params, ChangePasswordActivity.this, false );
 
     }
 }

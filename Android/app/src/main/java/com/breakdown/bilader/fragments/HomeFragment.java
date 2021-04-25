@@ -348,7 +348,7 @@ public class HomeFragment extends Fragment {
             public void onFail( String message ) {
                 printView( recyclerView );
             }
-        }, RequestType.PRODUCT, params, this.getContext() );
+        }, RequestType.PRODUCT, params, this.getContext(), true );
 
 
     }

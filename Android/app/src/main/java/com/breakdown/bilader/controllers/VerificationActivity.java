@@ -104,7 +104,7 @@ public class VerificationActivity extends Activity {
                 Toast.makeText( VerificationActivity.this, message,
                         Toast.LENGTH_SHORT ).show();
             }
-        }, RequestType.REGISTER, params, VerificationActivity.this );
+        }, RequestType.REGISTER, params, VerificationActivity.this, false );
 
     }
 }

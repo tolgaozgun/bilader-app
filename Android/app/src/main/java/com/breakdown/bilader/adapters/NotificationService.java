@@ -119,7 +119,7 @@ public class NotificationService extends Service {
                 public void onFail( String message ) {
 
                 }
-            }, RequestType.NOTIFICATION, params, getApplicationContext() );
+            }, RequestType.NOTIFICATION, params, getApplicationContext(), false );
         }
     }
 

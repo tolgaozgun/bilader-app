@@ -119,7 +119,7 @@ public class PrivateChatActivity extends Activity {
             public void onFail( String message ) {
 
             }
-        }, RequestType.SEND_MESSAGE, params, this );
+        }, RequestType.SEND_MESSAGE, params, this, true );
         //TODO
         //Message messageServer = new Message(  )
         // addMessage(  messageServer);
@@ -157,7 +157,7 @@ public class PrivateChatActivity extends Activity {
 
             }
 
-        }, RequestType.RETRIEVE_MESSAGES, params, this );
+        }, RequestType.RETRIEVE_MESSAGES, params, this, true );
     }
 
 

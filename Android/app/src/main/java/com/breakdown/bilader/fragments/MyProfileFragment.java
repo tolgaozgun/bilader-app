@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -23,10 +22,7 @@ import com.breakdown.bilader.controllers.FollowersActivity;
 import com.breakdown.bilader.controllers.FollowingActivity;
 import com.breakdown.bilader.controllers.LoginActivity;
 import com.breakdown.bilader.controllers.MyProductsActivity;
-import com.breakdown.bilader.controllers.MyProfileActivity;
-import com.breakdown.bilader.controllers.OthersProfileActivity;
 import com.breakdown.bilader.controllers.SettingsActivity;
-import com.breakdown.bilader.models.Product;
 
 /**
  * A class that makes connection between its layout and data and additionally

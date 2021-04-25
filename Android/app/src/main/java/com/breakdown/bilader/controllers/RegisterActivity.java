@@ -122,19 +122,20 @@ public class RegisterActivity extends Activity {
                         message = "Connection error.";
                         verificationMessage = message;
                     } else {
-                        if ( json.getBoolean( JSON_SUCCESS_PATH ) && json.getBoolean( JSON_VERIFICATION_SUCCESS_PATH )) {
+                        if ( json.getBoolean( JSON_SUCCESS_PATH ) && json.getBoolean( JSON_VERIFICATION_SUCCESS_PATH ) ) {
                             Intent intent;
                             intent = new Intent( RegisterActivity.this,
                                     VerificationActivity.class );
                             startActivity( intent );
                         }
                         message = json.getString( JSON_MESSAGE_PATH );
-                        verificationMessage = json.getString( JSON_VERIFICATION_MESSAGE_PATH );
+                        verificationMessage =
+                                json.getString( JSON_VERIFICATION_MESSAGE_PATH );
                     }
                     Toast.makeText( RegisterActivity.this, message,
                             Toast.LENGTH_SHORT ).show();
-                    Toast.makeText( RegisterActivity.this, verificationMessage,
-                            Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( RegisterActivity.this,
+                            verificationMessage, Toast.LENGTH_SHORT ).show();
                     loadingBar.dismiss();
                 } catch ( JSONException e ) {
                     Toast.makeText( RegisterActivity.this, e.getMessage(),
@@ -153,6 +154,6 @@ public class RegisterActivity extends Activity {
         };
 
         HttpAdapter.getRequestJSON( callback, RequestType.REGISTER, params,
-                RegisterActivity.this );
+                RegisterActivity.this, false );
     }
 }

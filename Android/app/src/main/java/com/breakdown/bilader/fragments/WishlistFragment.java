@@ -167,7 +167,7 @@ public class WishlistFragment extends Fragment {
             public void onFail( String message ) {
                 printView( recyclerView );
             }
-        }, RequestType.WISHLIST, params, this.getContext() );
+        }, RequestType.WISHLIST, params, this.getContext(), true);
 
 
     }

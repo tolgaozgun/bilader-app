@@ -73,6 +73,7 @@ public class CheckWishlistHandler extends ProcessHandler {
 			json.put( "wishlisted", false );
 		}
 
+		json.put( "session_error", result == ResultCode.INVALID_SESSION );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;

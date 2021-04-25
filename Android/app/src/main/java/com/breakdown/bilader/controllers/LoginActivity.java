@@ -77,12 +77,9 @@ public class LoginActivity extends Activity {
                                 Toast.LENGTH_SHORT ).show();
                         intent = new Intent( LoginActivity.this,
                                 BiltraderActivity.class );
-                        intent.putExtra( "goBack",false );
+                        intent.putExtra( "goBack", false );
                         startActivity( intent );
                         finish();
-                    } else {
-                        System.out.println( "Success false" );
-                        System.out.println( "id " + userId + " token; " + token );
                     }
                 } catch ( JSONException e ) {
                     e.printStackTrace();
@@ -93,7 +90,7 @@ public class LoginActivity extends Activity {
             public void onFail( String message ) {
 
             }
-        }, RequestType.TOKEN, requestParams, this );
+        }, RequestType.TOKEN, requestParams, this, false );
 
 
         // buttonEffect( logInButton, 0xe01c79e4 );
@@ -148,6 +145,13 @@ public class LoginActivity extends Activity {
 
             allowAccessToAccount( email, password );
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // We do not want users to go back to any previous activity from
+        // LoginActivity.
+        return;
     }
 
     private void allowAccessToAccount( String email, String password ) {
@@ -220,7 +224,7 @@ public class LoginActivity extends Activity {
         };
 
         HttpAdapter.getRequestJSON( callback, RequestType.LOGIN, params,
-                LoginActivity.this );
+                LoginActivity.this, false );
     }
 
     /**

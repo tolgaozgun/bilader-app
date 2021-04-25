@@ -80,6 +80,7 @@ public class RemoveWishlistHandler  extends ProcessHandler {
 		if ( result.isSuccess() ) {
 			adapter.delete( DATABASE_TABLE_WISHLIST, params );
 		}
+		json.put( "session_error", result == ResultCode.INVALID_SESSION );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;

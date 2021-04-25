@@ -174,7 +174,7 @@ public class AddNewProductFragment extends Fragment {
             public void onFail( String message ) {
 
             }
-        }, RequestType.CATEGORIES, params, this.getContext() );
+        }, RequestType.CATEGORIES, params, this.getContext(), true );
 
     }
 
@@ -238,7 +238,7 @@ public class AddNewProductFragment extends Fragment {
                         productId = object.getString( "product_id" );
                         intent = new Intent( mContext, ProductActivity.class );
                         intent.putExtra( "product_id", productId );
-                        intent.putExtra( "goBack",false );
+                        intent.putExtra( "goBack", false );
                         startActivity( intent );
                         mContext.finish();
                     }
@@ -256,7 +256,7 @@ public class AddNewProductFragment extends Fragment {
                 Toast.makeText( mContext, message, Toast.LENGTH_SHORT ).show();
 
             }
-        }, RequestType.ADD_PRODUCT, params, mContext );
+        }, RequestType.ADD_PRODUCT, params, mContext, true );
 
 
         //TODO

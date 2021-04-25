@@ -108,7 +108,7 @@ public class ReportActivity extends Activity {
                 Toast.makeText( ReportActivity.this, message,
                         Toast.LENGTH_SHORT ).show();
             }
-        }, RequestType.REPORT, params, this );
+        }, RequestType.REPORT, params, this, true );
 
     }
 

@@ -297,7 +297,7 @@ public class ProductActivity extends Activity {
                         Toast.LENGTH_SHORT ).show();
                 checkIfWishlisted();
             }
-        }, RequestType.ADD_WISHLIST, params, this );
+        }, RequestType.ADD_WISHLIST, params, this, true);
     }
 
     public void removeFromWishlist() {
@@ -325,7 +325,7 @@ public class ProductActivity extends Activity {
                         Toast.LENGTH_SHORT ).show();
                 checkIfWishlisted();
             }
-        }, RequestType.REMOVE_WISHLIST, params, this );
+        }, RequestType.REMOVE_WISHLIST, params, this, true );
     }
 
     private Product retrieveProduct( String productId ) {
@@ -363,7 +363,7 @@ public class ProductActivity extends Activity {
             public void onFail( String message ) {
 
             }
-        }, RequestType.PRODUCT, params, this );
+        }, RequestType.PRODUCT, params, this, true );
 
 
         return currentProduct;
@@ -390,7 +390,7 @@ public class ProductActivity extends Activity {
             public void onFail( String message ) {
                 updateWishlistButton();
             }
-        }, RequestType.CHECK_WISHLIST, params, this );
+        }, RequestType.CHECK_WISHLIST, params, this, true );
     }
 
     private void updateWishlistButton() {

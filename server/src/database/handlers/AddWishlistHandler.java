@@ -84,6 +84,8 @@ public class AddWishlistHandler extends ProcessHandler {
 			params.put( TIME_KEY, String.valueOf( timeNow ) );
 			adapter.create( DATABASE_TABLE_WISHLIST, params );
 		}
+
+		json.put( "session_error", result == ResultCode.INVALID_SESSION );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;

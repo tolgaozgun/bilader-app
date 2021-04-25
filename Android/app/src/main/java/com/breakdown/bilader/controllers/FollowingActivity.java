@@ -146,7 +146,7 @@ public class FollowingActivity extends AppCompatActivity {
             public void onFail( String message ) {
                 printView( recyclerView );
             }
-        }, RequestType.FOLLOWINGS, params, this );
+        }, RequestType.FOLLOWINGS, params, this, false );
 
         return null;
     }

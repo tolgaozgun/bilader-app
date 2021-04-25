@@ -2,7 +2,6 @@ package database.handlers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -12,22 +11,20 @@ import database.adapters.RequestAdapter;
 import database.handlers.codes.ResultCode;
 import jakarta.servlet.ServletException;
 
-public class FollowingHandler extends ProcessHandler {
+public class LogoutHandler extends ProcessHandler {
 
-	private final String DATABASE_TABLE = "followers";
-	private final String DATABASE_TABLE_USERS = "users";
-	private final static String FOLLOWING_KEY = "following_id";
-	private final static String FOLLOWERS_USER_ID_KEY = "user_id";
-	private final static String[] keys = { FOLLOWERS_USER_ID_KEY };
+	private static final String[] KEYS = {  };
 
-	public FollowingHandler( Map< String, String[] > params ) {
-		super( RequestAdapter.convertParameters( params, keys, true ) );
+	public LogoutHandler( Map< String, String[] > parameters ) {
+		super( RequestAdapter.convertParameters( parameters, KEYS, true ) );
 	}
 
 	private ResultCode checkParams()
 			throws ClassNotFoundException, SQLException {
 		DatabaseAdapter adapter;
 		Map< String, String > checkParams;
+		String sessionToken;
+		String userId;
 		adapter = new DatabaseAdapter();
 
 		if ( params == null || params.size() == 0 ) {
@@ -45,15 +42,15 @@ public class FollowingHandler extends ProcessHandler {
 			return ResultCode.NOT_VERIFIED;
 		}
 
+		userId = params.get( USER_ID_KEY );
+		sessionToken = params.get( TOKEN_KEY );
 		if ( !checkToken() ) {
 			return ResultCode.INVALID_SESSION;
 		}
-		
-		if ( adapter.doesExist( DATABASE_TABLE, params ) ) {
-			return ResultCode.FOLLOWERS_OK;
-		}
 
-		return ResultCode.NONE_FOUND;
+		params.put( USER_ID_KEY, userId );
+		params.put( TOKEN_KEY, sessionToken );
+		return ResultCode.LOGOUT_OK;
 
 	}
 
@@ -63,32 +60,16 @@ public class FollowingHandler extends ProcessHandler {
 		JSONObject json;
 		DatabaseAdapter adapter;
 		ResultCode result;
-		Map< Integer, Object[] > usersMap;
-		String[] usersId;
-		String[] wanted;
 
-		json = new JSONObject();
 		adapter = new DatabaseAdapter();
+		json = new JSONObject();
 		result = checkParams();
-		usersMap = new HashMap< Integer, Object[] >();
-		wanted = new String[ 1 ];
-		wanted[ 0 ] = FOLLOWING_KEY;
 
 		if ( result.isSuccess() ) {
-			usersMap = adapter.select( DATABASE_TABLE, wanted, params );
-			usersId = new String[ usersMap.size() ];
-			for ( int i = 0; i < usersMap.size(); i++ ) {
-				usersId[ i ] = ( String ) usersMap.get( i )[ 0 ];
-			}
-			JSONObject js = idToUserList( usersId );
-			json.put( "users", js );
-		} else {
-			json.put( "users", "" );
+			adapter.delete( DATABASE_TABLE_SESSIONS, params );
 		}
-		json.put( "session_error", result == ResultCode.INVALID_SESSION );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;
-
 	}
 }

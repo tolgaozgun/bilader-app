@@ -125,6 +125,7 @@ public class ProductHandler extends ProcessHandler {
 				json.put( "result", "" );
 			}
 		}
+		json.put( "session_error", result == ResultCode.INVALID_SESSION );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;

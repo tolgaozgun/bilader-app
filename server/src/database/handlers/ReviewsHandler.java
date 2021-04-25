@@ -92,6 +92,7 @@ public class ReviewsHandler extends ProcessHandler {
 			adapter.create( DATABASE_TABLE_REVIEWS, params );
 		}
 
+		json.put( "session_error", result == ResultCode.INVALID_SESSION );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;

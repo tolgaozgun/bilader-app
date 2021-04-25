@@ -110,6 +110,7 @@ public class NotificationHandler extends ProcessHandler {
 		} else {
 			json.put( "notifications", "" );
 		}
+		json.put( "session_error", result == ResultCode.INVALID_SESSION );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;

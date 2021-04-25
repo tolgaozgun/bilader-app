@@ -86,7 +86,7 @@ public class ForgotPasswordActivity extends Activity {
                                     message, Toast.LENGTH_SHORT ).show();
                         }
                     }, RequestType.FORGOT_PASSWORD, params,
-                            ForgotPasswordActivity.this );
+                            ForgotPasswordActivity.this, false );
                 }
             }
         } );

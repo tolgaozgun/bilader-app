@@ -141,7 +141,7 @@ public class OnSaleFragment extends Fragment {
             public void onFail( String message ) {
                 printView( recyclerView );
             }
-        }, RequestType.PRODUCT, params, mContext );
+        }, RequestType.PRODUCT, params, mContext, true );
 
 
     }
