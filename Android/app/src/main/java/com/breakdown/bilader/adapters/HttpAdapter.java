@@ -64,6 +64,7 @@ public class HttpAdapter {
 
             @Override
             public void onResponse( JSONObject response ) {
+                System.out.println(response);
                 Intent intent;
                 try {
                     if ( loggedIn && response.has( "session_error" ) && response.getBoolean(

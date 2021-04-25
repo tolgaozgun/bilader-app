@@ -19,6 +19,8 @@ public class RetrieveChatsHandler extends ProcessHandler {
 	private final static String CHAT_ID_KEY = "chat_id";
 	private final static String PARTICIPANT_ONE_KEY = "participant_one";
 	private final static String PARTICIPANT_TWO_KEY = "participant_two";
+	private final static String USER_NAME_KEY = "name";
+	private final static String USER_AVATAR_KEY = "avatar_url";
 	private final static String DATE_KEY = "last_message_date";
 	private final static String LAST_MESSAGE_KEY = "last_message";
 	private final static String[] KEYS = {};
@@ -70,11 +72,14 @@ public class RetrieveChatsHandler extends ProcessHandler {
 	public JSONObject getResult() throws ServletException, IOException,
 			ClassNotFoundException, SQLException {
 		Map< Integer, Object[] > usersMap;
+		Map< Integer, Object[] > userDetailsMap;
 		Map< String, String > checkParams;
 		DatabaseAdapter adapter;
 		ResultCode result;
 		String[] wanted;
+		String[] userWanted;
 		String currentUserId;
+		String otherUserId;
 		JSONObject json;
 		JSONObject messagesJson;
 		JSONObject tempJson;
@@ -90,6 +95,10 @@ public class RetrieveChatsHandler extends ProcessHandler {
 		wanted[ 3 ] = LAST_MESSAGE_KEY;
 		wanted[ 4 ] = CHAT_ID_KEY;
 
+		userWanted = new String[ 2 ];
+		userWanted[ 0 ] = USER_NAME_KEY;
+		userWanted[ 1 ] = USER_AVATAR_KEY;
+
 		if ( result.isSuccess() ) {
 			currentUserId = params.get( USER_ID_KEY );
 			checkParams = new HashMap< String, String >();
@@ -101,10 +110,19 @@ public class RetrieveChatsHandler extends ProcessHandler {
 			for ( int i = 0; i < usersMap.size(); i++ ) {
 				tempJson = new JSONObject();
 				if ( !usersMap.get( i )[ 0 ].equals( currentUserId ) ) {
-					tempJson.put( "participant_id", usersMap.get( i )[ 0 ] );
+					otherUserId = ( String ) usersMap.get( i )[ 0 ];
 				} else {
-					tempJson.put( "participant_id", usersMap.get( i )[ 1 ] );
+					otherUserId = ( String ) usersMap.get( i )[ 1 ];
 				}
+				checkParams = new HashMap< String, String >();
+				checkParams.put( USER_ID_KEY, otherUserId );
+				userDetailsMap = adapter.select( DATABASE_TABLE_USERS,
+						userWanted, checkParams );
+				tempJson.put( "participant_name",
+						userDetailsMap.get( 0 )[ 0 ] );
+				tempJson.put( "participant_avatar",
+						userDetailsMap.get( 0 )[ 1 ] );
+				tempJson.put( "participant_id", otherUserId );
 				tempJson.put( DATE_KEY, usersMap.get( i )[ 2 ] );
 				tempJson.put( LAST_MESSAGE_KEY, usersMap.get( i )[ 3 ] );
 				tempJson.put( CHAT_ID_KEY, usersMap.get( i )[ 4 ] );

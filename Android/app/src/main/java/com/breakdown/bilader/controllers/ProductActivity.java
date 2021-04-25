@@ -348,7 +348,7 @@ public class ProductActivity extends Activity {
                         categoryId = tempJson.getInt( "category_id" );
                         price = tempJson.getDouble( "price" );
                         seller = new User( sellerName, sellerAvatar, sellerId );
-                        category = new Category( categoryId );
+                        category = new Category( categoryId, ProductActivity.this );
                         currentProduct = new Product( pictureURL, title,
                                 description, price, seller, false, productId,
                                 category );

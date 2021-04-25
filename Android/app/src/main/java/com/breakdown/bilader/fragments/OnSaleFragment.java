@@ -76,7 +76,7 @@ public class OnSaleFragment extends Fragment {
         if ( bundle != null ) {
             userId = bundle.getString( "user_id" );
         }
-        getProductList(recyclerView);
+        getProductList( recyclerView );
 
         return view;
     }
@@ -126,7 +126,8 @@ public class OnSaleFragment extends Fragment {
                                     sellerId );
                             product = new Product( pictureUrl, productTitle,
                                     description, price, seller, false,
-                                    productId, new Category( categoryId ) );
+                                    productId, new Category( categoryId,
+                                    getContext() ) );
                             productList.add( product );
                         }
                     }

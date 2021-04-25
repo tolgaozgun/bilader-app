@@ -105,7 +105,7 @@ public class AddNewProductFragment extends Fragment {
                 popupMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
-                        category = new Category( item.getItemId() );
+                        category = new Category( item.getItemId(), getContext() );
                         categoryButton.setText( item.getTitle() );
                         return false;
                     }

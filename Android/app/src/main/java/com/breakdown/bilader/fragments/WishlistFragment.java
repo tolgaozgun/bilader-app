@@ -152,7 +152,7 @@ public class WishlistFragment extends Fragment {
                                     sellerId );
                             product = new Product( pictureUrl, productTitle,
                                     description, price, seller, false,
-                                    productId, new Category( categoryId ) );
+                                    productId, new Category( categoryId, getContext() ) );
                             productList.add( product );
                         }
                     }

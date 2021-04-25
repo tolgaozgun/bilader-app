@@ -2,6 +2,7 @@ package com.breakdown.bilader.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.OthersProfileActivity;
 import com.breakdown.bilader.controllers.PrivateChatActivity;
+import com.breakdown.bilader.models.ChatUser;
 import com.breakdown.bilader.models.Message;
 import com.breakdown.bilader.models.User;
 import com.squareup.picasso.Picasso;
@@ -34,12 +36,12 @@ import java.util.List;
 public class MainChatAdapter extends
                              RecyclerView.Adapter< MainChatAdapter.DialogHolder > {
     private Context mContext;
-    private List< User > userList;
+    private List< ChatUser > userList;
     private String otherUserId;
     private String lastMessage;
 
 
-    public MainChatAdapter( Context mContext, ArrayList< User > userList ) {
+    public MainChatAdapter( Context mContext, ArrayList< ChatUser > userList ) {
         this.mContext = mContext;
         this.userList = userList;
     }
@@ -67,7 +69,8 @@ public class MainChatAdapter extends
                     itemView.findViewById( R.id.text_main_chat_overview );
             textTimeAgo = itemView.findViewById( R.id.text_main_chat_time );
             textLastMessageSender =
-                    itemView.findViewById( R.id.text_card_reviews_user_name );
+                    itemView.findViewById( R.id.text_main_chat_user_name );
+            cardMainChat = itemView.findViewById( R.id.main_chat_cardview );
         }
     }
 
@@ -81,39 +84,45 @@ public class MainChatAdapter extends
      */
     @NonNull
     @Override
-    public com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ) {
+    public DialogHolder onCreateViewHolder( @NonNull ViewGroup parent,
+                                            int viewType ) {
         View itemView;
 
         itemView =
                 LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_mainchat, parent, false );
 
-        return new com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder( itemView );
+        return new DialogHolder( itemView );
     }
 
     /**
      * a method called by RecyclerView to display the data at the specified
      * position
      *
-     * @param holder   is the ViewHolder which should be updated to
-     *                 represent
+     * @param holder   is the ViewHolder which should be updated to represent
      *                 the contents of the item at the given position in the
      *                 data set.
      * @param position is The position of the item within the adapter's data
      *                 set.
      */
     @Override
-    public void onBindViewHolder( @NonNull com.breakdown.bilader.adapters.MainChatAdapter.DialogHolder holder, int position ) {
-        User user;
+    public void onBindViewHolder( @NonNull DialogHolder holder, int position ) {
+        ChatUser user;
 
-        user = userList.get( position );
-        otherUserId = user.getUserId();
+        if ( userList != null && userList.size() > position ) {
+            user = userList.get( position );
+            otherUserId = user.getUserId();
+            System.out.println( "SIZE: " + userList.size() + " position: " + position );
+            System.out.println("N1" + holder.textLastMessageSender == null);
+            System.out.println("N2" + user.getUserName() == null);
+            holder.textLastMessage.setText( user.getLastMessage() );
+            holder.textLastMessageSender.setText( user.getUserName() );
+            holder.textTimeAgo.setText( "1m ago" );
 
-        holder.textLastMessageSender.setText( user.getUserName() );
-
-        if ( user.getUserAvatar().isEmpty() ) {
-            holder.imageMainChatAvatar.setImageResource( R.drawable.avatar_no_gender );
-        } else {
-            Picasso.get().load( user.getUserAvatar() ).fit().centerInside().into( holder.imageMainChatAvatar );
+            if ( user.getUserAvatar().isEmpty() ) {
+                holder.imageMainChatAvatar.setImageResource( R.drawable.avatar_no_gender );
+            } else {
+                Picasso.get().load( user.getUserAvatar() ).fit().centerInside().into( holder.imageMainChatAvatar );
+            }
         }
 
         // TODO
@@ -123,7 +132,8 @@ public class MainChatAdapter extends
 
             public void onClick( View view ) {
 
-                User users = userList.get( position );
+                ChatUser user;
+                user = userList.get( position );
                 otherUserId = user.getUserId();
 
                 Intent intent;
@@ -143,14 +153,10 @@ public class MainChatAdapter extends
      */
     @Override
     public int getItemCount() {
-
-        int size;
-        size = userList.size();
-        return size;
-    }
-
-    // TODO
-    private void getLastMessage( String otherUserId, TextView lastMsg ) {
+        if ( userList != null ) {
+            return userList.size();
+        }
+        return 0;
     }
 
 

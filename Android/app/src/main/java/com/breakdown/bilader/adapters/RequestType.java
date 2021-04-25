@@ -21,7 +21,9 @@ public enum RequestType {
     ADD_PRODUCT( "AddProductRequest" ),
     ADD_WISHLIST( "AddWishlistRequest" ),
     CHECK_WISHLIST( "CheckWishlistRequest" ),
-    REMOVE_WISHLIST( "RemoveWishlistRequest" );
+    REMOVE_WISHLIST( "RemoveWishlistRequest" ),
+    MAIN_CHAT("RetrieveChatsRequest"),
+    PRIVATE_CHAT("RetrieveMessagesRequest");
 
     private String path;
 

@@ -52,6 +52,8 @@ public class HomeFragment extends Fragment {
     private ImageView sortMenuImage;
     private ImageView categoryMenuImage;
     private ImageView chatButton;
+    private PopupMenu categoryMenu;
+    private int currentCategoryIndex;
     private SearchView searchView;
 
     /**
@@ -172,7 +174,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick( View v ) {
                 Intent intent;
-                intent = new Intent(getContext(), MainChatActivity.class );
+                intent = new Intent( getContext(), MainChatActivity.class );
                 startActivity( intent );
             }
         } );
@@ -181,98 +183,41 @@ public class HomeFragment extends Fragment {
         categoryMenuImage.setOnClickListener( new View.OnClickListener() {
 
             public void onClick( View view ) {
+                System.out.println( "AA" );
 
-                PopupMenu categoryMenu = new PopupMenu( getActivity(), view );
+                categoryMenu = new PopupMenu( getActivity(), view );
+                System.out.println( "AA" );
 
-                categoryMenu.getMenuInflater().inflate( R.menu.menu_biltrader_category, categoryMenu.getMenu() );
+                categoryMenu.getMenuInflater().inflate( R.menu.category_popup_menu, categoryMenu.getMenu() );
+                System.out.println( "AA" );
+                createMenu( categoryMenu );
+                System.out.println( "AA" );
                 categoryMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
 
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
-                        ArrayList< Product > newList = new ArrayList<>();
-
-                        if ( item.getItemId() == R.id.menu_book ) {
-                            productList.clear();
-                            for ( Product p : holderList ) {
-                                productList.add( p );
-                            }
-                            for ( Product product : holderList ) {
-                                if ( product.getCategory().toString().equals( "Book" ) ) {
-                                    newList.add( product );
+                        System.out.println( "p " + productList.size() );
+                        System.out.println( "h: " + holderList.size() );
+                        productList.clear();
+                        for ( Product p : holderList ) {
+                            System.out.println( "CC" );
+                            if ( p.getCategory() != null  ) {
+                                System.out.println( "Item: " + item.getTitle() );
+                                System.out.println( "P: " + p + " ? " + p.getTitle() );
+                                System.out.println( "Product: " + p.getCategory().getId() );
+                                System.out.println( "11: " + item.getItemId()  );
+                                if ( p.getCategory().getId() == item.getItemId() ) {
+                                    System.out.println( "DD" );
+                                    productList.add( p );
                                 }
-                            }
-                            productList.clear();
-                            for ( Product book : newList ) {
-                                productList.add( book );
-                            }
-                        } else if ( item.getItemId() == R.id.menu_clothing ) {
-                            productList.clear();
-                            for ( Product p : holderList ) {
-                                productList.add( p );
-                            }
-                            for ( Product product : holderList ) {
-                                if ( product.getCategory().toString().equals( "Clothing" ) ) {
-                                    newList.add( product );
-                                }
-                            }
-                            productList.clear();
-                            for ( Product clothing : newList ) {
-                                productList.add( clothing );
-                            }
-                        } else if ( item.getItemId() == R.id.menu_electronics ) {
-                            productList.clear();
-                            for ( Product p : holderList ) {
-                                productList.add( p );
-                            }
-                            for ( Product product : holderList ) {
-                                if ( product.getCategory().toString().equals( "Electronics" ) ) {
-                                    newList.add( product );
-                                }
-                            }
-                            productList.clear();
-                            for ( Product electronics : newList ) {
-                                productList.add( electronics );
-                            }
-                        } else if ( item.getItemId() == R.id.menu_hobby ) {
-                            productList.clear();
-                            for ( Product p : holderList ) {
-                                productList.add( p );
-                            }
-                            for ( Product product : holderList ) {
-                                if ( product.getCategory().toString().equals( "Hobby Items" ) ) {
-                                    newList.add( product );
-                                }
-                            }
-                            productList.clear();
-                            for ( Product hobby : newList ) {
-                                productList.add( hobby );
-                            }
-                        } else if ( item.getItemId() == R.id.menu_other ) {
-                            productList.clear();
-                            for ( Product p : holderList ) {
-                                productList.add( p );
-                            }
-                            for ( Product product : holderList ) {
-                                if ( product.getCategory().toString().equals( "Other" ) ) {
-                                    newList.add( product );
-                                }
-                            }
-                            productList.clear();
-                            for ( Product other : newList ) {
-                                productList.add( other );
-                            }
-                        } else if ( item.getItemId() == R.id.menu_all ) {
-                            productList.clear();
-                            for ( Product p : holderList ) {
-                                productList.add( p );
                             }
                         }
+                        currentCategoryIndex = item.getItemId();
                         adapter.notifyDataSetChanged();
                         return false;
                     }
                 } );
 
-                categoryMenu.show();
 
             }
         } );
@@ -288,6 +233,49 @@ public class HomeFragment extends Fragment {
         }
         adapter = new ProductAdapter( getActivity(), productList );
         recyclerView.setAdapter( adapter );
+    }
+
+    private void createMenu( PopupMenu categoryMenu ) {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                Iterator< String > keys;
+                String name;
+                int id;
+                JSONObject tempJson;
+                System.out.println( "DD" );
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+                        System.out.println( "DD" );
+
+                        keys = object.getJSONObject( "categories" ).keys();
+                        while ( keys.hasNext() ) {
+                            System.out.println( "EE" );
+                            String key = keys.next();
+                            tempJson =
+                                    object.getJSONObject( "categories" ).getJSONObject( key );
+
+                            name = tempJson.getString( "name" );
+                            id = tempJson.getInt( "id" );
+                            categoryMenu.getMenu().add( 1, id, id, name );
+                            System.out.println( "FF" );
+                        }
+                    }
+                } catch ( JSONException e ) {
+                    e.printStackTrace();
+                }
+                categoryMenu.show();
+            }
+
+            @Override
+            public void onFail( String message ) {
+                categoryMenu.show();
+
+            }
+        }, RequestType.CATEGORIES, params, this.getContext(), true );
+
     }
 
     private void getProductList( RecyclerView recyclerView ) {
@@ -333,7 +321,7 @@ public class HomeFragment extends Fragment {
                                     sellerId );
                             product = new Product( pictureUrl, productTitle,
                                     description, price, seller, false,
-                                    productId, new Category( categoryId ) );
+                                    productId, new Category( categoryId, getContext() ) );
                             productList.add( product );
                         }
                     }

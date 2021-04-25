@@ -1,6 +1,17 @@
 package com.breakdown.bilader.models;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
+
+import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.VolleyCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class Category implements Comparable {
 
@@ -12,7 +23,10 @@ public class Category implements Comparable {
      *
      * @param id The category id as integer
      */
-    public Category( int id ) {
+    public Category( int id, Context context ) {
+        this.id = id;
+        retrieveCategory( context );
+
     }
 
     /**
@@ -58,6 +72,33 @@ public class Category implements Comparable {
      * Returns category's name to identify category.
      */ public String toString() {
         return this.name;
+    }
+
+    private void retrieveCategory( Context context ) {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "category_id", String.valueOf( id ) );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+                        name = object.getJSONObject( "categories" ).getJSONObject( "0" ).getString( "name" );
+                    } else {
+                        name = "ERROR";
+                    }
+                } catch ( JSONException e ) {
+                    name = "ERROR";
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                name = "ERROR";
+            }
+        }, RequestType.CATEGORIES, params, context, true );
+
     }
 
 

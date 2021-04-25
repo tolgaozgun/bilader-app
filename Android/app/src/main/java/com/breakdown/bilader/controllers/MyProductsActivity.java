@@ -97,7 +97,7 @@ public class MyProductsActivity extends Activity {
                                     sellerId );
                             product = new Product( pictureUrl, productTitle,
                                     description, price, seller, false,
-                                    productId, new Category( categoryId ) );
+                                    productId, new Category( categoryId, MyProductsActivity.this ) );
                             productList.add( product );
                         }
                     }
