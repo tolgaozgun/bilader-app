@@ -152,12 +152,12 @@
         android:id="@+id/directChat"
         android:layout_width="69dp"
         android:layout_height="67dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginLeft="124dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="292dp"
+        android:layout_marginLeft="292dp"
+        android:layout_marginTop="596dp"
         android:background="@drawable/chat_bubble"
         android:text=""
-        app:layout_constraintStart_toEndOf="@+id/ownerName"
-        app:layout_constraintTop_toBottomOf="@+id/price" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/image_product_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
