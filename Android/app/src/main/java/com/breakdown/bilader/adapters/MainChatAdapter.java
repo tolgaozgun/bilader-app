@@ -2,7 +2,6 @@ package com.breakdown.bilader.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
-import com.breakdown.bilader.controllers.OthersProfileActivity;
 import com.breakdown.bilader.controllers.PrivateChatActivity;
 import com.breakdown.bilader.models.ChatUser;
-import com.breakdown.bilader.models.Message;
-import com.breakdown.bilader.models.User;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -134,12 +131,15 @@ public class MainChatAdapter extends
 
                 ChatUser user;
                 user = userList.get( position );
-                otherUserId = user.getUserId();
 
                 Intent intent;
+                Gson gson;
+                String myJson;
 
                 intent = new Intent( mContext, PrivateChatActivity.class );
-                //intent.putExtra( "otherUserId", otherUserId );
+                gson = new Gson();
+                myJson = gson.toJson(user);
+                intent.putExtra("user", myJson);
                 mContext.startActivity( intent );
 
             }

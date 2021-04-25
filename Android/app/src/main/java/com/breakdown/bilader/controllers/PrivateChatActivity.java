@@ -16,23 +16,15 @@ import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.models.Message;
 import com.breakdown.bilader.models.MessageWrapper;
 import com.breakdown.bilader.models.User;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.stfalcon.chatkit.commons.models.IMessage;
-import com.stfalcon.chatkit.commons.models.IUser;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class PrivateChatActivity extends Activity {
@@ -44,6 +36,8 @@ public class PrivateChatActivity extends Activity {
     private String userId;
     private TextView userNameView;
     private ImageView userAvatarView;
+    private User userChatted;
+    private Gson gson;
 
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
@@ -53,13 +47,16 @@ public class PrivateChatActivity extends Activity {
         userNameView = findViewById( R.id.private_chat_userName );
         userAvatarView = findViewById( R.id.private_chat_userAvatar );
         Intent intent = getIntent();
+        gson = new Gson();
+
 
         //TODO
         if ( intent != null ) {
+            userChatted = gson.fromJson(getIntent().getStringExtra("user"), User.class);
             chatId = intent.getStringExtra( "chat_id" );
-            userName = intent.getStringExtra( "user_name" );
-            userAvatar = intent.getStringExtra( "user_avatar" );
-            userId = intent.getStringExtra( "user_id" );
+            userName = userChatted.getUserName();
+            userAvatar = userChatted.getUserAvatar();
+            userId = userChatted.getUserId();
         }else{
             Toast.makeText( this, "User not found!", Toast.LENGTH_SHORT ).show();
             return;
