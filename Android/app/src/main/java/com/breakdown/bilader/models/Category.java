@@ -5,33 +5,14 @@ import androidx.annotation.NonNull;
 public class Category implements Comparable {
 
     private String name;
-    private String id;
+    private int id;
+
     /**
      * Constructor
      *
-     * @param id   The category id as integer
+     * @param id The category id as integer
      */
-    public Category (String id ) {
-        if (id.equals("0") ) {
-            this.id = id;
-            this.name = "Book";
-        }
-        else if ( id.equals("1") ) {
-            this.id = id;
-            this.name = "Electronics";
-        }
-        else if ( id.equals("2") ) {
-            this.id = id;
-            this.name = "Clothing";
-        }
-        else if ( id.equals("3")) {
-            this.id = id;
-            this.name = "Hobby Items";
-        }
-        else if ( id.equals("4")) {
-            this.id = id;
-            this.name = "Other";
-        }
+    public Category( int id ) {
     }
 
     /**
@@ -48,7 +29,7 @@ public class Category implements Comparable {
      *
      * @return Integer id of the current category.
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -75,8 +56,9 @@ public class Category implements Comparable {
     @Override
     /**
      * Returns category's name to identify category.
-     */
-    public String toString() {
+     */ public String toString() {
         return this.name;
     }
+
+
 }

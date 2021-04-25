@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-     <item
-         android:title="Books"
-         android:id="@+id/book"/>
-    <item
-        android:title="Electronics"
-        android:id="@+id/electronic"/>
-    <item
-        android:title="Clothing"
-        android:id="@+id/clothes"/>
-    <item
-        android:title="Hobby Items"
-        android:id="@+id/hoby"/>
-    <item
-        android:title="Other"
-        android:id="@+id/others"/>
 
 
 

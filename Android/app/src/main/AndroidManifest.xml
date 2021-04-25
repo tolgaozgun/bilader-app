@@ -28,6 +28,7 @@
         <activity android:name=".controllers.MyProductsActivity"/>
         <activity android:name=".controllers.OthersProfileActivity"/>
         <activity android:name=".controllers.SettingsActivity"/>
+        <activity android:name=".controllers.MainChatActivity"/>
         <activity android:name=".controllers.PrivateChatActivity"/>
         <activity android:name=".controllers.EditProductActivity"/>
         <activity android:name=".controllers.ReportActivity"/>

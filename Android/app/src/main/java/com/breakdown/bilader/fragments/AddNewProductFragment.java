@@ -38,6 +38,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class AddNewProductFragment extends Fragment {
@@ -100,35 +101,16 @@ public class AddNewProductFragment extends Fragment {
             public void onClick( View v ) {
                 popupMenu = new PopupMenu( getActivity(), v );
                 popupMenu.getMenuInflater().inflate( R.menu.category_popup_menu, popupMenu.getMenu() );
+                createMenu( popupMenu );
                 popupMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
-                        if ( item.getItemId() == R.id.book ) {
-                            category = new Category( "0" );
-                            categoryButton.setText( "Books" );
-                            return true;
-                        } else if ( item.getItemId() == R.id.electronic ) {
-                            category = new Category( "1" );
-                            categoryButton.setText( "Electronics" );
-                            return true;
-                        } else if ( item.getItemId() == R.id.clothes ) {
-                            category = new Category( "2" );
-                            categoryButton.setText( "Clothıng" );
-                            return true;
-                        } else if ( item.getItemId() == R.id.hoby ) {
-                            category = new Category( "3" );
-                            categoryButton.setText( "Hobby Items" );
-                            return true;
-                        } else if ( item.getItemId() == R.id.others ) {
-                            category = new Category( "4" );
-                            categoryButton.setText( "Other" );
-                            return true;
-                        }
+                        category = new Category( item.getItemId() );
+                        categoryButton.setText( item.getTitle() );
                         return false;
                     }
 
                 } );
-                popupMenu.show();
             }
         } );
 
@@ -156,6 +138,46 @@ public class AddNewProductFragment extends Fragment {
 
         return view;
     }
+
+    private void createMenu( PopupMenu popupMenu ) {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                Iterator< String > keys;
+                String name;
+                int id;
+                JSONObject tempJson;
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+
+                        keys = object.getJSONObject( "categories" ).keys();
+                        while ( keys.hasNext() ) {
+                            String key = keys.next();
+                            tempJson =
+                                    object.getJSONObject( "categories" ).getJSONObject( key );
+
+                            name = tempJson.getString( "name" );
+                            id = tempJson.getInt( "id" );
+                            popupMenu.getMenu().add( 1, id, id, name );
+                        }
+                    }
+                    popupMenu.show();
+                } catch ( JSONException e ) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFail( String message ) {
+
+            }
+        }, RequestType.CATEGORIES, params, this.getContext() );
+
+    }
+
 
     @Override
     public void onActivityResult( int requestCode, int resultCode,
@@ -193,9 +215,6 @@ public class AddNewProductFragment extends Fragment {
         String descriptionText;
         HashMap< String, String > params;
 
-
-        String myJson;
-
         params = new HashMap< String, String >();
         sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences( mContext );
@@ -208,7 +227,7 @@ public class AddNewProductFragment extends Fragment {
         params.put( "description", descriptionText );
         params.put( "price", priceText );
         params.put( "seller_id", userId );
-        params.put( "category_id", category.getId() );
+        params.put( "category_id", String.valueOf( category.getId() ) );
 
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
@@ -216,12 +235,12 @@ public class AddNewProductFragment extends Fragment {
                 try {
                     if ( object.getBoolean( "success" ) ) {
                         Intent intent;
-                        Gson gson;
                         productId = object.getString( "product_id" );
                         intent = new Intent( mContext, ProductActivity.class );
-                        gson = new Gson();
                         intent.putExtra( "product_id", productId );
+                        intent.putExtra( "goBack",false );
                         startActivity( intent );
+                        mContext.finish();
                     }
                     Toast.makeText( mContext, object.getString( "message" ),
                             Toast.LENGTH_SHORT ).show();

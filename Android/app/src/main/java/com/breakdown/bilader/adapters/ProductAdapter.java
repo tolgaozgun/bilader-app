@@ -209,7 +209,6 @@ public class ProductAdapter extends
      */
     @Override
     public int getItemCount() {
-
         if ( products != null ) {
             return products.size();
         }
@@ -219,6 +218,5 @@ public class ProductAdapter extends
     public void isWishlisted( String productId ) {
         //TODO
         // dye the heart if the post is added to the wishlist
-
     }
 }

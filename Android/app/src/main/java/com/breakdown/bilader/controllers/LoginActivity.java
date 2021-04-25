@@ -77,7 +77,9 @@ public class LoginActivity extends Activity {
                                 Toast.LENGTH_SHORT ).show();
                         intent = new Intent( LoginActivity.this,
                                 BiltraderActivity.class );
+                        intent.putExtra( "goBack",false );
                         startActivity( intent );
+                        finish();
                     } else {
                         System.out.println( "Success false" );
                         System.out.println( "id " + userId + " token; " + token );

@@ -15,7 +15,7 @@ import jakarta.servlet.ServletException;
 public class ProductHandler extends ProcessHandler {
 
 	private static final String[] KEYS = {};
-	private static final String[] OPTIONAL_KEYS = { "id", "price", "seller_id",
+	private static final String[] OPTIONAL_KEYS = { "product_id", "price", "seller_id",
 			"category_id" };
 	private final String DATABASE_TABLE = "products";
 
@@ -28,6 +28,7 @@ public class ProductHandler extends ProcessHandler {
 			throws ClassNotFoundException, SQLException {
 		DatabaseAdapter adapter;
 		Map< String, String > checkParams;
+		String productId;
 		adapter = new DatabaseAdapter();
 
 		if ( params == null || params.size() == 0 ) {
@@ -49,6 +50,12 @@ public class ProductHandler extends ProcessHandler {
 			return ResultCode.INVALID_SESSION;
 		}
 
+		if(params.containsKey( "product_id" )) {
+			productId = params.get( "product_id" );
+			params.put( "id", productId );
+			params.remove( "product_id" );
+		}
+		
 		if ( adapter.doesExist( DATABASE_TABLE, params ) ) {
 			return ResultCode.PRODUCT_OK;
 		}

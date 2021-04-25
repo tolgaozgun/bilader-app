@@ -179,11 +179,13 @@ public class MyProfileFragment extends Fragment {
 
     private void logOut() {
         // TODO: log user out
-
+        /*
         loadingBar.setTitle( "log out" );
         loadingBar.setMessage( "Logging out!" );
         loadingBar.setCanceledOnTouchOutside( false );
-        loadingBar.show();
+        loadingBar.show();*/
+        sharedPreferences.edit().remove( "id" ).apply();
+        sharedPreferences.edit().remove( "session_token" ).apply();
 
         Intent intent = new Intent( context, LoginActivity.class );
         startActivity( intent );

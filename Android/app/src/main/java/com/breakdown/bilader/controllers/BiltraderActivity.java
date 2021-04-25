@@ -52,6 +52,13 @@ public class BiltraderActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if(getIntent().getBooleanExtra( "goBack",true )){
+            super.onBackPressed();
+        }
+    }
+
     // Listener for handling selection events on bottom navigation items.
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         /**

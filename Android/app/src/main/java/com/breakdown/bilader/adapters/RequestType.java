@@ -2,17 +2,26 @@ package com.breakdown.bilader.adapters;
 
 public enum RequestType {
 
-    LOGIN( "LoginRequest" ), REGISTER( "RegisterRequest" ), PROFILE(
-            "ProfileRequest" ), PRODUCT( "ProductRequest" ), FOLLOWERS(
-                    "FollowersRequest" ), FOLLOWINGS( "FollowingRequest" ),
-    FOLLOW( "FollowRequest" ), REPORT( "AddReportRequest" ),
-    FORGOT_PASSWORD( "ForgotPasswordRequest" ), CHANGE_PASSWORD(
-            "ChangePasswordRequest" ), NOTIFICATION( "NotificationRequest" ),
-    SEND_MESSAGE( "SendMessageRequest" ), RETRIEVE_MESSAGES(
-            "RetrieveMessagesRequest" ), TOKEN( "TokenRequest" ), WISHLIST(
-                    "WishlistRequest" ), ADD_PRODUCT( "AddProductRequest" ),
-    ADD_WISHLIST( "AddWishlistRequest" ), CHECK_WISHLIST(
-            "CheckWishlistRequest" );
+    LOGIN( "LoginRequest" ),
+    REGISTER( "RegisterRequest" ),
+    CATEGORIES( "CategoriesRequest" ),
+    PROFILE( "ProfileRequest" ),
+    PRODUCT( "ProductRequest" ),
+    FOLLOWERS( "FollowersRequest" ),
+    FOLLOWINGS( "FollowingRequest" ),
+    FOLLOW( "FollowRequest" ),
+    REPORT( "AddReportRequest" ),
+    FORGOT_PASSWORD( "ForgotPasswordRequest" ),
+    CHANGE_PASSWORD( "ChangePasswordRequest" ),
+    NOTIFICATION( "NotificationRequest" ),
+    SEND_MESSAGE( "SendMessageRequest" ),
+    RETRIEVE_MESSAGES( "RetrieveMessagesRequest" ),
+    TOKEN( "TokenRequest" ),
+    WISHLIST( "WishlistRequest" ),
+    ADD_PRODUCT( "AddProductRequest" ),
+    ADD_WISHLIST( "AddWishlistRequest" ),
+    CHECK_WISHLIST( "CheckWishlistRequest" ),
+    REMOVE_WISHLIST( "RemoveWishlistRequest" );
 
     private String path;
 

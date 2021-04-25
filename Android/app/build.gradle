@@ -49,4 +49,5 @@ dependencies {
     implementation 'com.github.stfalcon-studio:Chatkit:v0.4.1'
     // photo edit
     implementation 'com.squareup.picasso:picasso:2.71828'
+
 }

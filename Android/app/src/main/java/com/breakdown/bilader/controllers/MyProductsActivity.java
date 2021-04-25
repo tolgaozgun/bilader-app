@@ -61,10 +61,10 @@ public class MyProductsActivity extends Activity {
             @Override
             public void onSuccess( JSONObject object ) {
                 Product product;
-                String pictureUrl;
-                String categoryId;
-                String sellerName;
                 int price;
+                int categoryId;
+                String pictureUrl;
+                String sellerName;
                 String description;
                 String productId;
                 String productTitle;
@@ -92,7 +92,7 @@ public class MyProductsActivity extends Activity {
                             sellerId = tempJson.getString( "seller_id" );
                             sellerAvatarURL = tempJson.getString(
                                     "seller_avatar_url" );
-                            categoryId = tempJson.getString( "category_id" );
+                            categoryId = tempJson.getInt( "category_id" );
                             seller = new User( sellerName, sellerAvatarURL,
                                     sellerId );
                             product = new Product( pictureUrl, productTitle,

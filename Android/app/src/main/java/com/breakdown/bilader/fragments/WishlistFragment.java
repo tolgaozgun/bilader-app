@@ -117,8 +117,8 @@ public class WishlistFragment extends Fragment {
             public void onSuccess( JSONObject object ) {
                 Product product;
                 String pictureUrl;
-                String categoryId;
                 String sellerName;
+                int categoryId;
                 int price;
                 String description;
                 String productId;
@@ -147,7 +147,7 @@ public class WishlistFragment extends Fragment {
                             sellerId = tempJson.getString( "seller_id" );
                             sellerAvatarURL = tempJson.getString(
                                     "seller_avatar_url" );
-                            categoryId = tempJson.getString( "category_id" );
+                            categoryId = tempJson.getInt( "category_id" );
                             seller = new User( sellerName, sellerAvatarURL,
                                     sellerId );
                             product = new Product( pictureUrl, productTitle,

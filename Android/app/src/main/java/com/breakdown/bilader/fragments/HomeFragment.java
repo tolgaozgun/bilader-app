@@ -1,5 +1,6 @@
 package com.breakdown.bilader.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import com.breakdown.bilader.adapters.NotificationService;
 import com.breakdown.bilader.adapters.ProductAdapter;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
+import com.breakdown.bilader.controllers.MainChatActivity;
 import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment {
     private ProductAdapter adapter;
     private ImageView sortMenuImage;
     private ImageView categoryMenuImage;
+    private ImageView chatButton;
     private SearchView searchView;
 
     /**
@@ -73,43 +76,20 @@ public class HomeFragment extends Fragment {
                               @Nullable Bundle savedInstanceState ) {
         View view;
         RecyclerView recyclerView;
+        LinearLayoutManager layoutManager;
 
         view = inflater.inflate( R.layout.fragment_home, container, false );
 
         recyclerView =
                 ( RecyclerView ) view.findViewById( R.id.biltraderRecycler );
 
+        layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setHasFixedSize( true );
-        recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
-        /*
-        // sample users for testing
-        User user1 = new User( "Yahya Demirel", "avatar_male", "12" );
-        User user2 = new User( "Burcu Kaplan", "avatar_female", "12" );
-        User user3 = new User( "Korhan Kaya", "avatar_male", "12" );
-        User user4 = new User( "Deniz Gökçen", "avatar_female", "12" );
-        User user5 = new User( "Tolga Özgün", "avatar_male", "12" );
-
-        Product product1 = new Product( "product_sample", "The Epic of " +
-                "Gilgamesh", "demo1", 12, user1, false, "10", new Category(
-                        "0" ) );
-        Product product2 = new Product( "product_sample2", "Zara Dress",
-                "demo1", 100, user2, false, "11", new Category( "2" ) );
-        Product product3 = new Product( "product_sample3", "Basys - 3",
-                "demo1", 800, user3, false, "12", new Category( "1" ) );
-        Product product4 = new Product( "product_sample", "L'oreal Mascara",
-                "demo1", 120, user4, false, "13", new Category( "4" ) );
-        Product product5 = new Product( "product_sample", "HP Wireless Mouse"
-                , "demo1", 500, user5, false, "14", new Category( "1" ) );
-        productList.add( product1 );
-        productList.add( product2 );
-        productList.add( product3 );
-        productList.add( product4 );
-        productList.add( product5 );*/
+        recyclerView.setLayoutManager( layoutManager );
 
 
-
-        holderList = new ArrayList<Product>();
-        getProductList(recyclerView);
+        holderList = new ArrayList< Product >();
+        getProductList( recyclerView );
         /*searchView = view.findViewById( R.id.searchView );
         searchView.setOnQueryTextListener( new SearchView.OnQueryTextListener
         () {
@@ -184,6 +164,16 @@ public class HomeFragment extends Fragment {
                 } );
 
                 sortMenu.show();
+            }
+        } );
+
+        chatButton = view.findViewById( R.id.home_chat_button );
+        chatButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Intent intent;
+                intent = new Intent(getContext(), MainChatActivity.class );
+                startActivity( intent );
             }
         } );
 
@@ -290,7 +280,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void printView(RecyclerView recyclerView){
+    private void printView( RecyclerView recyclerView ) {
         if ( productList != null ) {
             for ( Product product : productList ) {
                 holderList.add( product );
@@ -300,7 +290,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter( adapter );
     }
 
-    private void getProductList(RecyclerView recyclerView) {
+    private void getProductList( RecyclerView recyclerView ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
         HttpAdapter.getRequestJSON( new VolleyCallback() {
@@ -308,8 +298,8 @@ public class HomeFragment extends Fragment {
             public void onSuccess( JSONObject object ) {
                 Product product;
                 String pictureUrl;
-                String categoryId;
                 String sellerName;
+                int categoryId;
                 int price;
                 String description;
                 String productId;
@@ -338,7 +328,7 @@ public class HomeFragment extends Fragment {
                             sellerId = tempJson.getString( "seller_id" );
                             sellerAvatarURL = tempJson.getString(
                                     "seller_avatar_url" );
-                            categoryId = tempJson.getString( "category_id" );
+                            categoryId = tempJson.getInt( "category_id" );
                             seller = new User( sellerName, sellerAvatarURL,
                                     sellerId );
                             product = new Product( pictureUrl, productTitle,
@@ -347,16 +337,16 @@ public class HomeFragment extends Fragment {
                             productList.add( product );
                         }
                     }
-                    printView(recyclerView);
+                    printView( recyclerView );
                 } catch ( JSONException e ) {
                     e.printStackTrace();
-                    printView(recyclerView);
+                    printView( recyclerView );
                 }
             }
 
             @Override
             public void onFail( String message ) {
-                printView(recyclerView);
+                printView( recyclerView );
             }
         }, RequestType.PRODUCT, params, this.getContext() );
 

@@ -136,6 +136,18 @@
   	<description></description>
   	<servlet-class>database.requests.CheckWishlistRequest</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>RemoveWishlistRequest</servlet-name>
+  	<display-name>RemoveWishlistRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.RemoveWishlistRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>CategoriesRequest</servlet-name>
+  	<display-name>CategoriesRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.CategoriesRequest</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -223,5 +235,13 @@
   <servlet-mapping>
   	<servlet-name>CheckWishlistRequest</servlet-name>
   	<url-pattern>/CheckWishlistRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RemoveWishlistRequest</servlet-name>
+  	<url-pattern>/RemoveWishlistRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CategoriesRequest</servlet-name>
+  	<url-pattern>/CategoriesRequest</url-pattern>
   </servlet-mapping>
 </web-app>

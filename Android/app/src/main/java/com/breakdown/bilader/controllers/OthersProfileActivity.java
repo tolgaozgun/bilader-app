@@ -17,15 +17,24 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.fragments.OnSaleFragment;
 import com.breakdown.bilader.fragments.ReviewsFragment;
+import com.breakdown.bilader.models.Category;
+import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class OthersProfileActivity extends AppCompatActivity {
 
@@ -33,7 +42,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     private ViewPager2 viewPager2;
 
     private ImageView profilePhoto;
-    private TextView userName;
+    private TextView userNameText;
     private TextView numberOfFollowers;
     private TextView numberOfFollowings;
     private TextView numberOfReviews;
@@ -53,6 +62,10 @@ public class OthersProfileActivity extends AppCompatActivity {
 
     private User currentUser;
     private Gson gson;
+    private Bundle bundle;
+    private String userId;
+    private String userAvatar;
+    private String userName;
 
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
@@ -63,13 +76,27 @@ public class OthersProfileActivity extends AppCompatActivity {
         viewPager2 = findViewById( R.id.others_profile_view_pager );
         numberOfReviews =
                 findViewById( R.id.text_other_profile_reviews_in_parantheses );
-        userName = findViewById( R.id.text_others_profile_user_name );
+        userNameText = findViewById( R.id.text_others_profile_user_name );
         profilePhoto = findViewById( R.id.image_others_profile_avatar );
         follow = findViewById( R.id.button_others_profile_follow );
         sendMessage = findViewById( R.id.button_others_profile_chat );
 
         fragmentForReview = new ReviewsFragment();
         fragmentForSale = new OnSaleFragment();
+        if ( getIntent().hasExtra( "user" ) ) {
+            gson = new Gson();
+            currentUser = gson.fromJson( getIntent().getStringExtra( "user" )
+                    , User.class );
+        } else if ( getIntent().hasExtra( "user_id" ) ) {
+            userName = getIntent().getStringExtra( "user_name" );
+            userId = getIntent().getStringExtra( "user_id" );
+            userAvatar = getIntent().getStringExtra( "user_avatar" );
+            currentUser = new User( userName, userAvatar, userId );
+        }
+        bundle = new Bundle();
+        bundle.putString( "user_id", currentUser.getUserId() );
+        fragmentForSale.setArguments( bundle );
+        fragmentForReview.setArguments( bundle );
 
         fragmentList.add( fragmentForSale );
         fragmentList.add( fragmentForReview );
@@ -79,15 +106,12 @@ public class OthersProfileActivity extends AppCompatActivity {
         viewPager2.setAdapter( adapter );
 
         fragmentTitleList.add( "On sale" );
-        fragmentTitleList.add( "Revıews" );
+        fragmentTitleList.add( "Reviews" );
 
 
         new TabLayoutMediator( tableLayout, viewPager2,
                 ( tab, position ) -> tab.setText( fragmentTitleList.get( position ) + ( "" ) ) ).attach();
-        gson = new Gson();
-        currentUser = gson.fromJson( getIntent().getStringExtra( "user" ),
-                User.class );
-        userName.setText( currentUser.getUserName() );
+        userNameText.setText( currentUser.getUserName() );
 
         Picasso.get().load( currentUser.getUserAvatar() ).fit().centerInside().into( profilePhoto );
 

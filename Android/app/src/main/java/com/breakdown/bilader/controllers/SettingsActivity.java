@@ -47,7 +47,7 @@ public class SettingsActivity extends Activity {
             public void onClick( View v ) {
                 Intent intent;
                 intent = new Intent( SettingsActivity.this,
-                        ForgotPasswordActivity.class );
+                        PrivateChatActivity.class );
                 startActivity( intent );
             }
         } );

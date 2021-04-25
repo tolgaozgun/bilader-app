@@ -51,7 +51,7 @@ public class CheckWishlistHandler extends ProcessHandler {
 
 		checkParams = cloneMapWithKeys( PRODUCT_CHECK_KEYS, params );
 		if ( adapter.doesExist( DATABASE_TABLE_WISHLIST, checkParams ) ) {
-			return ResultCode.ALREADY_WISHLISTED;
+			return ResultCode.CHECK_ALREADY_WISHLISTED;
 		}
 
 		return ResultCode.CHECK_NOT_WISHLISTED;
@@ -67,7 +67,7 @@ public class CheckWishlistHandler extends ProcessHandler {
 		json = new JSONObject();
 		result = checkParams();
 
-		if ( result == ResultCode.ALREADY_WISHLISTED ) {
+		if ( result == ResultCode.CHECK_ALREADY_WISHLISTED ) {
 			json.put( "wishlisted", true );
 		}else {
 			json.put( "wishlisted", false );

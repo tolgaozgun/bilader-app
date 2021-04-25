@@ -2,7 +2,6 @@ package database.handlers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Map;
 
 import org.json.JSONObject;

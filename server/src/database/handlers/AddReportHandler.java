@@ -15,7 +15,6 @@ import jakarta.servlet.ServletException;
 
 public class AddReportHandler extends ProcessHandler {
 
-	private static final String EMAIL_KEY = "email";
 	private static final String REPORT_TYPE_KEY = "report_type";
 	private static final String DESC_KEY = "description";
 	private static final String REPORTER_ID_KEY = "reporter_id";

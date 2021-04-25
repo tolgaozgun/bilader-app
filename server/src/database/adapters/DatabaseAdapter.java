@@ -67,7 +67,7 @@ public class DatabaseAdapter {
 		String secondWhere;
 		int count;
 
-		if ( tableName == null | params == null ) {
+		if ( tableName == null ) {
 			return false;
 		}
 
@@ -212,8 +212,8 @@ public class DatabaseAdapter {
 		StringBuffer sql;
 		String request;
 
-		if ( params == null ) {
-			return null;
+		if ( params == null || params.size() == 0 ) {
+			return "";
 		}
 
 		sql = new StringBuffer( "WHERE (" );
