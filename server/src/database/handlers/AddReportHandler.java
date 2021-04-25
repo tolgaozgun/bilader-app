@@ -22,16 +22,15 @@ public class AddReportHandler extends ProcessHandler {
 	private static final String REPORTED_ID_KEY = "reported_id";
 	private static final String[] KEYS = { REPORT_TYPE_KEY, DESC_KEY,
 			REPORTED_ID_KEY };
-	private static final String[] VERIFICATION_KEYS = { EMAIL_KEY };
 	private final String DATABASE_TABLE_REPORTS = "reports";
 	private final String DATABASE_TABLE_USERS = "users";
 
 	public AddReportHandler( Map< String, String[] > parameters ) {
 		super( RequestAdapter.convertParameters( parameters, KEYS, true ) );
-		if( params != null ) {
+		if ( params != null ) {
 			String id;
-			id = parameters.get( USER_ID_KEY )[0];
-			params.put(REPORTER_ID_KEY, id);
+			id = parameters.get( USER_ID_KEY )[ 0 ];
+			params.put( REPORTER_ID_KEY, id );
 		}
 	}
 
@@ -45,9 +44,8 @@ public class AddReportHandler extends ProcessHandler {
 		if ( params == null || params.size() == 0 ) {
 			return ResultCode.INVALID_REQUEST;
 		}
-
 		// Check if the current user exists in the database.
-		checkParams = cloneMapWithKeys( VERIFICATION_KEYS, params );
+		checkParams = cloneMapWithKeys( VERIFICATION_KEYS_ID, params );
 		if ( !adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
 			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}
@@ -61,7 +59,7 @@ public class AddReportHandler extends ProcessHandler {
 			return ResultCode.INVALID_SESSION;
 		}
 
-		return ResultCode.ADD_PRODUCT_OK;
+		return ResultCode.ADD_REPORT_OK;
 	}
 
 	private void createReportId() throws ClassNotFoundException, SQLException {

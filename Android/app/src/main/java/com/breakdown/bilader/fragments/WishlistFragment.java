@@ -72,8 +72,7 @@ public class WishlistFragment extends Fragment {
                 ( RecyclerView ) view.findViewById( R.id.wishlistRecycler );
 
         recyclerView.setHasFixedSize( true );
-        recyclerView.setLayoutManager( new LinearLayoutManager( getActivity()
-        ) );
+        recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
         /*
         // sample users for testing
         User user1 = new User( "Yahya Demirel", "avatar_male", "12" );
