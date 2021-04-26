@@ -59,7 +59,7 @@ public class PrivateChatAdapter extends RecyclerView.Adapter< PrivateChatAdapter
 
         if (messageList != null && messageList.size() > position) {
             message = messageList.get( position );
-            fromUserID = message.getSentBy().getUserId();
+            fromUserID = message.getUser().getId();
 
 
             holder.receiverMessage.setVisibility( View.GONE );
@@ -69,12 +69,12 @@ public class PrivateChatAdapter extends RecyclerView.Adapter< PrivateChatAdapter
                 holder.senderMessage.setVisibility( View.VISIBLE );
 
                 holder.senderMessage.setBackgroundResource( R.drawable.sender_chat_bubble );
-                holder.senderMessage.setText( message.getContent() + "\n" + message.getMessageTime() + " - " + message.getDate() );
+                holder.senderMessage.setText( message.getText() + "\n" + message.getMessageTime() + " - " + message.getCreatedAt() );
             } else {
                 holder.receiverMessage.setVisibility( View.VISIBLE );
 
                 holder.receiverMessage.setBackgroundResource( R.drawable.receiver_chat_bubble );
-                holder.receiverMessage.setText( message.getContent() + "\n" + message.getMessageTime() + " - " + message.getDate() );
+                holder.receiverMessage.setText( message.getText() + "\n" + message.getMessageTime() + " - " + message.getCreatedAt() );
             }
         }
 
