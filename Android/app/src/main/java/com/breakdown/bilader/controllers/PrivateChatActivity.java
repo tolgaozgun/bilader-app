@@ -59,6 +59,10 @@ public class PrivateChatActivity extends Activity {
 
         userNameView = findViewById( R.id.private_chat_userName );
         userAvatarView = findViewById( R.id.private_chat_userAvatar );
+
+      /*  Intent intent = getIntent();
+        gson = new Gson();
+
         inputView = findViewById( R.id.input );
         messagesList = findViewById( R.id.messagesList );
         sharedPreferences =
@@ -112,7 +116,7 @@ public class PrivateChatActivity extends Activity {
 
     }
     //TODO
-    /*private void addListener() {
+    *//*private void addListener() {
         String listemerID = "listener 1";
         ChatData.addMessageListener (listemerID, new ChatData.MessageListener
         () ) {
@@ -120,7 +124,7 @@ public class PrivateChatActivity extends Activity {
                 addMessage( message );
             }
         }
-    }*/
+    }*//*
 
     private void setChatId() {
 
@@ -226,11 +230,11 @@ public class PrivateChatActivity extends Activity {
     }
 
     //TODO
-   /*private void addMessages ( List<IMessage> previousMessages) {
+   *//*private void addMessages ( List<IMessage> previousMessages) {
         IMessage message;
 
         adapter.addToEnd ( list,true);
-    }*/
+    }*//*
 
     private User getUser( String id ) {
         if ( currentUserId.equals( id ) ) {
@@ -304,7 +308,7 @@ public class PrivateChatActivity extends Activity {
 
             }
 
-        }, RequestType.RETRIEVE_MESSAGES, params, this, true );
+        }, RequestType.RETRIEVE_MESSAGES, params, this, true );*/
     }
 
 
