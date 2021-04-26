@@ -65,10 +65,6 @@ public class Message implements IMessage {
         this.sentBy = sentBy;
     }
 
-    public void setDate( Date date ) {
-        this.date = date;
-    }
-
     public void setContent( String content ) {
         this.content = content;
     }
