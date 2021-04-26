@@ -104,8 +104,8 @@ public class UserAdapter extends
 
         user = followers.get( position );
 
-        holder.textUserName.setText( user.getUserName() );
-        Picasso.get().load( user.getUserAvatar() ).fit().centerInside().into( holder.imageFollowerScreenAvatar );
+        holder.textUserName.setText( user.getName() );
+        Picasso.get().load( user.getAvatar() ).fit().centerInside().into( holder.imageFollowerScreenAvatar );
 
         holder.userCard.setOnClickListener( new View.OnClickListener() {
 

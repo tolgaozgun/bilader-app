@@ -92,11 +92,11 @@ public class ProductActivity extends Activity {
                 intent = new Intent( ProductActivity.this,
                         OthersProfileActivity.class );
                 intent.putExtra( "user_id",
-                        currentProduct.getSeller().getUserId() );
+                        currentProduct.getSeller().getId() );
                 intent.putExtra( "user_name",
-                        currentProduct.getSeller().getUserName() );
+                        currentProduct.getSeller().getName() );
                 intent.putExtra( "user_avatar",
-                        currentProduct.getSeller().getUserAvatar() );
+                        currentProduct.getSeller().getAvatar() );
                 startActivity( intent );
             }
         } );
@@ -108,15 +108,15 @@ public class ProductActivity extends Activity {
                 intent = new Intent( ProductActivity.this,
                         OthersProfileActivity.class );
                 intent.putExtra( "user_id",
-                        currentProduct.getSeller().getUserId() );
+                        currentProduct.getSeller().getId() );
                 intent.putExtra( "user_name",
-                        currentProduct.getSeller().getUserName() );
+                        currentProduct.getSeller().getName() );
                 intent.putExtra( "user_avatar",
-                        currentProduct.getSeller().getUserAvatar() );
+                        currentProduct.getSeller().getAvatar() );
                 startActivity( intent );
             }
         } );
-        if ( currentProduct.getSeller().getUserId().equals( currentUserId ) ) {
+        if ( currentProduct.getSeller().getId().equals( currentUserId ) ) {
             settingsButton.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick( View v ) {
@@ -259,7 +259,7 @@ public class ProductActivity extends Activity {
 
         if ( currentProduct != null ) {
             System.out.println( "XOXOXOX" );
-            sellerId = currentProduct.getSeller().getUserId();
+            sellerId = currentProduct.getSeller().getId();
             seller = currentProduct.getSeller();
             productName.setText( currentProduct.getTitle() );
             productDescription.setText( currentProduct.getDescription() );
@@ -269,8 +269,8 @@ public class ProductActivity extends Activity {
             if ( currentProduct.getPicture() != null && !currentProduct.getPicture().equals( "" ) ) {
                 Picasso.get().load( currentProduct.getPicture() ).fit().centerInside().into( productImage );
             }
-            if ( currentProduct.getOwner().getUserAvatar() != null && !currentProduct.getOwner().getUserAvatar().equals( "" ) ) {
-                Picasso.get().load( currentProduct.getOwner().getUserAvatar() ).fit().centerInside().into( userAvatar );
+            if ( currentProduct.getOwner().getAvatar() != null && !currentProduct.getOwner().getAvatar().equals( "" ) ) {
+                Picasso.get().load( currentProduct.getOwner().getAvatar() ).fit().centerInside().into( userAvatar );
             }
         }
         checkIfWishlisted();

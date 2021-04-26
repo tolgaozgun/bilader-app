@@ -107,15 +107,15 @@ public class MainChatAdapter extends
 
         if ( userList != null && userList.size() > position ) {
             user = userList.get( position );
-            otherUserId = user.getUserId();
+            otherUserId = user.getId();
             holder.textLastMessage.setText( user.getLastMessage() );
-            holder.textLastMessageSender.setText( user.getUserName() );
+            holder.textLastMessageSender.setText( user.getName() );
             holder.textTimeAgo.setText( "1m ago" );
 
-            if ( user.getUserAvatar().isEmpty() ) {
+            if ( user.getAvatar().isEmpty() ) {
                 holder.imageMainChatAvatar.setImageResource( R.drawable.avatar_no_gender );
             } else {
-                Picasso.get().load( user.getUserAvatar() ).fit().centerInside().into( holder.imageMainChatAvatar );
+                Picasso.get().load( user.getAvatar() ).fit().centerInside().into( holder.imageMainChatAvatar );
             }
         }
 

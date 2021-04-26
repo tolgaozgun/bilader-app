@@ -103,6 +103,35 @@ public class DatabaseAdapter {
 		return count != 0;
 	}
 
+	public int count( String tableName, Map< String, String > params )
+			throws SQLException, ClassNotFoundException {
+		StringBuffer sql;
+		PreparedStatement statement;
+		ResultSet resultSet;
+		int count;
+
+		if ( tableName == null ) {
+			return 0;
+		}
+
+		count = 0;
+		sql = new StringBuffer(
+				"SELECT COUNT(*) AS COUNT FROM " + tableName + " " );
+		sql.append( createWhereString( params, "AND" ) );
+		connect();
+		statement = connection.prepareStatement( sql.toString() );
+		resultSet = statement.executeQuery();
+
+		if ( resultSet.next() ) {
+			count = resultSet.getInt( "count" );
+		}
+
+		resultSet.close();
+		disconnect();
+
+		return count;
+	}
+
 	/**
 	 * Update the rows which contain the given parameters, in the provided table
 	 * with the new parameters in the MySQL Server.

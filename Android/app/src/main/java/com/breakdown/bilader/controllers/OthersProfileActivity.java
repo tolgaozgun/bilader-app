@@ -8,16 +8,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.fragments.OnSaleFragment;
 import com.breakdown.bilader.fragments.ReviewsFragment;
 import com.breakdown.bilader.models.User;
@@ -26,7 +31,12 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class OthersProfileActivity extends AppCompatActivity {
 
@@ -71,6 +81,10 @@ public class OthersProfileActivity extends AppCompatActivity {
         viewPager2 = findViewById( R.id.others_profile_view_pager );
         numberOfReviews =
                 findViewById( R.id.text_other_profile_reviews_in_parantheses );
+        numberOfFollowers =
+                findViewById( R.id.text_others_profile_follower_amount );
+        numberOfFollowings =
+                findViewById( R.id.text_others_profile_following_number );
         userNameText = findViewById( R.id.text_others_profile_user_name );
         profilePhoto = findViewById( R.id.image_others_profile_avatar );
         follow = findViewById( R.id.button_others_profile_follow );
@@ -95,7 +109,7 @@ public class OthersProfileActivity extends AppCompatActivity {
             currentUser = new User( userName, userAvatar, userId );
         }
         bundle = new Bundle();
-        bundle.putString( "user_id", currentUser.getUserId() );
+        bundle.putString( "user_id", currentUser.getId() );
         fragmentForSale.setArguments( bundle );
         fragmentForReview.setArguments( bundle );
 
@@ -112,16 +126,15 @@ public class OthersProfileActivity extends AppCompatActivity {
 
         new TabLayoutMediator( tableLayout, viewPager2,
                 ( tab, position ) -> tab.setText( fragmentTitleList.get( position ) + ( "" ) ) ).attach();
-        userNameText.setText( currentUser.getUserName() );
+        userNameText.setText( currentUser.getName() );
 
-        Picasso.get().load( currentUser.getUserAvatar() ).fit().centerInside().into( profilePhoto );
+        Picasso.get().load( currentUser.getAvatar() ).fit().centerInside().into( profilePhoto );
 
         getUserInfo();
-        userProducts();
         userReviews();
         getSoldCount();
-        getFollowersCount();
-        getFollowingsCount();
+        getFollowersCount( numberOfFollowers );
+        getFollowingsCount( numberOfFollowings );
         //getReviewCount();
 
         reportButton.setOnClickListener( new View.OnClickListener() {
@@ -130,9 +143,9 @@ public class OthersProfileActivity extends AppCompatActivity {
                 Intent newIntent;
                 newIntent = new Intent( OthersProfileActivity.this,
                         ReportActivity.class );
-                newIntent.putExtra( "id", currentUser.getUserId() );
-                newIntent.putExtra( "title", currentUser.getUserName() );
-                newIntent.putExtra( "image_url", currentUser.getUserAvatar() );
+                newIntent.putExtra( "id", currentUser.getId() );
+                newIntent.putExtra( "title", currentUser.getName() );
+                newIntent.putExtra( "image_url", currentUser.getAvatar() );
                 newIntent.putExtra( "report-type", 0 );
                 startActivity( newIntent );
             }
@@ -167,7 +180,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                 Intent intent;
                 intent = new Intent( OthersProfileActivity.this,
                         FollowingActivity.class );
-                intent.putExtra( "user_id", currentUser.getUserId() );
+                intent.putExtra( "user_id", currentUser.getId() );
                 startActivity( intent );
             }
         } );
@@ -179,7 +192,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                 Intent intent;
                 intent = new Intent( OthersProfileActivity.this,
                         FollowersActivity.class );
-                intent.putExtra( "user_id", currentUser.getUserId() );
+                intent.putExtra( "user_id", currentUser.getId() );
                 startActivity( intent );
             }
         } );
@@ -189,17 +202,57 @@ public class OthersProfileActivity extends AppCompatActivity {
     /**
      * Sets the followings count of the current user.
      */
-    public void getFollowingsCount() {
-        //TODO
-        //numberOfFollowings.setText( count);
+    public void getFollowingsCount( TextView numberOfFollowings ) {
+        System.out.println( "AAA" );
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "user_id", userId );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    System.out.println( "BBB" );
+                    if ( object.getBoolean( "success" ) ) {
+                        System.out.println( "ccc" );
+                        numberOfFollowings.setText( Integer.toString( object.getInt( "count" ) ) );
+                    }
+                } catch ( JSONException e ) {
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+            }
+        }, RequestType.FOLLOWING_COUNT, params, this, false );
+
     }
+
 
     /**
      * Sets the followers count of the current user.
      */
-    public void getFollowersCount() {
-        //TODO
-        //numberOfFollowers.setText( count);
+    public void getFollowersCount( TextView numberOfFollowers ) {
+        HashMap< String, String > params;
+        System.out.println( "dddd" );
+        params = new HashMap< String, String >();
+        params.put( "following_id", userId );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                System.out.println( "eeee" );
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+                        System.out.println( "fff" );
+                        numberOfFollowers.setText( Integer.toString( object.getInt( "count" ) ) );
+                    }
+                } catch ( JSONException e ) {
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+            }
+        }, RequestType.FOLLOWERS_COUNT, params, this, false );
     }
 
     /**
@@ -211,14 +264,6 @@ public class OthersProfileActivity extends AppCompatActivity {
         //numberOfReviews.setText(userReviews.size());
         // profilePhoto
         // review number
-    }
-
-    /**
-     * Shows the products of the current user.
-     */
-    public void userProducts() {
-        //TODO
-
     }
 
     /**
