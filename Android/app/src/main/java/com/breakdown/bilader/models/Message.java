@@ -71,4 +71,24 @@ public class Message {
      */
     public String getMessageId() { return messageId;
     }
+
+    public void setMessageTime( long messageTime ) {
+        this.messageTime = messageTime;
+    }
+
+    public void setSentBy( User sentBy ) {
+        this.sentBy = sentBy;
+    }
+
+    public void setDate( Date date ) {
+        this.date = date;
+    }
+
+    public void setContent( String content ) {
+        this.content = content;
+    }
+
+    public void setMessageId( String messageId ) {
+        this.messageId = messageId;
+    }
 }
