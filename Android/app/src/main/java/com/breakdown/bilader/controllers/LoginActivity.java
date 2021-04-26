@@ -23,6 +23,8 @@ import com.breakdown.bilader.adapters.NotificationAdapter;
 import com.breakdown.bilader.adapters.NotificationService;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
+import com.breakdown.bilader.models.User;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +52,8 @@ public class LoginActivity extends Activity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_login );
 
+        sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences( this );
         logInButton = ( Button ) findViewById( R.id.buttonLogIn );
         signUpButton = ( Button ) findViewById( R.id.buttonSignUp );
         inputEmail = ( EditText ) findViewById( R.id.editTextEmail );
@@ -161,14 +165,11 @@ public class LoginActivity extends Activity {
         final String JSON_MESSAGE_PATH = "message";
         final String JSON_USER_ID_PATH = "id";
         final VolleyCallback callback;
-        SharedPreferences sharedPreferences;
         Map< String, String > params;
         params = new HashMap< String, String >();
         params.put( "email", email );
         params.put( "password", password );
 
-        sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences( this );
 
         callback = new VolleyCallback() {
             @Override
@@ -180,6 +181,7 @@ public class LoginActivity extends Activity {
                     String token;
                     String message;
                     String userId;
+                    String myJson;
                     if ( json == null ) {
                         message = "Connection error.";
                     } else {
@@ -190,6 +192,7 @@ public class LoginActivity extends Activity {
                             sharedPreferences.edit().putString( USER_ID_KEY,
                                     userId ).apply();
 
+                            saveUserInstance( userId );
 
                             intent = new Intent( LoginActivity.this,
                                     BiltraderActivity.class );
@@ -226,6 +229,46 @@ public class LoginActivity extends Activity {
         HttpAdapter.getRequestJSON( callback, RequestType.LOGIN, params,
                 LoginActivity.this, false );
     }
+
+    private void saveUserInstance( String userId ) {
+        HashMap<String, String> params;
+        params = new HashMap<String, String>();
+        params.put("user_id", userId);
+
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                String name;
+                String avatarUrl;
+                Gson gson;
+                String myJson;
+                User user;
+                try {
+                    if(object.getBoolean( "success" )){
+
+                        name = object.getJSONObject( "user" ).getString(
+                                "name" );
+                        avatarUrl =
+                                object.getJSONObject( "user" ).getString(
+                                        "avatar_url" );
+                        user = new User( name, avatarUrl, userId);
+                        gson = new Gson();
+                        myJson = gson.toJson( user );
+                        sharedPreferences.edit().putString( "current_user", myJson ).apply();
+                    }
+                } catch ( JSONException e ) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+
+            }
+        }, RequestType.USER, params, this, false);
+
+    }
+
 
     /**
      * adds on press effects for buttons

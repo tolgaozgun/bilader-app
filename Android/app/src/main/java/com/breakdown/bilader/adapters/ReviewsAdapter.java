@@ -47,8 +47,8 @@ public class ReviewsAdapter extends
         Review enteredReview;
 
         enteredReview = reviews.get( position );
-        holder.userName.setText( enteredReview.getSentBy().getUserName() );
-        Picasso.get().load( enteredReview.getSentBy().getUserAvatar() ).fit().centerInside().into( holder.imageUserAvatar );
+        holder.userName.setText( enteredReview.getSentBy().getName() );
+        Picasso.get().load( enteredReview.getSentBy().getAvatar() ).fit().centerInside().into( holder.imageUserAvatar );
 
         // holder.content
     }

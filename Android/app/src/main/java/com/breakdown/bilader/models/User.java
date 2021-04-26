@@ -2,11 +2,13 @@ package com.breakdown.bilader.models;
 
 import androidx.annotation.NonNull;
 
+import com.stfalcon.chatkit.commons.models.IUser;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User implements Serializable {
+public class User implements Serializable, IUser {
 
     private String userName;
     private String userAvatar;
@@ -33,7 +35,8 @@ public class User implements Serializable {
      *
      * @return String value of username.
      */
-    public String getUserName() {
+    @Override
+    public String getName() {
         return userName;
     }
 
@@ -42,7 +45,8 @@ public class User implements Serializable {
      *
      * @return String value of avatar URL.
      */
-    public String getUserAvatar() {
+    @Override
+    public String getAvatar() {
         return userAvatar;
     }
 
@@ -51,7 +55,8 @@ public class User implements Serializable {
      *
      * @return String value of the user id
      */
-    public String getUserId() { return userId; }
+    @Override
+    public String getId() { return userId; }
 
     /**
      * Returns the wishlist of the current user.
@@ -86,4 +91,5 @@ public class User implements Serializable {
     public String toString() {
         return userName;
     }
+
 }

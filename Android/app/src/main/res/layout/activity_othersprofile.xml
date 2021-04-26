@@ -56,7 +56,7 @@
         android:id="@+id/othersProfileTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="14dp"
         android:fontFamily="@font/roboto_bold"
         android:text="User's Profile"
         android:textColor="#000000"
@@ -64,6 +64,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/reportButton"
+        android:layout_width="37dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/baseline_report_problem_24"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="@+id/include"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -97,25 +109,23 @@
         android:background="@drawable/others_profile_button"
         android:hint="follow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/button_others_profile_chat"
         app:layout_constraintTop_toBottomOf="@+id/include" />
 
     <Button
         android:id="@+id/button_others_profile_chat"
         android:layout_width="70dp"
         android:layout_height="25dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
         android:background="@drawable/others_profile_button"
         android:hint="message"
-        app:layout_constraintStart_toEndOf="@+id/text_others_profile_user_name"
+        app:layout_constraintEnd_toStartOf="@+id/button_others_profile_follow"
         app:layout_constraintTop_toBottomOf="@+id/include" />
 
     <TextView
         android:id="@+id/text_others_profile_user_name"
-        android:layout_width="86dp"
+        android:layout_width="130dp"
         android:layout_height="19dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -128,9 +138,9 @@
         android:id="@+id/image_others_profile_avatar"
         android:layout_width="65dp"
         android:layout_height="62dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
         app:srcCompat="@drawable/avatar_female" />
@@ -151,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="165" />
+            android:text="0" />
         <TextView
             android:id="@+id/text_others_profile_following"
             android:layout_width="wrap_content"
@@ -179,7 +189,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
-            android:text="283" />
+            android:text="0" />
 
         <TextView
             android:id="@+id/text_others_profile_followers"
@@ -206,7 +216,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="9dp"
-            android:text="28" />
+            android:text="0" />
 
         <TextView
             android:id="@+id/text_others_profile_sales"

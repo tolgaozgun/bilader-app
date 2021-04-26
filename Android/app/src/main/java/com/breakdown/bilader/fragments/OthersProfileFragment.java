@@ -116,7 +116,7 @@ public class OthersProfileFragment extends Fragment {
      *
      */
     public void getUserInfo() {
-        userName.setText(userOne.getUserName());
+        userName.setText(userOne.getName());
         numberOfReviews.setText(userReviews.size());
         // profilePhoto
         // rating?

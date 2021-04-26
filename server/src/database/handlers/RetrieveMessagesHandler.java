@@ -21,6 +21,7 @@ public class RetrieveMessagesHandler extends ProcessHandler {
 	private final static String TIME_KEY = "time";
 	private final static String SENDER_ID_KEY = "sender_id";
 	private final static String RECEIVER_ID_KEY = "receiver_id";
+	private final static String MESSAGE_ID_KEY = "message_id";
 	private final static String CONTENT_KEY = "content";
 	private final static String[] KEYS = { CHAT_ID_KEY, TIME_KEY };
 	private final static String[] VERIFY_KEYS = { CHAT_ID_KEY };
@@ -80,11 +81,12 @@ public class RetrieveMessagesHandler extends ProcessHandler {
 		adapter = new DatabaseAdapter();
 		result = checkParams();
 		usersMap = new HashMap< Integer, Object[] >();
-		wanted = new String[ 4 ];
+		wanted = new String[ 5 ];
 		wanted[ 0 ] = TIME_KEY;
 		wanted[ 1 ] = SENDER_ID_KEY;
 		wanted[ 2 ] = RECEIVER_ID_KEY;
 		wanted[ 3 ] = CONTENT_KEY;
+		wanted[ 4 ] = MESSAGE_ID_KEY;
 
 		if ( result.isSuccess() ) {
 			checkParams = cloneMapWithKeys( VERIFY_KEYS, params );
@@ -99,6 +101,7 @@ public class RetrieveMessagesHandler extends ProcessHandler {
 				tempJson.put( SENDER_ID_KEY, usersMap.get( i )[ 1 ] );
 				tempJson.put( RECEIVER_ID_KEY, usersMap.get( i )[ 2 ] );
 				tempJson.put( CONTENT_KEY, usersMap.get( i )[ 3 ] );
+				tempJson.put( MESSAGE_ID_KEY, usersMap.get( i )[ 4 ] );
 				messagesJson.put( String.valueOf( i ), tempJson );
 			}
 			json.put( "messages", messagesJson );

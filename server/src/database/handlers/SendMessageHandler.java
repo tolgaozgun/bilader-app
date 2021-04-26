@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.json.JSONObject;
 
@@ -40,7 +41,6 @@ public class SendMessageHandler extends ProcessHandler {
 		Map< String, String > additionalParams;
 		String userId;
 		adapter = new DatabaseAdapter();
-		
 
 		if ( params == null || params.size() == 0 ) {
 			return ResultCode.INVALID_REQUEST;
@@ -64,12 +64,13 @@ public class SendMessageHandler extends ProcessHandler {
 		}
 
 		checkParams = cloneMapWithKeys( VERIFY_KEYS, params );
-		
+
 		additionalParams = new HashMap< String, String >();
 
 		additionalParams.put( PARTICIPANT_ONE_KEY, userId );
 		additionalParams.put( PARTICIPANT_TWO_KEY, userId );
-		if ( adapter.doesExist( DATABASE_TABLE_CHATS, checkParams, "AND", additionalParams, "OR" ) ) {
+		if ( adapter.doesExist( DATABASE_TABLE_CHATS, checkParams, "AND",
+				additionalParams, "OR" ) ) {
 			return ResultCode.MESSAGES_OK;
 		}
 
@@ -88,13 +89,15 @@ public class SendMessageHandler extends ProcessHandler {
 		Map< Integer, Object[] > resultMap;
 		String currentUserId;
 		String otherUserId;
+		String messageId;
 		long currentTime;
 
 		json = new JSONObject();
 		adapter = new DatabaseAdapter();
 		result = checkParams();
 		currentTime = System.currentTimeMillis();
-		updateList = new HashMap<String, Object>();
+		messageId = "";
+		updateList = new HashMap< String, Object >();
 		wanted = new String[ 2 ];
 		wanted[ 0 ] = PARTICIPANT_ONE_KEY;
 		wanted[ 1 ] = PARTICIPANT_TWO_KEY;
@@ -102,6 +105,7 @@ public class SendMessageHandler extends ProcessHandler {
 		params.remove( USER_ID_KEY );
 
 		if ( result.isSuccess() ) {
+			messageId = createMessageId();
 			chatIdParam = cloneMapWithKeys( VERIFY_KEYS, params );
 			resultMap = adapter.select( DATABASE_TABLE_CHATS, wanted,
 					chatIdParam );
@@ -114,8 +118,9 @@ public class SendMessageHandler extends ProcessHandler {
 			params.put( TIME_KEY, String.valueOf( currentTime ) );
 
 			updateList.put( LAST_MESSAGE_KEY, params.get( CONTENT_KEY ) );
-			updateList.put( LAST_MESSAGE_DATE_KEY, String.valueOf( currentTime ) );
-			
+			updateList.put( LAST_MESSAGE_DATE_KEY,
+					String.valueOf( currentTime ) );
+
 			// Update last message on chats table
 			adapter.update( DATABASE_TABLE_CHATS, chatIdParam, updateList );
 
@@ -123,11 +128,32 @@ public class SendMessageHandler extends ProcessHandler {
 			adapter.create( DATABASE_TABLE_MESSAGES, params );
 		}
 
+		json.put( "message_id", messageId );
 		json.put( "session_error", result == ResultCode.INVALID_SESSION );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;
 
+	}
+
+	private String createMessageId()
+			throws ClassNotFoundException, SQLException {
+		Map< String, String > mapMessageId;
+		UUID messageId;
+		DatabaseAdapter adapter;
+		boolean doesExist;
+		
+		mapMessageId = new HashMap< String, String >();
+		messageId = UUID.randomUUID();
+		mapMessageId.put( "message_id", messageId.toString() );
+		adapter = new DatabaseAdapter();
+		doesExist = adapter.doesExist( DATABASE_TABLE_MESSAGES, mapMessageId );
+		while ( doesExist ) {
+			messageId = UUID.randomUUID();
+			mapMessageId.put( "message_id", messageId.toString() );
+		}
+		params.put( "message_id", messageId.toString() );
+		return messageId.toString();
 	}
 
 }

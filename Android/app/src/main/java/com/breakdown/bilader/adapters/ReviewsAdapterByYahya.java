@@ -64,8 +64,8 @@ public class ReviewsAdapterByYahya extends
         reviews = reviewList.get( position );
 
         holder.textReview.setText( reviews.getContent() );
-        holder.textUserName.setText( reviews.getSentBy().getUserName());
-        holder.imageReviewScreenAvatar.setImageResource( mContext.getResources().getIdentifier( reviews.getSentBy().getUserAvatar(),
+        holder.textUserName.setText( reviews.getSentBy().getName());
+        holder.imageReviewScreenAvatar.setImageResource( mContext.getResources().getIdentifier( reviews.getSentBy().getAvatar(),
                 "drawable",
                 mContext.getPackageName() ) );
     }

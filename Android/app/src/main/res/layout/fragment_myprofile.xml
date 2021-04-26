@@ -58,7 +58,7 @@
         android:fontFamily="@font/roboto_bold"
         android:foregroundGravity="left"
         android:gravity="left"
-        android:hint="My Followings"
+        android:hint="I Am Following"
         android:paddingVertical="9dp"
         android:paddingStart="40dp"
         android:paddingLeft="35dp"

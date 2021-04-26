@@ -9,6 +9,8 @@ public enum RequestType {
     PRODUCT( "ProductRequest" ),
     FOLLOWERS( "FollowersRequest" ),
     FOLLOWINGS( "FollowingRequest" ),
+    FOLLOWERS_COUNT("FollowersCountRequest"),
+    FOLLOWING_COUNT("FollowingCountRequest"),
     FOLLOW( "FollowRequest" ),
     REPORT( "AddReportRequest" ),
     FORGOT_PASSWORD( "ForgotPasswordRequest" ),
