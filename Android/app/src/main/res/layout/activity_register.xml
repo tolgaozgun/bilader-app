@@ -6,6 +6,30 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/left_corner_sketch"
+        android:layout_width="355dp"
+        android:layout_height="228dp"
+        android:contentDescription="@string/background_sketches"
+        android:scaleType="fitStart"
+        android:src="@drawable/left_sketch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/right_corner_sketch"
+        android:layout_width="166dp"
+        android:layout_height="380dp"
+        android:contentDescription="@string/background_sketches"
+        android:scaleType="fitXY"
+        android:src="@drawable/right_sketch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/left_corner_sketch"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
         android:id="@+id/image_app_logo_register"
         android:layout_width="104dp"
         android:layout_height="90dp"
