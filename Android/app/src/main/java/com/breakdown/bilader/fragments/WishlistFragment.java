@@ -104,11 +104,24 @@ public class WishlistFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Called to initialize and set the proper adapter to RecyclerView object
+     *
+     * @param recyclerView        is the RecyclerView object to aline the
+     *                            objects in the list its adapter has
+     */
     private void printView( RecyclerView recyclerView ) {
         adapter = new ProductAdapter( getActivity(), productList );
         recyclerView.setAdapter( adapter );
     }
 
+    /**
+     * Called to get the list of the entered RecyclerView object by connecting
+     * with the server
+     *
+     * @param recyclerView        is the RecyclerView object to aline the
+     *                            objects in the list its adapter has
+     */
     private void getProductList( RecyclerView recyclerView ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
