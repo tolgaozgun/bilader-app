@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class PrivateChatActivity extends Activity {
@@ -79,6 +81,7 @@ public class PrivateChatActivity extends Activity {
         messagesList.setAdapter( adapter );
 
         if ( incomingIntent != null ) {
+            //TODO
             userChatted = gson.fromJson( getIntent().getStringExtra( "user" )
                     , User.class );
             userName = userChatted.getName();
@@ -103,24 +106,8 @@ public class PrivateChatActivity extends Activity {
             }
         } );
 
-        //TODO
-        String senderId = "";
-
-
-        //TODO
-        //addListener();
-
     }
-    //TODO
-    /*private void addListener() {
-        String listemerID = "listener 1";
-        ChatData.addMessageListener (listemerID, new ChatData.MessageListener
-        () ) {
-            public void OnTextMessageReceived(Message message) {
-                addMessage( message );
-            }
-        }
-    }*/
+
 
     private void setChatId() {
 
@@ -194,7 +181,9 @@ public class PrivateChatActivity extends Activity {
         params = new HashMap< String, String >();
         params.put( "content", message );
         params.put( "chat_id", chatId );
-        Message message1 = new Message( (long)0, userChatted,message, "12" );
+
+        //TODO
+        Message message1 = new Message( (long)0, userChatted,message, chatId);
 
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
@@ -203,7 +192,7 @@ public class PrivateChatActivity extends Activity {
                 try {
                     if ( object.getBoolean( "success" ) ) {
                         messageId = object.getString( "message_id" );
-
+                        // message1 = new Message
                         adapter.addToStart( message1 , true );
                     }
                 } catch ( JSONException e ) {
@@ -216,21 +205,13 @@ public class PrivateChatActivity extends Activity {
 
             }
         }, RequestType.SEND_MESSAGE, params, this, true );
-        //TODO
-        //Message messageServer = new Message(  )
-        // addMessage(  messageServer);
+
     }
 
-    //TODO
+
     private void addMessage( Message message ) {
         adapter.addToStart( message, true );
     }
-
-    //TODO
-   /*private void addMessages ( List<IMessage> previousMessages) {
-        IMessage message;
-        adapter.addToEnd ( list,true);
-    }*/
 
     private User getUser( String id ) {
         if ( currentUserId.equals( id ) ) {
@@ -242,10 +223,6 @@ public class PrivateChatActivity extends Activity {
 
     //TODO
     private void fetchPreviousMessages() {
-        if(true){
-            return;
-        }
-
         Map< String, String > params;
         params = new HashMap< String, String >();
         params.put( "chat_id", chatId );
@@ -254,7 +231,7 @@ public class PrivateChatActivity extends Activity {
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {
-                ArrayList< Message > previousMessages;
+                ArrayList< Message > previousMessages =  new ArrayList< Message >();
                 Iterator< String > keys;
                 JSONObject tempJson;
                 String senderId;
@@ -263,6 +240,7 @@ public class PrivateChatActivity extends Activity {
                 long time;
                 User sender;
                 Message message;
+                adapter.addToEnd( previousMessages, true );
                 try {
                     if ( object.getBoolean( "success" ) ) {
                         System.out.println( "kk" );
@@ -273,24 +251,30 @@ public class PrivateChatActivity extends Activity {
                             String key = keys.next();
                             tempJson =
                                     object.getJSONObject( "messages" ).getJSONObject( key );
-
                             time = tempJson.getLong( "time" );
                             senderId = tempJson.getString( "sender_id" );
                             content = tempJson.getString( "content" );
                             messageId = tempJson.getString( "message_id" );
                             System.out.println( "time" + time + " senderId " + senderId + " content " + content + " messageId " + messageId );
                             //sender = getUser( senderId );
-                            sender = getUser( currentUserId );
-                            System.out.println( "WHAT?" + sender == null );
+
+                            //TODO
+                            sender =  gson.fromJson( getIntent().getStringExtra( "user" ), User.class );
+
                             message = new Message( time, sender, content,
                                     messageId );
-                            System.out.println( "-->" + message == null );
-                            previousMessages.add( message );
+
+                            previousMessages.add(message );
+                            adapter.addToEnd( previousMessages, true );
                         }
                         System.out.println( "mm" );
-                        System.out.println( "-->" + adapter == null );
-                        adapter.addToEnd( previousMessages, false );
+                        adapter.addToEnd( previousMessages, true );
                         System.out.println( "nn" );
+                        for (int i = 0; i < previousMessages.size();  i++) {
+                            Log.d( "tag",previousMessages.get( i ).getText() );
+                        }
+                        Log.d( "tagme","hello");
+
                     }
                 } catch ( JSONException e ) {
                     e.printStackTrace();
