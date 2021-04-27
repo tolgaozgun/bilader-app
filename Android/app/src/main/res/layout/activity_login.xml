@@ -12,24 +12,31 @@
 
 
     <!--FIGURE ON THE TOP LEFT CORNER -->
+
     <ImageView
         android:id="@+id/left_corner_sketch"
-        android:layout_width="355dp"
+        android:layout_width="wrap_content"
         android:layout_height="228dp"
         android:contentDescription="@string/background_sketches"
-        android:src="@drawable/top_left_sketch"
+        android:scaleType="fitStart"
+        android:src="@drawable/left_sketch"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--FIGURE ON THE TOP RIGHT CORNER -->
     <ImageView
         android:id="@+id/right_corner_sketch"
         android:layout_width="166dp"
         android:layout_height="380dp"
         android:contentDescription="@string/background_sketches"
-        android:src="@drawable/top_right_sketch"
+        android:scaleType="fitXY"
+        android:src="@drawable/right_sketch"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/left_corner_sketch"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <!--TEXT OF THE LOGO-->
     <ImageView

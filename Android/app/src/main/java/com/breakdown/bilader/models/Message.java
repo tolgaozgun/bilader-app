@@ -56,14 +56,13 @@ public class Message implements IMessage {
     public String getText() {
         return content;
     }
-
     /**
-     * Returns the IUser value of the sender of the message.
+     * Returns the User value of the sender of the message.
      *
-     * @return IUser (Interface) value of the sender.
-     */
+     * @return User value of the sender.
+
     @Override
-    public IUser getUser() {
+    public User getUser() {
         return sentBy;
     }
 
