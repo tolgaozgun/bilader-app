@@ -56,15 +56,17 @@ public class Message implements IMessage {
     public String getText() {
         return content;
     }
+
     /**
      * Returns the User value of the sender of the message.
      *
      * @return User value of the sender.
-
+     */
     @Override
     public User getUser() {
         return sentBy;
     }
+
 
     /**
      * Returns the Date value of the message time.
