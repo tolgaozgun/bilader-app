@@ -215,7 +215,7 @@ public class PrivateChatActivity extends Activity {
 
     private User getUser( String id ) {
         if ( currentUserId.equals( id ) ) {
-            return gson.fromJson( getIntent().getStringExtra( "current_user" ), User.class );
+            return gson.fromJson( getIntent().getStringExtra( "user" ), User.class );
         }
         return userChatted;
     }
