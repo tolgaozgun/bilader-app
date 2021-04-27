@@ -60,7 +60,7 @@ public class Message implements IMessage {
      * Returns the User value of the sender of the message.
      *
      * @return User value of the sender.
-     */
+
     @Override
     public User getUser() {
         return sentBy;
@@ -93,6 +93,8 @@ public class Message implements IMessage {
     public void setSentBy( User sentBy ) {
         this.sentBy = sentBy;
     }
+
+    //public void setDate( Date date ) { this.date = date; }
 
     /**
      * Sets the content of the message
