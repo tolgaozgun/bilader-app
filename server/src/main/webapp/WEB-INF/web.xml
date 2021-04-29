@@ -178,6 +178,18 @@
   	<description></description>
   	<servlet-class>database.requests.FollowingCountRequest</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>RemoveProductRequest</servlet-name>
+  	<display-name>RemoveProductRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.RemoveProductRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>EditProductRequest</servlet-name>
+  	<display-name>EditProductRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.EditProductRequest</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -293,5 +305,13 @@
   <servlet-mapping>
   	<servlet-name>FollowingCountRequest</servlet-name>
   	<url-pattern>/FollowingCountRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RemoveProductRequest</servlet-name>
+  	<url-pattern>/RemoveProductRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>EditProductRequest</servlet-name>
+  	<url-pattern>/EditProductRequest</url-pattern>
   </servlet-mapping>
 </web-app>
