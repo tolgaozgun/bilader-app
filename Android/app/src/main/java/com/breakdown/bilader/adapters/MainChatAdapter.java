@@ -115,7 +115,7 @@ public class MainChatAdapter extends
             if ( user.getAvatar().isEmpty() ) {
                 holder.imageMainChatAvatar.setImageResource( R.drawable.avatar_no_gender );
             } else {
-                Picasso.get().load( user.getAvatar() ).fit().centerInside().into( holder.imageMainChatAvatar );
+                Picasso.get().load( user.getAvatar() ).fit().centerCrop().into( holder.imageMainChatAvatar );
             }
         }
 

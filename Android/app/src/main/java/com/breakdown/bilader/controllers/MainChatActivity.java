@@ -110,6 +110,3 @@ public class MainChatActivity extends Activity {
         recyclerView.setAdapter( adapter );
     }
 }
-
-
-
