@@ -129,7 +129,7 @@ public class ProductAdapter extends
                     itemView.findViewById( R.id.image_avatar_product_seller );
             textUserName =
                     itemView.findViewById( R.id.text_product_seller_name );
-            cardView = itemView.findViewById( R.id.card_product );
+            cardView = itemView.findViewById( R.id.card_product_new );
             textProductPrice = itemView.findViewById( R.id.priceProduct );
             textCategoryName = itemView.findViewById( R.id.categoryProduct );
 
@@ -151,7 +151,7 @@ public class ProductAdapter extends
         View itemView;
 
         itemView =
-                LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_products, parent, false );
+                LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_home_alternative, parent, false );
 
         return new ProductHolder( itemView );
     }
@@ -181,7 +181,8 @@ public class ProductAdapter extends
         if ( product.getSeller().getAvatar() != null && !product.getSeller().getAvatar().equals( "" ) ) {
             Picasso.get().load( product.getSeller().getAvatar() ).fit().centerInside().into( holder.imageProductSeller );
         }
-        holder.textCategoryName.setText( product.getCategory().toString() );
+        //holder.textCategoryName.setText( product.getCategory().toString() );
+
 
         isWishlisted( product.getProductId() );
 

@@ -240,7 +240,7 @@ public class PrivateChatActivity extends Activity {
                 long time;
                 User sender;
                 Message message;
-                adapter.addToEnd( previousMessages, true );
+
                 try {
                     if ( object.getBoolean( "success" ) ) {
                         System.out.println( "kk" );
@@ -265,16 +265,10 @@ public class PrivateChatActivity extends Activity {
                                     messageId );
 
                             previousMessages.add(message );
-                            adapter.addToEnd( previousMessages, true );
                         }
                         System.out.println( "mm" );
                         adapter.addToEnd( previousMessages, true );
                         System.out.println( "nn" );
-                        for (int i = 0; i < previousMessages.size();  i++) {
-                            Log.d( "tag",previousMessages.get( i ).getText() );
-                        }
-                        Log.d( "tagme","hello");
-
                     }
                 } catch ( JSONException e ) {
                     e.printStackTrace();

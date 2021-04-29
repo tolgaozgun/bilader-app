@@ -12,8 +12,10 @@ import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
@@ -85,9 +87,10 @@ public class HomeFragment extends Fragment {
         recyclerView =
                 ( RecyclerView ) view.findViewById( R.id.biltraderRecycler );
 
-        layoutManager = new LinearLayoutManager( getActivity() );
+       // layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setHasFixedSize( true );
-        recyclerView.setLayoutManager( layoutManager );
+        recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,
+                StaggeredGridLayoutManager.VERTICAL ) );
 
 
         holderList = new ArrayList< Product >();
