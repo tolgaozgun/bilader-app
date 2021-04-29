@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
@@ -69,7 +70,9 @@ public class OnSaleFragment extends Fragment {
                 ( RecyclerView ) view.findViewById( R.id.onSaleRecycler );
 
         recyclerView.setHasFixedSize( true );
-        recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
+        //recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
+        recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,
+                StaggeredGridLayoutManager.VERTICAL ) );
 
         productList = new ArrayList<>();
         bundle = getArguments();

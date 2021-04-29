@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
@@ -40,7 +41,9 @@ public class MyProductsActivity extends Activity {
         recyclerView = findViewById( R.id.myProductsRecycler );
         recyclerView.setHasFixedSize( true );
 
-        recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
+        //recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
+        recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,
+                StaggeredGridLayoutManager.VERTICAL ) );
 
         getProductList( recyclerView );
 

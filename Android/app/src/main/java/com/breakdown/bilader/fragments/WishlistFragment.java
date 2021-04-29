@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
@@ -72,7 +73,9 @@ public class WishlistFragment extends Fragment {
                 ( RecyclerView ) view.findViewById( R.id.wishlistRecycler );
 
         recyclerView.setHasFixedSize( true );
-        recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
+        //recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
+        recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,
+                StaggeredGridLayoutManager.VERTICAL ) );
         /*
         // sample users for testing
         User user1 = new User( "Yahya Demirel", "avatar_male", "12" );
