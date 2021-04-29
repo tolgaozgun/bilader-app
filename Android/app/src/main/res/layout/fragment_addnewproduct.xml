@@ -80,7 +80,7 @@
         android:layout_width="99dp"
         android:layout_height="32dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/log_in_button"
+        android:background="@drawable/edit"
         android:fontFamily="@font/roboto_bold"
         android:hint="Post"
         android:textSize="15sp"

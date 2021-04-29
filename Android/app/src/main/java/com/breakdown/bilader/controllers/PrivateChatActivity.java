@@ -88,7 +88,7 @@ public class PrivateChatActivity extends Activity {
             userAvatar = userChatted.getAvatar();
             userId = userChatted.getId();
             userNameView.setText( userName );
-            Picasso.get().load( userAvatar ).fit().centerInside().into( userAvatarView );
+            Picasso.get().load( userAvatar ).fit().centerCrop().into( userAvatarView );
             System.out.println( "AA" );
             setChatId();
         } else {

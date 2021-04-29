@@ -128,7 +128,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                 ( tab, position ) -> tab.setText( fragmentTitleList.get( position ) + ( "" ) ) ).attach();
         userNameText.setText( currentUser.getName() );
 
-        Picasso.get().load( currentUser.getAvatar() ).fit().centerInside().into( profilePhoto );
+        Picasso.get().load( currentUser.getAvatar() ).fit().centerCrop().into( profilePhoto );
 
         getUserInfo();
         userReviews();
