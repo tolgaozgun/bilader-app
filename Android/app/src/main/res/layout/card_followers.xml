@@ -16,19 +16,18 @@
             android:layout_height="match_parent"
             android:background="@drawable/card_border">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image_follower_screen_avatar"
                 android:layout_width="55dp"
-                android:layout_height="53dp"
-                android:layout_gravity="center|start"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:scaleType="fitCenter"
+                android:layout_height="55dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.048"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/avatar_male"
-                tools:ignore="ContentDescription" />
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="@color/transparent"
+                app:strokeWidth="1dp" />
 
             <TextView
                 android:id="@+id/text_user_name"

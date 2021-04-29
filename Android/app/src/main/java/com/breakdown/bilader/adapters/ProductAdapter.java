@@ -176,10 +176,10 @@ public class ProductAdapter extends
         holder.textProductName.setText( product.getTitle() );
         holder.textProductPrice.setText( String.valueOf( product.getPrice() ) );
         if ( product.getPicture() != null && !product.getPicture().equals( "" ) ) {
-            Picasso.get().load( product.getPicture() ).fit().centerInside().into( holder.imageProduct );
+            Picasso.get().load( product.getPicture() ).fit().centerCrop().into( holder.imageProduct );
         }
         if ( product.getSeller().getAvatar() != null && !product.getSeller().getAvatar().equals( "" ) ) {
-            Picasso.get().load( product.getSeller().getAvatar() ).fit().centerInside().into( holder.imageProductSeller );
+            Picasso.get().load( product.getSeller().getAvatar() ).fit().centerCrop().into( holder.imageProductSeller );
         }
         //holder.textCategoryName.setText( product.getCategory().toString() );
 

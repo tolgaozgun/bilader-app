@@ -267,10 +267,10 @@ public class ProductActivity extends Activity {
             ownerName.setText( currentProduct.getOwner().toString() );
             categoryText.setText( currentProduct.getCategory().toString() );
             if ( currentProduct.getPicture() != null && !currentProduct.getPicture().equals( "" ) ) {
-                Picasso.get().load( currentProduct.getPicture() ).fit().centerInside().into( productImage );
+                Picasso.get().load( currentProduct.getPicture() ).fit().centerCrop().into( productImage );
             }
             if ( currentProduct.getOwner().getAvatar() != null && !currentProduct.getOwner().getAvatar().equals( "" ) ) {
-                Picasso.get().load( currentProduct.getOwner().getAvatar() ).fit().centerInside().into( userAvatar );
+                Picasso.get().load( currentProduct.getOwner().getAvatar() ).fit().centerCrop().into( userAvatar );
             }
         }
         checkIfWishlisted();
