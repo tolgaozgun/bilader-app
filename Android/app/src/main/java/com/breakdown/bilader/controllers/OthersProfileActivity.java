@@ -128,7 +128,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                 ( tab, position ) -> tab.setText( fragmentTitleList.get( position ) + ( "" ) ) ).attach();
         userNameText.setText( currentUser.getName() );
 
-        Picasso.get().load( currentUser.getAvatar() ).fit().centerCrop().into( profilePhoto );
+        Picasso.get().load( currentUser.getAvatar() ).fit().centerInside().into( profilePhoto );
 
         getUserInfo();
         userReviews();
@@ -155,6 +155,7 @@ public class OthersProfileActivity extends AppCompatActivity {
         follow.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+
             }
         } );
 
@@ -213,7 +214,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                     System.out.println( "BBB" );
                     if ( object.getBoolean( "success" ) ) {
                         System.out.println( "ccc" );
-                        numberOfFollowings.setText( String.valueOf( object.getInt( "count" ) ) );
+                        numberOfFollowings.setText( Integer.toString( object.getInt( "count" ) ) );
                     }
                 } catch ( JSONException e ) {
                 }
@@ -242,7 +243,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                 try {
                     if ( object.getBoolean( "success" ) ) {
                         System.out.println( "fff" );
-                        numberOfFollowers.setText( String.valueOf( object.getInt( "count" ) ) );
+                        numberOfFollowers.setText( Integer.toString( object.getInt( "count" ) ) );
                     }
                 } catch ( JSONException e ) {
                 }

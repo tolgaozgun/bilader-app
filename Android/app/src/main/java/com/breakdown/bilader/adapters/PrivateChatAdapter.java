@@ -18,28 +18,18 @@ import java.util.List;
 public class PrivateChatAdapter extends RecyclerView.Adapter< PrivateChatAdapter.MessageHolder> {
     private List < Message > messageList;
 
-    /**
-     * A constructor that holds properties of fragment adapter
-     *
-     * @param messageList list of the messages
-     */
     public PrivateChatAdapter (List <Message> messageList ) {
         this.messageList = messageList;
+
     }
 
-    /**
-     * A class that finds xml id's of layout elements
-     */
     public class MessageHolder extends RecyclerView.ViewHolder {
 
         public TextView receiverMessage;
         public TextView senderMessage;
 
-        /**
-         * A constructor that holds id's of views
-         *
-         * @param itemView is the references of an item
-         */
+
+
         public MessageHolder( @NonNull View itemView ) {
             super( itemView );
             receiverMessage = itemView.findViewById( R.id.text_receiver_message );
@@ -47,14 +37,6 @@ public class PrivateChatAdapter extends RecyclerView.Adapter< PrivateChatAdapter
         }
     }
 
-    /**
-     * a method that creates new card view elements
-     *
-     * @param parent   is the The ViewGroup into which the new View will be
-     *                 added after it is bound to an adapter position.
-     * @param viewType The view type of the new View
-     * @return a new ViewHolder that holds a View of the given view type
-     */
     @NonNull
     @Override
     public MessageHolder onCreateViewHolder( @NonNull ViewGroup parent,
@@ -67,16 +49,6 @@ public class PrivateChatAdapter extends RecyclerView.Adapter< PrivateChatAdapter
         return new MessageHolder( itemView );
     }
 
-    /**
-     * a method called by RecyclerView to display the data at the specified
-     * position
-     *
-     * @param holder   is the ViewHolder which should be updated to represent
-     *                 the contents of the item at the given position in the
-     *                 data set.
-     * @param position is The position of the item within the adapter's data
-     *                 set.
-     */
     @Override
     public void onBindViewHolder( @NonNull MessageHolder holder,
                                   int position ) {
@@ -108,11 +80,6 @@ public class PrivateChatAdapter extends RecyclerView.Adapter< PrivateChatAdapter
 
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of messages in this adapter.
-     */
     @Override
     public int getItemCount() {
         if (messageList != null) {

@@ -3,11 +3,6 @@ package com.breakdown.bilader.models;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A class that represents product lists to display, retrieve and manipulate it
- * @author breakDown
- * @version 18.04.2021
- */
 public class ProductList {
 
     private List< Product > products;

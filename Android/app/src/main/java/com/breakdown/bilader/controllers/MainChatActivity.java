@@ -43,14 +43,6 @@ public class MainChatActivity extends Activity {
 
     }
 
-    /**
-     * this is the method where most initialization made such as UI and widgets
-     *
-     * @param savedInstanceState: If the activity is being re-initialized after
-     *                            previously being shut down then this Bundle
-     *                            contains the data it most recently supplied
-     *                            in
-     */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -60,22 +52,16 @@ public class MainChatActivity extends Activity {
         recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
         chatUsers = new ArrayList< ChatUser >();
 
-        retrieveMessages( recyclerView );
+        retrieveMessages(recyclerView);
     }
 
-    /**
-     * Gets the last messages and associated properties whose user id is the
-     * same as entered id in a form of list.
-     *
-     * @param recyclerView is a RecyclerView object that holds the followers
-     */
     private void retrieveMessages( RecyclerView recyclerView ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {
-                Iterator< String > keys;
+                Iterator<String> keys;
                 JSONObject tempJson;
                 String id;
                 String name;
@@ -86,7 +72,7 @@ public class MainChatActivity extends Activity {
                 ChatUser chatUser;
                 try {
                     if ( object.getBoolean( "success" ) ) {
-                        System.out.println( "AAA" );
+                        System.out.println("AAA");
                         keys = object.getJSONObject( "chats" ).keys();
                         while ( keys.hasNext() ) {
                             String key = keys.next();
@@ -97,11 +83,9 @@ public class MainChatActivity extends Activity {
                             avatar = tempJson.getString( "participant_avatar" );
                             chatId = tempJson.getString( "chat_id" );
                             lastMessage = tempJson.getString( "last_message" );
-                            lastMessageDate = tempJson.getLong(
-                                    "last_message_date" );
+                            lastMessageDate = tempJson.getLong( "last_message_date" );
 
-                            chatUser = new ChatUser( name, avatar, id,
-                                    lastMessage, chatId, lastMessageDate );
+                            chatUser = new ChatUser( name, avatar, id, lastMessage, chatId, lastMessageDate);
                             chatUsers.add( chatUser );
                         }
                     }
@@ -110,24 +94,22 @@ public class MainChatActivity extends Activity {
                             Toast.LENGTH_SHORT ).show();
                     e.printStackTrace();
                 }
-                printView( recyclerView );
+                printView(recyclerView);
             }
 
             @Override
             public void onFail( String message ) {
-                printView( recyclerView );
+                printView(recyclerView);
             }
         }, RequestType.MAIN_CHAT, params, this, true );
     }
 
 
-    /**
-     * shows list views inside recyclerview with associated properties
-     *
-     * @param recyclerView is a RecyclerView object that holds the followers
-     */
     private void printView( RecyclerView recyclerView ) {
         adapter = new MainChatAdapter( this, chatUsers );
         recyclerView.setAdapter( adapter );
     }
 }
+
+
+

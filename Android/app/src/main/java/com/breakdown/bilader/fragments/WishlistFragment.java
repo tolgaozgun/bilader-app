@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
@@ -73,10 +72,33 @@ public class WishlistFragment extends Fragment {
                 ( RecyclerView ) view.findViewById( R.id.wishlistRecycler );
 
         recyclerView.setHasFixedSize( true );
-        //recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
-        recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,
-                StaggeredGridLayoutManager.VERTICAL ) );
+        recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
+        /*
+        // sample users for testing
+        User user1 = new User( "Yahya Demirel", "avatar_male", "12" );
+        User user2 = new User( "Burcu Kaplan", "avatar_female", "12" );
+        User user3 = new User( "Korhan Kaya", "avatar_male", "12" );
+        User user4 = new User( "Deniz Gökçen", "avatar_female", "12" );
+        User user5 = new User( "Tolga Özgün", "avatar_male", "12" );
 
+        // sample products for testing
+        Product product1 = new Product( "product_sample", "The Epic of " +
+                "Gilgamesh", "demo1", 120, user1, false, "10", new Category(
+                        "0" ) );
+        Product product2 = new Product( "product_sample2", "brand new dress",
+                "demo1", 120, user2, false, "11", new Category( "2" ) );
+        Product product3 = new Product( "product_sample3", "basys-3", "demo1"
+                , 120, user3, false, "12", new Category( "1" ) );
+        Product product4 = new Product( "product_sample", "random", "demo1",
+                120, user4, false, "13", new Category( "0" ) );
+        Product product5 = new Product( "product_sample", "random", "demo1",
+                120, user5, false, "14", new Category( "0" ) );
+
+        productList.add( product1 );
+        productList.add( product2 );
+        productList.add( product3 );
+        productList.add( product4 );
+        productList.add( product5 );*/
         getProductList( recyclerView );
 
         return view;

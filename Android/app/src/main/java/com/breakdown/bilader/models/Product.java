@@ -1,10 +1,5 @@
 package com.breakdown.bilader.models;
 
-/**
- * A class that represents for a product, contain its properties and can change those properties
- * @author breakDown
- * @version 13.04.2021
- */
 public class Product {
 
     private String picture;

@@ -8,11 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A class that represents the user,sets its properties and when needed manipulate it.
- * @author breakDown
- * @version 14.04.2021
- */
 public class User implements Serializable, IUser {
 
     private String userName;

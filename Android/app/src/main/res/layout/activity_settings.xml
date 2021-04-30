@@ -20,11 +20,11 @@
     <include
         android:id="@+id/include"
         layout="@layout/wishlist_action_bar"
-        android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:elevation="8dp"
         tools:targetApi="lollipop" />
 
     <View
@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
+    <Switch
         android:id="@+id/switch_message_notifications"
         android:layout_width="355dp"
         android:layout_height="40dp"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_follow_notifications" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
+    <Switch
         android:id="@+id/switch_follow_notifications"
         android:layout_width="355dp"
         android:layout_height="40dp"
@@ -80,7 +80,7 @@
         android:layout_marginTop="276dp"
         android:background="@drawable/settings_change_password"
         android:elevation="20dp"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="@font/roboto_bold"
         android:gravity="center|left"
         android:hint="Change Password"
         android:paddingLeft="10dp"
@@ -107,16 +107,15 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:alpha="0.78"
         android:fontFamily="@font/roboto_bold"
         android:text="Settings"
         android:textColor="@color/white"
         android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/include"
         app:layout_constraintEnd_toStartOf="@+id/include"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/include"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView8"
@@ -136,10 +135,10 @@
         android:layout_width="match_parent"
         android:layout_height="295dp"
         android:scaleType="fitXY"
-        android:src="@drawable/verification_backgroun_updown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/verification_backgroun_updown" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

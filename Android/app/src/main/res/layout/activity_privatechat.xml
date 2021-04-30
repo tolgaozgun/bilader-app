@@ -70,29 +70,29 @@
         android:id="@+id/private_chat_userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
+        android:paddingLeft="20dp"
         android:text="TextView"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/include"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.291"
+        app:layout_constraintHorizontal_bias="0.308"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:id="@+id/private_chat_userAvatar"
-        android:layout_width="49dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="63dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="6dp"
+        android:paddingLeft="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-        app:strokeColor="@color/transparent"
-        app:strokeWidth="1dp" />
+        app:srcCompat="@drawable/avatar_male" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

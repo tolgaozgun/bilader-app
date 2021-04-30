@@ -22,15 +22,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class is responsible for when the user wishes to change their password. If the entered code matches the emailed
- * code, the user can set a new password and will be redirected to the login page.
- *
- * @author Deniz Gökçen
- * @author Tolga Özgün
- * @version 13.04.2021
- */
-
 public class ChangePasswordActivity extends Activity {
 
     CodeInputView codeView;
@@ -39,14 +30,6 @@ public class ChangePasswordActivity extends Activity {
     EditText passwordTwoView;
     Button resetButton;
 
-    /**
-     * Initializes the UI properties and sets an action to each of them
-     *
-     * @param savedInstanceState  If the activity is being re-initialized after
-     *                            previously being shut down then this Bundle
-     *                            contains the data it most recently supplied
-     *                            in
-     */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -65,6 +48,7 @@ public class ChangePasswordActivity extends Activity {
                 findViewById( R.id.editText_reset_password_password_again );
         resetButton = findViewById( R.id.button_reset_password );
 
+
         if ( intent != null && intent.hasExtra( "email" ) ) {
             email = intent.getStringExtra( "email" );
             emailText.setText( email );
@@ -78,9 +62,6 @@ public class ChangePasswordActivity extends Activity {
         } );
     }
 
-    /**
-     * Sends a request to change the password of the user.
-     */
     private void sendRequest() {
         Map< String, String > params;
         String email;
@@ -93,10 +74,7 @@ public class ChangePasswordActivity extends Activity {
         passwordTwo = passwordTwoView.getText().toString();
         code = codeView.getCode();
 
-        /**
-         * Email, code and password slots cannot be empty.
-         *
-         */
+
         if ( email == null || email == "" ) {
             Toast.makeText( this, "Please enter mail!", Toast.LENGTH_SHORT ).show();
 
@@ -113,18 +91,12 @@ public class ChangePasswordActivity extends Activity {
             return;
         }
 
-        /**
-         * Code length must be 6.
-         */
         if ( code.length() < 6 ) {
             Toast.makeText( this, "Code cannot be less than 6 digits!",
                     Toast.LENGTH_SHORT ).show();
             return;
         }
 
-        /**
-         * The two new passwords must match.
-         */
         if ( !password.equals( passwordTwo ) ) {
             Toast.makeText( this, "Passwords do not match!",
                     Toast.LENGTH_SHORT ).show();

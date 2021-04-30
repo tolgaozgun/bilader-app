@@ -29,14 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-/**
- * A class that shows the properties of a product. With its specified click listeners, it interacts
- * with and sends information to other activity classes such as OthersProfileActivity, BiltraderActivity
- * and ReportActivity.
- *
- * @author breakDown
- * @version 29.04.2021
- */
+
 public class ProductActivity extends Activity {
 
     private ImageView userAvatar;
@@ -65,16 +58,6 @@ public class ProductActivity extends Activity {
     private User seller;
     private Gson gson;
 
-
-    /**
-     * this is the method where the initialization of UI properties made and
-     * set an action to each of them
-     *
-     * @param savedInstanceState: If the activity is being re-initialized after
-     *                            previously being shut down then this Bundle
-     *                            contains the data it most recently supplied
-     *                            in
-     */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -94,7 +77,6 @@ public class ProductActivity extends Activity {
                 PreferenceManager.getDefaultSharedPreferences( this );
         currentUserId = sharedPreferences.getString( "id", "" );
         gson = new Gson();
-
         if ( getIntent().hasExtra( "product" ) ) {
             currentProduct = gson.fromJson( getIntent().getStringExtra(
                     "product" ), Product.class );
@@ -221,7 +203,6 @@ public class ProductActivity extends Activity {
         } );
     }
 
-
     @Override
     public void onBackPressed() {
         Intent intent;
@@ -233,13 +214,47 @@ public class ProductActivity extends Activity {
             startActivity( intent );
         }
     }
+    /*@Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
 
-    /**
-     * Sets the properties (seller, name, description, category, price, picture)
-     * of a product by getting the entered values and adjusting them as features
-     * of the product
-     *
-     */
+        String userId = "CURRENT_STRING_ID";
+        MenuInflater inflater;
+        inflater = getMenuInflater();
+
+        if ( currentProduct.getSeller().getUserId().equals( userId ) ) {
+            inflater.inflate( R.menu.second_menu, menu );
+        } else {
+            inflater.inflate( R.menu.first_menu, menu );
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( @NonNull MenuItem item ) {
+        int id;
+        Intent newIntent;
+
+        id = item.getItemId();
+
+        if ( id == R.id.reportMenu ) {
+
+            newIntent = new Intent( ProductActivity.this,
+                    ReportActivity.class );
+            startActivity( newIntent );
+            //TODO
+
+        } else if ( id == R.id.editMenu ) {
+
+            newIntent = new Intent( ProductActivity.this,
+                    EditProductActivity.class );
+            startActivity( newIntent );
+            //TODO
+        } else if ( id == R.id.removeMenu ) {
+            //TODO
+        }
+        return true;
+    }*/
+
     private void setView() {
 
         if ( currentProduct != null ) {
@@ -252,19 +267,15 @@ public class ProductActivity extends Activity {
             ownerName.setText( currentProduct.getOwner().toString() );
             categoryText.setText( currentProduct.getCategory().toString() );
             if ( currentProduct.getPicture() != null && !currentProduct.getPicture().equals( "" ) ) {
-                Picasso.get().load( currentProduct.getPicture() ).fit().centerCrop().into( productImage );
+                Picasso.get().load( currentProduct.getPicture() ).fit().centerInside().into( productImage );
             }
             if ( currentProduct.getOwner().getAvatar() != null && !currentProduct.getOwner().getAvatar().equals( "" ) ) {
-                Picasso.get().load( currentProduct.getOwner().getAvatar() ).fit().centerCrop().into( userAvatar );
+                Picasso.get().load( currentProduct.getOwner().getAvatar() ).fit().centerInside().into( userAvatar );
             }
         }
         checkIfWishlisted();
     }
 
-    /**
-     * Adds the selected product to the wishlist of the current user
-     *
-     */
     public void addToWishlist() {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -293,10 +304,6 @@ public class ProductActivity extends Activity {
         }, RequestType.ADD_WISHLIST, params, this, true );
     }
 
-    /**
-     * Removes the selected product from the wishlist of the current user
-     *
-     */
     public void removeFromWishlist() {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -325,12 +332,6 @@ public class ProductActivity extends Activity {
         }, RequestType.REMOVE_WISHLIST, params, this, true );
     }
 
-    /**
-     * Returns the Product object with the desired product id and the properties
-     * that it has
-     * @param productId is the String version of the product id
-     * @return Product object that has the entered product id.
-     */
     private Product retrieveProduct( String productId ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -375,10 +376,6 @@ public class ProductActivity extends Activity {
         return currentProduct;
     }
 
-    /**
-     * Checks if the product is in the wishlist of the current user
-     *
-     */
     public void checkIfWishlisted() {
         isWishlisted = false;
         HashMap< String, String > params;
@@ -403,11 +400,6 @@ public class ProductActivity extends Activity {
         }, RequestType.CHECK_WISHLIST, params, this, true );
     }
 
-    /**
-     * Re-draw the addToWishlist button if the product is added to the wishlist
-     * of the current user
-     *
-     */
     private void updateWishlistButton() {
         if ( isWishlisted ) {
             addWishlistButton.setBackgroundResource( R.drawable.added_to_wishlist );
@@ -415,4 +407,6 @@ public class ProductActivity extends Activity {
             addWishlistButton.setBackgroundResource( R.drawable.add_to_wishlist );
         }
     }
+
+
 }

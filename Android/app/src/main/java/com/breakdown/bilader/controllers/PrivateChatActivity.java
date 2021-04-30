@@ -54,14 +54,6 @@ public class PrivateChatActivity extends Activity {
     private Gson gson;
     private ImageLoader imageLoader;
 
-    /**
-     * this is the method where most initialization made such as UI and widgets
-     *
-     * @param savedInstanceState: If the activity is being re-initialized after
-     *                            previously being shut down then this Bundle
-     *                            contains the data it most recently supplied
-     *                            in
-     */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -96,7 +88,7 @@ public class PrivateChatActivity extends Activity {
             userAvatar = userChatted.getAvatar();
             userId = userChatted.getId();
             userNameView.setText( userName );
-            Picasso.get().load( userAvatar ).fit().centerCrop().into( userAvatarView );
+            Picasso.get().load( userAvatar ).fit().centerInside().into( userAvatarView );
             System.out.println( "AA" );
             setChatId();
         } else {
@@ -104,13 +96,8 @@ public class PrivateChatActivity extends Activity {
             return;
         }
 
-        inputView.setInputListener( new MessageInput.InputListener() {
 
-            /**
-             * When the button clicked, it checks whether input empty if it
-             * is not, message is delivered.
-             * @param input is te typed message
-             */
+        inputView.setInputListener( new MessageInput.InputListener() {
             @Override
             public boolean onSubmit( CharSequence input ) {
                 //validate and send message
@@ -121,10 +108,7 @@ public class PrivateChatActivity extends Activity {
 
     }
 
-    /**
-     * If users have messaged before, it shows old messages, otherwise it
-     * creates a private chat environment for users.
-     */
+
     private void setChatId() {
 
         Map< String, String > params;
@@ -161,9 +145,6 @@ public class PrivateChatActivity extends Activity {
         }, RequestType.MAIN_CHAT, params, this, true );
     }
 
-    /**
-     * fetch previous messages and creates chat environment to both users
-     */
     private void createChat() {
 
         Map< String, String > params;
@@ -194,11 +175,6 @@ public class PrivateChatActivity extends Activity {
         }, RequestType.CREATE_CHAT, params, this, true );
     }
 
-    /**
-     * syncs recycler view with sent message simultaneously
-     *
-     * @param message is the typed message by sender
-     */
     private void sendMessage( String message ) {
 
         Map< String, String > params;
@@ -207,8 +183,7 @@ public class PrivateChatActivity extends Activity {
         params.put( "chat_id", chatId );
 
         //TODO
-        Message message1 = new Message( ( long ) 0, userChatted, message,
-                chatId );
+        Message message1 = new Message( (long)0, userChatted,message, chatId);
 
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
@@ -218,7 +193,7 @@ public class PrivateChatActivity extends Activity {
                     if ( object.getBoolean( "success" ) ) {
                         messageId = object.getString( "message_id" );
                         // message1 = new Message
-                        adapter.addToStart( message1, true );
+                        adapter.addToStart( message1 , true );
                     }
                 } catch ( JSONException e ) {
                     e.printStackTrace();
@@ -233,26 +208,20 @@ public class PrivateChatActivity extends Activity {
 
     }
 
-    /**
-     * takes sender id from the server
-     *
-     * @param id is the id of user
-     * @return sender id
-     */
+
+    private void addMessage( Message message ) {
+        adapter.addToStart( message, true );
+    }
+
     private User getUser( String id ) {
         if ( currentUserId.equals( id ) ) {
-            return gson.fromJson( getIntent().getStringExtra( "user" ),
-                    User.class );
+            return gson.fromJson( getIntent().getStringExtra( "user" ), User.class );
         }
         return userChatted;
     }
 
 
     //TODO
-
-    /**
-     * Syncs previously sent messages and sets receiver's user avatar
-     */
     private void fetchPreviousMessages() {
         Map< String, String > params;
         params = new HashMap< String, String >();
@@ -262,8 +231,7 @@ public class PrivateChatActivity extends Activity {
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {
-                ArrayList< Message > previousMessages =
-                        new ArrayList< Message >();
+                ArrayList< Message > previousMessages =  new ArrayList< Message >();
                 Iterator< String > keys;
                 JSONObject tempJson;
                 String senderId;
@@ -272,7 +240,7 @@ public class PrivateChatActivity extends Activity {
                 long time;
                 User sender;
                 Message message;
-
+                adapter.addToEnd( previousMessages, true );
                 try {
                     if ( object.getBoolean( "success" ) ) {
                         System.out.println( "kk" );
@@ -291,17 +259,22 @@ public class PrivateChatActivity extends Activity {
                             //sender = getUser( senderId );
 
                             //TODO
-                            sender =
-                                    gson.fromJson( getIntent().getStringExtra( "user" ), User.class );
+                            sender =  gson.fromJson( getIntent().getStringExtra( "user" ), User.class );
 
                             message = new Message( time, sender, content,
                                     messageId );
 
-                            previousMessages.add( message );
+                            previousMessages.add(message );
+                            adapter.addToEnd( previousMessages, true );
                         }
                         System.out.println( "mm" );
                         adapter.addToEnd( previousMessages, true );
                         System.out.println( "nn" );
+                        for (int i = 0; i < previousMessages.size();  i++) {
+                            Log.d( "tag",previousMessages.get( i ).getText() );
+                        }
+                        Log.d( "tagme","hello");
+
                     }
                 } catch ( JSONException e ) {
                     e.printStackTrace();
@@ -317,5 +290,6 @@ public class PrivateChatActivity extends Activity {
 
         }, RequestType.RETRIEVE_MESSAGES, params, this, true );
     }
-    
+
+
 }

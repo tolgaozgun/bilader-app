@@ -40,12 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-/**
- * A class that makes connection between its layout and data
- *
- * @author breakDown
- * @version 29.04.2021
- */
+
 public class AddNewProductFragment extends Fragment {
 
     private EditText price;
@@ -69,22 +64,7 @@ public class AddNewProductFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     RecyclerView recyclerView;
 
-    /**
-     * Called to have the fragment instantiate its user interface properties
-     * and give them specialized actions.
-     *
-     * @param inflater            is the LayoutInflater object that can be used
-     *                            to inflate any views in the fragment
-     * @param container:          If non-null, this is the parent view that the
-     *                            fragment's UI should be attached to. The
-     *                            fragment should not add the view itself, but
-     *                            this can be used to generate the LayoutParams
-     *                            of the view.
-     * @param savedInstanceState: If non-null, this fragment is being
-     *                            re-constructed from a previous saved state as
-     *                            given here.
-     * @return View
-     */
+
     @Nullable
     @Override
     public View onCreateView( @NonNull LayoutInflater inflater,
@@ -159,12 +139,6 @@ public class AddNewProductFragment extends Fragment {
         return view;
     }
 
-    /**
-     * Creates the PopupMenu that shows the category options of the products by
-     * getting the options that are found in the server.
-     *
-     * @param popupMenu is a PopupMenu object
-     */
     private void createMenu( PopupMenu popupMenu ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -204,17 +178,7 @@ public class AddNewProductFragment extends Fragment {
 
     }
 
-    /**
-     * Called when an activity that is launched exits, it gives the requestCode to
-     * started it with, the resultCode it returned, and any additional data from it
-     *
-     * @param requestCode:        is the int object that allows to identify who
-     *                            this result came from.
-     * @param resultCode:         is the int object that is returned by the child
-     *                            activity through its setResult().
-     * @param data:               If non-null, this intent is being used to return
-     *                            result data to the caller
-     */
+
     @Override
     public void onActivityResult( int requestCode, int resultCode,
                                   @Nullable Intent data ) {
@@ -240,16 +204,10 @@ public class AddNewProductFragment extends Fragment {
             Toast.makeText( getContext(), "You haven't picked any image",
                     Toast.LENGTH_LONG ).show();
         }
-
         adapter = new ImageLoadAdapter( getContext(), uriList );
         recyclerView.setAdapter( adapter );
     }
 
-    /**
-     * Called when a product is wanted to be added. It sends the properties of the
-     * product to the ProductActivity class where all of the data is hold.
-     *
-     */
     private void submitProduct() {
         String priceText;
         String titleText;
@@ -301,6 +259,9 @@ public class AddNewProductFragment extends Fragment {
         }, RequestType.ADD_PRODUCT, params, mContext, true );
 
 
+        //TODO
+        //I copied the above  part into this method to not create a problem
+        // when clicking the product to go to product screen
     }
 
 }

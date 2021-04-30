@@ -21,31 +21,16 @@ public class NotificationScreenAdapter extends RecyclerView.Adapter< Notificatio
     private Context mContext;
     private List< Notification > notificationList;
 
-    /**
-     * A constructor that holds properties of fragment adapter
-     *
-     * @param mContext  is the location of the current fragment and its internal
-     *                  elements and methods
-     * @param notificationList list of the received notifications
-     */
     public NotificationScreenAdapter( Context mContext, List<Notification> notificationList ) {
         this.mContext = mContext;
         this.notificationList = notificationList;
     }
 
-    /**
-     * A class that finds xml id's of layout elements
-     */
     public class NotificationHolder extends RecyclerView.ViewHolder {
         public ImageView imageAvatar;
         public TextView contentOfTheNotification;
         public TextView time;
 
-        /**
-         * A constructor that holds id's of views
-         *
-         * @param itemView is the references of an item
-         */
         public NotificationHolder( @NonNull View itemView ) {
             super( itemView );
 
@@ -55,14 +40,6 @@ public class NotificationScreenAdapter extends RecyclerView.Adapter< Notificatio
         }
     }
 
-    /**
-     * a method that creates new card view elements
-     *
-     * @param parent   is the The ViewGroup into which the new View will be
-     *                 added after it is bound to an adapter position.
-     * @param viewType The view type of the new View
-     * @return a new ViewHolder that holds a View of the given view type
-     */
     @NonNull
     @Override
     public NotificationScreenAdapter.NotificationHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ) {
@@ -74,16 +51,6 @@ public class NotificationScreenAdapter extends RecyclerView.Adapter< Notificatio
         return new NotificationScreenAdapter.NotificationHolder( itemView );
     }
 
-    /**
-     * a method called by RecyclerView to display the data at the specified
-     * position
-     *
-     * @param holder   is the ViewHolder which should be updated to represent
-     *                 the contents of the item at the given position in the
-     *                 data set.
-     * @param position is The position of the item within the adapter's data
-     *                 set.
-     */
     @Override
     public void onBindViewHolder( @NonNull NotificationHolder holder,
                                   int position ) {
@@ -97,11 +64,9 @@ public class NotificationScreenAdapter extends RecyclerView.Adapter< Notificatio
                 mContext.getPackageName() ) );
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of notifications in this adapter.
-     */
+
+
+
     @Override
     public int getItemCount() {
         return notificationList.size();

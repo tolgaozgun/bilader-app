@@ -37,20 +37,14 @@ public class MainChatAdapter extends
     private String otherUserId;
     private String lastMessage;
 
-    /**
-     * A constructor that holds properties of fragment adapter
-     *
-     * @param mContext  is the location of the current fragment and its internal
-     *                  elements and methods
-     * @param userList list of the user
-     */
+
     public MainChatAdapter( Context mContext, ArrayList< ChatUser > userList ) {
         this.mContext = mContext;
         this.userList = userList;
     }
 
     /**
-     * A class that holds id's of elements in layout
+     * A class that finds xml id's of layout elements
      */
     public class DialogHolder extends RecyclerView.ViewHolder {
         public ImageView imageMainChatAvatar;
@@ -121,7 +115,7 @@ public class MainChatAdapter extends
             if ( user.getAvatar().isEmpty() ) {
                 holder.imageMainChatAvatar.setImageResource( R.drawable.avatar_no_gender );
             } else {
-                Picasso.get().load( user.getAvatar() ).fit().centerCrop().into( holder.imageMainChatAvatar );
+                Picasso.get().load( user.getAvatar() ).fit().centerInside().into( holder.imageMainChatAvatar );
             }
         }
 
