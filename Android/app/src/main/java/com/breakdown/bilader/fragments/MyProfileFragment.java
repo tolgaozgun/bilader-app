@@ -82,7 +82,7 @@ public class MyProfileFragment extends Fragment {
         sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences( this.getContext() );
         currentUserId = sharedPreferences.getString( "id", "" );
-        avatarView = view.findViewById( R.id.image_myprofile_avatar );
+        avatarView = view.findViewById( R.id.image_myprofile_avatar);
         nameView = view.findViewById( R.id.text_myprofile_fullname );
         updateInfo();
         context = getActivity();
@@ -107,7 +107,7 @@ public class MyProfileFragment extends Fragment {
                                 object.getJSONObject( "user" ).getString(
                                         "avatar_url" );
                         nameView.setText( name );
-                        Picasso.get().load( avatarUrl ).fit().centerInside().into( avatarView );
+                        Picasso.get().load( avatarUrl ).fit().centerCrop().into( avatarView );
                     }else{
                         name = "ERROR";
                         nameView.setText( name );

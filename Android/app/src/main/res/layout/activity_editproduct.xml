@@ -35,9 +35,10 @@
         android:layout_marginLeft="108dp"
         android:layout_marginTop="24dp"
         android:text="Edit your product"
+        android:alpha="0.75"
+        android:fontFamily="@font/roboto_bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -102,7 +103,9 @@
         android:layout_marginStart="28dp"
         android:layout_marginLeft="28dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/add_price"
+        android:background="@drawable/on_sale_option"
+        android:gravity="center"
+
         android:hint="on sale"
         app:layout_constraintBottom_toTopOf="@+id/editDescription"
         app:layout_constraintStart_toEndOf="@+id/textView11" />
@@ -114,7 +117,8 @@
         android:layout_marginStart="34dp"
         android:layout_marginLeft="34dp"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/add_title"
+        android:background="@drawable/on_sale_option"
+        android:gravity="center"
         android:hint="sold"
         app:layout_constraintBottom_toTopOf="@+id/editDescription"
         app:layout_constraintStart_toEndOf="@+id/button2" />
@@ -148,7 +152,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/log_in_button"
+        android:background="@drawable/edit"
         android:foregroundGravity="center"
         android:gravity="center"
         android:hint="edit"

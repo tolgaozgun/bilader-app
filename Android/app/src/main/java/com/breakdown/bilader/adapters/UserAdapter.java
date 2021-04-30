@@ -24,7 +24,6 @@ import java.util.ArrayList;
  * The fragment class that makes connection between UI component and data source
  * of the followers that helps us to fill data in UI component.
  *
- * @author Yahya Eren Demirel
  * @version 18.04.2021
  */
 
@@ -38,7 +37,7 @@ public class UserAdapter extends
      *
      * @param mContext  is the location of the current fragment and its internal
      *                  elements and methods
-     * @param followers list of the follower
+     * @param followers list of the followers
      */
     public UserAdapter( Context mContext, ArrayList< User > followers ) {
         this.mContext = mContext;
@@ -46,7 +45,7 @@ public class UserAdapter extends
     }
 
     /**
-     * A class that finds xml id's of layout elements
+     * A class that holds id's of elements in layout
      */
     public class FollowerHolder extends RecyclerView.ViewHolder {
         public ImageView imageFollowerScreenAvatar;
@@ -105,7 +104,7 @@ public class UserAdapter extends
         user = followers.get( position );
 
         holder.textUserName.setText( user.getName() );
-        Picasso.get().load( user.getAvatar() ).fit().centerInside().into( holder.imageFollowerScreenAvatar );
+        Picasso.get().load( user.getAvatar() ).fit().centerCrop().into( holder.imageFollowerScreenAvatar );
 
         holder.userCard.setOnClickListener( new View.OnClickListener() {
 
@@ -128,7 +127,7 @@ public class UserAdapter extends
     /**
      * Returns the total number of items in the data set held by the adapter.
      *
-     * @return The total number of items in this adapter.
+     * @return The total number of followers in this adapter.
      */
     @Override
     public int getItemCount() {
