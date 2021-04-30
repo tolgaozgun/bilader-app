@@ -26,7 +26,6 @@ import java.util.Iterator;
 /**
  * A class that makes connection between its layout and data
  *
- * @author Yahya Eren Demirel
  * @version 16.04.2021
  */
 
