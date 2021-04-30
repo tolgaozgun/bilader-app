@@ -15,8 +15,9 @@ import jakarta.servlet.ServletException;
 
 public class RemoveProductHandler extends ProcessHandler {
 
-	private static final String[] KEYS = { "picture_url", "title",
-			"description", "price", "seller_id", "category_id" };
+	private static final String PRODUCT_ID_KEY = "product_id";
+	private static final String[] VALIDATE_KEYS = {""};
+	private static final String[] KEYS = { "product_id" };
 	private static final String DATABASE_TABLE = "products";
 	private static final String DATABASE_TABLE_USERS = "users";
 
@@ -48,6 +49,10 @@ public class RemoveProductHandler extends ProcessHandler {
 
 		if ( !checkToken() ) {
 			return ResultCode.INVALID_SESSION;
+		}
+		checkParams = cloneMapWithKeys( VERIFICATION_KEYS_ID, params );
+		if ( !adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
+			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
 		}
 
 		return ResultCode.ADD_PRODUCT_OK;
