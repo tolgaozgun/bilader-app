@@ -26,13 +26,27 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
+/**
+ * A class that shows the products that the current user has added before as a list.
+ *
+ * @author breakDown
+ * @version 29.04.2021
+ */
 public class MyProductsActivity extends Activity {
     private RecyclerView recyclerView;
     private ArrayList< Product > productList;
     private ProductAdapter adapter;
     private SharedPreferences sharedPreferences;
 
+    /**
+     * this is the method where the initialization of UI properties made and
+     * set an action to each of them
+     *
+     * @param savedInstanceState: If the activity is being re-initialized after
+     *                            previously being shut down then this Bundle
+     *                            contains the data it most recently supplied
+     *                            in
+     */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -52,6 +66,12 @@ public class MyProductsActivity extends Activity {
 
     }
 
+    /**
+     * Gets the each product and its properties that the current
+     * user has in a list form
+     *
+     * @param recyclerView is RecyclerView that holds the products
+     */
     private void getProductList( RecyclerView recyclerView ) {
         String userId;
         HashMap< String, String > params;
@@ -120,6 +140,11 @@ public class MyProductsActivity extends Activity {
 
     }
 
+    /**
+     * Initializes the ProductAdapter and set it to the entered recyclerView
+     *
+     * @param recyclerView is RecyclerView that holds the products
+     */
     private void printView( RecyclerView recyclerView ) {
         adapter = new ProductAdapter( this, productList );
         recyclerView.setAdapter( adapter );
