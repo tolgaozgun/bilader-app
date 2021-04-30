@@ -32,6 +32,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is responsible for the login activity of the user. Allows access after checking the credentials and saves the instance.
+ *
+ * @author Deniz Gökçen
+ * @author Tolga Özgün
+ * @version 13.04.2021
+ */
+
 public class LoginActivity extends Activity {
     private EditText inputEmail;
     private EditText inputPassword;
@@ -47,6 +55,14 @@ public class LoginActivity extends Activity {
     private Intent intent;
     private HashMap< String, String > requestParams;
 
+    /**
+     * Initializes the UI properties and sets an action to each of them
+     *
+     * @param savedInstanceState  If the activity is being re-initialized after
+     *                            previously being shut down then this Bundle
+     *                            contains the data it most recently supplied
+     *                            in
+     */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -100,6 +116,9 @@ public class LoginActivity extends Activity {
         // buttonEffect( logInButton, 0xe01c79e4 );
         // buttonEffect( signUpButton, 0xe01c79e4 );
 
+        /**
+         * Redirects the user to register activity when clicked on the button "Sign Up".
+         */
         signUpButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
@@ -110,6 +129,9 @@ public class LoginActivity extends Activity {
             }
         } );
 
+        /**
+         * Redirects the user to forgot password activity when clicked on the button "Forgot Password".
+         */
         forgotPassword.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
@@ -128,6 +150,9 @@ public class LoginActivity extends Activity {
         } );
     }
 
+    /**
+     * Logs user in if the email & password combination exists in the database.
+     */
     private void loginUser() {
         String email;
         String password;
@@ -135,6 +160,9 @@ public class LoginActivity extends Activity {
         email = inputEmail.getText().toString();
         password = inputPassword.getText().toString();
 
+        /**
+         * Email and password slots can't be empty.
+         */
         if ( TextUtils.isEmpty( email ) ) {
             Toast.makeText( this, "Please enter email!", Toast.LENGTH_SHORT ).show();
         } else if ( TextUtils.isEmpty( password ) ) {
@@ -151,6 +179,9 @@ public class LoginActivity extends Activity {
         }
     }
 
+    /**
+     * Stop when the back button is pressed.
+     */
     @Override
     public void onBackPressed() {
         // We do not want users to go back to any previous activity from

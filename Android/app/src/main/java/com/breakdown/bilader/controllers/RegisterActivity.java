@@ -26,6 +26,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is responsible for the registration activity of the user. Verifies the email of the user and creates an account.
+ *
+ * @author Deniz Gökçen
+ * @author Tolga Özgün
+ * @version 13.04.2021
+ */
+
 public class RegisterActivity extends Activity {
     private Button signUpRegisterButton;
     private EditText inputName;
@@ -34,6 +42,14 @@ public class RegisterActivity extends Activity {
     private EditText inputPasswordAgain;
     private ProgressDialog loadingBar;
 
+    /**
+     * Initializes the UI properties and sets an action to each of them
+     *
+     * @param savedInstanceState  If the activity is being re-initialized after
+     *                            previously being shut down then this Bundle
+     *                            contains the data it most recently supplied
+     *                            in
+     */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -57,6 +73,9 @@ public class RegisterActivity extends Activity {
         } );
     }
 
+    /**
+     * Creates an account to register the user.
+     */
     private void registerAccount() {
         String name;
         String email;
@@ -68,6 +87,9 @@ public class RegisterActivity extends Activity {
         passwordOne = inputPasswordOnce.getText().toString();
         passwordTwo = inputPasswordAgain.getText().toString();
 
+        /**
+         * Name, email and password slots can't be empty and the two passwords must match.
+         */
         if ( TextUtils.isEmpty( name ) ) {
             Toast.makeText( this, "Please enter name!", Toast.LENGTH_SHORT ).show();
         } else if ( TextUtils.isEmpty( email ) ) {
@@ -93,6 +115,13 @@ public class RegisterActivity extends Activity {
         }
     }
 
+    /**
+     * Validates the email.
+     * @param name the name of the user
+     * @param email the email of the user
+     * @param password the password of the user
+     * @param avatarURL the avatar of the user
+     */
     private void validateEmail( String name, final String email,
                                 String password, String avatarURL ) {
         final String JSON_SUCCESS_PATH = "success";

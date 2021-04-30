@@ -42,6 +42,7 @@ import java.util.Iterator;
  * A class that makes connection between its layout and data
  *
  * @author Yahya Eren Demirel
+ * @author Deniz Gökçen
  * @version 16.04.2021
  */
 
@@ -110,6 +111,9 @@ public class HomeFragment extends Fragment {
             }
         });*/
 
+        /**
+         * Sorts the products by their names or prices.
+         */
         sortMenuImage = view.findViewById( R.id.imageView2 );
         sortMenuImage.setOnClickListener( new View.OnClickListener() {
 
@@ -172,6 +176,9 @@ public class HomeFragment extends Fragment {
             }
         } );
 
+        /**
+         * Redirects the user to the main chat activity when clicked on.
+         */
         chatButton = view.findViewById( R.id.home_chat_button );
         chatButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -182,6 +189,9 @@ public class HomeFragment extends Fragment {
             }
         } );
 
+        /**
+         * Allows users to choose the category of the products they are looking for.
+         */
         categoryMenuImage = view.findViewById( R.id.imageView );
         categoryMenuImage.setOnClickListener( new View.OnClickListener() {
 
