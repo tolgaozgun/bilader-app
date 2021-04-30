@@ -301,9 +301,6 @@ public class AddNewProductFragment extends Fragment {
         }, RequestType.ADD_PRODUCT, params, mContext, true );
 
 
-        //TODO
-        //I copied the above  part into this method to not create a problem
-        // when clicking the product to go to product screen
     }
 
 }

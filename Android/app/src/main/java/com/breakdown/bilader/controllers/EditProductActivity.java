@@ -14,6 +14,12 @@ import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 import com.google.gson.Gson;
 
+/**
+ * A class that helps edit a existing product's properties such as its title or price.
+ * @author Korhan Kemal Kaya
+ * @version 22.04.2021
+ */
+
 public class EditProductActivity extends Activity {
 
     private EditText editPrice;
@@ -23,6 +29,16 @@ public class EditProductActivity extends Activity {
     private Button onSaleButton;
     private Button soldButton;
     private Product editedProduct;
+
+
+    /**
+     * this is the method where most initialization made such as UI and widgets
+     *
+     * @param savedInstanceState: If the activity is being re-initialized after
+     *                            previously being shut down then this Bundle
+     *                            contains the data it most recently supplied
+     *                            in
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +54,10 @@ public class EditProductActivity extends Activity {
 
 
         soldButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * When the button clicked, it changes the current product's sold situation as sold.
+             * @param v , refers to view of button
+             */
             @Override
             public void onClick(View v) {
                 editedProduct.changeSoldSituation();
@@ -45,6 +65,10 @@ public class EditProductActivity extends Activity {
         });
 
         onSaleButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * When the button clicked, it changes the current product's sold situation as on sale.
+             * @param v , refers to view of button
+             */
             @Override
             public void onClick(View v) {
                 editedProduct.changeSoldSituation();
@@ -53,14 +77,18 @@ public class EditProductActivity extends Activity {
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
+            /**
+             * When the button clicked, it applies changes to product and display it in Biltrader screen with new properties.
+             * @param v , refers to view of button
+             */
             public void onClick(View v) {
-
-
+                editProduct( editedProduct);
             }
 
         });
     }
 
+    //TODO
     private void editProduct( Product editedProduct ) {
         String editedDescription;
         String editedTitle;

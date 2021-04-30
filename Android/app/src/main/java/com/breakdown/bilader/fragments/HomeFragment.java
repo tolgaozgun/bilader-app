@@ -226,8 +226,12 @@ public class HomeFragment extends Fragment {
         } );
 
         return view;
-    }
+    }//onCreateView method ends.
 
+    /**
+     * Helps to display list of products and sets the adapter
+     * @param recyclerView, recyclerView object to list elements in it.
+     */
     private void printView( RecyclerView recyclerView ) {
         if ( productList != null ) {
             for ( Product product : productList ) {
@@ -238,6 +242,10 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter( adapter );
     }
 
+    /**
+     * Creates and sets the properties of the category menu by using database
+     * @param categoryMenu, PopupMenu to display categories
+     */
     private void createMenu( PopupMenu categoryMenu ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -281,6 +289,10 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /**
+     * Gets product list and properties of products from server and integrate it with the recyclerView object
+     * @param recyclerView, object that holds product, lists and displays them
+     */
     private void getProductList( RecyclerView recyclerView ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -340,7 +352,5 @@ public class HomeFragment extends Fragment {
                 printView( recyclerView );
             }
         }, RequestType.PRODUCT, params, this.getContext(), true );
-
-
     }
-}
+}//Class ends.
