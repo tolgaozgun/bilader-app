@@ -62,6 +62,14 @@ public class FollowingActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Gets the users that the user whose id is the same as entered id follows
+     * in a form of list
+     *
+     * @param recyclerView is a RecyclerView object that holds the followers
+     * @param userId is a String version of the user id
+     * @return ArrayList<User> is the list of followings
+     */
     public ArrayList< User > getFollowings( RecyclerView recyclerView,
                                             String userId ) {
         HashMap< String, String > params;
@@ -112,6 +120,11 @@ public class FollowingActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Initializes the UserAdapter and set it to the entered recyclerView
+     *
+     * @param recyclerView is RecyclerView that holds the users
+     */
     private void printView( RecyclerView recyclerView ) {
         adapter = new UserAdapter( this, followingList );
         recyclerView.setAdapter( adapter );
