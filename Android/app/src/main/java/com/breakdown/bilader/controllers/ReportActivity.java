@@ -27,6 +27,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is responsible for the report activity when a product or a user are reported.
+ *
+ * @author Deniz Gökçen
+ * @author Tolga Özgün
+ * @version 13.04.2021
+ */
+
 public class ReportActivity extends Activity {
     private EditText reportText;
     private TextView title;
@@ -41,6 +49,14 @@ public class ReportActivity extends Activity {
     private int reportType;
     private final String SESSION_TOKEN_KEY = "SESSION_TOKEN";
 
+    /**
+     * Initializes the UI properties and sets an action to each of them
+     *
+     * @param savedInstanceState  If the activity is being re-initialized after
+     *                            previously being shut down then this Bundle
+     *                            contains the data it most recently supplied
+     *                            in
+     */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -63,7 +79,6 @@ public class ReportActivity extends Activity {
 
         Picasso.get().load( reportImage ).fit().centerInside().into( imageView );
 
-
         submitButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
@@ -72,6 +87,9 @@ public class ReportActivity extends Activity {
         } );
     }
 
+    /**
+     * Sends the report in the edit text section.
+     */
     private void sendReport() {
         Map< String, String > params;
 

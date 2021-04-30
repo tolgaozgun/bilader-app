@@ -16,16 +16,20 @@
             android:layout_height="match_parent"
             android:background="@drawable/card_border">
 
-            <ImageView
+
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image_card_reviews_avatar"
-                android:layout_width="64dp"
+                android:layout_width="58dp"
                 android:layout_height="58dp"
                 android:layout_marginStart="36dp"
                 android:layout_marginLeft="36dp"
                 android:layout_marginTop="32dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/avatar_female" />
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="@color/transparent"
+                app:strokeWidth="1dp" />
+
 
             <TextView
                 android:id="@+id/text_card_reviews_comment"

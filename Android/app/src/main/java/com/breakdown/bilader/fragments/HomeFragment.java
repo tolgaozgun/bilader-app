@@ -12,8 +12,10 @@ import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
@@ -40,6 +42,7 @@ import java.util.Iterator;
  * A class that makes connection between its layout and data
  *
  * @author Yahya Eren Demirel
+ * @author Deniz Gökçen
  * @version 16.04.2021
  */
 
@@ -85,9 +88,10 @@ public class HomeFragment extends Fragment {
         recyclerView =
                 ( RecyclerView ) view.findViewById( R.id.biltraderRecycler );
 
-        layoutManager = new LinearLayoutManager( getActivity() );
+       // layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setHasFixedSize( true );
-        recyclerView.setLayoutManager( layoutManager );
+        recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,
+                StaggeredGridLayoutManager.VERTICAL ) );
 
 
         holderList = new ArrayList< Product >();
@@ -107,6 +111,9 @@ public class HomeFragment extends Fragment {
             }
         });*/
 
+        /**
+         * Sorts the products by their names or prices.
+         */
         sortMenuImage = view.findViewById( R.id.imageView2 );
         sortMenuImage.setOnClickListener( new View.OnClickListener() {
 
@@ -169,6 +176,9 @@ public class HomeFragment extends Fragment {
             }
         } );
 
+        /**
+         * Redirects the user to the main chat activity when clicked on.
+         */
         chatButton = view.findViewById( R.id.home_chat_button );
         chatButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -179,6 +189,9 @@ public class HomeFragment extends Fragment {
             }
         } );
 
+        /**
+         * Allows users to choose the category of the products they are looking for.
+         */
         categoryMenuImage = view.findViewById( R.id.imageView );
         categoryMenuImage.setOnClickListener( new View.OnClickListener() {
 
@@ -223,8 +236,12 @@ public class HomeFragment extends Fragment {
         } );
 
         return view;
-    }
+    }//onCreateView method ends.
 
+    /**
+     * Helps to display list of products and sets the adapter
+     * @param recyclerView, recyclerView object to list elements in it.
+     */
     private void printView( RecyclerView recyclerView ) {
         if ( productList != null ) {
             for ( Product product : productList ) {
@@ -235,6 +252,10 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter( adapter );
     }
 
+    /**
+     * Creates and sets the properties of the category menu by using database
+     * @param categoryMenu, PopupMenu to display categories
+     */
     private void createMenu( PopupMenu categoryMenu ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -278,6 +299,10 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /**
+     * Gets product list and properties of products from server and integrate it with the recyclerView object
+     * @param recyclerView, object that holds product, lists and displays them
+     */
     private void getProductList( RecyclerView recyclerView ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -337,7 +362,5 @@ public class HomeFragment extends Fragment {
                 printView( recyclerView );
             }
         }, RequestType.PRODUCT, params, this.getContext(), true );
-
-
     }
-}
+}//Class ends.

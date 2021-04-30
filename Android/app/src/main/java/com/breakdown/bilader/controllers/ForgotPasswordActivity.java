@@ -21,11 +21,28 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is responsible for when the user forgets their password and wishes to change it.
+ * It sends a verification code via email and redirects to the change password activity.
+ *
+ * @author Deniz Gökçen
+ * @author Tolga Özgün
+ * @version 13.04.2021
+ */
+
 public class ForgotPasswordActivity extends Activity {
     private EditText inputEmail;
     private Button sendCodeButton;
     private TextView alreadyRecievedText;
 
+    /**
+     * Initializes the UI properties and sets an action to each of them
+     *
+     * @param savedInstanceState  If the activity is being re-initialized after
+     *                            previously being shut down then this Bundle
+     *                            contains the data it most recently supplied
+     *                            in
+     */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -48,6 +65,9 @@ public class ForgotPasswordActivity extends Activity {
             }
         } );
 
+        /**
+         * Sends a verification code to the user who wishes to change their password.
+         */
         sendCodeButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {

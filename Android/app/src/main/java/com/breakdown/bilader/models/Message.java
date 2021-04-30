@@ -5,6 +5,11 @@ import com.stfalcon.chatkit.commons.models.IUser;
 
 import java.util.Date;
 
+/**
+ * A class that holds for messages, enables users to send and get message objects while texting.
+ * @author breakDown
+ * @version 13.04.2021
+ */
 public class Message implements IMessage {
 
     private long messageTime;

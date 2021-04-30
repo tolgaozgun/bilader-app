@@ -26,7 +26,6 @@ import java.util.Iterator;
 /**
  * A class that makes connection between its layout and data
  *
- * @author Yahya Eren Demirel
  * @version 16.04.2021
  */
 
@@ -60,6 +59,14 @@ public class FollowersActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Gets the users that follows the user whose user id is the same as entered
+     * id in a form of list.
+     *
+     * @param recyclerView is a RecyclerView object that holds the followers
+     * @param userId is a String version of the user id
+     * @return ArrayList<User> is the list of followers
+     */
     public ArrayList< User > getFollowers(RecyclerView recyclerView, String userId) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -108,6 +115,11 @@ public class FollowersActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Initializes the UserAdapter and set it to the entered recyclerView
+     *
+     * @param recyclerView is RecyclerView that holds the users
+     */
     private void printView( RecyclerView recyclerView ) {
         adapter = new UserAdapter( this, followerList );
         recyclerView.setAdapter( adapter );

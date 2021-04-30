@@ -19,11 +19,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.fragments.MyProfileFragment;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class SettingsActivity extends Activity {
     private Button changePasswordButton;
-    private Switch followSwitch;
-    private Switch messageSwitch;
+    private SwitchMaterial followSwitch;
+    private SwitchMaterial messageSwitch;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -38,9 +39,9 @@ public class SettingsActivity extends Activity {
         changePasswordButton =
                 ( Button ) findViewById( R.id.button_change_password );
         followSwitch =
-                ( Switch ) findViewById( R.id.switch_follow_notifications );
+                ( SwitchMaterial ) findViewById( R.id.switch_follow_notifications );
         messageSwitch =
-                ( Switch ) findViewById( R.id.switch_message_notifications );
+                ( SwitchMaterial ) findViewById( R.id.switch_message_notifications );
 
         changePasswordButton.setOnClickListener( new View.OnClickListener() {
             @Override
