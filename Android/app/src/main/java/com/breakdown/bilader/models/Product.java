@@ -48,17 +48,7 @@ public class Product {
         return seller;
     }
 
-    /**
-     * Sends a request to add this product to the user's wishlist.
-     *
-     * @return Boolean whether the operation was successful.
-     */
-    public boolean addToWishlist( User user ) {
-        // TODO: Change the user to something like sessionID, we want this
-        // client to send messages only for themselves not on behalf of
-        // someone else.
-        return false;
-    }
+
 
     /**
      * Gives the picture URL of the product
