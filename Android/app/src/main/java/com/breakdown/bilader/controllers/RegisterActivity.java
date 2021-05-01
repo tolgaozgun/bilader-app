@@ -5,29 +5,37 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class is responsible for the registration activity of the user. Verifies the email of the user and creates an account.
+ * This class is responsible for the registration activity of the user. Verifies
+ * the email of the user and creates an account.
  *
  * @author Deniz Gökçen
  * @author Tolga Özgün
@@ -41,29 +49,40 @@ public class RegisterActivity extends Activity {
     private EditText inputPasswordOnce;
     private EditText inputPasswordAgain;
     private ProgressDialog loadingBar;
+    private ImageView inputAvatar;
+    private Uri imageUri;
 
     /**
      * Initializes the UI properties and sets an action to each of them
      *
-     * @param savedInstanceState  If the activity is being re-initialized after
-     *                            previously being shut down then this Bundle
-     *                            contains the data it most recently supplied
-     *                            in
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle
+     *                           contains the data it most recently supplied in
      */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_register );
 
-        signUpRegisterButton =
-                ( Button ) findViewById( R.id.button_sign_up_register );
+        signUpRegisterButton = ( Button ) findViewById( R.id.button_sign_up_register );
         inputName = ( EditText ) findViewById( R.id.editText_full_name );
         inputEmail = ( EditText ) findViewById( R.id.editText_mail_register );
-        inputPasswordOnce =
-                ( EditText ) findViewById( R.id.editText_password_register );
-        inputPasswordAgain =
-                ( EditText ) findViewById( R.id.editText_password_again_register );
+        inputPasswordOnce = ( EditText ) findViewById( R.id.editText_password_register );
+        inputPasswordAgain = ( EditText ) findViewById( R.id.editText_password_again_register );
         loadingBar = new ProgressDialog( this );
+        inputAvatar = ( ImageView ) findViewById( R.id.image_avatar_register );
+
+        inputAvatar.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Intent galery;
+
+                galery = new Intent();
+                galery.setType( "image/*" );
+                galery.setAction( Intent.ACTION_GET_CONTENT );
+                startActivityForResult( Intent.createChooser( galery, "Select" + " Picture" ), 1 );
+            }
+        } );
 
         signUpRegisterButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -88,25 +107,22 @@ public class RegisterActivity extends Activity {
         passwordTwo = inputPasswordAgain.getText().toString();
 
         /**
-         * Name, email and password slots can't be empty and the two passwords must match.
+         * Name, email and password slots can't be empty and the two
+         * passwords must match.
          */
         if ( TextUtils.isEmpty( name ) ) {
             Toast.makeText( this, "Please enter name!", Toast.LENGTH_SHORT ).show();
         } else if ( TextUtils.isEmpty( email ) ) {
             Toast.makeText( this, "Please enter email!", Toast.LENGTH_SHORT ).show();
         } else if ( TextUtils.isEmpty( passwordOne ) ) {
-            Toast.makeText( this, "Please enter password!",
-                    Toast.LENGTH_SHORT ).show();
+            Toast.makeText( this, "Please enter password!", Toast.LENGTH_SHORT ).show();
         } else if ( TextUtils.isEmpty( passwordTwo ) ) {
-            Toast.makeText( this, "Please enter password again!",
-                    Toast.LENGTH_SHORT ).show();
+            Toast.makeText( this, "Please enter password again!", Toast.LENGTH_SHORT ).show();
         } else if ( !passwordOne.equals( passwordTwo ) ) {
-            Toast.makeText( this, "Passwords don't match!",
-                    Toast.LENGTH_SHORT ).show();
+            Toast.makeText( this, "Passwords don't match!", Toast.LENGTH_SHORT ).show();
         } else {
             loadingBar.setTitle( "sign up" );
-            loadingBar.setMessage( "Please wait while we check your " +
-                    "credentials!" );
+            loadingBar.setMessage( "Please wait while we check your " + "credentials!" );
             loadingBar.setCanceledOnTouchOutside( false );
             loadingBar.show();
 
@@ -117,13 +133,13 @@ public class RegisterActivity extends Activity {
 
     /**
      * Validates the email.
-     * @param name the name of the user
-     * @param email the email of the user
-     * @param password the password of the user
+     *
+     * @param name      the name of the user
+     * @param email     the email of the user
+     * @param password  the password of the user
      * @param avatarURL the avatar of the user
      */
-    private void validateEmail( String name, final String email,
-                                String password, String avatarURL ) {
+    private void validateEmail( String name, final String email, String password, String avatarURL ) {
         final String JSON_SUCCESS_PATH = "success";
         final String JSON_MESSAGE_PATH = "message";
         final String JSON_VERIFICATION_SUCCESS_PATH = "verification_success";
@@ -137,8 +153,7 @@ public class RegisterActivity extends Activity {
         params.put( "password", password );
         params.put( "avatar_url", avatarURL );
 
-        sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences( this );
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences( this );
 
         callback = new VolleyCallback() {
             @Override
@@ -153,22 +168,17 @@ public class RegisterActivity extends Activity {
                     } else {
                         if ( json.getBoolean( JSON_SUCCESS_PATH ) && json.getBoolean( JSON_VERIFICATION_SUCCESS_PATH ) ) {
                             Intent intent;
-                            intent = new Intent( RegisterActivity.this,
-                                    VerificationActivity.class );
+                            intent = new Intent( RegisterActivity.this, VerificationActivity.class );
                             startActivity( intent );
                         }
                         message = json.getString( JSON_MESSAGE_PATH );
-                        verificationMessage =
-                                json.getString( JSON_VERIFICATION_MESSAGE_PATH );
+                        verificationMessage = json.getString( JSON_VERIFICATION_MESSAGE_PATH );
                     }
-                    Toast.makeText( RegisterActivity.this, message,
-                            Toast.LENGTH_SHORT ).show();
-                    Toast.makeText( RegisterActivity.this,
-                            verificationMessage, Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( RegisterActivity.this, message, Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( RegisterActivity.this, verificationMessage, Toast.LENGTH_SHORT ).show();
                     loadingBar.dismiss();
                 } catch ( JSONException e ) {
-                    Toast.makeText( RegisterActivity.this, e.getMessage(),
-                            Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT ).show();
                     loadingBar.dismiss();
                 }
             }
@@ -182,7 +192,32 @@ public class RegisterActivity extends Activity {
             }
         };
 
-        HttpAdapter.getRequestJSON( callback, RequestType.REGISTER, params,
-                RegisterActivity.this, false );
+        HttpAdapter.getRequestJSON( callback, RequestType.REGISTER, params, RegisterActivity.this, false );
+    }
+
+    /**
+     * Called when an activity that is launched exits, it gives the requestCode to
+     * started it with, the resultCode it returned, and any additional data from it
+     *
+     * @param requestCode:        is the int object that allows to identify who
+     *                            this result came from.
+     * @param resultCode:         is the int object that is returned by the child
+     *                            activity through its setResult().
+     * @param data:               If non-null, this intent is being used to return
+     *                            result data to the caller
+     */
+    @Override
+    public void onActivityResult( int requestCode, int resultCode, @Nullable Intent data ) {
+        super.onActivityResult( requestCode, resultCode, data );
+
+        if ( requestCode == 1 && resultCode == -1 ) {
+            imageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap( this.getContentResolver(), imageUri );
+                Picasso.get().load(imageUri).fit().centerCrop().into( inputAvatar );
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 }
