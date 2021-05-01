@@ -43,17 +43,21 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="VectorDrawableCompat" />
 
-    <ImageView
-        android:id="@+id/image_avatar_no_gender"
-        android:layout_width="83dp"
-        android:layout_height="93dp"
-        android:layout_marginTop="16dp"
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_avatar_register"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
         android:foregroundGravity="center"
         android:src="@drawable/upload_avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_options_declared" />
+        app:layout_constraintTop_toBottomOf="@+id/text_options_declared"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+        app:strokeColor="@color/transparent"
+        app:strokeWidth="1dp" />
 
     <TextView
         android:id="@+id/text_options_declared"
@@ -81,7 +85,7 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_avatar_no_gender" />
+        app:layout_constraintTop_toBottomOf="@+id/image_avatar_register" />
 
     <TextView
         android:id="@+id/text_app_name"

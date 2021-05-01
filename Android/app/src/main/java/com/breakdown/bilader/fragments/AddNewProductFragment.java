@@ -4,15 +4,18 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -32,10 +35,12 @@ import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -58,8 +63,7 @@ public class AddNewProductFragment extends Fragment {
     private PopupMenu popupMenu;
     private Product newProduct;
     private Uri imageUri;
-    private RecyclerView profileImage;
-    private Button pickPhotoButton;
+    private ImageView pickPhotoButton;
     private Category category;
     private String productId;
 
@@ -96,12 +100,6 @@ public class AddNewProductFragment extends Fragment {
         view = inflater.inflate( R.layout.fragment_addnewproduct, container,
                 false );
 
-        recyclerView =
-                ( RecyclerView ) view.findViewById( R.id.recyclerImageHolder );
-
-
-        recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,
-                StaggeredGridLayoutManager.VERTICAL ) );
 
         mContext = getActivity();
         price = view.findViewById( R.id.priceAddNewProduct );
@@ -110,7 +108,6 @@ public class AddNewProductFragment extends Fragment {
         postButton = view.findViewById( R.id.postButton );
         categoryButton = view.findViewById( R.id.category_button );
         pickPhotoButton = view.findViewById( R.id.button_add );
-        profileImage = view.findViewById( R.id.recyclerImageHolder );
         uriList = new ArrayList< Uri >();
         //For now, current user is
         currentUser = new User( "Korhan", "avatar_male", "12" );
@@ -149,10 +146,8 @@ public class AddNewProductFragment extends Fragment {
 
                 galery = new Intent();
                 galery.setType( "image/*" );
-                galery.putExtra( Intent.EXTRA_ALLOW_MULTIPLE, true );
                 galery.setAction( Intent.ACTION_GET_CONTENT );
-                startActivityForResult( Intent.createChooser( galery, "Select"
-                        + " Picture" ), 1 );
+                startActivityForResult( Intent.createChooser( galery, "Select" + " Picture" ), 1 );
             }
         } );
 
@@ -216,33 +211,18 @@ public class AddNewProductFragment extends Fragment {
      *                            result data to the caller
      */
     @Override
-    public void onActivityResult( int requestCode, int resultCode,
-                                  @Nullable Intent data ) {
-        int position;
+    public void onActivityResult( int requestCode, int resultCode, @Nullable Intent data ) {
         super.onActivityResult( requestCode, resultCode, data );
-        if ( requestCode == 1 && resultCode == -1 && null != data ) {
-            // Get the Image from data
-            if ( data.getClipData() != null ) {
-                ClipData mClipData = data.getClipData();
-                int count = data.getClipData().getItemCount();
-                for ( int i = 0; i < count; i++ ) {
-                    // adding imageuri in array
-                    Uri imageUri = data.getClipData().getItemAt( i ).getUri();
-                    uriList.add( imageUri );
-                }
-                position = 0;
-            } else {
-                Uri imageUriSingle = data.getData();
-                uriList.add( imageUriSingle );
-            }
-        } else {
-            // show this if no image is selected
-            Toast.makeText( getContext(), "You haven't picked any image",
-                    Toast.LENGTH_LONG ).show();
-        }
 
-        adapter = new ImageLoadAdapter( getContext(), uriList );
-        recyclerView.setAdapter( adapter );
+        if ( requestCode == 1 && resultCode == -1 ) {
+            imageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap( mContext.getContentResolver(), imageUri );
+                Picasso.get().load(imageUri).fit().centerCrop().into( pickPhotoButton);
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
