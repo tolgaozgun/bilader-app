@@ -33,11 +33,11 @@ import java.util.Map;
 
 public class ChangePasswordActivity extends Activity {
 
-    CodeInputView codeView;
-    EditText emailText;
-    EditText passwordOneView;
-    EditText passwordTwoView;
-    Button resetButton;
+    private CodeInputView codeView;
+    private EditText emailText;
+    private EditText passwordOneView;
+    private EditText passwordTwoView;
+    private Button resetButton;
 
     /**
      * Initializes the UI properties and sets an action to each of them
@@ -49,11 +49,12 @@ public class ChangePasswordActivity extends Activity {
      */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
+        Intent intent;
+        String email;
+
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_changepassword );
 
-        Intent intent;
-        String email;
         intent = getIntent();
 
         codeView =

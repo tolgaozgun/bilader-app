@@ -35,7 +35,6 @@ public class SettingsActivity extends Activity {
         sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences( this );
 
-
         changePasswordButton =
                 ( Button ) findViewById( R.id.button_change_password );
         followSwitch =

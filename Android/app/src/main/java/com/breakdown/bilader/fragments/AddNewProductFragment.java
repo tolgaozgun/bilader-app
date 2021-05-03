@@ -71,7 +71,7 @@ public class AddNewProductFragment extends Fragment {
     private List< String > imagesEncodedList;
     private ImageLoadAdapter adapter;
     private SharedPreferences sharedPreferences;
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     /**
      * Called to have the fragment instantiate its user interface properties
@@ -126,7 +126,6 @@ public class AddNewProductFragment extends Fragment {
                         categoryButton.setText( item.getTitle() );
                         return false;
                     }
-
                 } );
             }
         } );
@@ -142,12 +141,12 @@ public class AddNewProductFragment extends Fragment {
         pickPhotoButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                Intent galery;
+                Intent gallery;
 
-                galery = new Intent();
-                galery.setType( "image/*" );
-                galery.setAction( Intent.ACTION_GET_CONTENT );
-                startActivityForResult( Intent.createChooser( galery, "Select" + " Picture" ), 1 );
+                gallery = new Intent();
+                gallery.setType( "image/*" );
+                gallery.setAction( Intent.ACTION_GET_CONTENT );
+                startActivityForResult( Intent.createChooser( gallery, "Select" + " Picture" ), 1 );
             }
         } );
 
@@ -254,9 +253,9 @@ public class AddNewProductFragment extends Fragment {
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {
+                Intent intent;
                 try {
                     if ( object.getBoolean( "success" ) ) {
-                        Intent intent;
                         productId = object.getString( "product_id" );
                         intent = new Intent( mContext, ProductActivity.class );
                         intent.putExtra( "product_id", productId );
@@ -279,8 +278,5 @@ public class AddNewProductFragment extends Fragment {
 
             }
         }, RequestType.ADD_PRODUCT, params, mContext, true );
-
-
     }
-
 }

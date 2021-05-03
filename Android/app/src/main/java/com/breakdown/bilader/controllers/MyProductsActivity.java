@@ -55,7 +55,6 @@ public class MyProductsActivity extends Activity {
         recyclerView = findViewById( R.id.myProductsRecycler );
         recyclerView.setHasFixedSize( true );
 
-        //recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
         recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,
                 StaggeredGridLayoutManager.VERTICAL ) );
 
