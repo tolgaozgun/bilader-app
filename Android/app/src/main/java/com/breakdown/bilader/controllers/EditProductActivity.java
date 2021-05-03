@@ -44,10 +44,6 @@ public class EditProductActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editproduct);
 
-
-        //temporary values
-        //editedProduct = new Product( new User("Korhan","mail","avatar_male","12"), false ,"2");
-
         editButton = findViewById(R.id.editButton);
         onSaleButton = findViewById(R.id.onSale);
         soldButton = findViewById(R.id.soldButton);
@@ -93,6 +89,9 @@ public class EditProductActivity extends Activity {
         String editedDescription;
         String editedTitle;
         String editedPrice;
+        Intent intent;
+        Gson gson;
+        String myJson;
 
         editDescription = findViewById(R.id.editDescription);
         editTitle = findViewById(R.id.editTitle);
@@ -102,11 +101,6 @@ public class EditProductActivity extends Activity {
         editedTitle = editTitle.getText().toString();
         editedPrice = editPrice.getText().toString();
 
-
-
-        Intent intent;
-        Gson gson;
-        String myJson;
         editedProduct.setDescription(editedDescription);
         editedProduct.setPicture("pic");//It will change
         editedProduct.setTitle(editedTitle);

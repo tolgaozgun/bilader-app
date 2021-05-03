@@ -58,7 +58,6 @@ public class OthersProfileActivity extends AppCompatActivity {
     private ReviewsFragment fragmentForReview;
     private OnSaleFragment fragmentForSale;
 
-
     private ArrayList< Fragment > fragmentList = new ArrayList<>();
     private ArrayList< String > fragmentTitleList = new ArrayList<>();
 
@@ -130,7 +129,6 @@ public class OthersProfileActivity extends AppCompatActivity {
 
         Picasso.get().load( currentUser.getAvatar() ).fit().centerCrop().into( profilePhoto );
 
-        getUserInfo();
         userReviews();
         getSoldCount();
         getFollowersCount( numberOfFollowers );
@@ -202,7 +200,7 @@ public class OthersProfileActivity extends AppCompatActivity {
      * Sets the followings count of the current user.
      */
     public void getFollowingsCount( TextView numberOfFollowings ) {
-        System.out.println( "AAA" );
+
         HashMap< String, String > params;
         params = new HashMap< String, String >();
         params.put( "user_id", userId );
@@ -210,7 +208,6 @@ public class OthersProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess( JSONObject object ) {
                 try {
-                    System.out.println( "BBB" );
                     if ( object.getBoolean( "success" ) ) {
                         System.out.println( "ccc" );
                         numberOfFollowings.setText( String.valueOf( object.getInt( "count" ) ) );
@@ -232,16 +229,13 @@ public class OthersProfileActivity extends AppCompatActivity {
      */
     public void getFollowersCount( TextView numberOfFollowers ) {
         HashMap< String, String > params;
-        System.out.println( "dddd" );
         params = new HashMap< String, String >();
         params.put( "following_id", userId );
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {
-                System.out.println( "eeee" );
                 try {
                     if ( object.getBoolean( "success" ) ) {
-                        System.out.println( "fff" );
                         numberOfFollowers.setText( String.valueOf( object.getInt( "count" ) ) );
                     }
                 } catch ( JSONException e ) {
@@ -255,17 +249,6 @@ public class OthersProfileActivity extends AppCompatActivity {
     }
 
     /**
-     * Sets user information of the current user.
-     */
-    public void getUserInfo() {
-        //TODO
-        //userName.setText(userOne.getUserName());
-        //numberOfReviews.setText(userReviews.size());
-        // profilePhoto
-        // review number
-    }
-
-    /**
      * Shows the reviews of the current user.
      */
     public void userReviews() {
@@ -273,15 +256,12 @@ public class OthersProfileActivity extends AppCompatActivity {
 
     }
 
-    //?????
-
     /**
      * Shows the number of soles done of the current user.
      */
     public void getSoldCount() {
         //TODO
     }
-
 
     /**
      * Shows the number of reviews done of the current user.

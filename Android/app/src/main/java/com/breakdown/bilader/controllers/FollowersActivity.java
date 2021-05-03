@@ -55,8 +55,6 @@ public class FollowersActivity extends AppCompatActivity {
         recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
 
         getFollowers(recyclerView, getIntent().getStringExtra( "user_id" ));
-
-
     }
 
     /**

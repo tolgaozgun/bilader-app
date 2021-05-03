@@ -43,7 +43,7 @@ import java.util.HashMap;
  */
 
 public class MyProfileFragment extends Fragment {
-    Activity context;
+    private Activity context;
     private Button followersButton;
     private Button myProductsButton;
     private Button followingButton;
@@ -75,8 +75,10 @@ public class MyProfileFragment extends Fragment {
     public View onCreateView( LayoutInflater inflater,
                               @Nullable ViewGroup container,
                               @Nullable Bundle savedInstanceState ) {
-        super.onCreateView( inflater, container, savedInstanceState );
         View view;
+
+        super.onCreateView( inflater, container, savedInstanceState );
+
         view = inflater.inflate( R.layout.fragment_myprofile, container,
                 false );
         sharedPreferences =
@@ -84,8 +86,11 @@ public class MyProfileFragment extends Fragment {
         currentUserId = sharedPreferences.getString( "id", "" );
         avatarView = view.findViewById( R.id.image_myprofile_avatar);
         nameView = view.findViewById( R.id.text_myprofile_fullname );
+
         updateInfo();
+
         context = getActivity();
+
         return view;
     }
 
@@ -147,7 +152,10 @@ public class MyProfileFragment extends Fragment {
              */
             public void onClick( View view ) {
                 //create an Intent object
-                Intent intent = new Intent( context, MyProductsActivity.class );
+                Intent intent;
+
+                intent = new Intent( context, MyProductsActivity.class );
+
                 //start the second activity
                 startActivity( intent );
             }
@@ -162,8 +170,12 @@ public class MyProfileFragment extends Fragment {
              */
             public void onClick( View view ) {
                 //create an Intent object
-                Intent intent = new Intent( context, FollowersActivity.class );
+                Intent intent;
+
+                intent = new Intent( context, FollowersActivity.class );
+
                 intent.putExtra( "user_id", currentUserId );
+
                 //start the second activity
                 startActivity( intent );
             }
@@ -177,8 +189,12 @@ public class MyProfileFragment extends Fragment {
              */
             public void onClick( View view ) {
                 //create an Intent object
-                Intent intent = new Intent( context, FollowingActivity.class );
+                Intent intent;
+
+                intent = new Intent( context, FollowingActivity.class );
+
                 intent.putExtra( "user_id", currentUserId );
+
                 //start the second activity
                 startActivity( intent );
             }
@@ -221,7 +237,10 @@ public class MyProfileFragment extends Fragment {
              */
             public void onClick( View view ) {
                 //create an Intent object
-                Intent intent = new Intent( context, SettingsActivity.class );
+                Intent intent;
+
+                intent = new Intent( context, SettingsActivity.class );
+
                 //start the second activity
                 startActivity( intent );
             }
@@ -229,6 +248,7 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void logOut() {
+        Intent intent;
         // TODO: log user out
         /*
         loadingBar.setTitle( "log out" );
@@ -238,7 +258,7 @@ public class MyProfileFragment extends Fragment {
         sharedPreferences.edit().remove( "id" ).apply();
         sharedPreferences.edit().remove( "session_token" ).apply();
 
-        Intent intent = new Intent( context, LoginActivity.class );
+        intent = new Intent( context, LoginActivity.class );
         startActivity( intent );
     }
 }
