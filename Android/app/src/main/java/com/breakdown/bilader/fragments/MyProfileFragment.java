@@ -6,8 +6,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -54,6 +58,7 @@ public class MyProfileFragment extends Fragment {
     private String currentUserId;
     private TextView nameView;
     private ImageView avatarView;
+    private Uri imageUri;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -88,7 +93,8 @@ public class MyProfileFragment extends Fragment {
         context = getActivity();
         return view;
     }
-
+    //todo
+    // update profile image after user changes
     private void updateInfo() {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -135,9 +141,19 @@ public class MyProfileFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        /*name = ( TextView ) context.findViewById( R.id
-        .text_myprofile_fullname );
-        name.setText( user.getName() );*/
+        avatarView.setOnClickListener( new View.OnClickListener() {
+            /**
+             * starts action accordingly its clicked view
+             * @param view is the view that was clicked
+             */
+            public void onClick( View view ) {
+                Intent galery;
+                galery = new Intent();
+                galery.setType( "image/*" );
+                galery.setAction( Intent.ACTION_GET_CONTENT );
+                startActivityForResult( Intent.createChooser( galery, "Select" + " Picture" ), 1 );
+            }
+        } );
 
         myProductsButton = context.findViewById( R.id.myProductsButton );
         myProductsButton.setOnClickListener( new View.OnClickListener() {
@@ -240,5 +256,32 @@ public class MyProfileFragment extends Fragment {
 
         Intent intent = new Intent( context, LoginActivity.class );
         startActivity( intent );
+    }
+    // Todo
+    // update profile image in server too
+    /**
+     * Called when an activity that is launched exits, it gives the requestCode to
+     * started it with, the resultCode it returned, and any additional data from it
+     *
+     * @param requestCode:        is the int object that allows to identify who
+     *                            this result came from.
+     * @param resultCode:         is the int object that is returned by the child
+     *                            activity through its setResult().
+     * @param data:               If non-null, this intent is being used to return
+     *                            result data to the caller
+     */
+    @Override
+    public void onActivityResult( int requestCode, int resultCode, @Nullable Intent data ) {
+        super.onActivityResult( requestCode, resultCode, data );
+
+        if ( requestCode == 1 && resultCode == -1 ) {
+            imageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap( context.getContentResolver(), imageUri );
+                Picasso.get().load(imageUri).fit().centerCrop().into( avatarView );
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 }
