@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +43,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -215,13 +220,34 @@ public class AddNewProductFragment extends Fragment {
 
         if ( requestCode == 1 && resultCode == -1 ) {
             imageUri = data.getData();
+
+            String filePath = getPath(imageUri);
+            String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
+
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap( mContext.getContentResolver(), imageUri );
-                Picasso.get().load(imageUri).fit().centerCrop().into( pickPhotoButton);
-            } catch ( IOException e ) {
+                if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
+                    //FINE
+                } else {
+                    //NOT IN REQUIRED FORMAT
+                }
+            } catch ( Exception e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
+
+    }
+
+   public String getPath(Uri uri) {
+        String res = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContext().getContentResolver().query(uri, proj, null, null, null);
+        if(cursor.moveToFirst()){;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
     }
 
     /**
