@@ -98,24 +98,23 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,
                 StaggeredGridLayoutManager.VERTICAL ) );
 
-
         holderList = new ArrayList< Product >();
         getProductList( recyclerView );
         searchView = view.findViewById( R.id.searchView );
-        searchView.addTextChangedListener(new TextWatcher() {
+        searchView.addTextChangedListener( new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged( CharSequence s, int start, int count, int after ) {
                 //Unnecessary
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged( CharSequence s, int start, int before, int count ) {
                 //Unnecessary
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                filter(s.toString());
+            public void afterTextChanged( Editable s ) {
+                filter( s.toString() );
             }
         });
 
@@ -254,11 +253,11 @@ public class HomeFragment extends Fragment {
         ArrayList<Product> filteredList = new ArrayList<>();
 
         for ( Product p : productList ) {
-            if ( p.getTitle().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(p);
+            if ( p.getTitle().toLowerCase().contains( text.toLowerCase() ) ) {
+                filteredList.add( p );
             }
         }
-        adapter.filterList(filteredList);
+        adapter.filterList( filteredList );
     }
 
     /**
