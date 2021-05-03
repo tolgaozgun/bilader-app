@@ -27,7 +27,8 @@ import java.util.ArrayList;
  * of the products that helps us to fill data in UI component.
  *
  * @author Yahya Eren Demirel
- * @version 18.04.2021
+ * @author Korhan Kemal Kaya
+ * @version 03.05.2021
  */
 
 public class ProductAdapter extends
@@ -64,45 +65,6 @@ public class ProductAdapter extends
         this.mmmContext = mmmContext;
         this.products = products;
     }
-
-    /*public Filter getFilter() {
-        return exampleFilter;
-    }
-
-    private Filter exampleFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering( CharSequence constraint ) {
-            ArrayList< Product > filteredList = new ArrayList< Product >();
-
-            if ( constraint == null || constraint.length() == 0 ) {
-                filteredList.addAll( productsFull );
-            }
-            else {
-                String filterPattern = constraint.toString().toLowerCase()
-                .trim();
-
-                for ( Product item : productsFull ) {
-                    if ( item.getTitle().toLowerCase().contains(
-                    filterPattern ) ) {
-                        filteredList.add( item );
-                    }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-
-            return results;
-        }
-
-        @Override
-        protected void publishResults( CharSequence constraint, FilterResults
-         results ) {
-            products.clear();
-            products.addAll( ( ArrayList ) results.values );
-            notifyDataSetChanged();
-        }
-    };*/
 
     /**
      * A class that finds xml id's of layout elements
@@ -181,10 +143,7 @@ public class ProductAdapter extends
         if ( product.getSeller().getAvatar() != null && !product.getSeller().getAvatar().equals( "" ) ) {
             Picasso.get().load( product.getSeller().getAvatar() ).fit().centerCrop().into( holder.imageProductSeller );
         }
-        //holder.textCategoryName.setText( product.getCategory().toString() );
 
-
-        isWishlisted( product.getProductId() );
 
         holder.cardView.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -216,8 +175,13 @@ public class ProductAdapter extends
         return 0;
     }
 
-    public void isWishlisted( String productId ) {
-        //TODO
-        // dye the heart if the post is added to the wishlist
+    /**
+     * Sets to product list the filtered list and updates the changes.
+     * @param filteredList, the filtered array list to update product list
+     */
+    public void filterList( ArrayList<Product> filteredList) {
+        products = filteredList;
+        notifyDataSetChanged();
     }
+
 }

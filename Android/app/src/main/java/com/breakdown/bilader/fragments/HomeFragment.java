@@ -2,10 +2,14 @@ package com.breakdown.bilader.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
@@ -43,7 +47,8 @@ import java.util.Iterator;
  *
  * @author Yahya Eren Demirel
  * @author Deniz Gökçen
- * @version 16.04.2021
+ * @author Korhan Kemal Kaya
+ * @version 03.05.2021
  */
 
 public class HomeFragment extends Fragment {
@@ -57,7 +62,7 @@ public class HomeFragment extends Fragment {
     private ImageView chatButton;
     private PopupMenu categoryMenu;
     private int currentCategoryIndex;
-    private SearchView searchView;
+    private EditText searchView;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -96,20 +101,23 @@ public class HomeFragment extends Fragment {
 
         holderList = new ArrayList< Product >();
         getProductList( recyclerView );
-        /*searchView = view.findViewById( R.id.searchView );
-        searchView.setOnQueryTextListener( new SearchView.OnQueryTextListener
-        () {
+        searchView = view.findViewById( R.id.searchView );
+        searchView.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit( String query ) {
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //Unnecessary
             }
 
             @Override
-            public boolean onQueryTextChange( String newText ) {
-                adapter.getFilter().filter( newText );
-                return false;
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Unnecessary
             }
-        });*/
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
 
         /**
          * Sorts the products by their names or prices.
@@ -237,6 +245,21 @@ public class HomeFragment extends Fragment {
 
         return view;
     }//onCreateView method ends.
+
+    /**
+     * Helps to filter product list by the entered string
+     * @param text, string that the user enters to find the product's name
+     */
+    private void filter( String text ) {
+        ArrayList<Product> filteredList = new ArrayList<>();
+
+        for ( Product p : productList ) {
+            if ( p.getTitle().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(p);
+            }
+        }
+        adapter.filterList(filteredList);
+    }
 
     /**
      * Helps to display list of products and sets the adapter
