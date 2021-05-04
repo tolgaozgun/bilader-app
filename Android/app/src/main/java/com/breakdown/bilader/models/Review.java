@@ -2,6 +2,7 @@ package com.breakdown.bilader.models;
 
 public class Review {
 
+    private String id;
     private User sentBy;
     private String content;
 
@@ -9,12 +10,13 @@ public class Review {
     /**
      * Constructor for User class
      *
-     * @param sentBy   User (Object) value of the writer of review.
-     * @param content  String value of the content of the review
+     * @param sentBy  User (Object) value of the writer of review.
+     * @param content String value of the content of the review
      */
-    public Review( User sentBy, String content ) {
+    public Review( String id, User sentBy, String content ) {
         this.sentBy = sentBy;
         this.content = content;
+        this.id = id;
     }
 
     /**
@@ -33,5 +35,14 @@ public class Review {
      */
     public String getContent() {
         return content;
+    }
+
+    /**
+     * Returns the review id
+     *
+     * @return String value of review ID.
+     */
+    public String getId() {
+        return id;
     }
 }

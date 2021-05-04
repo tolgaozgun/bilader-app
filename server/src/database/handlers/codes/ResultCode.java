@@ -17,6 +17,7 @@ public enum ResultCode {
 	CATEGORIES_OK( "Retrieved categories", true ),
 	REMOVE_OK( "Product removed from wishlist", true ),
 	FOLLOW_OK( "Successfully followed!", true ),
+	ADD_REVIEW_OK( "Review successfully sent!", true ),
 	EDIT_PRODUCT_OK( "Product edited successfully", true ),
 	DELETE_PRODUCT_OK( "Product deleted successfully", true ),
 	LOGOUT_OK( "Logout successful!", true ),

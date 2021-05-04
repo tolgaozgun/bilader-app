@@ -197,6 +197,7 @@ public class OthersProfileActivity extends AppCompatActivity {
 
     }
 
+
     /**
      * Sets the followings count of the current user.
      */
@@ -210,7 +211,6 @@ public class OthersProfileActivity extends AppCompatActivity {
             public void onSuccess( JSONObject object ) {
                 try {
                     if ( object.getBoolean( "success" ) ) {
-                        System.out.println( "ccc" );
                         numberOfFollowings.setText( String.valueOf( object.getInt( "count" ) ) );
                     }
                 } catch ( JSONException e ) {

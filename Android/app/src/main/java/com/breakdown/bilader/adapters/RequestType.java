@@ -5,7 +5,6 @@ public enum RequestType {
     LOGIN( "LoginRequest" ),
     REGISTER( "RegisterRequest" ),
     CATEGORIES( "CategoriesRequest" ),
-    PROFILE( "ProfileRequest" ),
     PRODUCT( "ProductRequest" ),
     FOLLOWERS( "FollowersRequest" ),
     FOLLOWINGS( "FollowingRequest" ),
@@ -18,6 +17,10 @@ public enum RequestType {
     NOTIFICATION( "NotificationRequest" ),
     SEND_MESSAGE( "SendMessageRequest" ),
     RETRIEVE_MESSAGES( "RetrieveMessagesRequest" ),
+    RETRIEVE_REVIEWS("RetrieveReviewsRequest"),
+    EDIT_PRODUCT("EditProductRequest"),
+    DELETE_PRODUCT("DeleteProductRequest"),
+    ADD_REVIEW("AddReviewRequest"),
     TOKEN( "TokenRequest" ),
     WISHLIST( "WishlistRequest" ),
     ADD_PRODUCT( "AddProductRequest" ),
@@ -25,7 +28,6 @@ public enum RequestType {
     CHECK_WISHLIST( "CheckWishlistRequest" ),
     REMOVE_WISHLIST( "RemoveWishlistRequest" ),
     MAIN_CHAT("RetrieveChatsRequest"),
-    PRIVATE_CHAT("RetrieveMessagesRequest"),
     CREATE_CHAT("CreateChatRequest"),
     USER("UserRequest");
 

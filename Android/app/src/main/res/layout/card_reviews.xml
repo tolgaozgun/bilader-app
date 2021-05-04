@@ -8,6 +8,7 @@
     android:padding="8dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_reviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -32,7 +33,7 @@
 
 
             <TextView
-                android:id="@+id/text_card_reviews_comment"
+                android:id="@+id/reviewsTextView"
                 android:layout_width="232dp"
                 android:layout_height="138dp"
                 android:layout_marginStart="28dp"
@@ -51,7 +52,7 @@
                 android:layout_height="18dp"
                 android:layout_marginTop="4dp"
                 android:text="TextView"
-                app:layout_constraintEnd_toStartOf="@+id/text_card_reviews_comment"
+                app:layout_constraintEnd_toStartOf="@+id/reviewsTextView"
                 app:layout_constraintHorizontal_bias="0.805"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_card_reviews_avatar" />

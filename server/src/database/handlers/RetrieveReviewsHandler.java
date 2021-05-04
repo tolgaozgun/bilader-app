@@ -73,6 +73,7 @@ public class RetrieveReviewsHandler extends ProcessHandler {
 		ResultCode result;
 		String[] wanted;
 		String[] userWanted;
+		String senderId;
 		JSONObject json;
 		JSONObject messagesJson;
 		JSONObject tempJson;
@@ -98,13 +99,14 @@ public class RetrieveReviewsHandler extends ProcessHandler {
 			for ( int i = 0; i < usersMap.size(); i++ ) {
 				tempJson = new JSONObject();
 				checkParams = new HashMap< String, String >();
+
+				senderId = ( String ) usersMap.get( i )[ 0 ];
+				checkParams.put( "id", senderId );
 				userDetailsMap = adapter.select( DATABASE_TABLE_USERS,
 						userWanted, checkParams );
-				tempJson.put( "sender_name",
-						userDetailsMap.get( 0 )[ 0 ] );
-				tempJson.put( "sender_avatar",
-						userDetailsMap.get( 0 )[ 1 ] );
-				tempJson.put( SENDER_ID_KEY, usersMap.get( i )[ 0 ] );
+				tempJson.put( "sender_name", userDetailsMap.get( 0 )[ 0 ] );
+				tempJson.put( "sender_avatar", userDetailsMap.get( 0 )[ 1 ] );
+				tempJson.put( SENDER_ID_KEY, senderId );
 				tempJson.put( REVIEW_ID_KEY, usersMap.get( i )[ 1 ] );
 				tempJson.put( CONTENT_ID_KEY, usersMap.get( i )[ 2 ] );
 				tempJson.put( TIME_KEY, usersMap.get( i )[ 3 ] );

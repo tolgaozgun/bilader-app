@@ -14,7 +14,6 @@ import com.breakdown.bilader.fragments.AddNewProductFragment;
 import com.breakdown.bilader.fragments.HomeFragment;
 import com.breakdown.bilader.fragments.MyProfileFragment;
 import com.breakdown.bilader.fragments.NotificationsFragment;
-import com.breakdown.bilader.fragments.OthersProfileFragment;
 import com.breakdown.bilader.fragments.WishlistFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

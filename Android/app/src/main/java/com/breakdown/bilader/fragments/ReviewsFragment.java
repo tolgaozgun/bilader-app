@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,20 +17,30 @@ import androidx.recyclerview.widget.ConcatAdapter;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.CommentAdapter;
+import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.ReviewsAdapter;
-import com.breakdown.bilader.adapters.ReviewsAdapterByYahya;
+import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.models.Review;
 import com.breakdown.bilader.models.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class ReviewsFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList< Review > reviewList;
     private ArrayList< String > comments;
-    private ReviewsAdapterByYahya adapter;
-    private CommentAdapter adapter1;
-    private ReviewsAdapterByYahya adapter2;
+    private ReviewsAdapter adapter;
+    private String currentUserId;
+    private CommentAdapter commentAdapter;
+    private Button submitReviewButton;
+    private EditText reviewsEditText;
+    private ReviewsAdapter reviewsAdapter;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -45,9 +59,11 @@ public class ReviewsFragment extends Fragment {
      */
     @Nullable
     @Override
-    public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState ) {
+    public View onCreateView( LayoutInflater inflater,
+                              @Nullable ViewGroup container,
+                              @Nullable Bundle savedInstanceState ) {
+        Bundle bundle;
         View view;
-        RecyclerView recyclerView;
 
         view = inflater.inflate( R.layout.fragment_reviews, container, false );
 
@@ -56,50 +72,87 @@ public class ReviewsFragment extends Fragment {
 
         recyclerView.setHasFixedSize( true );
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
-        /*
-        // sample users for testing
-        User user1 = new User( "Yahya Demirel", "mail@mail.com", "avatar_male"
-                , "12" );
-        User user2 = new User( "Burcu Kaplan", "mail@mail.com",
-                "avatar_female", "12" );
-        User user3 = new User( "Korhan Kaya", "mail@mail.com", "avatar_male",
-                "12" );
-        User user4 = new User( "Deniz Gökçen", "mail@mail.com",
-                "avatar_female", "12" );
-        User user5 = new User( "Tolga Özgün", "mail@mail.com", "avatar_male",
-                "12" );
-
-        Review review1 = new Review( user1, "I enjoyed with the trade");
-        Review review2 = new Review( user2,"Where is my money bro" );
-        Review review3 = new Review( user3,"Economy is just perfect" );
-        Review review4 = new Review( user3,"Economy is just perfect" );
-        Review review5 = new Review( user3,"Economy is just perfect" );
-        */
-
+        bundle = getArguments();
+        currentUserId = bundle.getString( "user_id" );
         comments = new ArrayList<>();
 
         String comment = "";
         comments.add( comment );
 
-        reviewList = new ArrayList<>();
-        /*
-        reviewList.add( review1 );
-        reviewList.add( review2 );
-        reviewList.add( review3 );
-        reviewList.add( review4 );
-        reviewList.add( review5 );*/
-
-        adapter1 = new CommentAdapter( getContext(), comments );
-        adapter2 = new ReviewsAdapterByYahya( getContext(), reviewList );
-
-        ConcatAdapter concatenated = new ConcatAdapter(adapter1, adapter2);
-
-        recyclerView.setAdapter( concatenated );
-
+        retrieveReviews( recyclerView );
         return view;
     }
 
     public int getReviewNumber() {
-        return adapter2.getItemCount();
+        return reviewsAdapter.getItemCount();
+    }
+
+
+    private void retrieveReviews( RecyclerView recyclerView ) {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "receiver_id", currentUserId );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                Review review;
+                long time;
+                String reviewId;
+                String senderId;
+                String content;
+                String userName;
+                String userAvatarURL;
+                User sender;
+
+                Iterator< String > keys;
+                JSONObject tempJson;
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+                        reviewList = new ArrayList< Review >();
+                        keys = object.getJSONObject( "reviews" ).keys();
+                        while ( keys.hasNext() ) {
+                            String key = keys.next();
+                            tempJson =
+                                    object.getJSONObject( "reviews" ).getJSONObject( key );
+
+                            reviewId = tempJson.getString( "id" );
+                            userName = tempJson.getString( "sender_name" );
+                            content = tempJson.getString( "content" );
+                            senderId = tempJson.getString( "sender_id" );
+                            userAvatarURL = tempJson.getString(
+                                    "sender_avatar" );
+                            System.out.println( "NAME: " + userName + " " +
+                                    "review: " + content );
+                            sender = new User( userName, userAvatarURL,
+                                    senderId );
+                            review = new Review( reviewId, sender, content );
+                            reviewList.add( review );
+                        }
+                    }
+                    printView( recyclerView );
+                } catch ( JSONException e ) {
+                    e.printStackTrace();
+                    printView( recyclerView );
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                printView( recyclerView );
+            }
+        }, RequestType.RETRIEVE_REVIEWS, params, this.getContext(), true );
+    }
+
+    private void printView( RecyclerView recyclerView ) {
+
+
+        commentAdapter = new CommentAdapter( getContext(), comments,
+                currentUserId );
+        reviewsAdapter = new ReviewsAdapter( getContext(), reviewList );
+
+        ConcatAdapter concatenated = new ConcatAdapter( commentAdapter,
+                reviewsAdapter );
+
+        recyclerView.setAdapter( concatenated );
     }
 }

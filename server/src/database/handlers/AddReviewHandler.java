@@ -58,7 +58,7 @@ public class AddReviewHandler extends ProcessHandler {
 			return ResultCode.INVALID_SESSION;
 		}
 
-		return ResultCode.ADD_REPORT_OK;
+		return ResultCode.ADD_REVIEW_OK;
 	}
 
 	private void createReviewId() throws ClassNotFoundException, SQLException {

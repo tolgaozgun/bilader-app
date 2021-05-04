@@ -86,7 +86,6 @@ public class MainChatActivity extends Activity {
                 ChatUser chatUser;
                 try {
                     if ( object.getBoolean( "success" ) ) {
-                        System.out.println( "AAA" );
                         keys = object.getJSONObject( "chats" ).keys();
                         while ( keys.hasNext() ) {
                             String key = keys.next();
