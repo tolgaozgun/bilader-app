@@ -81,7 +81,11 @@ public class ReportActivity extends Activity {
 
         title.setText( reportTitle );
 
-        Picasso.get().load( reportImage ).fit().centerInside().into( imageView );
+        if(reportImage != null && !reportImage.equals( "" )){
+            Picasso.get().load( reportImage ).fit().centerInside().into( imageView );
+        }else{
+            imageView.setImageDrawable( getDrawable( R.drawable.no_image ) );
+        }
 
         submitButton.setOnClickListener( new View.OnClickListener() {
             @Override

@@ -149,7 +149,6 @@ public class OthersProfileActivity extends AppCompatActivity {
         getSoldCount();
         getFollowersCount();
         getFollowingsCount();
-        //getReviewCount();
 
         reportButton.setOnClickListener( new View.OnClickListener() {
             @Override
