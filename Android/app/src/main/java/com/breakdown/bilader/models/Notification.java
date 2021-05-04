@@ -1,5 +1,11 @@
 package com.breakdown.bilader.models;
 
+/**
+ * A class that represents notifications, to be used to notify users when there is message etc.
+ * @author breakDown
+ * @version 19.04.2021
+ */
+
 public class Notification {
 
     private String text;

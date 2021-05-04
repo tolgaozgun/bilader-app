@@ -33,6 +33,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Activity to list private chats, shows last message in the private chats and can be used to go private chat tabs.
+ * @author breakDown
+ * @version 28.04.2021
+ */
+
 public class MainChatActivity extends Activity {
     private View groupFragmentVİew;
     private RecyclerView recyclerView;

@@ -17,6 +17,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This adapter is used for displaying, listing and updating a user's reviews.
+ * @author breakDown
+ * @version 02.05.2021
+ */
+
 public class ReviewsAdapter extends
                             RecyclerView.Adapter< ReviewsAdapter.ReviewHolder > {
     private Context mContext;
