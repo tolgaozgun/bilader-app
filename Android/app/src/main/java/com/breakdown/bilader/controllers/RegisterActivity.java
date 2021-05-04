@@ -5,9 +5,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -24,12 +26,16 @@ import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +56,7 @@ public class RegisterActivity extends Activity {
     private EditText inputPasswordAgain;
     private ProgressDialog loadingBar;
     private ImageView inputAvatar;
+    private String avatarURL;
     private Uri imageUri;
 
     /**
@@ -127,7 +134,7 @@ public class RegisterActivity extends Activity {
             loadingBar.show();
 
             //TODO: AVATAR URL
-            validateEmail( name, email, passwordOne, "" );
+            validateEmail( name, email, passwordOne, avatarURL );
         }
     }
 
@@ -210,14 +217,76 @@ public class RegisterActivity extends Activity {
     public void onActivityResult( int requestCode, int resultCode, @Nullable Intent data ) {
         super.onActivityResult( requestCode, resultCode, data );
 
+
+
         if ( requestCode == 1 && resultCode == -1 ) {
             imageUri = data.getData();
+
+            String filePath = getPath( imageUri );
+            String file_extn =
+                    filePath.substring( filePath.lastIndexOf( "." ) + 1 );
+
+
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap( this.getContentResolver(), imageUri );
-                Picasso.get().load(imageUri).fit().centerCrop().into( inputAvatar );
-            } catch ( IOException e ) {
+                if ( file_extn.equals( "img" ) || file_extn.equals( "jpg" ) || file_extn.equals( "jpeg" ) || file_extn.equals( "gif" ) || file_extn.equals( "png" ) ) {
+                    uploadImage( new URI( filePath ) );
+                } else {
+                    //NOT IN REQUIRED FORMAT
+                }
+            } catch ( Exception e ) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public String getPath( Uri uri ) {
+        String res = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query( uri, proj,
+                null, null, null );
+        if ( cursor.moveToFirst() ) {
+            int column_index =
+                    cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );
+            res = cursor.getString( column_index );
+        }
+        cursor.close();
+        return res;
+    }
+
+
+    private void uploadImage( URI uri ) {
+        JSONObject json;
+        File sourceFile = new File( uri.getPath() );
+        StrictMode.ThreadPolicy policy =
+                new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy( policy );
+
+        try {
+            final com.squareup.okhttp.MediaType MEDIA_TYPE_PNG =
+                    com.squareup.okhttp.MediaType.parse( "image/*" );
+
+            com.squareup.okhttp.RequestBody requestBody =
+                    new MultipartBuilder().type( MultipartBuilder.FORM ).addFormDataPart( "image", "image.png", com.squareup.okhttp.RequestBody.create( MEDIA_TYPE_PNG, sourceFile ) ).build();
+
+            com.squareup.okhttp.Request request =
+                    new com.squareup.okhttp.Request.Builder().url( "http://88"
+                            + ".99.11.149:8080/server/index.jsp" ).put( requestBody ).addHeader( "Content-Type", "application/x-www-formurlencoded" ).build();
+
+            OkHttpClient client = new OkHttpClient();
+            com.squareup.okhttp.Response response =
+                    client.newCall( request ).execute();
+
+
+            System.out.println( "Response data " + response );
+            json = new JSONObject(response.toString());
+            avatarURL = json.getString( "url" );
+
+
+        } catch ( Exception e ) {
+
+            System.out.println( "Response error is" + e );
+
         }
     }
 }

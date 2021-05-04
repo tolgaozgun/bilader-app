@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -38,18 +39,27 @@ import com.breakdown.bilader.models.Category;
 import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 import com.google.gson.Gson;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 /**
  * A class that makes connection between its layout and data
  *
@@ -72,6 +82,7 @@ public class AddNewProductFragment extends Fragment {
     private Category category;
     private String productId;
 
+    private String imageUrl;
     private ArrayList< Uri > uriList;
     private List< String > imagesEncodedList;
     private ImageLoadAdapter adapter;
@@ -79,8 +90,8 @@ public class AddNewProductFragment extends Fragment {
     private RecyclerView recyclerView;
 
     /**
-     * Called to have the fragment instantiate its user interface properties
-     * and give them specialized actions.
+     * Called to have the fragment instantiate its user interface properties and
+     * give them specialized actions.
      *
      * @param inflater            is the LayoutInflater object that can be used
      *                            to inflate any views in the fragment
@@ -127,7 +138,8 @@ public class AddNewProductFragment extends Fragment {
                 popupMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
-                        category = new Category( item.getItemId(), getContext() );
+                        category = new Category( item.getItemId(),
+                                getContext() );
                         categoryButton.setText( item.getTitle() );
                         return false;
                     }
@@ -151,7 +163,8 @@ public class AddNewProductFragment extends Fragment {
                 gallery = new Intent();
                 gallery.setType( "image/*" );
                 gallery.setAction( Intent.ACTION_GET_CONTENT );
-                startActivityForResult( Intent.createChooser( gallery, "Select" + " Picture" ), 1 );
+                startActivityForResult( Intent.createChooser( gallery,
+                        "Select" + " Picture" ), 1 );
             }
         } );
 
@@ -208,66 +221,71 @@ public class AddNewProductFragment extends Fragment {
     }
 
     /**
-     * Called when an activity that is launched exits, it gives the requestCode to
-     * started it with, the resultCode it returned, and any additional data from it
+     * Called when an activity that is launched exits, it gives the requestCode
+     * to started it with, the resultCode it returned, and any additional data
+     * from it
      *
-     * @param requestCode:        is the int object that allows to identify who
-     *                            this result came from.
-     * @param resultCode:         is the int object that is returned by the child
-     *                            activity through its setResult().
-     * @param data:               If non-null, this intent is being used to return
-     *                            result data to the caller
+     * @param requestCode: is the int object that allows to identify who this
+     *                     result came from.
+     * @param resultCode:  is the int object that is returned by the child
+     *                     activity through its setResult().
+     * @param data:        If non-null, this intent is being used to return
+     *                     result data to the caller
      */
     @Override
-    public void onActivityResult( int requestCode, int resultCode, @Nullable Intent data ) {
+    public void onActivityResult( int requestCode, int resultCode,
+                                  @Nullable Intent data ) {
         super.onActivityResult( requestCode, resultCode, data );
 
         if ( requestCode == 1 && resultCode == -1 ) {
             imageUri = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap( mContext.getContentResolver(), imageUri );
-                Picasso.get().load(imageUri).fit().centerCrop().into( pickPhotoButton);
+                Bitmap bitmap =
+                        MediaStore.Images.Media.getBitmap( mContext.getContentResolver(), imageUri );
+                Picasso.get().load( imageUri ).fit().centerCrop().into( pickPhotoButton );
             } catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
-/*
+
         if ( requestCode == 1 && resultCode == -1 ) {
             imageUri = data.getData();
 
-            String filePath = getPath(imageUri);
-            String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
+            String filePath = getPath( imageUri );
+            String file_extn =
+                    filePath.substring( filePath.lastIndexOf( "." ) + 1 );
+
 
             try {
-                if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
-                    //FINE
+                if ( file_extn.equals( "img" ) || file_extn.equals( "jpg" ) || file_extn.equals( "jpeg" ) || file_extn.equals( "gif" ) || file_extn.equals( "png" ) ) {
+                    uploadImage( new URI( filePath ) );
                 } else {
                     //NOT IN REQUIRED FORMAT
                 }
-            } catch ( Exception e) {
-                // TODO Auto-generated catch block
+            } catch ( Exception e ) {
                 e.printStackTrace();
             }
-        }*/
+        }
 
     }
 
-   public String getPath(Uri uri) {
+    public String getPath( Uri uri ) {
         String res = null;
         String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContext().getContentResolver().query(uri, proj, null, null, null);
-        if(cursor.moveToFirst()){;
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
+        Cursor cursor = getContext().getContentResolver().query( uri, proj,
+                null, null, null );
+        if ( cursor.moveToFirst() ) {
+            int column_index =
+                    cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );
+            res = cursor.getString( column_index );
         }
         cursor.close();
         return res;
     }
 
     /**
-     * Called when a product is wanted to be added. It sends the properties of the
-     * product to the ProductActivity class where all of the data is hold.
-     *
+     * Called when a product is wanted to be added. It sends the properties of
+     * the product to the ProductActivity class where all of the data is hold.
      */
     private void submitProduct() {
         String priceText;
@@ -283,7 +301,7 @@ public class AddNewProductFragment extends Fragment {
         priceText = price.getText().toString();
         titleText = title.getText().toString();
         descriptionText = description.getText().toString();
-        params.put( "picture_url", "" );
+        params.put( "picture_url", imageUrl );
         params.put( "title", titleText );
         params.put( "description", descriptionText );
         params.put( "price", priceText );
@@ -318,5 +336,41 @@ public class AddNewProductFragment extends Fragment {
 
             }
         }, RequestType.ADD_PRODUCT, params, mContext, true );
+    }
+
+    private void uploadImage( URI uri ) {
+        JSONObject json;
+        File sourceFile = new File( uri.getPath() );
+        StrictMode.ThreadPolicy policy =
+                new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy( policy );
+
+        try {
+            final com.squareup.okhttp.MediaType MEDIA_TYPE_PNG =
+                    com.squareup.okhttp.MediaType.parse( "image/*" );
+
+            com.squareup.okhttp.RequestBody requestBody =
+                    new MultipartBuilder().type( MultipartBuilder.FORM ).addFormDataPart( "image", "image.png", com.squareup.okhttp.RequestBody.create( MEDIA_TYPE_PNG, sourceFile ) ).build();
+
+            com.squareup.okhttp.Request request =
+                    new com.squareup.okhttp.Request.Builder().url( "http://88"
+                            + ".99.11.149:8080/server/index.jsp" ).put( requestBody ).addHeader( "Content-Type", "application/x-www-formurlencoded" ).build();
+
+            OkHttpClient client = new OkHttpClient();
+            com.squareup.okhttp.Response response =
+                    client.newCall( request ).execute();
+
+
+            System.out.println( "Response data " + response );
+            json = new JSONObject(response.toString());
+            imageUrl = json.getString( "url" );
+
+
+        } catch ( Exception e ) {
+
+            System.out.println( "Response error is" + e );
+
+        }
     }
 }

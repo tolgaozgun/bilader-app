@@ -57,6 +57,7 @@ public class EditProductActivity extends Activity {
     private Product currentProduct;
     private PopupMenu popupMenu;
     private Category category;
+    private boolean isSold;
 
 
     /**
@@ -86,13 +87,15 @@ public class EditProductActivity extends Activity {
         editPrice = findViewById( R.id.editPrice );
         editCategory = findViewById( R.id.editCategory );
 
+        isSold = currentProduct.getIsSold();
+        category = currentProduct.getCategory();
         editDescription.setText( currentProduct.getDescription() );
         editPrice.setText( String.valueOf( currentProduct.getPrice() ) );
         editTitle.setText( currentProduct.getTitle() );
         if ( currentProduct.getPicture() != null && !currentProduct.getPicture().equals( "" ) ) {
             Picasso.get().load( currentProduct.getPicture() ).fit().centerCrop().into( productImage );
         }
-        editCategory.setText( currentProduct.getCategory().getName() );
+        editCategory.setText( category.getName() );
 
 
         soldButton.setOnClickListener( new View.OnClickListener() {
@@ -103,7 +106,7 @@ public class EditProductActivity extends Activity {
              */
             @Override
             public void onClick( View v ) {
-                //editedProduct.changeSoldSituation();
+                isSold = true;
             }
         } );
 
@@ -115,6 +118,7 @@ public class EditProductActivity extends Activity {
              */
             @Override
             public void onClick( View v ) {
+                isSold = false;
             }
         } );
 
@@ -217,14 +221,19 @@ public class EditProductActivity extends Activity {
 
     private void editProduct() {
         Intent intent;
+        int isSoldResult;
         HashMap< String, String > params;
         params = new HashMap< String, String >();
+        // turns boolean to tiny int.
+        isSoldResult = isSold ? 1 : 0;
+        params.put( "product_id", currentProduct.getProductId() );
         params.put( "picture_url", currentProduct.getPicture() );
         params.put( "title", currentProduct.getTitle() );
         params.put( "description", currentProduct.getDescription() );
         params.put( "price", String.valueOf( currentProduct.getPrice() ) );
         params.put( "seller_id", currentProduct.getSeller().getId() );
         params.put( "category_id", String.valueOf( category.getId() ) );
+        params.put( "sold", String.valueOf( isSoldResult ) );
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {

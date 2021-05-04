@@ -202,6 +202,24 @@
   	<description></description>
   	<servlet-class>database.requests.RetrieveReviewsRequest</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>UploadImage</servlet-name>
+  	<display-name>UploadImage</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.UploadImage</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>FileUploadHandler</servlet-name>
+  	<display-name>FileUploadHandler</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.FileUploadHandler</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>MultipartServlet</servlet-name>
+  	<display-name>MultipartServlet</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.MultipartServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -333,5 +351,17 @@
   <servlet-mapping>
   	<servlet-name>RetrieveReviewsRequest</servlet-name>
   	<url-pattern>/RetrieveReviewsRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>UploadImage</servlet-name>
+  	<url-pattern>/UploadImage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>FileUploadHandler</servlet-name>
+  	<url-pattern>/FileUploadHandler</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>MultipartServlet</servlet-name>
+  	<url-pattern>/MultipartServlet</url-pattern>
   </servlet-mapping>
 </web-app>

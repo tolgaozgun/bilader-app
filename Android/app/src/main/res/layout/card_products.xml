@@ -21,7 +21,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/product_sample" />
+            app:srcCompat="@drawable/no_image" />
 
         <TextView
             android:id="@+id/text_product_name"
