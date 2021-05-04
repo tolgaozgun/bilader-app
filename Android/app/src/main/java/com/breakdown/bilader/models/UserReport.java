@@ -12,7 +12,7 @@ public class UserReport extends Report {
      * @param reportedId  String value of reported user ID.
      */
     public UserReport( String description, String reportedId ) {
-        super( reportedId, description );
+        super( description, reportedId );
         reportType = 0;
     }
 
