@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.json.JSONObject;
 
@@ -15,9 +14,11 @@ import jakarta.servlet.ServletException;
 
 public class RemoveProductHandler extends ProcessHandler {
 
-	private static final String PRODUCT_ID_KEY = "product_id";
-	private static final String[] VALIDATE_KEYS = {""};
-	private static final String[] KEYS = { "product_id" };
+	private static final String PRODUCT_ID_KEY = "id";
+	private static final String TEMP_PRODUCT_ID_KEY = "product_id";
+	private static final String[] KEYS = { TEMP_PRODUCT_ID_KEY };
+	private static final String[] PRODUCT_VERIFICATION_KEYS = {
+			PRODUCT_ID_KEY };
 	private static final String DATABASE_TABLE = "products";
 	private static final String DATABASE_TABLE_USERS = "users";
 
@@ -29,6 +30,7 @@ public class RemoveProductHandler extends ProcessHandler {
 			throws ClassNotFoundException, SQLException {
 		DatabaseAdapter adapter;
 		Map< String, String > checkParams;
+		String productId;
 
 		adapter = new DatabaseAdapter();
 		// Checks if the parameters are non-existent.
@@ -50,33 +52,18 @@ public class RemoveProductHandler extends ProcessHandler {
 		if ( !checkToken() ) {
 			return ResultCode.INVALID_SESSION;
 		}
-		checkParams = cloneMapWithKeys( VERIFICATION_KEYS_ID, params );
-		if ( !adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
-			return ResultCode.ACCOUNT_DOES_NOT_EXIST;
+
+		productId = params.get( TEMP_PRODUCT_ID_KEY );
+		params.put( PRODUCT_ID_KEY, productId );
+		params.remove( TEMP_PRODUCT_ID_KEY );
+
+		// Check if the current user exists in the database.
+		checkParams = cloneMapWithKeys( PRODUCT_VERIFICATION_KEYS, params );
+		if ( !adapter.doesExist( DATABASE_TABLE, checkParams ) ) {
+			return ResultCode.PRODUCT_DOES_NOT_EXIST;
 		}
 
-		return ResultCode.ADD_PRODUCT_OK;
-	}
-
-	private String createProductId()
-			throws ClassNotFoundException, SQLException {
-		Map< String, String > mapProductId;
-		UUID productId;
-		DatabaseAdapter adapter;
-		boolean doesExist;
-
-		mapProductId = new HashMap< String, String >();
-		productId = UUID.randomUUID();
-		mapProductId.put( "id", productId.toString() );
-		adapter = new DatabaseAdapter();
-		doesExist = adapter.doesExist( DATABASE_TABLE, mapProductId );
-		while ( doesExist ) {
-			productId = UUID.randomUUID();
-			mapProductId.put( "id", productId.toString() );
-		}
-		params.put( "id", productId.toString() );
-		return productId.toString();
-
+		return ResultCode.DELETE_PRODUCT_OK;
 	}
 
 	@Override
@@ -85,22 +72,24 @@ public class RemoveProductHandler extends ProcessHandler {
 		JSONObject json;
 		DatabaseAdapter adapter;
 		ResultCode result;
-		String productId;
+		Map< String, String > checkParams;
 
 		adapter = new DatabaseAdapter();
+		checkParams = new HashMap< String, String >();
 		json = new JSONObject();
 		result = checkParams();
-		productId = "";
+
 		if ( result.isSuccess() ) {
-			productId = createProductId();
 			// Adds the new product to database.
-			adapter.create( DATABASE_TABLE, params );
+			checkParams = cloneMapWithKeys( PRODUCT_VERIFICATION_KEYS, params );
+			adapter.delete( DATABASE_TABLE, checkParams );
 		}
 
 		json.put( "session_error", result == ResultCode.INVALID_SESSION );
-		json.put( "product_id", productId );
+		json.put( "product_id", params.get( PRODUCT_ID_KEY ) );
 		json.put( "success", result.isSuccess() );
 		json.put( "message", result.getMessage() );
 		return json;
 	}
+
 }
