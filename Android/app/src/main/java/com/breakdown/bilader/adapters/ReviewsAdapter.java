@@ -34,6 +34,9 @@ public class ReviewsAdapter extends
         this.reviewList = reviews;
     }
 
+    /**
+     * It is an holder class for reviews, it mainly includes review's content, user' who wrote review image and name
+     */
     public class ReviewHolder extends RecyclerView.ViewHolder {
         public ImageView imageReviewScreenAvatar;
         public TextView textUserName;
@@ -58,6 +61,15 @@ public class ReviewsAdapter extends
 
     @NonNull
     @Override
+
+    /**
+     * a method that creates new card view elements
+     *
+     * @param parent   is the The ViewGroup into which the new View will be
+     *                 added after it is bound to an adapter position.
+     * @param viewType The view type of the new View
+     * @return a new ViewHolder that holds a View of the given view type
+     */
     public ReviewsAdapter.ReviewHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ) {
         View itemView;
 
@@ -67,6 +79,11 @@ public class ReviewsAdapter extends
         return new ReviewHolder( itemView );
     }
 
+    /**
+     * This method sets holder's properties in the list by determining which position it have
+     * @param holder, object that holds properties
+     * @param position, position of the current review of list
+     */
     @Override
     public void onBindViewHolder( @NonNull ReviewsAdapter.ReviewHolder holder
             , int position ) {
