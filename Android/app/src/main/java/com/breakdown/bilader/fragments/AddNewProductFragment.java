@@ -220,6 +220,16 @@ public class AddNewProductFragment extends Fragment {
 
         if ( requestCode == 1 && resultCode == -1 ) {
             imageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap( mContext.getContentResolver(), imageUri );
+                Picasso.get().load(imageUri).fit().centerCrop().into( pickPhotoButton);
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+/*
+        if ( requestCode == 1 && resultCode == -1 ) {
+            imageUri = data.getData();
 
             String filePath = getPath(imageUri);
             String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
@@ -234,7 +244,7 @@ public class AddNewProductFragment extends Fragment {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }
+        }*/
 
     }
 
