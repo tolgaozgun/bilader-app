@@ -78,6 +78,7 @@ public class RegisterActivity extends Activity {
         inputPasswordAgain = ( EditText ) findViewById( R.id.editText_password_again_register );
         loadingBar = new ProgressDialog( this );
         inputAvatar = ( ImageView ) findViewById( R.id.image_avatar_register );
+        avatarURL = "";
 
         inputAvatar.setOnClickListener( new View.OnClickListener() {
             @Override
