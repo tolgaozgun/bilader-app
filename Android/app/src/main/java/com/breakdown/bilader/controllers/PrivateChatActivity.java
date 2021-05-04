@@ -293,10 +293,8 @@ public class PrivateChatActivity extends Activity {
 
                             previousMessages.add( message );
                         }
-                        System.out.println( "mm" );
                         Collections.sort(previousMessages);
                         adapter.addToEnd( previousMessages, true );
-                        System.out.println( "nn" );
                     }
                 } catch ( JSONException e ) {
                     e.printStackTrace();

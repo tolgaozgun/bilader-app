@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -115,6 +116,9 @@ public class MainChatActivity extends Activity {
                             Toast.LENGTH_SHORT ).show();
                     e.printStackTrace();
                 }
+
+                Collections.sort(chatUsers);
+                Collections.reverse( chatUsers );
                 printView( recyclerView );
             }
 

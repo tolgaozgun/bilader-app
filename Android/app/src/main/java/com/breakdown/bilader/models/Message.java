@@ -126,7 +126,8 @@ public class Message implements IMessage, Comparable {
     @Override
     public int compareTo( Object o ) {
         if ( o instanceof Message ) {
-
+            Long curMessageTime = new Long(messageTime);
+            return curMessageTime.compareTo(( ( Message ) o ).getMessageTime());
         }
         return 0;
     }

@@ -6,7 +6,7 @@ package com.breakdown.bilader.models;
  * @version 13.04.2021
  */
 
-public class ChatUser extends User {
+public class ChatUser extends User implements Comparable {
 
     String lastMessage;
     String chatId;
@@ -40,5 +40,14 @@ public class ChatUser extends User {
 
     public long getLastMessageDate() {
         return lastMessageDate;
+    }
+
+    @Override
+    public int compareTo( Object o ) {
+        if ( o instanceof ChatUser ) {
+            Long curMessageTime = new Long(lastMessageDate);
+            return curMessageTime.compareTo(( ( ChatUser ) o ).getLastMessageDate());
+        }
+        return 0;
     }
 }
