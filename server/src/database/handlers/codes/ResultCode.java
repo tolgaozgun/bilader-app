@@ -16,6 +16,7 @@ public enum ResultCode {
 	ADD_WISHLIST_OK( "Product added to wishlist", true ),
 	CATEGORIES_OK( "Retrieved categories", true ),
 	REMOVE_OK( "Product removed from wishlist", true ),
+	FOLLOW_OK( "Successfully followed!", true ),
 	EDIT_PRODUCT_OK( "Product edited successfully", true ),
 	DELETE_PRODUCT_OK( "Product deleted successfully", true ),
 	LOGOUT_OK( "Logout successful!", true ),
@@ -31,6 +32,7 @@ public enum ResultCode {
 	INVALID_REQUEST( "Invalid request! Please contact developers.", false ),
 	ALREADY_VERIFIED( "Your account is already verified!", false ),
 	ALREADY_WISHLISTED( "This product is already in your wishlist", false ),
+	ALREADY_FOLLOWED( "You are already following this user!", false ),
 	CHECK_NOT_WISHLISTED( "This product is not wishlisted.", true ),
 	CHECK_ALREADY_WISHLISTED( "This product is already in your wishlist",
 			true ),
@@ -38,9 +40,9 @@ public enum ResultCode {
 	ACCOUNT_DOES_NOT_EXIST( "This email is not registered!", false ),
 	NOT_VERIFIED( "Your account is not verified!", false ),
 	WRONG_VERIFICATION_CODE( "Wrong verification code!", false ),
-	NO_PENDING_REQUEST( "There isn't a pending request for this account.",
-			false ),
-	NO_REVIEWS_FOUND("No reviews found!", false),
+	NO_PENDING_REQUEST(
+			"There isn't a pending request for this account.", false ),
+	NO_REVIEWS_FOUND( "No reviews found!", false ),
 	VERIFICATION_EXPIRED(
 			"Your verification code has expired! Please try again.", false ),
 	NONE_FOUND( "No data found!", false ),

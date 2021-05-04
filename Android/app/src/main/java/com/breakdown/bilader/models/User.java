@@ -1,15 +1,28 @@
 package com.breakdown.bilader.models;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
+import com.android.volley.toolbox.Volley;
+import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.VolleyCallback;
 import com.stfalcon.chatkit.commons.models.IUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
- * A class that represents the user,sets its properties and when needed manipulate it.
+ * A class that represents the user,sets its properties and when needed
+ * manipulate it.
+ *
  * @author breakDown
  * @version 14.04.2021
  */
@@ -61,7 +74,9 @@ public class User implements Serializable, IUser {
      * @return String value of the user id
      */
     @Override
-    public String getId() { return userId; }
+    public String getId() {
+        return userId;
+    }
 
     /**
      * Returns the wishlist of the current user.
@@ -76,24 +91,34 @@ public class User implements Serializable, IUser {
      * Adds current user to the following people list for the user in the
      * parameter. The person who did the action is provided in the parameter.
      *
-     * @param user User instance of person who followed.
-     * @return Boolean whether the operation was successful.
      */
-    public boolean addToFollowings( User user ) {
-        // TODO: Change the user to something like sessionID, we want this
-        // client to send messages only for themselves not on behalf of
-        // someone else.
-        //TODO check if this method returns true in the method this is called
-        //from so that we can display a success or fail message.
-        return false;
+    public void follow( Context context ) {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    if(object.getBoolean( "success" )){
+                    }
+                    Toast.makeText( context, object.getString( "message" ), Toast.LENGTH_SHORT ).show();
+                } catch ( JSONException e ) {
+                    Toast.makeText( context, e.getMessage() , Toast.LENGTH_SHORT ).show();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                Toast.makeText( context, message, Toast.LENGTH_SHORT ).show();
+            }
+        }, RequestType.FOLLOW, params, context, true );
     }
 
     @NonNull
     @Override
     /**
      * Returns user's name to identify user.
-     */
-    public String toString() {
+     */ public String toString() {
         return userName;
     }
 
