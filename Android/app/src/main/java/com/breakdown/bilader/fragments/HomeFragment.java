@@ -8,23 +8,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
-import com.breakdown.bilader.adapters.NotificationAdapter;
-import com.breakdown.bilader.adapters.NotificationService;
 import com.breakdown.bilader.adapters.ProductAdapter;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
@@ -99,7 +94,7 @@ public class HomeFragment extends Fragment {
                 StaggeredGridLayoutManager.VERTICAL ) );
 
         holderList = new ArrayList< Product >();
-        getProductList( recyclerView );
+        retrieveProducts( recyclerView );
         searchView = view.findViewById( R.id.searchView );
         searchView.addTextChangedListener( new TextWatcher() {
             @Override
@@ -321,7 +316,7 @@ public class HomeFragment extends Fragment {
      *
      * @param recyclerView, object that holds product, lists and displays them
      */
-    private void getProductList( RecyclerView recyclerView ) {
+    private void retrieveProducts( RecyclerView recyclerView ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
         HttpAdapter.getRequestJSON( new VolleyCallback() {
