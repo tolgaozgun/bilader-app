@@ -3,6 +3,7 @@ package com.breakdown.bilader.controllers;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -29,10 +30,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+
 /**
- * A class that shows the properties of a product. With its specified click listeners, it interacts
- * with and sends information to other activity classes such as OthersProfileActivity, BiltraderActivity
- * and ReportActivity.
+ * A class that shows the properties of a product. With its specified click
+ * listeners, it interacts with and sends information to other activity classes
+ * such as OthersProfileActivity, BiltraderActivity and ReportActivity.
  *
  * @author breakDown
  * @version 29.04.2021
@@ -67,8 +69,8 @@ public class ProductActivity extends Activity {
 
 
     /**
-     * this is the method where the initialization of UI properties made and
-     * set an action to each of them
+     * this is the method where the initialization of UI properties made and set
+     * an action to each of them
      *
      * @param savedInstanceState: If the activity is being re-initialized after
      *                            previously being shut down then this Bundle
@@ -136,7 +138,6 @@ public class ProductActivity extends Activity {
         } );
 
 
-
         addWishlistButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
@@ -174,7 +175,7 @@ public class ProductActivity extends Activity {
         } );
     }
 
-    private void setSettingsView(){
+    private void setSettingsView() {
         if ( currentProduct.getSeller().getId().equals( currentUserId ) ) {
             settingsButton.setOnClickListener( new View.OnClickListener() {
                 @Override
@@ -199,8 +200,8 @@ public class ProductActivity extends Activity {
                                         EditProductActivity.class );
 
                                 gson = new Gson();
-                                myJson = gson.toJson(currentProduct);
-                                newIntent.putExtra("product", myJson);
+                                myJson = gson.toJson( currentProduct );
+                                newIntent.putExtra( "product", myJson );
                                 startActivity( newIntent );
                             } else if ( id == R.id.removeMenu ) {
                                 //TODO
@@ -246,7 +247,6 @@ public class ProductActivity extends Activity {
      * Sets the properties (seller, name, description, category, price, picture)
      * of a product by getting the entered values and adjusting them as features
      * of the product
-     *
      */
     private void setView() {
 
@@ -260,6 +260,8 @@ public class ProductActivity extends Activity {
             categoryText.setText( currentProduct.getCategory().toString() );
             if ( currentProduct.getPicture() != null && !currentProduct.getPicture().equals( "" ) ) {
                 Picasso.get().load( currentProduct.getPicture() ).fit().centerCrop().into( productImage );
+            } else {
+                productImage.setImageDrawable( getDrawable( R.drawable.no_image ) );
             }
             if ( currentProduct.getOwner().getAvatar() != null && !currentProduct.getOwner().getAvatar().equals( "" ) ) {
                 Picasso.get().load( currentProduct.getOwner().getAvatar() ).fit().centerCrop().into( userAvatar );
@@ -271,7 +273,6 @@ public class ProductActivity extends Activity {
 
     /**
      * Adds the selected product to the wishlist of the current user
-     *
      */
     public void addToWishlist() {
         HashMap< String, String > params;
@@ -303,7 +304,6 @@ public class ProductActivity extends Activity {
 
     /**
      * Removes the selected product from the wishlist of the current user
-     *
      */
     public void removeFromWishlist() {
         HashMap< String, String > params;
@@ -336,6 +336,7 @@ public class ProductActivity extends Activity {
     /**
      * Returns the Product object with the desired product id and the properties
      * that it has
+     *
      * @param productId is the String version of the product id
      * @return Product object that has the entered product id.
      */
@@ -385,7 +386,6 @@ public class ProductActivity extends Activity {
 
     /**
      * Checks if the product is in the wishlist of the current user
-     *
      */
     public void checkIfWishlisted() {
         isWishlisted = false;
@@ -414,7 +414,6 @@ public class ProductActivity extends Activity {
     /**
      * Re-draw the addToWishlist button if the product is added to the wishlist
      * of the current user
-     *
      */
     private void updateWishlistButton() {
         if ( isWishlisted ) {

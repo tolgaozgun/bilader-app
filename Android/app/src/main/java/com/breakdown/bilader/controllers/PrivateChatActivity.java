@@ -17,6 +17,7 @@ import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.models.Message;
+import com.breakdown.bilader.models.Product;
 import com.breakdown.bilader.models.User;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -197,28 +198,33 @@ public class PrivateChatActivity extends Activity {
     /**
      * syncs recycler view with sent message simultaneously
      *
-     * @param message is the typed message by sender
+     * @param messageString is the typed message by sender
      */
-    private void sendMessage( String message ) {
-
+    private void sendMessage( String messageString ) {
+        long time;
         Map< String, String > params;
         params = new HashMap< String, String >();
-        params.put( "content", message );
+        time = System.currentTimeMillis();
+        params.put( "content", messageString );
         params.put( "chat_id", chatId );
 
-        //TODO
-        Message message1 = new Message( ( long ) 0, userChatted, message,
-                chatId );
 
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {
-                String messageId;
+                Message message;
+                User sender;
+                String senderName;
+                String senderAvatar;
                 try {
                     if ( object.getBoolean( "success" ) ) {
-                        messageId = object.getString( "message_id" );
-                        // message1 = new Message
-                        adapter.addToStart( message1, true );
+                        senderName = object.getString( "sender_name" );
+                        senderAvatar = object.getString( "sender_avatar_url" );
+                        sender = new User( senderName, senderAvatar,
+                                currentUserId );
+                        message = new Message( time, sender, messageString,
+                                chatId );
+                        adapter.addToStart( message, true );
                     }
                 } catch ( JSONException e ) {
                     e.printStackTrace();
@@ -231,20 +237,6 @@ public class PrivateChatActivity extends Activity {
             }
         }, RequestType.SEND_MESSAGE, params, this, true );
 
-    }
-
-    /**
-     * takes sender id from the server
-     *
-     * @param id is the id of user
-     * @return sender id
-     */
-    private User getUser( String id ) {
-        if ( currentUserId.equals( id ) ) {
-            return gson.fromJson( getIntent().getStringExtra( "user" ),
-                    User.class );
-        }
-        return userChatted;
     }
 
 
@@ -267,6 +259,9 @@ public class PrivateChatActivity extends Activity {
                 Iterator< String > keys;
                 JSONObject tempJson;
                 String senderId;
+                String senderName;
+                String senderAvatar;
+
                 String content;
                 String messageId;
                 long time;
@@ -287,13 +282,11 @@ public class PrivateChatActivity extends Activity {
                             senderId = tempJson.getString( "sender_id" );
                             content = tempJson.getString( "content" );
                             messageId = tempJson.getString( "message_id" );
-                            System.out.println( "time" + time + " senderId " + senderId + " content " + content + " messageId " + messageId );
-                            //sender = getUser( senderId );
-
-                            //TODO
-                            sender =
-                                    gson.fromJson( getIntent().getStringExtra( "user" ), User.class );
-
+                            senderName = tempJson.getString( "sender_name" );
+                            senderAvatar = tempJson.getString( "sender_avatar_url"
+                            );
+                            sender = new User( senderName, senderAvatar,
+                                    senderId );
                             message = new Message( time, sender, content,
                                     messageId );
 
@@ -316,5 +309,5 @@ public class PrivateChatActivity extends Activity {
 
         }, RequestType.RETRIEVE_MESSAGES, params, this, true );
     }
-    
+
 }

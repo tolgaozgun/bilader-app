@@ -20,9 +20,13 @@ public class RetrieveMessagesHandler extends ProcessHandler {
 	private final static String CHAT_ID_KEY = "chat_id";
 	private final static String TIME_KEY = "time";
 	private final static String SENDER_ID_KEY = "sender_id";
+	private final static String SENDER_NAME_KEY = "sender_name";
+	private final static String SENDER_AVATAR_URL_KEY = "sender_avatar_url";
 	private final static String RECEIVER_ID_KEY = "receiver_id";
 	private final static String MESSAGE_ID_KEY = "message_id";
 	private final static String CONTENT_KEY = "content";
+	private final static String NAME_KEY = "name";
+	private final static String AVATAR_URL_KEY = "avatar_url";
 	private final static String[] KEYS = { CHAT_ID_KEY, TIME_KEY };
 	private final static String[] VERIFY_KEYS = { CHAT_ID_KEY };
 
@@ -73,10 +77,14 @@ public class RetrieveMessagesHandler extends ProcessHandler {
 		JSONObject messagesJson;
 		JSONObject tempJson;
 		Map< Integer, Object[] > usersMap;
+		Map< Integer, Object[] > userResultMap;
 		Map< String, String > checkParams;
+		Map< String, String > userParams;
 		Map< String, String > compareParams;
 		String[] wanted;
+		String[] usersWanted;
 
+		userParams = new HashMap< String, String >();
 		json = new JSONObject();
 		adapter = new DatabaseAdapter();
 		result = checkParams();
@@ -88,9 +96,13 @@ public class RetrieveMessagesHandler extends ProcessHandler {
 		wanted[ 3 ] = CONTENT_KEY;
 		wanted[ 4 ] = MESSAGE_ID_KEY;
 
+		usersWanted = new String[ 2 ];
+		usersWanted[ 0 ] = NAME_KEY;
+		usersWanted[ 1 ] = AVATAR_URL_KEY;
+
 		if ( result.isSuccess() ) {
 			checkParams = cloneMapWithKeys( VERIFY_KEYS, params );
-			compareParams = new HashMap<String, String>();
+			compareParams = new HashMap< String, String >();
 			compareParams.put( TIME_KEY, params.get( TIME_KEY ) );
 			usersMap = adapter.select( DATABASE_TABLE, wanted, checkParams,
 					compareParams, CompareType.BIGGER );
@@ -102,6 +114,13 @@ public class RetrieveMessagesHandler extends ProcessHandler {
 				tempJson.put( RECEIVER_ID_KEY, usersMap.get( i )[ 2 ] );
 				tempJson.put( CONTENT_KEY, usersMap.get( i )[ 3 ] );
 				tempJson.put( MESSAGE_ID_KEY, usersMap.get( i )[ 4 ] );
+				userParams.clear();
+				userParams.put( USER_ID_KEY, ( String ) usersMap.get( i )[ 1 ] );
+				userResultMap = adapter.select( DATABASE_TABLE_USERS,
+						usersWanted, userParams );
+				tempJson.put( SENDER_NAME_KEY, userResultMap.get( 0 )[ 0 ] );
+				tempJson.put( SENDER_AVATAR_URL_KEY,
+						userResultMap.get( 0 )[ 1 ] );
 				messagesJson.put( String.valueOf( i ), tempJson );
 			}
 			json.put( "messages", messagesJson );

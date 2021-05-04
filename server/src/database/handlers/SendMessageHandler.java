@@ -27,6 +27,8 @@ public class SendMessageHandler extends ProcessHandler {
 	private final static String PARTICIPANT_TWO_KEY = "participant_two";
 	private final static String LAST_MESSAGE_KEY = "last_message";
 	private final static String LAST_MESSAGE_DATE_KEY = "last_message_date";
+	private final static String NAME_KEY = "name";
+	private final static String AVATAR_URL_KEY = "avatar_url";
 	private final static String[] KEYS = { CHAT_ID_KEY, CONTENT_KEY };
 	private final static String[] VERIFY_KEYS = { CHAT_ID_KEY };
 
@@ -83,10 +85,12 @@ public class SendMessageHandler extends ProcessHandler {
 		JSONObject json;
 		DatabaseAdapter adapter;
 		String[] wanted;
+		String[] userWanted;
 		ResultCode result;
 		Map< String, String > chatIdParam;
 		Map< String, Object > updateList;
 		Map< Integer, Object[] > resultMap;
+		Map< Integer, Object[] > userResultMap;
 		String currentUserId;
 		String otherUserId;
 		String messageId;
@@ -103,6 +107,10 @@ public class SendMessageHandler extends ProcessHandler {
 		wanted[ 1 ] = PARTICIPANT_TWO_KEY;
 		currentUserId = params.get( SENDER_ID_KEY );
 		params.remove( USER_ID_KEY );
+
+		userWanted = new String[ 2 ];
+		userWanted[ 0 ] = NAME_KEY;
+		userWanted[ 1 ] = AVATAR_URL_KEY;
 
 		if ( result.isSuccess() ) {
 			messageId = createMessageId();
@@ -126,6 +134,15 @@ public class SendMessageHandler extends ProcessHandler {
 
 			// Update messages table.
 			adapter.create( DATABASE_TABLE_MESSAGES, params );
+
+			params.clear();
+			params.put( USER_ID_KEY, currentUserId );
+			json.put( "sender_id", currentUserId );
+			userResultMap = adapter.select( DATABASE_TABLE_USERS, userWanted,
+					params );
+			json.put( "sender_name", userResultMap.get( 0 )[ 0 ] );
+			json.put( "sender_avatar_url", userResultMap.get( 0 )[ 1 ] );
+
 		}
 
 		json.put( "message_id", messageId );
@@ -142,7 +159,7 @@ public class SendMessageHandler extends ProcessHandler {
 		UUID messageId;
 		DatabaseAdapter adapter;
 		boolean doesExist;
-		
+
 		mapMessageId = new HashMap< String, String >();
 		messageId = UUID.randomUUID();
 		mapMessageId.put( "message_id", messageId.toString() );

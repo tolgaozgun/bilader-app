@@ -8,10 +8,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.toolbox.Volley;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.controllers.PrivateChatActivity;
 import com.breakdown.bilader.models.Message;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -89,7 +92,6 @@ public class PrivateChatAdapter extends RecyclerView.Adapter< PrivateChatAdapter
             message = messageList.get( position );
             fromUserID = message.getUser().getId();
 
-
             holder.receiverMessage.setVisibility( View.GONE );
             holder.senderMessage.setVisibility( View.GONE );
 
@@ -120,5 +122,6 @@ public class PrivateChatAdapter extends RecyclerView.Adapter< PrivateChatAdapter
         }
         return 0;
     }
+
 
 }
