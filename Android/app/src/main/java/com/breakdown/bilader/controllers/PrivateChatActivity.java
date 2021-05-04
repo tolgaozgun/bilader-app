@@ -36,6 +36,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is responsible for the private chat activity. Displays the private
+ * chats between two users.
+ *
+ * @author breakDown
+ * @version 29.04.2021
+ */
+
 public class PrivateChatActivity extends Activity {
 
     private MessagesListAdapter< Message > adapter;
