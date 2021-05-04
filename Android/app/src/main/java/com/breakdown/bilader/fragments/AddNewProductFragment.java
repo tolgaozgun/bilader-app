@@ -73,21 +73,12 @@ public class AddNewProductFragment extends Fragment {
     private EditText description;
     private Button postButton;
     private Button categoryButton;
-    private User currentUser;
     private Activity mContext;
     private PopupMenu popupMenu;
-    private Product newProduct;
-    private Uri imageUri;
     private ImageView pickPhotoButton;
     private Category category;
     private String productId;
-
-    private String imageUrl;
-    private ArrayList< Uri > uriList;
-    private List< String > imagesEncodedList;
-    private ImageLoadAdapter adapter;
     private SharedPreferences sharedPreferences;
-    private RecyclerView recyclerView;
 
     /**
      * Called to have the fragment instantiate its user interface properties and
@@ -124,9 +115,6 @@ public class AddNewProductFragment extends Fragment {
         postButton = view.findViewById( R.id.postButton );
         categoryButton = view.findViewById( R.id.category_button );
         pickPhotoButton = view.findViewById( R.id.button_add );
-        uriList = new ArrayList< Uri >();
-        //For now, current user is
-        currentUser = new User( "Korhan", "avatar_male", "12" );
 
 
         categoryButton.setOnClickListener( new View.OnClickListener() {
@@ -237,7 +225,7 @@ public class AddNewProductFragment extends Fragment {
                                   @Nullable Intent data ) {
         super.onActivityResult( requestCode, resultCode, data );
 
-        if ( requestCode == 1 && resultCode == -1 ) {
+        /*if ( requestCode == 1 && resultCode == -1 ) {
             imageUri = data.getData();
             try {
                 Bitmap bitmap =
@@ -258,14 +246,14 @@ public class AddNewProductFragment extends Fragment {
 
             try {
                 if ( file_extn.equals( "img" ) || file_extn.equals( "jpg" ) || file_extn.equals( "jpeg" ) || file_extn.equals( "gif" ) || file_extn.equals( "png" ) ) {
-                    uploadImage( new URI( filePath ) );
+                  //  uploadImage( new URI( filePath ) );
                 } else {
                     //NOT IN REQUIRED FORMAT
                 }
             } catch ( Exception e ) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
     }
 
@@ -301,7 +289,7 @@ public class AddNewProductFragment extends Fragment {
         priceText = price.getText().toString();
         titleText = title.getText().toString();
         descriptionText = description.getText().toString();
-        params.put( "picture_url", imageUrl );
+        params.put( "picture_url", "" );
         params.put( "title", titleText );
         params.put( "description", descriptionText );
         params.put( "price", priceText );
@@ -338,7 +326,7 @@ public class AddNewProductFragment extends Fragment {
         }, RequestType.ADD_PRODUCT, params, mContext, true );
     }
 
-    private void uploadImage( URI uri ) {
+    /*private void uploadImage( URI uri ) {
         JSONObject json;
         File sourceFile = new File( uri.getPath() );
         StrictMode.ThreadPolicy policy =
@@ -372,5 +360,5 @@ public class AddNewProductFragment extends Fragment {
             System.out.println( "Response error is" + e );
 
         }
-    }
+    }*/
 }
