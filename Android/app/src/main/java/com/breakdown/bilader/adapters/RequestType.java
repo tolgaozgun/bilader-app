@@ -29,6 +29,7 @@ public enum RequestType {
     REMOVE_WISHLIST( "RemoveWishlistRequest" ),
     MAIN_CHAT("RetrieveChatsRequest"),
     CREATE_CHAT("CreateChatRequest"),
+    UPDATE_PHOTO("UpdatePhotoRequest"),
     USER("UserRequest");
 
     private String path;

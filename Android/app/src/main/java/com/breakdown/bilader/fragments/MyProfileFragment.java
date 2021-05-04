@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,10 +19,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.toolbox.Volley;
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.MultipartUtility;
@@ -57,6 +60,7 @@ public class MyProfileFragment extends Fragment {
     private Button followingButton;
     private Button settingsButton;
     private Button logOutButton;
+    private String imageUrl;
     private ProgressDialog loadingBar;
     private SharedPreferences sharedPreferences;
     private String currentUserId;
@@ -93,7 +97,7 @@ public class MyProfileFragment extends Fragment {
         sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences( this.getContext() );
         currentUserId = sharedPreferences.getString( "id", "" );
-        avatarView = view.findViewById( R.id.image_myprofile_avatar);
+        avatarView = view.findViewById( R.id.image_myprofile_avatar );
         nameView = view.findViewById( R.id.text_myprofile_fullname );
 
         updateInfo();
@@ -102,6 +106,7 @@ public class MyProfileFragment extends Fragment {
 
         return view;
     }
+
     //todo
     // update profile image after user changes
     private void updateInfo() {
@@ -123,7 +128,7 @@ public class MyProfileFragment extends Fragment {
                                         "avatar_url" );
                         nameView.setText( name );
                         Picasso.get().load( avatarUrl ).fit().centerCrop().into( avatarView );
-                    }else{
+                    } else {
                         name = "ERROR";
                         nameView.setText( name );
                     }
@@ -160,7 +165,8 @@ public class MyProfileFragment extends Fragment {
                 galery = new Intent();
                 galery.setType( "image/*" );
                 galery.setAction( Intent.ACTION_GET_CONTENT );
-                startActivityForResult( Intent.createChooser( galery, "Select" + " Picture" ), 1 );
+                startActivityForResult( Intent.createChooser( galery, "Select"
+                        + " Picture" ), 1 );
             }
         } );
 
@@ -283,29 +289,115 @@ public class MyProfileFragment extends Fragment {
     }
     // Todo
     // update profile image in server too
+
     /**
-     * Called when an activity that is launched exits, it gives the requestCode to
-     * started it with, the resultCode it returned, and any additional data from it
+     * Called when an activity that is launched exits, it gives the requestCode
+     * to started it with, the resultCode it returned, and any additional data
+     * from it
      *
-     * @param requestCode:        is the int object that allows to identify who
-     *                            this result came from.
-     * @param resultCode:         is the int object that is returned by the child
-     *                            activity through its setResult().
-     * @param data:               If non-null, this intent is being used to return
-     *                            result data to the caller
+     * @param requestCode: is the int object that allows to identify who this
+     *                     result came from.
+     * @param resultCode:  is the int object that is returned by the child
+     *                     activity through its setResult().
+     * @param data:        If non-null, this intent is being used to return
+     *                     result data to the caller
      */
     @Override
-    public void onActivityResult( int requestCode, int resultCode, @Nullable Intent data ) {
+    public void onActivityResult( int requestCode, int resultCode,
+                                  @Nullable Intent data ) {
         super.onActivityResult( requestCode, resultCode, data );
 
         if ( requestCode == 1 && resultCode == -1 ) {
+            Uri imageUri;
             imageUri = data.getData();
+
+            imageUrl = getPath( imageUri );
+            String file_extn =
+                    imageUrl.substring( imageUrl.lastIndexOf( "." ) + 1 );
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap( context.getContentResolver(), imageUri );
-                Picasso.get().load(imageUri).fit().centerCrop().into( avatarView );
+                Bitmap bitmap =
+                        MediaStore.Images.Media.getBitmap( context.getContentResolver(), imageUri );
+                Picasso.get().load( imageUri ).fit().centerCrop().into( avatarView );
             } catch ( IOException e ) {
                 e.printStackTrace();
             }
+            try {
+                if ( file_extn.equals( "img" ) || file_extn.equals( "jpg" ) || file_extn.equals( "jpeg" ) || file_extn.equals( "gif" ) || file_extn.equals( "png" ) ) {
+                    uploadFile( "http://88.99.11.149:8080/server" +
+                            "/MultipartServlet", imageUrl );
+                } else {
+                    //NOT IN REQUIRED FORMAT
+                }
+            } catch ( Exception e ) {
+                e.printStackTrace();
+            }
         }
+
+    }
+
+    public String getPath( Uri uri ) {
+        String res = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContext().getContentResolver().query( uri, proj,
+                null, null, null );
+        if ( cursor.moveToFirst() ) {
+            int column_index =
+                    cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );
+            res = cursor.getString( column_index );
+        }
+        cursor.close();
+        return res;
+    }
+
+    private void uploadFile( String requestURL, final String fileName ) {
+        StringBuffer responseString;
+        JSONObject json;
+        StrictMode.ThreadPolicy policy =
+                new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy( policy );
+
+        String charset = "UTF-8";
+        File uploadFile1 = new File( fileName );
+
+        try {
+            MultipartUtility multipart = new MultipartUtility( requestURL,
+                    charset );
+            multipart.addFilePart( "file", uploadFile1 );
+
+            List< String > response = multipart.finish();
+            responseString = new StringBuffer();
+            for ( String str : response ) {
+                responseString.append( str );
+            }
+            json = new JSONObject( responseString.toString() );
+            imageUrl = json.getString( "url" );
+            sendPhotoRequest( imageUrl );
+        } catch ( IOException | JSONException ex ) {
+            System.out.println( "ERROR: " + ex.getMessage() );
+            ex.printStackTrace();
+        }
+    }
+
+    private void sendPhotoRequest( String imageURL ) {
+        HashMap<String, String> params;
+        params = new HashMap<String, String>();
+        params.put("avatar_url", imageURL);
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    Toast.makeText( context, object.getString( "message" ), Toast.LENGTH_SHORT ).show();
+                } catch ( JSONException e ) {
+                    Toast.makeText( context, e.getMessage(), Toast.LENGTH_SHORT ).show();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                Toast.makeText( context, message, Toast.LENGTH_SHORT ).show();
+
+            }
+        }, RequestType.UPDATE_PHOTO, params, getContext(), true);
     }
 }

@@ -57,6 +57,7 @@ public class ProductActivity extends Activity {
     private String description;
     private String pictureURL;
     private String sellerId;
+    private String categoryName;
     private int categoryId;
     private String sellerAvatar;
     private String sellerName;
@@ -359,11 +360,11 @@ public class ProductActivity extends Activity {
                         sellerAvatar = tempJson.getString( "seller_avatar_url"
                         );
                         sellerName = tempJson.getString( "seller_name" );
+                        categoryName = tempJson.getString( "category_name" );
                         categoryId = tempJson.getInt( "category_id" );
                         price = tempJson.getDouble( "price" );
                         seller = new User( sellerName, sellerAvatar, sellerId );
-                        category = new Category( categoryId,
-                                ProductActivity.this );
+                        category = new Category( categoryId, categoryName );
                         currentProduct = new Product( pictureURL, title,
                                 description, price, seller, false, productId,
                                 category );
@@ -379,7 +380,6 @@ public class ProductActivity extends Activity {
 
             }
         }, RequestType.PRODUCT, params, this, true );
-
 
         return currentProduct;
     }

@@ -86,6 +86,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager;
 
         view = inflater.inflate( R.layout.fragment_home, container, false );
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         recyclerView =
                 ( RecyclerView ) view.findViewById( R.id.biltraderRecycler );
@@ -226,20 +227,17 @@ public class HomeFragment extends Fragment {
                     }
                 } );
 
-                swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-                swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        retrieveProducts( recyclerView );
-
-                        adapter.notifyDataSetChanged();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });
 
 
             }
         } );
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                retrieveProducts( recyclerView );
+
+            }
+        });
 
         return view;
     }//onCreateView method ends.
@@ -343,6 +341,7 @@ public class HomeFragment extends Fragment {
                 String description;
                 String productId;
                 String productTitle;
+                String categoryName;
                 String sellerId;
                 String sellerAvatarURL;
                 User seller;
@@ -368,25 +367,32 @@ public class HomeFragment extends Fragment {
                             sellerAvatarURL = tempJson.getString(
                                     "seller_avatar_url" );
                             categoryId = tempJson.getInt( "category_id" );
+                            categoryName = tempJson.getString( "category_name" );
                             seller = new User( sellerName, sellerAvatarURL,
                                     sellerId );
                             product = new Product( pictureUrl, productTitle,
                                     description, price, seller, false,
                                     productId, new Category( categoryId,
-                                    getContext() ) );
+                                    categoryName ) );
                             productList.add( product );
                         }
                     }
                     printView( recyclerView );
+                    adapter.notifyDataSetChanged();
+                    swipeRefreshLayout.setRefreshing(false);
                 } catch ( JSONException e ) {
                     e.printStackTrace();
                     printView( recyclerView );
+                    adapter.notifyDataSetChanged();
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
 
             @Override
             public void onFail( String message ) {
                 printView( recyclerView );
+                adapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
             }
         }, RequestType.PRODUCT, params, this.getContext(), true );
     }

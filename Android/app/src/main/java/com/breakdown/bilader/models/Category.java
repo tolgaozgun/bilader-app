@@ -14,7 +14,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 /**
- * A class that helps us to create category objects to enable products have categories
+ * A class that helps us to create category objects to enable products have
+ * categories
+ *
  * @author Korhan Kemal Kaya
  * @version 13.04.2021
  */
@@ -31,7 +33,11 @@ public class Category implements Comparable {
     public Category( int id, Context context ) {
         this.id = id;
         retrieveCategory( context );
+    }
 
+    public Category( int id, String name ) {
+        this.id = id;
+        this.name = name;
     }
 
     /**
@@ -81,6 +87,7 @@ public class Category implements Comparable {
 
     /**
      * Retrieves category objects by working with context
+     *
      * @param context, required context to retrieve categories
      */
     private void retrieveCategory( Context context ) {

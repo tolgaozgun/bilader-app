@@ -17,6 +17,7 @@ public class SendMessageHandler extends ProcessHandler {
 
 	private final static String DATABASE_TABLE_MESSAGES = "messages";
 	private final static String DATABASE_TABLE_CHATS = "chats";
+	private final static String DATABASE_TABLE_NOTIFICATIONS = "notifications";
 	private final static String DATABASE_TABLE_USERS = "users";
 	private final static String CHAT_ID_KEY = "chat_id";
 	private final static String CONTENT_KEY = "content";
@@ -94,6 +95,7 @@ public class SendMessageHandler extends ProcessHandler {
 		String currentUserId;
 		String otherUserId;
 		String messageId;
+		String content;
 		long currentTime;
 
 		json = new JSONObject();
@@ -113,6 +115,7 @@ public class SendMessageHandler extends ProcessHandler {
 		userWanted[ 1 ] = AVATAR_URL_KEY;
 
 		if ( result.isSuccess() ) {
+			content = params.get( CONTENT_KEY );
 			messageId = createMessageId();
 			chatIdParam = cloneMapWithKeys( VERIFY_KEYS, params );
 			resultMap = adapter.select( DATABASE_TABLE_CHATS, wanted,
@@ -142,6 +145,13 @@ public class SendMessageHandler extends ProcessHandler {
 					params );
 			json.put( "sender_name", userResultMap.get( 0 )[ 0 ] );
 			json.put( "sender_avatar_url", userResultMap.get( 0 )[ 1 ] );
+
+			params.clear();
+			params.put( "user_id", otherUserId );
+			params.put( "content", content );
+			params.put( "image", ( String ) userResultMap.get( 0 )[ 1 ] );
+			params.put( "time", String.valueOf( currentTime ) );
+			adapter.create( DATABASE_TABLE_NOTIFICATIONS, params );
 
 		}
 

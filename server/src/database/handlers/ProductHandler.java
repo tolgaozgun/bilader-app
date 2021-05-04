@@ -2,7 +2,6 @@ package database.handlers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -15,9 +14,10 @@ import jakarta.servlet.ServletException;
 public class ProductHandler extends ProcessHandler {
 
 	private static final String[] KEYS = {};
-	private static final String[] OPTIONAL_KEYS = { "product_id", "price", "seller_id",
-			"category_id" };
+	private static final String[] OPTIONAL_KEYS = { "product_id", "price",
+			"seller_id", "category_id" };
 	private final String DATABASE_TABLE = "products";
+	private final String DATABASE_TABLE_CATEGORIES = "categories";
 
 	public ProductHandler( Map< String, String[] > params ) {
 		super( RequestAdapter.convertParameters( params, KEYS, OPTIONAL_KEYS,
@@ -50,12 +50,12 @@ public class ProductHandler extends ProcessHandler {
 			return ResultCode.INVALID_SESSION;
 		}
 
-		if(params.containsKey( "product_id" )) {
+		if ( params.containsKey( "product_id" ) ) {
 			productId = params.get( "product_id" );
 			params.put( "id", productId );
 			params.remove( "product_id" );
 		}
-		
+
 		if ( adapter.doesExist( DATABASE_TABLE, params ) ) {
 			return ResultCode.PRODUCT_OK;
 		}
@@ -72,6 +72,7 @@ public class ProductHandler extends ProcessHandler {
 		JSONObject jsonSqlResult;
 		Map< Integer, Object[] > sqlResult;
 
+		Map< Integer, Object[] > resultMap;
 		Map< Integer, Object[] > userResult;
 		DatabaseAdapter adapter;
 		String[] wanted;
@@ -79,6 +80,8 @@ public class ProductHandler extends ProcessHandler {
 		String sellerId;
 		Object[] objectList;
 		ResultCode result;
+		String categoryId;
+		String[] categoryWanted = { "name" };
 
 		adapter = new DatabaseAdapter();
 		json = new JSONObject();
@@ -106,7 +109,7 @@ public class ProductHandler extends ProcessHandler {
 				for ( int key : sqlResult.keySet() ) {
 					tempJson = new JSONObject();
 					sellerId = ( String ) sqlResult.get( key )[ 5 ];
-					params = new HashMap< String, String >();
+					params.clear();
 					params.put( USER_ID_KEY, sellerId );
 					userResult = adapter.select( DATABASE_TABLE_USERS,
 							sellerWanted, params );
@@ -114,6 +117,12 @@ public class ProductHandler extends ProcessHandler {
 					for ( int i = 0; i < wanted.length; i++ ) {
 						tempJson.put( wanted[ i ], objectList[ i ] );
 					}
+					categoryId = ( String ) objectList[ 6 ];
+					params.clear();
+					params.put( "id", categoryId );
+					resultMap = adapter.select( DATABASE_TABLE_CATEGORIES,
+							categoryWanted, params );
+					tempJson.put( "category_name", resultMap.get( 0 )[ 0 ] );
 					for ( int i = 0; i < sellerWanted.length; i++ ) {
 						tempJson.put( "seller_" + sellerWanted[ i ],
 								userResult.get( 0 )[ i ] );
