@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -50,7 +51,6 @@ public class EditProductActivity extends Activity {
     private Button editButton;
     private Button onSaleButton;
     private Button soldButton;
-    private Product editedProduct;
     private Uri imageUri;
     private Gson gson;
     private ImageView productImage;
@@ -115,7 +115,6 @@ public class EditProductActivity extends Activity {
              */
             @Override
             public void onClick( View v ) {
-                //editedProduct.changeSoldSituation();
             }
         } );
 
@@ -126,7 +125,7 @@ public class EditProductActivity extends Activity {
              * display it in Biltrader screen with new properties.
              * @param v , refers to view of button
              */ public void onClick( View v ) {
-                editProduct( editedProduct );
+                editProduct();
             }
 
         } );
@@ -216,8 +215,36 @@ public class EditProductActivity extends Activity {
 
     }
 
-    private void editProduct( Product editedProduct ) {
+    private void editProduct() {
         Intent intent;
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "picture_url", currentProduct.getPicture() );
+        params.put( "title", currentProduct.getTitle() );
+        params.put( "description", currentProduct.getDescription() );
+        params.put( "price", String.valueOf( currentProduct.getPrice() ) );
+        params.put( "seller_id", currentProduct.getSeller().getId() );
+        params.put( "category_id", String.valueOf( category.getId() ) );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    Toast.makeText( EditProductActivity.this,
+                            object.getString( "message" ),
+                            Toast.LENGTH_SHORT ).show();
+                } catch ( JSONException e ) {
+                    Toast.makeText( EditProductActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                Toast.makeText( EditProductActivity.this, message,
+                        Toast.LENGTH_SHORT ).show();
+            }
+        }, RequestType.EDIT_PRODUCT, params, EditProductActivity.this, true );
+
 
         intent = new Intent( EditProductActivity.this, ProductActivity.class );
         intent.putExtra( "product_id", currentProduct.getProductId() );
