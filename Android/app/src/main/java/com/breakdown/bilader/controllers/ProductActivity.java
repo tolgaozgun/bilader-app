@@ -146,6 +146,8 @@ public class ProductActivity extends Activity {
                         @Override
                         public boolean onMenuItemClick( MenuItem item ) {
                             int id;
+                            Gson gson;
+                            String myJson;
                             Intent newIntent;
 
                             id = item.getItemId();
@@ -154,8 +156,11 @@ public class ProductActivity extends Activity {
 
                                 newIntent = new Intent( ProductActivity.this,
                                         EditProductActivity.class );
+
+                                gson = new Gson();
+                                myJson = gson.toJson(currentProduct);
+                                newIntent.putExtra("product", myJson);
                                 startActivity( newIntent );
-                                //TODO
                             } else if ( id == R.id.removeMenu ) {
                                 //TODO
                             }
