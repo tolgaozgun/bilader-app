@@ -144,7 +144,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                 newIntent.putExtra( "id", currentUser.getId() );
                 newIntent.putExtra( "title", currentUser.getName() );
                 newIntent.putExtra( "image_url", currentUser.getAvatar() );
-                newIntent.putExtra( "report-type", 0 );
+                newIntent.putExtra( "report-type", false );
                 startActivity( newIntent );
             }
         } );

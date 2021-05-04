@@ -19,7 +19,6 @@ public class FollowHandler extends ProcessHandler {
 	private static final String[] KEYS = { TARGET_USER_ID_KEY };
 	private static final String[] FOLLOW_CHECK_KEYS = { CURRENT_USER_ID_KEY,
 			TARGET_USER_ID_KEY };
-	private static final String[] TARGET_CHECK_KEYS = { TARGET_USER_ID_KEY };
 	private final String DATABASE_TABLE_USERS = "users";
 	private final String DATABASE_TABLE_FOLLOWERS = "followers";
 

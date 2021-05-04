@@ -177,7 +177,7 @@ public class ProductActivity extends Activity {
                     intent.putExtra( "id", currentProduct.getProductId() );
                     intent.putExtra( "title", currentProduct.getTitle() );
                     intent.putExtra( "image_url", currentProduct.getPicture() );
-                    intent.putExtra( "report-type", 1 );
+                    intent.putExtra( "report-type", true );
                     startActivity( intent );
                 }
             } );

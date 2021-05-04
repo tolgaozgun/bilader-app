@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
         recyclerView =
                 ( RecyclerView ) view.findViewById( R.id.biltraderRecycler );
 
-       // layoutManager = new LinearLayoutManager( getActivity() );
+        // layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setHasFixedSize( true );
         recyclerView.setLayoutManager( new StaggeredGridLayoutManager( 2,
                 StaggeredGridLayoutManager.VERTICAL ) );
@@ -103,12 +103,14 @@ public class HomeFragment extends Fragment {
         searchView = view.findViewById( R.id.searchView );
         searchView.addTextChangedListener( new TextWatcher() {
             @Override
-            public void beforeTextChanged( CharSequence s, int start, int count, int after ) {
+            public void beforeTextChanged( CharSequence s, int start,
+                                           int count, int after ) {
                 //Unnecessary
             }
 
             @Override
-            public void onTextChanged( CharSequence s, int start, int before, int count ) {
+            public void onTextChanged( CharSequence s, int start, int before,
+                                       int count ) {
                 //Unnecessary
             }
 
@@ -116,7 +118,7 @@ public class HomeFragment extends Fragment {
             public void afterTextChanged( Editable s ) {
                 filter( s.toString() );
             }
-        });
+        } );
 
         /**
          * Sorts the products by their names or prices.
@@ -197,37 +199,26 @@ public class HomeFragment extends Fragment {
         } );
 
         /**
-         * Allows users to choose the category of the products they are looking for.
+         * Allows users to choose the category of the products they are
+         * looking for.
          */
         categoryMenuImage = view.findViewById( R.id.imageView );
         categoryMenuImage.setOnClickListener( new View.OnClickListener() {
 
             public void onClick( View view ) {
-                System.out.println( "AA" );
 
                 categoryMenu = new PopupMenu( getActivity(), view );
-                System.out.println( "AA" );
 
                 categoryMenu.getMenuInflater().inflate( R.menu.category_popup_menu, categoryMenu.getMenu() );
-                System.out.println( "AA" );
                 createMenu( categoryMenu );
-                System.out.println( "AA" );
                 categoryMenu.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener() {
 
                     @Override
                     public boolean onMenuItemClick( MenuItem item ) {
-                        System.out.println( "p " + productList.size() );
-                        System.out.println( "h: " + holderList.size() );
                         productList.clear();
                         for ( Product p : holderList ) {
-                            System.out.println( "CC" );
-                            if ( p.getCategory() != null  ) {
-                                System.out.println( "Item: " + item.getTitle() );
-                                System.out.println( "P: " + p + " ? " + p.getTitle() );
-                                System.out.println( "Product: " + p.getCategory().getId() );
-                                System.out.println( "11: " + item.getItemId()  );
-                                if ( p.getCategory().getId() == item.getItemId() ) {
-                                    System.out.println( "DD" );
+                            if ( p.getCategory() != null ) {
+                                if ( p.getCategory().getId() == item.getItemId() || item.getItemId() == 0 ) {
                                     productList.add( p );
                                 }
                             }
@@ -247,10 +238,11 @@ public class HomeFragment extends Fragment {
 
     /**
      * Helps to filter product list by the entered string
+     *
      * @param text, string that the user enters to find the product's name
      */
     private void filter( String text ) {
-        ArrayList<Product> filteredList = new ArrayList<>();
+        ArrayList< Product > filteredList = new ArrayList<>();
 
         for ( Product p : productList ) {
             if ( p.getTitle().toLowerCase().contains( text.toLowerCase() ) ) {
@@ -262,6 +254,7 @@ public class HomeFragment extends Fragment {
 
     /**
      * Helps to display list of products and sets the adapter
+     *
      * @param recyclerView, recyclerView object to list elements in it.
      */
     private void printView( RecyclerView recyclerView ) {
@@ -276,6 +269,7 @@ public class HomeFragment extends Fragment {
 
     /**
      * Creates and sets the properties of the category menu by using database
+     *
      * @param categoryMenu, PopupMenu to display categories
      */
     private void createMenu( PopupMenu categoryMenu ) {
@@ -322,7 +316,9 @@ public class HomeFragment extends Fragment {
     }
 
     /**
-     * Gets product list and properties of products from server and integrate it with the recyclerView object
+     * Gets product list and properties of products from server and integrate it
+     * with the recyclerView object
+     *
      * @param recyclerView, object that holds product, lists and displays them
      */
     private void getProductList( RecyclerView recyclerView ) {
@@ -368,7 +364,8 @@ public class HomeFragment extends Fragment {
                                     sellerId );
                             product = new Product( pictureUrl, productTitle,
                                     description, price, seller, false,
-                                    productId, new Category( categoryId, getContext() ) );
+                                    productId, new Category( categoryId,
+                                    getContext() ) );
                             productList.add( product );
                         }
                     }

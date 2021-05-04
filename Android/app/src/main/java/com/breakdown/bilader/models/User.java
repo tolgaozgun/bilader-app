@@ -75,10 +75,10 @@ public class User implements Serializable, IUser {
         return userId;
     }
 
+
     /**
      * Adds current user to the following people list for the user in the
      * parameter. The person who did the action is provided in the parameter.
-     *
      */
     public void follow( Context context ) {
         HashMap< String, String > params;
@@ -88,11 +88,13 @@ public class User implements Serializable, IUser {
             @Override
             public void onSuccess( JSONObject object ) {
                 try {
-                    if(object.getBoolean( "success" )){
+                    if ( object.getBoolean( "success" ) ) {
                     }
-                    Toast.makeText( context, object.getString( "message" ), Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( context, object.getString( "message" ),
+                            Toast.LENGTH_SHORT ).show();
                 } catch ( JSONException e ) {
-                    Toast.makeText( context, e.getMessage() , Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( context, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
                 }
             }
 
