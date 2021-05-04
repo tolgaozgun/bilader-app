@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
-import com.breakdown.bilader.adapters.NotificationAdapter;
 import com.breakdown.bilader.adapters.NotificationService;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;

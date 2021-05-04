@@ -1,5 +1,17 @@
 package com.breakdown.bilader.models;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.breakdown.bilader.R;
+
+import java.util.UUID;
+
 /**
  * A class that represents notifications, to be used to notify users when there is message etc.
  * @author breakDown
@@ -8,39 +20,86 @@ package com.breakdown.bilader.models;
 
 public class Notification {
 
-    private String text;
-    //private long time;
-    private String avatarUrl;
-    //private Context context;
+    private String content;
+    private String avatarURL;
+    private long time;
+    private String title;
+    private Context context;
+    private int notificationId;
+    private final String CHANNEL_ID;
 
-    /**
-     * Constructor
-     *
-     * @param avatarUrl     String value of the avatar URL.
-     * @param text          String value of the notification text.
-     */
-    public Notification( String avatarUrl, String text) {
-        this.avatarUrl = avatarUrl;
-        this.text = text;
+    public Notification( int notificationId, String content, String title,
+                                String avatarURL, long time, Context context ) {
+        this.content = content;
+        this.avatarURL = avatarURL;
+        this.time = time;
+        this.title = title;
+        this.context = context;
+        this.notificationId = notificationId;
+        CHANNEL_ID = UUID.randomUUID().toString();
+        createNotificationChannel();
+    }
+
+
+    public void buildNotification() {
+        NotificationCompat.Builder builder;
+        NotificationManagerCompat notificationManager;
+        builder = new NotificationCompat.Builder( context, CHANNEL_ID )
+                .setSmallIcon( R.drawable.vector_logo )
+       //         .setLargeIcon(  )
+                .setContentTitle( title )
+                .setContentText( content )
+                .setPriority( NotificationCompat.PRIORITY_DEFAULT );
+        notificationManager = NotificationManagerCompat.from( context );
+        notificationManager.notify( notificationId, builder.build() );
 
     }
 
-    /**
-     * Returns the String value of the avatar URL.
-     *
-     * @return String value of avatar URL.
-     */
-    public String getAvatarUrl() {
-        return avatarUrl;
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+            CharSequence name = context.getString( R.string.channel_name );
+            String description =
+                    context.getString( R.string.channel_description );
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel( CHANNEL_ID
+                    , name, importance );
+            channel.setDescription( description );
+            // Register the channel with the system; you can't change the
+            // importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager =
+                    context.getSystemService( NotificationManager.class );
+            notificationManager.createNotificationChannel( channel );
+        }
     }
 
-    /**
-     * Returns the String value of the notification text.
-     *
-     * @return String value of the notification text.
-     */
-    public String getText() {
-        return text;
+    public String getContent() {
+        return content;
     }
 
+    public String getAvatarURL() {
+        return avatarURL;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public int getNotificationId() {
+        return notificationId;
+    }
+
+    public String getCHANNEL_ID() {
+        return CHANNEL_ID;
+    }
 }

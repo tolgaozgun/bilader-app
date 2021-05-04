@@ -1,24 +1,15 @@
 package com.breakdown.bilader.adapters;
 
-import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.breakdown.bilader.R;
+import com.breakdown.bilader.models.Notification;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +29,8 @@ public class NotificationService extends Service {
     private String userId;
     private String content;
     private String avatarURL;
-    private NotificationAdapter adapter;
+    private String title;
+    private Notification notification;
     private long time;
     private int notificationId;
 
@@ -102,12 +94,16 @@ public class NotificationService extends Service {
                                 sharedPreferences.edit().putLong(
                                         "LAST_NOTIFICATION_TIME", time ).apply();
                                 content = tempNotif.getString( "content" );
+                                title = tempNotif.getString( "title" );
                                 avatarURL = tempNotif.getString( "image" );
                                 notificationId = tempNotif.getInt(
                                         "notification_id" );
-                                adapter =
-                                        new NotificationAdapter( notificationId, content, avatarURL, time, NotificationService.this );
-                                adapter.buildNotification();
+                                notification =
+                                        new Notification( notificationId,
+                                                content, title, avatarURL,
+                                                time,
+                                                NotificationService.this );
+                                notification.buildNotification();
                             }
                         }
                     } catch ( JSONException e ) {
@@ -119,7 +115,8 @@ public class NotificationService extends Service {
                 public void onFail( String message ) {
 
                 }
-            }, RequestType.NOTIFICATION, params, getApplicationContext(), false );
+            }, RequestType.NOTIFICATION, params, getApplicationContext(),
+                    false );
         }
     }
 

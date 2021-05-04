@@ -6,11 +6,13 @@ import com.stfalcon.chatkit.commons.models.IUser;
 import java.util.Date;
 
 /**
- * A class that holds for messages, enables users to send and get message objects while texting.
+ * A class that holds for messages, enables users to send and get message
+ * objects while texting.
+ *
  * @author breakDown
  * @version 13.04.2021
  */
-public class Message implements IMessage {
+public class Message implements IMessage, Comparable {
 
     private long messageTime;
     private User sentBy;
@@ -86,7 +88,7 @@ public class Message implements IMessage {
     /**
      * Sets the time of the message
      *
-     * @param messageTime  long value of the price.
+     * @param messageTime long value of the price.
      */
     public void setMessageTime( long messageTime ) {
         this.messageTime = messageTime;
@@ -95,7 +97,7 @@ public class Message implements IMessage {
     /**
      * Sets the sender of the message
      *
-     * @param sentBy  User (Object) value of the sender.
+     * @param sentBy User (Object) value of the sender.
      */
     public void setSentBy( User sentBy ) {
         this.sentBy = sentBy;
@@ -106,7 +108,7 @@ public class Message implements IMessage {
     /**
      * Sets the content of the message
      *
-     * @param content  String value of the content.
+     * @param content String value of the content.
      */
     public void setContent( String content ) {
         this.content = content;
@@ -115,9 +117,17 @@ public class Message implements IMessage {
     /**
      * Sets the id of the message
      *
-     * @param messageId  String value of the message.
+     * @param messageId String value of the message.
      */
     public void setMessageId( String messageId ) {
         this.messageId = messageId;
+    }
+
+    @Override
+    public int compareTo( Object o ) {
+        if ( o instanceof Message ) {
+
+        }
+        return 0;
     }
 }

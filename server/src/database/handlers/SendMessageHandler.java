@@ -149,6 +149,7 @@ public class SendMessageHandler extends ProcessHandler {
 			params.clear();
 			params.put( "user_id", otherUserId );
 			params.put( "content", content );
+			params.put( "title", ( String ) userResultMap.get( 0 )[ 0 ] );
 			params.put( "image", ( String ) userResultMap.get( 0 )[ 1 ] );
 			params.put( "time", String.valueOf( currentTime ) );
 			adapter.create( DATABASE_TABLE_NOTIFICATIONS, params );

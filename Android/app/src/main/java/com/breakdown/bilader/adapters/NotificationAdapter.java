@@ -1,75 +1,109 @@
 package com.breakdown.bilader.adapters;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.os.Build;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.models.Notification;
 
-import java.util.UUID;
 
-/**
- *This adapter is used for listing, retrieving, building notifications and creating a notification channel
- * @author breakDown
- * @version 01.05.2021
- */
+import java.util.List;
 
-public class NotificationAdapter {
+public class NotificationAdapter extends RecyclerView.Adapter< NotificationAdapter.NotificationHolder> {
 
-    private String content;
-    private String avatarURL;
-    private long time;
-    private Context context;
-    private int notificationId;
-    private final String CHANNEL_ID;
+    private Context mContext;
+    private List< Notification > notificationList;
 
-    public NotificationAdapter( int notificationId, String content,
-                                String avatarURL, long time, Context context ) {
-        this.content = content;
-        this.avatarURL = avatarURL;
-        this.time = time;
-        this.context = context;
-        this.notificationId = notificationId;
-        CHANNEL_ID = UUID.randomUUID().toString();
-        createNotificationChannel();
+    /**
+     * A constructor that holds properties of fragment adapter
+     *
+     * @param mContext  is the location of the current fragment and its internal
+     *                  elements and methods
+     * @param notificationList list of the received notifications
+     */
+    public NotificationAdapter( Context mContext, List<Notification> notificationList ) {
+        this.mContext = mContext;
+        this.notificationList = notificationList;
     }
 
+    /**
+     * A class that finds xml id's of layout elements
+     */
+    public class NotificationHolder extends RecyclerView.ViewHolder {
+        public ImageView imageAvatar;
+        public TextView contentOfTheNotification;
+        public TextView time;
 
-    public void buildNotification() {
-        NotificationCompat.Builder builder;
-        NotificationManagerCompat notificationManager;
-        builder = new NotificationCompat.Builder( context, CHANNEL_ID )
-                .setSmallIcon( R.drawable.vector_logo )
-                .setContentTitle( "Bilader" )
-                .setContentText( content )
-                .setPriority( NotificationCompat.PRIORITY_DEFAULT );
-        notificationManager = NotificationManagerCompat.from( context );
-        notificationManager.notify( notificationId, builder.build() );
+        /**
+         * A constructor that holds id's of views
+         *
+         * @param itemView is the references of an item
+         */
+        public NotificationHolder( @NonNull View itemView ) {
+            super( itemView );
 
-    }
-
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
-            CharSequence name = context.getString( R.string.channel_name );
-            String description =
-                    context.getString( R.string.channel_description );
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel( CHANNEL_ID
-                    , name, importance );
-            channel.setDescription( description );
-            // Register the channel with the system; you can't change the
-            // importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager =
-                    context.getSystemService( NotificationManager.class );
-            notificationManager.createNotificationChannel( channel );
+            imageAvatar = itemView.findViewById( R.id.image_notifications_avatar );
+            contentOfTheNotification = itemView.findViewById( R.id.text_notifications_context );
+            time = itemView.findViewById( R.id.text_notifications_time );
         }
     }
 
+    /**
+     * a method that creates new card view elements
+     *
+     * @param parent   is the The ViewGroup into which the new View will be
+     *                 added after it is bound to an adapter position.
+     * @param viewType The view type of the new View
+     * @return a new ViewHolder that holds a View of the given view type
+     */
+    @NonNull
+    @Override
+    public NotificationAdapter.NotificationHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ) {
+        View itemView;
+
+        itemView =
+                LayoutInflater.from( parent.getContext() ).inflate( R.layout.card_notifications, parent, false );
+
+        return new NotificationAdapter.NotificationHolder( itemView );
+    }
+
+    /**
+     * a method called by RecyclerView to display the data at the specified
+     * position
+     *
+     * @param holder   is the ViewHolder which should be updated to represent
+     *                 the contents of the item at the given position in the
+     *                 data set.
+     * @param position is The position of the item within the adapter's data
+     *                 set.
+     */
+    @Override
+    public void onBindViewHolder( @NonNull NotificationHolder holder,
+                                  int position ) {
+        Notification notifications;
+        notifications = notificationList.get( position );
+
+        holder.contentOfTheNotification.setText( notifications.getContent() );
+        //holder.time.setText( notifications.);
+        holder.imageAvatar.setImageResource( mContext.getResources().getIdentifier( notifications.getAvatarURL(),
+                "drawable",
+                mContext.getPackageName() ) );
+    }
+
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of notifications in this adapter.
+     */
+    @Override
+    public int getItemCount() {
+        return notificationList.size();
+    }
 }
