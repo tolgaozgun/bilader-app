@@ -18,7 +18,10 @@ import com.breakdown.bilader.models.ChatUser;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -110,13 +113,16 @@ public class MainChatAdapter extends
     @Override
     public void onBindViewHolder( @NonNull DialogHolder holder, int position ) {
         ChatUser user;
+        PrettyTime prettyTime;
+
+        prettyTime = new PrettyTime();
 
         if ( userList != null && userList.size() > position ) {
             user = userList.get( position );
             otherUserId = user.getId();
             holder.textLastMessage.setText( user.getLastMessage() );
             holder.textLastMessageSender.setText( user.getName() );
-            holder.textTimeAgo.setText( "1m ago" );
+            holder.textTimeAgo.setText( prettyTime.format( new Date(user.getLastMessageDate()) ) );
 
             if ( user.getAvatar().isEmpty() ) {
                 holder.imageMainChatAvatar.setImageResource( R.drawable.avatar_no_gender );

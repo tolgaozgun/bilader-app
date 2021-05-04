@@ -32,7 +32,7 @@ dependencies {
 
     // Volley for HTTP Requests
     implementation 'com.android.volley:volley:1.2.0'
-
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.4.Final'
     implementation group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
     // Gson
     implementation 'com.google.code.gson:gson:2.8.4'
