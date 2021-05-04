@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ConcatAdapter;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.CommentAdapter;
@@ -41,6 +42,7 @@ public class ReviewsFragment extends Fragment {
     private Button submitReviewButton;
     private EditText reviewsEditText;
     private ReviewsAdapter reviewsAdapter;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -80,6 +82,17 @@ public class ReviewsFragment extends Fragment {
         comments.add( comment );
 
         retrieveReviews( recyclerView );
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                retrieveReviews( recyclerView );
+
+                reviewsAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         return view;
     }
 
