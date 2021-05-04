@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
@@ -58,6 +59,7 @@ public class HomeFragment extends Fragment {
     private PopupMenu categoryMenu;
     private int currentCategoryIndex;
     private EditText searchView;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -223,6 +225,17 @@ public class HomeFragment extends Fragment {
                         return false;
                     }
                 } );
+
+                swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+                swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        retrieveProducts( recyclerView );
+
+                        adapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
 
 
             }

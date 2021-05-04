@@ -46,6 +46,7 @@
         app:srcCompat="@drawable/ic_baseline_format_list_bulleted_24"
         tools:ignore="VectorDrawableCompat" />
 
+
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
@@ -57,17 +58,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/biltraderRecycler"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintVertical_bias="0.515" />
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="1.0">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/biltraderRecycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchView"
+            app:layout_constraintVertical_bias="0.515"
+            tools:ignore="MissingClass" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
         android:id="@+id/include"
@@ -113,5 +129,7 @@
         android:src="@drawable/ic_baseline_search_24"
         app:layout_constraintStart_toStartOf="@+id/searchView"
         app:layout_constraintTop_toTopOf="@+id/searchView" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
