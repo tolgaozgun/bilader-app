@@ -2,9 +2,11 @@ package com.breakdown.bilader.controllers;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.MultipartUtility;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.models.Category;
@@ -30,9 +33,11 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * A class that helps edit a existing product's properties such as its title or
@@ -57,6 +62,7 @@ public class EditProductActivity extends Activity {
     private Product currentProduct;
     private PopupMenu popupMenu;
     private Category category;
+    private String pictureUrl;
     private boolean isSold;
 
 
@@ -227,7 +233,11 @@ public class EditProductActivity extends Activity {
         // turns boolean to tiny int.
         isSoldResult = isSold ? 1 : 0;
         params.put( "product_id", currentProduct.getProductId() );
-        params.put( "picture_url", currentProduct.getPicture() );
+        if ( pictureUrl != null && !pictureUrl.equals( "" ) ) {
+            params.put( "picture_url", pictureUrl );
+        } else {
+            params.put( "picture_url", currentProduct.getPicture() );
+        }
         params.put( "title", currentProduct.getTitle() );
         params.put( "description", currentProduct.getDescription() );
         params.put( "price", String.valueOf( currentProduct.getPrice() ) );
@@ -261,20 +271,94 @@ public class EditProductActivity extends Activity {
 
     }
 
+
+    /**
+     * Called when an activity that is launched exits, it gives the requestCode
+     * to started it with, the resultCode it returned, and any additional data
+     * from it
+     *
+     * @param requestCode: is the int object that allows to identify who this
+     *                     result came from.
+     * @param resultCode:  is the int object that is returned by the child
+     *                     activity through its setResult().
+     * @param data:        If non-null, this intent is being used to return
+     *                     result data to the caller
+     */
     @Override
     public void onActivityResult( int requestCode, int resultCode,
                                   @Nullable Intent data ) {
         super.onActivityResult( requestCode, resultCode, data );
 
         if ( requestCode == 1 && resultCode == -1 ) {
+            Uri imageUri;
             imageUri = data.getData();
+
+            pictureUrl = getPath( imageUri );
+            String file_extn =
+                    pictureUrl.substring( pictureUrl.lastIndexOf( "." ) + 1 );
+
             try {
                 Bitmap bitmap =
-                        MediaStore.Images.Media.getBitmap( this.getContentResolver(), imageUri );
+                        MediaStore.Images.Media.getBitmap( getApplicationContext().getContentResolver(), imageUri );
                 Picasso.get().load( imageUri ).fit().centerCrop().into( productImage );
             } catch ( IOException e ) {
                 e.printStackTrace();
             }
+
+            try {
+                if ( file_extn.equals( "img" ) || file_extn.equals( "jpg" ) || file_extn.equals( "jpeg" ) || file_extn.equals( "gif" ) || file_extn.equals( "png" ) ) {
+                    uploadFile( "http://88.99.11" + ".149:8080/server" +
+                            "/MultipartServlet", pictureUrl );
+                } else {
+                    //NOT IN REQUIRED FORMAT
+                }
+            } catch ( Exception e ) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public String getPath( Uri uri ) {
+        String res = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = EditProductActivity.this.getContentResolver().query( uri, proj,
+                null, null, null );
+        if ( cursor.moveToFirst() ) {
+            int column_index =
+                    cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );
+            res = cursor.getString( column_index );
+        }
+        cursor.close();
+        return res;
+    }
+
+    private void uploadFile( String requestURL, final String fileName ) {
+        StringBuffer responseString;
+        JSONObject json;
+        StrictMode.ThreadPolicy policy =
+                new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy( policy );
+
+        String charset = "UTF-8";
+        File uploadFile1 = new File( fileName );
+
+        try {
+            MultipartUtility multipart = new MultipartUtility( requestURL,
+                    charset );
+            multipart.addFilePart( "file", uploadFile1 );
+
+            List< String > response = multipart.finish();
+            responseString = new StringBuffer();
+            for ( String str : response ) {
+                responseString.append( str );
+            }
+            json = new JSONObject( responseString.toString() );
+            pictureUrl = json.getString( "url" );
+        } catch ( IOException | JSONException ex ) {
+            System.out.println( "ERROR: " + ex.getMessage() );
+            ex.printStackTrace();
         }
     }
 }
