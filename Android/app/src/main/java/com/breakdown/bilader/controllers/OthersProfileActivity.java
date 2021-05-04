@@ -153,6 +153,7 @@ public class OthersProfileActivity extends AppCompatActivity {
         follow.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+                currentUser.follow( OthersProfileActivity.this );
             }
         } );
 
