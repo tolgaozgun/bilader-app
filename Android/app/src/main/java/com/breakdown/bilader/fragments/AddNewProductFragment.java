@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -24,15 +26,21 @@ import androidx.fragment.app.Fragment;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.MultipartUtility;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
 import com.breakdown.bilader.controllers.ProductActivity;
 import com.breakdown.bilader.models.Category;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * A class that makes connection between its layout and data
@@ -52,6 +60,7 @@ public class AddNewProductFragment extends Fragment {
     private ImageView pickPhotoButton;
     private Category category;
     private String productId;
+    private String imageUrl;
     private SharedPreferences sharedPreferences;
 
     /**
@@ -199,8 +208,14 @@ public class AddNewProductFragment extends Fragment {
                                   @Nullable Intent data ) {
         super.onActivityResult( requestCode, resultCode, data );
 
-        /*if ( requestCode == 1 && resultCode == -1 ) {
+        if ( requestCode == 1 && resultCode == -1 ) {
+            Uri imageUri;
             imageUri = data.getData();
+
+            imageUrl = getPath( imageUri );
+            String file_extn =
+                    imageUrl.substring( imageUrl.lastIndexOf( "." ) + 1 );
+
             try {
                 Bitmap bitmap =
                         MediaStore.Images.Media.getBitmap( mContext.getContentResolver(), imageUri );
@@ -208,26 +223,18 @@ public class AddNewProductFragment extends Fragment {
             } catch ( IOException e ) {
                 e.printStackTrace();
             }
-        }
-
-        if ( requestCode == 1 && resultCode == -1 ) {
-            imageUri = data.getData();
-
-            String filePath = getPath( imageUri );
-            String file_extn =
-                    filePath.substring( filePath.lastIndexOf( "." ) + 1 );
-
 
             try {
                 if ( file_extn.equals( "img" ) || file_extn.equals( "jpg" ) || file_extn.equals( "jpeg" ) || file_extn.equals( "gif" ) || file_extn.equals( "png" ) ) {
-                  //  uploadImage( new URI( filePath ) );
+                    uploadFile( "http://88.99.11" + ".149:8080/server" +
+                            "/MultipartServlet", imageUrl );
                 } else {
                     //NOT IN REQUIRED FORMAT
                 }
             } catch ( Exception e ) {
                 e.printStackTrace();
             }
-        }*/
+        }
 
     }
 
@@ -263,7 +270,7 @@ public class AddNewProductFragment extends Fragment {
         priceText = price.getText().toString();
         titleText = title.getText().toString();
         descriptionText = description.getText().toString();
-        params.put( "picture_url", "" );
+        params.put( "picture_url", imageUrl );
         params.put( "title", titleText );
         params.put( "description", descriptionText );
         params.put( "price", priceText );
@@ -300,39 +307,32 @@ public class AddNewProductFragment extends Fragment {
         }, RequestType.ADD_PRODUCT, params, mContext, true );
     }
 
-    /*private void uploadImage( URI uri ) {
+    private void uploadFile( String requestURL, final String fileName ) {
+        StringBuffer responseString;
         JSONObject json;
-        File sourceFile = new File( uri.getPath() );
         StrictMode.ThreadPolicy policy =
                 new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy( policy );
 
+        String charset = "UTF-8";
+        File uploadFile1 = new File( fileName );
+
         try {
-            final com.squareup.okhttp.MediaType MEDIA_TYPE_PNG =
-                    com.squareup.okhttp.MediaType.parse( "image/*" );
+            MultipartUtility multipart = new MultipartUtility( requestURL,
+                    charset );
+            multipart.addFilePart( "file", uploadFile1 );
 
-            com.squareup.okhttp.RequestBody requestBody =
-                    new MultipartBuilder().type( MultipartBuilder.FORM ).addFormDataPart( "image", "image.png", com.squareup.okhttp.RequestBody.create( MEDIA_TYPE_PNG, sourceFile ) ).build();
-
-            com.squareup.okhttp.Request request =
-                    new com.squareup.okhttp.Request.Builder().url( "http://88"
-                            + ".99.11.149:8080/server/index.jsp" ).put( requestBody ).addHeader( "Content-Type", "application/x-www-formurlencoded" ).build();
-
-            OkHttpClient client = new OkHttpClient();
-            com.squareup.okhttp.Response response =
-                    client.newCall( request ).execute();
-
-
-            System.out.println( "Response data " + response );
-            json = new JSONObject(response.toString());
+            List< String > response = multipart.finish();
+            responseString = new StringBuffer();
+            for ( String str : response ) {
+                responseString.append( str );
+            }
+            json = new JSONObject( responseString.toString() );
             imageUrl = json.getString( "url" );
-
-
-        } catch ( Exception e ) {
-
-            System.out.println( "Response error is" + e );
-
+        } catch ( IOException | JSONException ex ) {
+            System.out.println( "ERROR: " + ex.getMessage() );
+            ex.printStackTrace();
         }
-    }*/
+    }
 }

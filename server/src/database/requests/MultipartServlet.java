@@ -2,6 +2,7 @@ package database.requests;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import org.json.JSONObject;
 
@@ -50,9 +51,21 @@ public class MultipartServlet extends HttpServlet {
 		String fileName = "";
 		String uploadPath;
 		File uploadDir;
+		String id;
+		String url;
 		json = new JSONObject();
+		
+		if ( request.getParameterMap().containsKey( "id" ) ) {
+			id = request.getParameter( "id" );
+		} else {
+			id = UUID.randomUUID().toString();
+		}
+
 		uploadPath = getServletContext().getRealPath( "" ) + File.separator
-				+ UPLOAD_DIRECTORY;
+				+ UPLOAD_DIRECTORY + File.separator + id;
+		uploadPath = uploadPath.replaceAll( "server" + File.separator, "" );
+
+
 		uploadDir = new File( uploadPath );
 
 		if ( !uploadDir.exists() ) {
@@ -65,7 +78,9 @@ public class MultipartServlet extends HttpServlet {
 		}
 
 		response.setContentType( "application/json" );
-		json.put( "url", "88.99.11.149:8080/server/images/" + fileName );
+		url = "http://88.99.11.149:8080/" + UPLOAD_DIRECTORY + File.separator
+				+ id + File.separator + fileName;
+		json.put( "url", url );
 		response.getWriter().println( json );
 
 	}

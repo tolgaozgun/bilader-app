@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -18,13 +21,17 @@ import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.MultipartUtility;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,11 +66,14 @@ public class RegisterActivity extends Activity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_register );
 
-        signUpRegisterButton = ( Button ) findViewById( R.id.button_sign_up_register );
+        signUpRegisterButton =
+                ( Button ) findViewById( R.id.button_sign_up_register );
         inputName = ( EditText ) findViewById( R.id.editText_full_name );
         inputEmail = ( EditText ) findViewById( R.id.editText_mail_register );
-        inputPasswordOnce = ( EditText ) findViewById( R.id.editText_password_register );
-        inputPasswordAgain = ( EditText ) findViewById( R.id.editText_password_again_register );
+        inputPasswordOnce =
+                ( EditText ) findViewById( R.id.editText_password_register );
+        inputPasswordAgain =
+                ( EditText ) findViewById( R.id.editText_password_again_register );
         loadingBar = new ProgressDialog( this );
         inputAvatar = ( ImageView ) findViewById( R.id.image_avatar_register );
         avatarURL = "";
@@ -76,7 +86,8 @@ public class RegisterActivity extends Activity {
                 galery = new Intent();
                 galery.setType( "image/*" );
                 galery.setAction( Intent.ACTION_GET_CONTENT );
-                startActivityForResult( Intent.createChooser( galery, "Select" + " Picture" ), 1 );
+                startActivityForResult( Intent.createChooser( galery, "Select"
+                        + " Picture" ), 1 );
             }
         } );
 
@@ -111,14 +122,18 @@ public class RegisterActivity extends Activity {
         } else if ( TextUtils.isEmpty( email ) ) {
             Toast.makeText( this, "Please enter email!", Toast.LENGTH_SHORT ).show();
         } else if ( TextUtils.isEmpty( passwordOne ) ) {
-            Toast.makeText( this, "Please enter password!", Toast.LENGTH_SHORT ).show();
+            Toast.makeText( this, "Please enter password!",
+                    Toast.LENGTH_SHORT ).show();
         } else if ( TextUtils.isEmpty( passwordTwo ) ) {
-            Toast.makeText( this, "Please enter password again!", Toast.LENGTH_SHORT ).show();
+            Toast.makeText( this, "Please enter password again!",
+                    Toast.LENGTH_SHORT ).show();
         } else if ( !passwordOne.equals( passwordTwo ) ) {
-            Toast.makeText( this, "Passwords don't match!", Toast.LENGTH_SHORT ).show();
+            Toast.makeText( this, "Passwords don't match!",
+                    Toast.LENGTH_SHORT ).show();
         } else {
             loadingBar.setTitle( "sign up" );
-            loadingBar.setMessage( "Please wait while we check your " + "credentials!" );
+            loadingBar.setMessage( "Please wait while we check your " +
+                    "credentials!" );
             loadingBar.setCanceledOnTouchOutside( false );
             loadingBar.show();
 
@@ -135,7 +150,8 @@ public class RegisterActivity extends Activity {
      * @param password  the password of the user
      * @param avatarURL the avatar of the user
      */
-    private void validateEmail( String name, final String email, String password, String avatarURL ) {
+    private void validateEmail( String name, final String email,
+                                String password, String avatarURL ) {
         final String JSON_SUCCESS_PATH = "success";
         final String JSON_MESSAGE_PATH = "message";
         final String JSON_VERIFICATION_SUCCESS_PATH = "verification_success";
@@ -149,7 +165,8 @@ public class RegisterActivity extends Activity {
         params.put( "password", password );
         params.put( "avatar_url", avatarURL );
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences( this );
+        sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences( this );
 
         callback = new VolleyCallback() {
             @Override
@@ -164,17 +181,22 @@ public class RegisterActivity extends Activity {
                     } else {
                         if ( json.getBoolean( JSON_SUCCESS_PATH ) && json.getBoolean( JSON_VERIFICATION_SUCCESS_PATH ) ) {
                             Intent intent;
-                            intent = new Intent( RegisterActivity.this, VerificationActivity.class );
+                            intent = new Intent( RegisterActivity.this,
+                                    VerificationActivity.class );
                             startActivity( intent );
                         }
                         message = json.getString( JSON_MESSAGE_PATH );
-                        verificationMessage = json.getString( JSON_VERIFICATION_MESSAGE_PATH );
+                        verificationMessage =
+                                json.getString( JSON_VERIFICATION_MESSAGE_PATH );
                     }
-                    Toast.makeText( RegisterActivity.this, message, Toast.LENGTH_SHORT ).show();
-                    Toast.makeText( RegisterActivity.this, verificationMessage, Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( RegisterActivity.this, message,
+                            Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( RegisterActivity.this,
+                            verificationMessage, Toast.LENGTH_SHORT ).show();
                     loadingBar.dismiss();
                 } catch ( JSONException e ) {
-                    Toast.makeText( RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( RegisterActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
                     loadingBar.dismiss();
                 }
             }
@@ -188,27 +210,29 @@ public class RegisterActivity extends Activity {
             }
         };
 
-        HttpAdapter.getRequestJSON( callback, RequestType.REGISTER, params, RegisterActivity.this, false );
+        HttpAdapter.getRequestJSON( callback, RequestType.REGISTER, params,
+                RegisterActivity.this, false );
     }
 
     /**
-     * Called when an activity that is launched exits, it gives the requestCode to
-     * started it with, the resultCode it returned, and any additional data from it
+     * Called when an activity that is launched exits, it gives the requestCode
+     * to started it with, the resultCode it returned, and any additional data
+     * from it
      *
-     * @param requestCode:        is the int object that allows to identify who
-     *                            this result came from.
-     * @param resultCode:         is the int object that is returned by the child
-     *                            activity through its setResult().
-     * @param data:               If non-null, this intent is being used to return
-     *                            result data to the caller
+     * @param requestCode: is the int object that allows to identify who this
+     *                     result came from.
+     * @param resultCode:  is the int object that is returned by the child
+     *                     activity through its setResult().
+     * @param data:        If non-null, this intent is being used to return
+     *                     result data to the caller
      */
     @Override
-    public void onActivityResult( int requestCode, int resultCode, @Nullable Intent data ) {
+    public void onActivityResult( int requestCode, int resultCode,
+                                  @Nullable Intent data ) {
         super.onActivityResult( requestCode, resultCode, data );
 
 
-
-        /*if ( requestCode == 1 && resultCode == -1 ) {
+        if ( requestCode == 1 && resultCode == -1 ) {
             imageUri = data.getData();
 
             String filePath = getPath( imageUri );
@@ -218,21 +242,22 @@ public class RegisterActivity extends Activity {
 
             try {
                 if ( file_extn.equals( "img" ) || file_extn.equals( "jpg" ) || file_extn.equals( "jpeg" ) || file_extn.equals( "gif" ) || file_extn.equals( "png" ) ) {
-                    uploadImage( new URI( filePath ) );
+                    uploadFile( "http://88.99.11" +
+                            ".149:8080/server/MultipartServlet/", filePath );
                 } else {
                     //NOT IN REQUIRED FORMAT
                 }
             } catch ( Exception e ) {
                 e.printStackTrace();
             }
-        }*/
+        }
     }
 
-    /*public String getPath( Uri uri ) {
+    public String getPath( Uri uri ) {
         String res = null;
         String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query( uri, proj,
-                null, null, null );
+        Cursor cursor = getContentResolver().query( uri, proj, null, null,
+                null );
         if ( cursor.moveToFirst() ) {
             int column_index =
                     cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );
@@ -243,39 +268,32 @@ public class RegisterActivity extends Activity {
     }
 
 
-    private void uploadImage( URI uri ) {
+    private void uploadFile( String requestURL, final String fileName ) {
+        StringBuffer responseString;
         JSONObject json;
-        File sourceFile = new File( uri.getPath() );
         StrictMode.ThreadPolicy policy =
                 new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy( policy );
 
+        String charset = "UTF-8";
+        File uploadFile1 = new File( fileName );
+
         try {
-            final com.squareup.okhttp.MediaType MEDIA_TYPE_PNG =
-                    com.squareup.okhttp.MediaType.parse( "image/*" );
+            MultipartUtility multipart = new MultipartUtility( requestURL,
+                    charset );
+            multipart.addFilePart( "file", uploadFile1 );
 
-            com.squareup.okhttp.RequestBody requestBody =
-                    new MultipartBuilder().type( MultipartBuilder.FORM ).addFormDataPart( "image", "image.png", com.squareup.okhttp.RequestBody.create( MEDIA_TYPE_PNG, sourceFile ) ).build();
-
-            com.squareup.okhttp.Request request =
-                    new com.squareup.okhttp.Request.Builder().url( "http://88"
-                            + ".99.11.149:8080/server/index.jsp" ).put( requestBody ).addHeader( "Content-Type", "application/x-www-formurlencoded" ).build();
-
-            OkHttpClient client = new OkHttpClient();
-            com.squareup.okhttp.Response response =
-                    client.newCall( request ).execute();
-
-
-            System.out.println( "Response data " + response );
-            json = new JSONObject(response.toString());
+            List< String > response = multipart.finish();
+            responseString = new StringBuffer();
+            for ( String str : response ) {
+                responseString.append( str );
+            }
+            json = new JSONObject( responseString.toString() );
             avatarURL = json.getString( "url" );
-
-
-        } catch ( Exception e ) {
-
-            System.out.println( "Response error is" + e );
-
+        } catch ( IOException | JSONException ex ) {
+            System.out.println( "ERROR: " + ex.getMessage() );
+            ex.printStackTrace();
         }
-    }*/
+    }
 }
