@@ -21,12 +21,26 @@ import com.breakdown.bilader.R;
 import com.breakdown.bilader.fragments.MyProfileFragment;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+/**
+ * This class is responsible for the settings activity in a profile.
+ *
+ * @author breakDown
+ * @version 24.04.2021
+ */
+
 public class SettingsActivity extends Activity {
     private Button changePasswordButton;
     private SwitchMaterial followSwitch;
     private SwitchMaterial messageSwitch;
     private SharedPreferences sharedPreferences;
 
+    /**
+     * Initializes the UI properties and sets an action to each of them
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle
+     *                           contains the data it most recently supplied in
+     */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -52,6 +66,10 @@ public class SettingsActivity extends Activity {
             }
         } );
 
+        /**
+         * Sets an on change listener so that when the follow notifications button
+         * is pressed, the switch changes.
+         */
         followSwitch.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged( CompoundButton buttonView,
@@ -61,6 +79,10 @@ public class SettingsActivity extends Activity {
             }
         } );
 
+        /**
+         * Sets an on change listener so that when the message notifications button
+         * is pressed, the switch changes.
+         */
         messageSwitch.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged( CompoundButton buttonView,
