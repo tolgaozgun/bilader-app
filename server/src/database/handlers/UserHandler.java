@@ -2,7 +2,6 @@ package database.handlers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -25,7 +24,6 @@ public class UserHandler extends ProcessHandler {
 			throws ClassNotFoundException, SQLException {
 		DatabaseAdapter adapter;
 		Map< String, String > checkParams;
-		String userId;
 		adapter = new DatabaseAdapter();
 
 		if ( params == null || params.size() == 0 ) {

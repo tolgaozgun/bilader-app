@@ -3,26 +3,22 @@ package database.requests;
 import java.io.IOException;
 
 import database.adapters.RequestAdapter;
-import database.handlers.EditProductHandler;
+import database.handlers.RetrieveReviewsHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class EditProductRequest
+ * Servlet implementation class RetrieveReviewsRequest
  */
-public class EditProductRequest extends HttpServlet {
+public class RetrieveReviewsRequest extends HttpServlet {
+	private static final long serialVersionUID = 1L;
        
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4877677750697753461L;
-
-	/**
      * @see HttpServlet#HttpServlet()
      */
-    public EditProductRequest() {
+    public RetrieveReviewsRequest() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -50,11 +46,9 @@ public class EditProductRequest extends HttpServlet {
 	private void handleRequest( HttpServletRequest request,
 			HttpServletResponse response )
 			throws ServletException, IOException {
-		EditProductHandler handler;
-		handler = new EditProductHandler( request.getParameterMap() );
+		RetrieveReviewsHandler handler;
+		handler = new RetrieveReviewsHandler( request.getParameterMap() );
 		RequestAdapter.handleRequest( request, response, handler );
-
 	}
-
 
 }
