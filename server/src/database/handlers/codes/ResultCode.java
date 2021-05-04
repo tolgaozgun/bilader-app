@@ -1,5 +1,12 @@
 package database.handlers.codes;
 
+/**
+ * ENUM class that holds all error codes for the back-end server.
+ * 
+ * @author Tolga Özgün
+ *
+ */
+
 public enum ResultCode {
 
 	ADD_VERIFICATION_OK( "Verification code sent!", true ),

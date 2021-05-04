@@ -219,7 +219,7 @@ public class RegisterActivity extends Activity {
 
 
 
-        if ( requestCode == 1 && resultCode == -1 ) {
+        /*if ( requestCode == 1 && resultCode == -1 ) {
             imageUri = data.getData();
 
             String filePath = getPath( imageUri );
@@ -236,10 +236,10 @@ public class RegisterActivity extends Activity {
             } catch ( Exception e ) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
-    public String getPath( Uri uri ) {
+    /*public String getPath( Uri uri ) {
         String res = null;
         String[] proj = { MediaStore.Images.Media.DATA };
         Cursor cursor = getContentResolver().query( uri, proj,
@@ -288,5 +288,5 @@ public class RegisterActivity extends Activity {
             System.out.println( "Response error is" + e );
 
         }
-    }
+    }*/
 }

@@ -8,6 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * An adapter to hash and salt passwords. If required, uses MySQL connection to
+ * retrieve salts for users.
+ * 
+ * @see DatabaseAdapter
+ * @see PasswordAdapter
+ * 
+ * @author Tolga Özgün
+ *
+ */
+
 public class PasscodeAdapter {
 
 	public static Map< String, String > hashPasswordWithSalt(

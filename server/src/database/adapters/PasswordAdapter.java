@@ -16,6 +16,8 @@ import javax.crypto.spec.PBEKeySpec;
  * bcrypt) is still considered robust and
  * <a href="https://security.stackexchange.com/a/6415/12614"> recommended by
  * NIST </a>. The hashed value has 256 bits.
+ * 
+ * @author NIST
  */
 public class PasswordAdapter {
 

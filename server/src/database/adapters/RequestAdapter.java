@@ -13,7 +13,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * An adapter class that bundles all requests. Used to convert requests to
+ * usable parameters and display the data beautifully to the user.
+ * 
+ * @author Tolga Özgün
+ *
+ */
+
 public class RequestAdapter {
+
 	protected final static String TOKEN_KEY = "session_token";
 	protected final static String USER_ID_KEY = "id";
 	protected final static String[] TOKEN_PARAMS = { TOKEN_KEY, USER_ID_KEY };

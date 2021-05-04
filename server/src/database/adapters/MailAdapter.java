@@ -13,7 +13,8 @@ import javax.mail.internet.MimeMessage;
 
 /**
  * An adapter class that maintains the Mail Server connection with this JSP
- * Server.
+ * Server. Uses Gmail's API.
+ * https://developers.google.com/gmail/api
  * 
  * @author Tolga Özgün
  *

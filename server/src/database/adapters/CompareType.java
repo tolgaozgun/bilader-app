@@ -1,4 +1,13 @@
 package database.adapters;
+/**
+ * A class that helps MySQL queries.
+ * 
+ * @see DatabaseAdapter
+ * 
+ * @author Tolga Özgün
+ *
+ */
+
 
 public enum CompareType {
 	
