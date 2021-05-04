@@ -15,6 +15,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class that represents report objects, which has what is written in text(description), id, and report type( will be specified
+ *                                                                                                            if user = 0, else if product = 1)
+ * @author breakDown
+ * @version 19.04.2021
+ */
+
 public abstract class Report {
 
     protected String description;

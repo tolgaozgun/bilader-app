@@ -30,6 +30,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * A class that makes connection between its layout and data
+ *
+ * @author breakDown
+ * @version 27.04.2021
+ */
+
 public class OnSaleFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -84,7 +91,11 @@ public class OnSaleFragment extends Fragment {
         return view;
     }
 
-
+    /**
+     * Returns the products.
+     *
+     * @param recyclerView the recyclerview that holds the product list
+     */
     private void getProductList( RecyclerView recyclerView ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -150,6 +161,10 @@ public class OnSaleFragment extends Fragment {
 
     }
 
+    /**
+     * Shows the view
+     * @param recyclerView the recyclerview that holds the product list
+     */
     private void printView( RecyclerView recyclerView ) {
         adapter = new ProductAdapter( mContext, productList );
         recyclerView.setAdapter( adapter );
