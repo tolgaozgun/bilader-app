@@ -1,26 +1,74 @@
 package com.breakdown.bilader.models;
 
+import android.app.Activity;
+import android.content.Context;
+import android.widget.Toast;
+
+import com.breakdown.bilader.adapters.HttpAdapter;
+import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.adapters.VolleyCallback;
+import com.breakdown.bilader.controllers.ReportActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Report {
 
-    private String description;
-    private User reporter;
-    private int reportId;
+    protected String description;
+    protected String reportedId;
+    protected int reportType;
 
     /**
      * Constructor
      *
-     * @param reportId    Integer value of report id.
      * @param description String value of description.
-     * @param reporter    User instance of reporter.
      */
-    public Report( int reportId, String description, User reporter ) {
-        this.reportId = reportId;
+    public Report( String description, String reportedId ) {
         this.description = description;
-        this.reporter = reporter;
+        this.reportedId = reportedId;
     }
 
     /**
      * Report method that sends server the request to report a content.
      */
-    public abstract void report();
+    public void report( Activity activity ) {
+
+        Map< String, String > params;
+
+        params = new HashMap< String, String >();
+
+        params.put( "report_type", String.valueOf( reportType ) );
+        params.put( "reported_id", reportedId );
+        params.put( "description", description );
+        /*
+        loadingBar = new ProgressDialog( this );
+        loadingBar.setTitle( "Report" );
+        loadingBar.setMessage( "Please wait while we send the report!" );
+        loadingBar.setCanceledOnTouchOutside( false );
+        loadingBar.show();*/
+
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    Toast.makeText( activity, object.getString( "message" ),
+                            Toast.LENGTH_SHORT ).show();
+                    if ( object.getBoolean( "success" ) ) {
+                        activity.finish();
+                    }
+                } catch ( JSONException e ) {
+                    Toast.makeText( activity, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                Toast.makeText( activity, message, Toast.LENGTH_SHORT ).show();
+            }
+        }, RequestType.REPORT, params, activity, true );
+    }
 }

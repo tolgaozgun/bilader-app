@@ -1,10 +1,13 @@
 package database.requests;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import database.adapters.RequestAdapter;
+import database.handlers.FollowHandler;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Servlet implementation class FollowRequest
@@ -21,19 +24,31 @@ public class FollowRequest extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	protected void doGet( HttpServletRequest request,
+			HttpServletResponse response )
+			throws ServletException, IOException {
+		handleRequest( request, response );
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	protected void doPost( HttpServletRequest request,
+			HttpServletResponse response )
+			throws ServletException, IOException {
+		handleRequest( request, response );
+	}
+
+	private void handleRequest( HttpServletRequest request,
+			HttpServletResponse response )
+			throws ServletException, IOException {
+		FollowHandler handler;
+		handler = new FollowHandler( request.getParameterMap() );
+		RequestAdapter.handleRequest( request, response, handler );
 	}
 
 }

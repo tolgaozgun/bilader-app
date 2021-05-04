@@ -19,6 +19,9 @@ import com.breakdown.bilader.R;
 import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
+import com.breakdown.bilader.models.ProductReport;
+import com.breakdown.bilader.models.Report;
+import com.breakdown.bilader.models.UserReport;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -28,7 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class is responsible for the report activity when a product or a user are reported.
+ * This class is responsible for the report activity when a product or a user
+ * are reported.
  *
  * @author Deniz Gökçen
  * @author Tolga Özgün
@@ -46,16 +50,16 @@ public class ReportActivity extends Activity {
     private String reportTitle;
     private String reportImage;
     private Intent intent;
-    private int reportType;
+    private Report report;
+    private boolean reportType;
     private final String SESSION_TOKEN_KEY = "SESSION_TOKEN";
 
     /**
      * Initializes the UI properties and sets an action to each of them
      *
-     * @param savedInstanceState  If the activity is being re-initialized after
-     *                            previously being shut down then this Bundle
-     *                            contains the data it most recently supplied
-     *                            in
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle
+     *                           contains the data it most recently supplied in
      */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
@@ -73,7 +77,7 @@ public class ReportActivity extends Activity {
         reportedId = intent.getStringExtra( "id" );
         reportTitle = intent.getStringExtra( "title" );
         reportImage = intent.getStringExtra( "image_url" );
-        reportType = intent.getIntExtra( "report-type", -1 );
+        reportType = intent.getBooleanExtra( "report-type", true );
 
         title.setText( reportTitle );
 
@@ -99,35 +103,16 @@ public class ReportActivity extends Activity {
         params.put( "report_type", String.valueOf( reportType ) );
         params.put( "reported_id", reportedId );
         params.put( "description", reportDesc );
-        /*
-        loadingBar = new ProgressDialog( this );
-        loadingBar.setTitle( "Report" );
-        loadingBar.setMessage( "Please wait while we send the report!" );
-        loadingBar.setCanceledOnTouchOutside( false );
-        loadingBar.show();*/
 
-        HttpAdapter.getRequestJSON( new VolleyCallback() {
-            @Override
-            public void onSuccess( JSONObject object ) {
-                try {
-                    Toast.makeText( ReportActivity.this, object.getString(
-                            "message" ), Toast.LENGTH_SHORT ).show();
-                    if ( object.getBoolean( "success" ) ) {
-                        ReportActivity.this.finish();
-                    }
-                } catch ( JSONException e ) {
-                    Toast.makeText( ReportActivity.this, e.getMessage(),
-                            Toast.LENGTH_SHORT ).show();
-                }
-            }
+        // user report --> 0 / false
+        // product report --> 1 / true
+        if ( reportType ) {
+            report = new ProductReport( reportDesc, reportedId );
+        }else{
+            report = new UserReport( reportDesc, reportedId );
+        }
 
-            @Override
-            public void onFail( String message ) {
-                Toast.makeText( ReportActivity.this, message,
-                        Toast.LENGTH_SHORT ).show();
-            }
-        }, RequestType.REPORT, params, this, true );
-
+        report.report( this );
     }
 
 

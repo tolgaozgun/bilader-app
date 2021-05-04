@@ -11,7 +11,7 @@ import database.adapters.RequestAdapter;
 import database.handlers.codes.ResultCode;
 import jakarta.servlet.ServletException;
 
-public class FollowRequest extends ProcessHandler {
+public class FollowHandler extends ProcessHandler {
 
 	private static final String TARGET_USER_ID_KEY = "following_id";
 	private static final String CURRENT_USER_ID_KEY = "user_id";
@@ -23,15 +23,15 @@ public class FollowRequest extends ProcessHandler {
 	private final String DATABASE_TABLE_USERS = "users";
 	private final String DATABASE_TABLE_FOLLOWERS = "followers";
 
-	public FollowRequest( Map< String, String[] > parameters ) {
+	public FollowHandler( Map< String, String[] > parameters ) {
 		super( RequestAdapter.convertParameters( parameters, KEYS, true ) );
-		params.put( CURRENT_USER_ID_KEY, parameters.get( USER_ID_KEY )[ 0 ] );
 	}
 
 	private ResultCode checkParams()
 			throws ClassNotFoundException, SQLException {
 		DatabaseAdapter adapter;
 		Map< String, String > checkParams;
+		String userId;
 		adapter = new DatabaseAdapter();
 
 		if ( params == null || params.size() == 0 ) {
@@ -49,6 +49,8 @@ public class FollowRequest extends ProcessHandler {
 			return ResultCode.NOT_VERIFIED;
 		}
 
+		userId = params.get( USER_ID_KEY );
+		params.put( CURRENT_USER_ID_KEY, userId );
 		if ( !checkToken() ) {
 			return ResultCode.INVALID_SESSION;
 		}
@@ -58,7 +60,8 @@ public class FollowRequest extends ProcessHandler {
 			return ResultCode.ALREADY_FOLLOWED;
 		}
 
-		checkParams = cloneMapWithKeys( TARGET_CHECK_KEYS, params );
+		checkParams.clear();
+		checkParams.put( "id", params.get( TARGET_USER_ID_KEY ) );
 		if ( adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
 			return ResultCode.FOLLOW_OK;
 		}

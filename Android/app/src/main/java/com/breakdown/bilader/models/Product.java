@@ -33,8 +33,7 @@ public class Product {
         this.description = description;
         this.price = price;
         this.seller = seller;
-        this.category = null;
-        this.isSold = false;
+        this.isSold = isSold;
         this.productId = productId;
         this.category = category;
     }
@@ -114,17 +113,6 @@ public class Product {
      */
     public String getProductId() { return productId; }
 
-
-    /**
-     * Changes the saleability status of the product
-     *
-     * @return boolean value of the reverse saleability status of the product.
-     */
-    public boolean changeSoldSituation() {
-        isSold = !isSold; //I think we may use is sold in somewhere in future
-        // so I didnt directly return !isSold.
-        return isSold;
-    }
 
     /**
      * Sets the picture URL of the product

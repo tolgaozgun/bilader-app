@@ -1,26 +1,25 @@
 package com.breakdown.bilader.models;
 
+import android.app.Activity;
+
 public class ProductReport extends Report {
 
-    private Product reported;
 
     /**
      * Constructor
      *
-     * @param reportId    Integer value of report id.
      * @param description String value of description.
-     * @param reporter    User instance of reporter.
-     * @param reported    Product instance of reported product.
+     * @param reportedId  String value of reported product ID.
      */
-    public ProductReport( int reportId, String description, User reporter,
-                          Product reported ) {
-        super( reportId, description, reporter );
-        this.reported = reported;
+    public ProductReport( String description, String reportedId ) {
+        super( reportedId, description );
+        reportType = 1;
     }
 
-    @Override
-    public void report() {
-        // TODO: Implement a report method that sends the report to the server.
-        // Using the connection class we will implement (!!)
+    /**
+     * @see Report
+     */
+    public void report( Activity activity ) {
+        super.report( activity );
     }
 }

@@ -66,7 +66,7 @@ public class EditProductActivity extends Activity {
              */
             @Override
             public void onClick(View v) {
-                editedProduct.changeSoldSituation();
+                //editedProduct.changeSoldSituation();
             }
         });
 
@@ -77,7 +77,7 @@ public class EditProductActivity extends Activity {
              */
             @Override
             public void onClick(View v) {
-                editedProduct.changeSoldSituation();
+                //editedProduct.changeSoldSituation();
             }
         });
 

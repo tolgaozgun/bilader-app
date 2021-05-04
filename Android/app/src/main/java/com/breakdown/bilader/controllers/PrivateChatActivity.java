@@ -97,7 +97,6 @@ public class PrivateChatActivity extends Activity {
             userId = userChatted.getId();
             userNameView.setText( userName );
             Picasso.get().load( userAvatar ).fit().centerCrop().into( userAvatarView );
-            System.out.println( "AA" );
             setChatId();
         } else {
             Toast.makeText( this, "User not found!", Toast.LENGTH_SHORT ).show();
@@ -134,23 +133,17 @@ public class PrivateChatActivity extends Activity {
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {
-                System.out.println( "bb" );
                 try {
                     if ( object.getBoolean( "success" ) ) {
-                        System.out.println( "cc" );
                         chatId =
                                 object.getJSONObject( "chats" ).getJSONObject( "0" ).getString( "chat_id" );
-                        System.out.println( "dd" );
                         fetchPreviousMessages();
-                        System.out.println( "ee" );
                     } else {
                         createChat();
-                        System.out.println( "ff" );
                     }
                 } catch ( JSONException e ) {
                     e.printStackTrace();
                     createChat();
-                    System.out.println( "gg" );
                 }
             }
 
@@ -169,7 +162,6 @@ public class PrivateChatActivity extends Activity {
         Map< String, String > params;
         params = new HashMap< String, String >();
         params.put( "participant_one", userId );
-        System.out.println( "hh" );
 
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override

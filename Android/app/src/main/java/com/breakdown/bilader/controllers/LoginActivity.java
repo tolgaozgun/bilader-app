@@ -33,7 +33,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class is responsible for the login activity of the user. Allows access after checking the credentials and saves the instance.
+ * This class is responsible for the login activity of the user. Allows access
+ * after checking the credentials and saves the instance.
  *
  * @author Deniz Gökçen
  * @author Tolga Özgün
@@ -58,10 +59,9 @@ public class LoginActivity extends Activity {
     /**
      * Initializes the UI properties and sets an action to each of them
      *
-     * @param savedInstanceState  If the activity is being re-initialized after
-     *                            previously being shut down then this Bundle
-     *                            contains the data it most recently supplied
-     *                            in
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle
+     *                           contains the data it most recently supplied in
      */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
@@ -117,7 +117,8 @@ public class LoginActivity extends Activity {
         // buttonEffect( signUpButton, 0xe01c79e4 );
 
         /**
-         * Redirects the user to register activity when clicked on the button "Sign Up".
+         * Redirects the user to register activity when clicked on the button
+         * "Sign Up".
          */
         signUpButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -130,7 +131,8 @@ public class LoginActivity extends Activity {
         } );
 
         /**
-         * Redirects the user to forgot password activity when clicked on the button "Forgot Password".
+         * Redirects the user to forgot password activity when clicked on the
+         * button "Forgot Password".
          */
         forgotPassword.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -207,12 +209,10 @@ public class LoginActivity extends Activity {
             public void onSuccess( JSONObject json ) {
                 try {
 
-                    boolean verified;
                     Intent intent;
                     String token;
                     String message;
                     String userId;
-                    String myJson;
                     if ( json == null ) {
                         message = "Connection error.";
                     } else {
@@ -262,9 +262,9 @@ public class LoginActivity extends Activity {
     }
 
     private void saveUserInstance( String userId ) {
-        HashMap<String, String> params;
-        params = new HashMap<String, String>();
-        params.put("user_id", userId);
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "user_id", userId );
 
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
@@ -275,17 +275,18 @@ public class LoginActivity extends Activity {
                 String myJson;
                 User user;
                 try {
-                    if(object.getBoolean( "success" )){
+                    if ( object.getBoolean( "success" ) ) {
 
                         name = object.getJSONObject( "user" ).getString(
                                 "name" );
                         avatarUrl =
                                 object.getJSONObject( "user" ).getString(
                                         "avatar_url" );
-                        user = new User( name, avatarUrl, userId);
+                        user = new User( name, avatarUrl, userId );
                         gson = new Gson();
                         myJson = gson.toJson( user );
-                        sharedPreferences.edit().putString( "current_user", myJson ).apply();
+                        sharedPreferences.edit().putString( "current_user",
+                                myJson ).apply();
                     }
                 } catch ( JSONException e ) {
                     e.printStackTrace();
@@ -296,42 +297,10 @@ public class LoginActivity extends Activity {
             public void onFail( String message ) {
 
             }
-        }, RequestType.USER, params, this, false);
+        }, RequestType.USER, params, this, false );
 
     }
 
-
-    /**
-     * adds on press effects for buttons
-     * @param button that is going to have the effect
-     * @param colorHexCode that is hex value of the press color effect
-     */
-    /**public static void buttonEffect( View button, int colorHexCode )
-     {
-     button.setOnTouchListener( new View.OnTouchListener()
-     {
-     @SuppressLint( "ClickableViewAccessibility")
-     public boolean onTouch( View v, MotionEvent event )
-     {
-     switch ( event.getAction() )
-     {
-     case MotionEvent.ACTION_DOWN:
-     {
-     v.getBackground().setColorFilter( colorHexCode, PorterDuff.Mode.SRC_ATOP );
-     v.invalidate();
-     break;
-     }
-     case MotionEvent.ACTION_UP:
-     {
-     v.getBackground().clearColorFilter();
-     v.invalidate();
-     break;
-     }
-     }
-     return false;
-     }
-     });
-     }*/
 }
 
 

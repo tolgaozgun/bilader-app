@@ -31,7 +31,6 @@ public class User implements Serializable, IUser {
     private String userName;
     private String userAvatar;
     private String userId;
-    private ProductList userWishlist;
 
     /**
      * Constructor for User class
@@ -44,8 +43,6 @@ public class User implements Serializable, IUser {
         this.userName = userName;
         this.userAvatar = userAvatar;
         this.userId = userId;
-
-        userWishlist = new ProductList();
     }
 
     /**
@@ -79,15 +76,6 @@ public class User implements Serializable, IUser {
     }
 
     /**
-     * Returns the wishlist of the current user.
-     *
-     * @return ProductList instance of wishlist.
-     */
-    public ProductList getWishlist() {
-        return userWishlist;
-    }
-
-    /**
      * Adds current user to the following people list for the user in the
      * parameter. The person who did the action is provided in the parameter.
      *
@@ -95,6 +83,7 @@ public class User implements Serializable, IUser {
     public void follow( Context context ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
+        params.put( "following_id", userId );
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {

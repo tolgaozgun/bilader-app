@@ -23,7 +23,6 @@ public class Review {
      * @return User (Object) value of the writer.
      */
     public User getSentBy() {
-
         return sentBy;
     }
 
@@ -33,7 +32,6 @@ public class Review {
      * @return String value of the content.
      */
     public String getContent() {
-
         return content;
     }
 }
