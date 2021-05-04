@@ -185,7 +185,11 @@ public class AddNewProductFragment extends Fragment {
 
                             name = tempJson.getString( "name" );
                             id = tempJson.getInt( "id" );
-                            popupMenu.getMenu().add( 1, id, id, name );
+                            // id 0 is reserved for category "all" which no
+                            // product should possess.
+                            if ( id != 0 ) {
+                                popupMenu.getMenu().add( 1, id, id, name );
+                            }
                         }
                     }
                     popupMenu.show();

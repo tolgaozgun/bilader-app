@@ -92,6 +92,8 @@ public class EditProductActivity extends Activity {
         if ( currentProduct.getPicture() != null && !currentProduct.getPicture().equals( "" ) ) {
             Picasso.get().load( currentProduct.getPicture() ).fit().centerCrop().into( productImage );
         }
+        editCategory.setText( currentProduct.getCategory().getName() );
+
 
         soldButton.setOnClickListener( new View.OnClickListener() {
             /**
@@ -165,7 +167,6 @@ public class EditProductActivity extends Activity {
     }
 
 
-
     /**
      * Creates the PopupMenu that shows the category options of the products by
      * getting the options that are found in the server.
@@ -193,7 +194,11 @@ public class EditProductActivity extends Activity {
 
                             name = tempJson.getString( "name" );
                             id = tempJson.getInt( "id" );
-                            popupMenu.getMenu().add( 1, id, id, name );
+                            // id 0 is reserved for category "all" which no
+                            // product should possess.
+                            if ( id != 0 ) {
+                                popupMenu.getMenu().add( 1, id, id, name );
+                            }
                         }
                     }
                     popupMenu.show();
@@ -211,32 +216,13 @@ public class EditProductActivity extends Activity {
 
     }
 
-    //TODO
     private void editProduct( Product editedProduct ) {
-        String editedDescription;
-        String editedTitle;
-        String editedPrice;
         Intent intent;
-        Gson gson;
-        String myJson;
-
-        editedDescription = editDescription.getText().toString();
-        editedTitle = editTitle.getText().toString();
-        editedPrice = editPrice.getText().toString();
-
-        editedProduct.setDescription( editedDescription );
-        editedProduct.setPicture( "pic" );//It will change
-        editedProduct.setTitle( editedTitle );
-        editedProduct.setPrice( Double.parseDouble( editedPrice ) );
 
         intent = new Intent( EditProductActivity.this, ProductActivity.class );
-        gson = new Gson();
-        myJson = gson.toJson( editedProduct );
-        intent.putExtra( "product", myJson );
+        intent.putExtra( "product_id", currentProduct.getProductId() );
         startActivity( intent );
 
-        //TODO
-        //Those above is here the reason same as add new product
     }
 
     @Override

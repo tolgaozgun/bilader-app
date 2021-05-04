@@ -80,7 +80,7 @@
         android:hint="title"
         android:fontFamily="@font/roboto_bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cat" />
+        app:layout_constraintTop_toBottomOf="@+id/editCategory" />
 
     <TextView
         android:id="@+id/textView11"

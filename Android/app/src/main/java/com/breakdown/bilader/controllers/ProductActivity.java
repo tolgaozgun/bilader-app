@@ -134,6 +134,47 @@ public class ProductActivity extends Activity {
                 startActivity( intent );
             }
         } );
+
+
+
+        addWishlistButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                if ( isWishlisted ) {
+                    removeFromWishlist();
+                } else {
+                    addToWishlist();
+                }
+                updateWishlistButton();
+            }
+        } );
+
+        directChatButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                String myJson;
+                Intent intent;
+                if ( sellerId == null || currentUserId == null ) {
+                    Toast.makeText( ProductActivity.this,
+                            "Error retrieving " + "info",
+                            Toast.LENGTH_SHORT ).show();
+                }
+                if ( sellerId.equals( currentUserId ) ) {
+                    Toast.makeText( ProductActivity.this, "You cannot " +
+                            "message" + " yourself!", Toast.LENGTH_SHORT ).show();
+                } else {
+                    intent = new Intent( ProductActivity.this,
+                            PrivateChatActivity.class );
+                    gson = new Gson();
+                    myJson = gson.toJson( currentProduct.getOwner() );
+                    intent.putExtra( "user", myJson );
+                    startActivity( intent );
+                }
+            }
+        } );
+    }
+
+    private void setSettingsView(){
         if ( currentProduct.getSeller().getId().equals( currentUserId ) ) {
             settingsButton.setOnClickListener( new View.OnClickListener() {
                 @Override
@@ -187,45 +228,7 @@ public class ProductActivity extends Activity {
                 }
             } );
         }
-
-
-        addWishlistButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick( View v ) {
-                if ( isWishlisted ) {
-                    removeFromWishlist();
-                } else {
-                    addToWishlist();
-                }
-                updateWishlistButton();
-            }
-        } );
-
-        directChatButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick( View v ) {
-                String myJson;
-                Intent intent;
-                if ( sellerId == null || currentUserId == null ) {
-                    Toast.makeText( ProductActivity.this,
-                            "Error retrieving " + "info",
-                            Toast.LENGTH_SHORT ).show();
-                }
-                if ( sellerId.equals( currentUserId ) ) {
-                    Toast.makeText( ProductActivity.this, "You cannot " +
-                            "message" + " yourself!", Toast.LENGTH_SHORT ).show();
-                } else {
-                    intent = new Intent( ProductActivity.this,
-                            PrivateChatActivity.class );
-                    gson = new Gson();
-                    myJson = gson.toJson( currentProduct.getOwner() );
-                    intent.putExtra( "user", myJson );
-                    startActivity( intent );
-                }
-            }
-        } );
     }
-
 
     @Override
     public void onBackPressed() {
@@ -248,7 +251,6 @@ public class ProductActivity extends Activity {
     private void setView() {
 
         if ( currentProduct != null ) {
-            System.out.println( "XOXOXOX" );
             sellerId = currentProduct.getSeller().getId();
             seller = currentProduct.getSeller();
             productName.setText( currentProduct.getTitle() );
@@ -263,6 +265,7 @@ public class ProductActivity extends Activity {
                 Picasso.get().load( currentProduct.getOwner().getAvatar() ).fit().centerCrop().into( userAvatar );
             }
         }
+        setSettingsView();
         checkIfWishlisted();
     }
 
