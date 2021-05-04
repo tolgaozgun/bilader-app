@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 /**
  * This class is responsible for sending a verification email to the user that wants to register
+ * We used an external library for six-digit verification code. The necessary commands and external library's link is below:
+ * https://github.com/raycoarana/material-code-input
  *
  * @author breakDown
  * @version 13.04.2021
