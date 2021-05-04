@@ -15,6 +15,7 @@ import jakarta.servlet.ServletException;
 
 public class AddProductHandler extends ProcessHandler {
 
+	private static final String DATE_KEY = "creation_date";
 	private static final String[] KEYS = { "picture_url", "title",
 			"description", "price", "seller_id", "category_id" };
 	private static final String DATABASE_TABLE = "products";
@@ -45,7 +46,7 @@ public class AddProductHandler extends ProcessHandler {
 		if ( !isVerified() ) {
 			return ResultCode.NOT_VERIFIED;
 		}
-		
+
 		if ( !checkToken() ) {
 			return ResultCode.INVALID_SESSION;
 		}
@@ -53,7 +54,8 @@ public class AddProductHandler extends ProcessHandler {
 		return ResultCode.ADD_PRODUCT_OK;
 	}
 
-	private String createProductId() throws ClassNotFoundException, SQLException {
+	private String createProductId()
+			throws ClassNotFoundException, SQLException {
 		Map< String, String > mapProductId;
 		UUID productId;
 		DatabaseAdapter adapter;
@@ -80,17 +82,20 @@ public class AddProductHandler extends ProcessHandler {
 		DatabaseAdapter adapter;
 		ResultCode result;
 		String productId;
+		long time;
 
 		adapter = new DatabaseAdapter();
 		json = new JSONObject();
 		result = checkParams();
 		productId = "";
-		if ( result.isSuccess()) {
+		if ( result.isSuccess() ) {
 			productId = createProductId();
+			time = System.currentTimeMillis();
+			params.put( DATE_KEY, String.valueOf( time ) );
 			// Adds the new product to database.
 			adapter.create( DATABASE_TABLE, params );
 		}
-		
+
 		json.put( "session_error", result == ResultCode.INVALID_SESSION );
 		json.put( "product_id", productId );
 		json.put( "success", result.isSuccess() );

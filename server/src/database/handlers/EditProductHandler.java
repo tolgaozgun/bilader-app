@@ -21,8 +21,9 @@ public class EditProductHandler extends ProcessHandler {
 	private static final String DESC_KEY = "description";
 	private static final String PRICE_KEY = "price";
 	private static final String CATEGORY_ID_KEY = "category_id";
+	private static final String SOLD_KEY = "sold";
 	private static final String[] KEYS = { TEMP_PRODUCT_ID_KEY, PICTURE_URL_KEY,
-			TITLE_KEY, DESC_KEY, PRICE_KEY, CATEGORY_ID_KEY };
+			TITLE_KEY, DESC_KEY, PRICE_KEY, CATEGORY_ID_KEY, SOLD_KEY};
 	private static final String[] PRODUCT_VERIFICATION_KEYS = {
 			PRODUCT_ID_KEY };
 	private static final String DATABASE_TABLE = "products";
