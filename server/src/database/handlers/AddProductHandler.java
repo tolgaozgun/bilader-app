@@ -88,6 +88,7 @@ public class AddProductHandler extends ProcessHandler {
 		json = new JSONObject();
 		result = checkParams();
 		productId = "";
+		
 		if ( result.isSuccess() ) {
 			productId = createProductId();
 			time = System.currentTimeMillis();

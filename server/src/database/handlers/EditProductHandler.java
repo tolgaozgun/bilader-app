@@ -81,7 +81,6 @@ public class EditProductHandler extends ProcessHandler {
 		ResultCode result;
 		Map< String, String > checkParams;
 		Map< String, Object > updateList;
-		String productId ;
 
 		adapter = new DatabaseAdapter();
 		checkParams = new HashMap< String, String >();
