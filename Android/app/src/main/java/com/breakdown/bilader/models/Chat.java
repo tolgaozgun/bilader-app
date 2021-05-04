@@ -1,5 +1,11 @@
 package com.breakdown.bilader.models;
 
+/**
+ * A class that represents chat objects, has sender and receiver users, last message between those users and chat id.
+ * @author breakDown
+ * @version 14.04.2021
+ */
+
 public class Chat {
 
     private User userSender;

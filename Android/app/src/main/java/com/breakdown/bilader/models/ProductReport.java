@@ -2,6 +2,12 @@ package com.breakdown.bilader.models;
 
 import android.app.Activity;
 
+/**
+ * A class that extends report class to be used reports of products. Its report type is specified to 1.
+ * @author breakDown
+ * @version 19.04.2021
+ */
+
 public class ProductReport extends Report {
 
 

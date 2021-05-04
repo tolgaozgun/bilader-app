@@ -12,6 +12,12 @@ import com.breakdown.bilader.R;
 
 import java.util.UUID;
 
+/**
+ *This adapter is used for listing, retrieving, building notifications and creating a notification channel
+ * @author breakDown
+ * @version 01.05.2021
+ */
+
 public class NotificationAdapter {
 
     private String content;
