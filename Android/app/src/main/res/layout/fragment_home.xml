@@ -20,17 +20,18 @@
         app:srcCompat="@drawable/ic_baseline_sort_24"
         tools:ignore="VectorDrawableCompat" />
 
-    <SearchView
+    <EditText
         android:id="@+id/searchView"
         android:layout_width="315dp"
         android:layout_height="35dp"
         android:layout_marginTop="8dp"
+        android:paddingLeft="30dp"
         android:background="@drawable/search_bar"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/include">
 
-    </SearchView>
+    </EditText>
 
     <ImageView
         android:id="@+id/imageView"
@@ -100,5 +101,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_chat_24"
         tools:ignore="VectorDrawableCompat" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="6dp"
+        android:foregroundGravity="center"
+        android:src="@drawable/ic_baseline_search_24"
+        app:layout_constraintStart_toStartOf="@+id/searchView"
+        app:layout_constraintTop_toTopOf="@+id/searchView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

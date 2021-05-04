@@ -307,7 +307,6 @@ public class PrivateChatActivity extends Activity {
                     e.printStackTrace();
                 }
 
-
             }
 
             @Override

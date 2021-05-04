@@ -6,8 +6,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -43,7 +47,7 @@ import java.util.HashMap;
  */
 
 public class MyProfileFragment extends Fragment {
-    Activity context;
+    private Activity context;
     private Button followersButton;
     private Button myProductsButton;
     private Button followingButton;
@@ -54,6 +58,7 @@ public class MyProfileFragment extends Fragment {
     private String currentUserId;
     private TextView nameView;
     private ImageView avatarView;
+    private Uri imageUri;
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -75,8 +80,10 @@ public class MyProfileFragment extends Fragment {
     public View onCreateView( LayoutInflater inflater,
                               @Nullable ViewGroup container,
                               @Nullable Bundle savedInstanceState ) {
-        super.onCreateView( inflater, container, savedInstanceState );
         View view;
+
+        super.onCreateView( inflater, container, savedInstanceState );
+
         view = inflater.inflate( R.layout.fragment_myprofile, container,
                 false );
         sharedPreferences =
@@ -84,11 +91,15 @@ public class MyProfileFragment extends Fragment {
         currentUserId = sharedPreferences.getString( "id", "" );
         avatarView = view.findViewById( R.id.image_myprofile_avatar);
         nameView = view.findViewById( R.id.text_myprofile_fullname );
+
         updateInfo();
+
         context = getActivity();
+
         return view;
     }
-
+    //todo
+    // update profile image after user changes
     private void updateInfo() {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -135,9 +146,19 @@ public class MyProfileFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        /*name = ( TextView ) context.findViewById( R.id
-        .text_myprofile_fullname );
-        name.setText( user.getName() );*/
+        avatarView.setOnClickListener( new View.OnClickListener() {
+            /**
+             * starts action accordingly its clicked view
+             * @param view is the view that was clicked
+             */
+            public void onClick( View view ) {
+                Intent galery;
+                galery = new Intent();
+                galery.setType( "image/*" );
+                galery.setAction( Intent.ACTION_GET_CONTENT );
+                startActivityForResult( Intent.createChooser( galery, "Select" + " Picture" ), 1 );
+            }
+        } );
 
         myProductsButton = context.findViewById( R.id.myProductsButton );
         myProductsButton.setOnClickListener( new View.OnClickListener() {
@@ -147,7 +168,10 @@ public class MyProfileFragment extends Fragment {
              */
             public void onClick( View view ) {
                 //create an Intent object
-                Intent intent = new Intent( context, MyProductsActivity.class );
+                Intent intent;
+
+                intent = new Intent( context, MyProductsActivity.class );
+
                 //start the second activity
                 startActivity( intent );
             }
@@ -162,8 +186,12 @@ public class MyProfileFragment extends Fragment {
              */
             public void onClick( View view ) {
                 //create an Intent object
-                Intent intent = new Intent( context, FollowersActivity.class );
+                Intent intent;
+
+                intent = new Intent( context, FollowersActivity.class );
+
                 intent.putExtra( "user_id", currentUserId );
+
                 //start the second activity
                 startActivity( intent );
             }
@@ -177,8 +205,12 @@ public class MyProfileFragment extends Fragment {
              */
             public void onClick( View view ) {
                 //create an Intent object
-                Intent intent = new Intent( context, FollowingActivity.class );
+                Intent intent;
+
+                intent = new Intent( context, FollowingActivity.class );
+
                 intent.putExtra( "user_id", currentUserId );
+
                 //start the second activity
                 startActivity( intent );
             }
@@ -221,7 +253,10 @@ public class MyProfileFragment extends Fragment {
              */
             public void onClick( View view ) {
                 //create an Intent object
-                Intent intent = new Intent( context, SettingsActivity.class );
+                Intent intent;
+
+                intent = new Intent( context, SettingsActivity.class );
+
                 //start the second activity
                 startActivity( intent );
             }
@@ -229,6 +264,7 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void logOut() {
+        Intent intent;
         // TODO: log user out
         /*
         loadingBar.setTitle( "log out" );
@@ -238,7 +274,34 @@ public class MyProfileFragment extends Fragment {
         sharedPreferences.edit().remove( "id" ).apply();
         sharedPreferences.edit().remove( "session_token" ).apply();
 
-        Intent intent = new Intent( context, LoginActivity.class );
+        intent = new Intent( context, LoginActivity.class );
         startActivity( intent );
+    }
+    // Todo
+    // update profile image in server too
+    /**
+     * Called when an activity that is launched exits, it gives the requestCode to
+     * started it with, the resultCode it returned, and any additional data from it
+     *
+     * @param requestCode:        is the int object that allows to identify who
+     *                            this result came from.
+     * @param resultCode:         is the int object that is returned by the child
+     *                            activity through its setResult().
+     * @param data:               If non-null, this intent is being used to return
+     *                            result data to the caller
+     */
+    @Override
+    public void onActivityResult( int requestCode, int resultCode, @Nullable Intent data ) {
+        super.onActivityResult( requestCode, resultCode, data );
+
+        if ( requestCode == 1 && resultCode == -1 ) {
+            imageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap( context.getContentResolver(), imageUri );
+                Picasso.get().load(imageUri).fit().centerCrop().into( avatarView );
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 }

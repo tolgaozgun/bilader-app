@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +43,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +76,7 @@ public class AddNewProductFragment extends Fragment {
     private List< String > imagesEncodedList;
     private ImageLoadAdapter adapter;
     private SharedPreferences sharedPreferences;
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     /**
      * Called to have the fragment instantiate its user interface properties
@@ -126,7 +131,6 @@ public class AddNewProductFragment extends Fragment {
                         categoryButton.setText( item.getTitle() );
                         return false;
                     }
-
                 } );
             }
         } );
@@ -142,12 +146,12 @@ public class AddNewProductFragment extends Fragment {
         pickPhotoButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                Intent galery;
+                Intent gallery;
 
-                galery = new Intent();
-                galery.setType( "image/*" );
-                galery.setAction( Intent.ACTION_GET_CONTENT );
-                startActivityForResult( Intent.createChooser( galery, "Select" + " Picture" ), 1 );
+                gallery = new Intent();
+                gallery.setType( "image/*" );
+                gallery.setAction( Intent.ACTION_GET_CONTENT );
+                startActivityForResult( Intent.createChooser( gallery, "Select" + " Picture" ), 1 );
             }
         } );
 
@@ -223,6 +227,37 @@ public class AddNewProductFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+/*
+        if ( requestCode == 1 && resultCode == -1 ) {
+            imageUri = data.getData();
+
+            String filePath = getPath(imageUri);
+            String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
+
+            try {
+                if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
+                    //FINE
+                } else {
+                    //NOT IN REQUIRED FORMAT
+                }
+            } catch ( Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }*/
+
+    }
+
+   public String getPath(Uri uri) {
+        String res = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContext().getContentResolver().query(uri, proj, null, null, null);
+        if(cursor.moveToFirst()){;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
     }
 
     /**
@@ -254,9 +289,9 @@ public class AddNewProductFragment extends Fragment {
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
             public void onSuccess( JSONObject object ) {
+                Intent intent;
                 try {
                     if ( object.getBoolean( "success" ) ) {
-                        Intent intent;
                         productId = object.getString( "product_id" );
                         intent = new Intent( mContext, ProductActivity.class );
                         intent.putExtra( "product_id", productId );
@@ -279,8 +314,5 @@ public class AddNewProductFragment extends Fragment {
 
             }
         }, RequestType.ADD_PRODUCT, params, mContext, true );
-
-
     }
-
 }
