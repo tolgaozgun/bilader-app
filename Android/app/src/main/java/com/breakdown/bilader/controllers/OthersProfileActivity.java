@@ -37,8 +37,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
 /**
- * This class is responsible for holds the profiles of the user and their properties
+ * This class is responsible for holds the profiles of the user and their
+ * properties
  *
  * @author breakDown
  * @version 13.04.2021
@@ -77,8 +79,8 @@ public class OthersProfileActivity extends AppCompatActivity {
     private String userName;
 
     /**
-     * this is the method where the initialization of UI properties made and
-     * set an action to each of them
+     * this is the method where the initialization of UI properties made and set
+     * an action to each of them
      *
      * @param savedInstanceState: If the activity is being re-initialized after
      *                            previously being shut down then this Bundle
@@ -145,8 +147,8 @@ public class OthersProfileActivity extends AppCompatActivity {
 
         userReviews();
         getSoldCount();
-        getFollowersCount( numberOfFollowers );
-        getFollowingsCount( numberOfFollowings );
+        getFollowersCount();
+        getFollowingsCount();
         //getReviewCount();
 
         reportButton.setOnClickListener( new View.OnClickListener() {
@@ -168,6 +170,8 @@ public class OthersProfileActivity extends AppCompatActivity {
             @Override
             public void onClick( View v ) {
                 currentUser.follow( OthersProfileActivity.this );
+                getFollowersCount();
+                getFollowingsCount();
             }
         } );
 
@@ -213,7 +217,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     /**
      * Sets the followings count of the current user.
      */
-    public void getFollowingsCount( TextView numberOfFollowings ) {
+    public void getFollowingsCount() {
 
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -238,7 +242,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     /**
      * Sets the followers count of the current user.
      */
-    public void getFollowersCount( TextView numberOfFollowers ) {
+    public void getFollowersCount() {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
         params.put( "following_id", userId );
