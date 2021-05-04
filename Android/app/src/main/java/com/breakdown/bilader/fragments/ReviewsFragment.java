@@ -32,6 +32,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * A class that makes connection between the layouts of the reviews and their data
+ *
+ * @author breakDown
+ * @version 16.04.2021
+ */
 public class ReviewsFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList< Review > reviewList;
@@ -96,11 +102,19 @@ public class ReviewsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Gets the number of reviews that user has
+     *
+     */
     public int getReviewNumber() {
         return reviewsAdapter.getItemCount();
     }
 
 
+    /**
+     * Gets all of the reviews that the user has
+     * @param recyclerView    RecyclerView object that lists the reviews
+     */
     private void retrieveReviews( RecyclerView recyclerView ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
@@ -156,8 +170,11 @@ public class ReviewsFragment extends Fragment {
         }, RequestType.RETRIEVE_REVIEWS, params, this.getContext(), true );
     }
 
+    /**
+     * Sets and initializes the adapters and make them work together
+     * @param recyclerView    RecyclerView object that lists the reviews
+     */
     private void printView( RecyclerView recyclerView ) {
-
 
         commentAdapter = new CommentAdapter( getContext(), comments,
                 currentUserId );

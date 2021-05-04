@@ -37,7 +37,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
+/**
+ * This class is responsible for holds the profiles of the user and their properties
+ *
+ * @author breakDown
+ * @version 13.04.2021
+ */
 public class OthersProfileActivity extends AppCompatActivity {
 
     private TabLayout tableLayout;
@@ -71,6 +76,15 @@ public class OthersProfileActivity extends AppCompatActivity {
     private String userAvatar;
     private String userName;
 
+    /**
+     * this is the method where the initialization of UI properties made and
+     * set an action to each of them
+     *
+     * @param savedInstanceState: If the activity is being re-initialized after
+     *                            previously being shut down then this Bundle
+     *                            contains the data it most recently supplied
+     *                            in
+     */
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -194,9 +208,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                 startActivity( intent );
             }
         } );
-
     }
-
 
     /**
      * Sets the followings count of the current user.
@@ -221,9 +233,7 @@ public class OthersProfileActivity extends AppCompatActivity {
             public void onFail( String message ) {
             }
         }, RequestType.FOLLOWING_COUNT, params, this, false );
-
     }
-
 
     /**
      * Sets the followers count of the current user.
@@ -272,16 +282,21 @@ public class OthersProfileActivity extends AppCompatActivity {
                 "Reviews )" );
     }
 
-    //??????
     public boolean isFollowing( User user ) {
         //TODO
         /* if the user is followed --> follow.setText("following")
            if the user is not followed --> follow.setText("follow");
          */
-
         return true;
     }
 
+    /**
+     * This class is responsible for holds tabs (OnSale - Reviews) of the user
+     * profiles
+     *
+     * @author breakDown
+     * @version 13.04.2021
+     */
     private class MyViewpagerAdapter extends FragmentStateAdapter {
 
         public MyViewpagerAdapter( @NonNull FragmentActivity fragmentActivity ) {

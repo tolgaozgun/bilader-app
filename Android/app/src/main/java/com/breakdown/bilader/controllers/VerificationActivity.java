@@ -19,13 +19,13 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * This class is responsible for sending a verification email to the user that wants to register
+ *
+ * @author breakDown
+ * @version 13.04.2021
+ */
 public class VerificationActivity extends Activity {
-    /**
-     * Verification kısmında 6 digit sayı girilen yer için external library
-     * kullandım. Hangi commandleri olduğu burada yazılı:
-     * https://github.com/raycoarana/material-code-input
-     */
 
     private CodeInputView codeView;
     private Button resetButton;
@@ -33,6 +33,15 @@ public class VerificationActivity extends Activity {
     // send - resend button
     private Button resendButton;
 
+    /**
+     * this is the method where the initialization of UI properties made and
+     * set an action to each of them
+     *
+     * @param savedInstanceState: If the activity is being re-initialized after
+     *                            previously being shut down then this Bundle
+     *                            contains the data it most recently supplied
+     *                            in
+     */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -40,7 +49,7 @@ public class VerificationActivity extends Activity {
 
         Intent intent;
         intent = getIntent();
-      
+
         // resend button here
         resendButton = findViewById( R.id.button_verification_code_resend );
 
@@ -58,7 +67,10 @@ public class VerificationActivity extends Activity {
         } );
     }
 
-
+    /**
+     * This method send request for users to enter the six digit-verification
+     * code and checks if the code is correct
+     */
     private void sendRequest() {
         Map< String, String > params;
         String code;
