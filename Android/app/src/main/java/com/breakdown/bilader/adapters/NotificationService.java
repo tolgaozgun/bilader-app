@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class NotificationService extends Service {
-    private int mInterval = 60000; // 60 seconds by default, can be changed
+    private int mInterval = 10000; // 10 seconds by default, can be changed
     // later
     private Handler mHandler;
     private Runnable mStatusChecker;
