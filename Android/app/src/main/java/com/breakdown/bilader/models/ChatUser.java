@@ -1,7 +1,9 @@
 package com.breakdown.bilader.models;
+
 /**
- * A class that holds the chats in the Main Chat Screen. It shows the last message in the chat box of the
- * user has been chated.
+ * A class that holds the chats in the Main Chat Screen. It shows the last
+ * message in the chat box of the user has been chated.
+ *
  * @author breakDown
  * @version 13.04.2021
  */
@@ -45,8 +47,8 @@ public class ChatUser extends User implements Comparable {
     @Override
     public int compareTo( Object o ) {
         if ( o instanceof ChatUser ) {
-            Long curMessageTime = new Long(lastMessageDate);
-            return curMessageTime.compareTo(( ( ChatUser ) o ).getLastMessageDate());
+            Long curMessageTime = new Long( lastMessageDate );
+            return curMessageTime.compareTo( ( ( ChatUser ) o ).getLastMessageDate() );
         }
         return 0;
     }

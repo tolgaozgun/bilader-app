@@ -16,8 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A class that represents report objects, which has what is written in text(description), id, and report type( will be specified
- *                                                                                                            if user = 0, else if product = 1)
+ * A class that represents report objects, which has what is written in
+ * text(description), id, and report type( will be specified if user = 0, else
+ * if product = 1)
+ *
  * @author breakDown
  * @version 19.04.2021
  */
@@ -50,12 +52,6 @@ public abstract class Report {
         params.put( "report_type", String.valueOf( reportType ) );
         params.put( "reported_id", reportedId );
         params.put( "description", description );
-        /*
-        loadingBar = new ProgressDialog( this );
-        loadingBar.setTitle( "Report" );
-        loadingBar.setMessage( "Please wait while we send the report!" );
-        loadingBar.setCanceledOnTouchOutside( false );
-        loadingBar.show();*/
 
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
