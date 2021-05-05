@@ -1,6 +1,8 @@
 package com.breakdown.bilader.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ import java.util.List;
 public class NotificationsFragment extends Fragment {
     private RecyclerView recyclerView;
     private NotificationAdapter notificationAdapter;
+    private SharedPreferences sharedPreferences;
     private List< Notification > notificationList;
 
     /**
@@ -64,7 +67,8 @@ public class NotificationsFragment extends Fragment {
 
         view = inflater.inflate( R.layout.fragment_notifications, container,
                 false );
-
+        sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences( getContext() );
         recyclerView = view.findViewById( R.id.notificationRecycler );
         recyclerView.setHasFixedSize( true );
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity() ) );
@@ -79,6 +83,7 @@ public class NotificationsFragment extends Fragment {
     private void retrieveNotifications() {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
+        notificationList = new ArrayList< Notification >();
         params.put( "time", "0" );
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
@@ -97,7 +102,6 @@ public class NotificationsFragment extends Fragment {
                 try {
                     if ( object.getBoolean( "success" ) ) {
 
-                        notificationList = new ArrayList< Notification >();
                         keys = object.getJSONObject( "notifications" ).keys();
                         while ( keys.hasNext() ) {
                             String key = keys.next();
@@ -113,11 +117,15 @@ public class NotificationsFragment extends Fragment {
                             image = tempJson.getString( "image" );
                             time = tempJson.getLong( "time" );
                             id = tempJson.getInt( "notification_id" );
-                            notification = new Notification( id, content,
-                                    smallContent, title, image, extraId, time
-                                    , getContext(),
-                                    NotificationType.valueOf( typeString ) );
-                            notificationList.add( notification );
+                            if ( sharedPreferences.getBoolean( typeString +
+                                    "_NOTIFICATION", true ) ) {
+                                notification = new Notification( id, content,
+                                        smallContent, title, image, extraId,
+                                        time, getContext(),
+                                        NotificationType.valueOf( typeString ) );
+                                notificationList.add( notification );
+                            }
+
                         }
                     }
                 } catch ( JSONException exc ) {

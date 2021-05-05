@@ -106,13 +106,17 @@ public class NotificationService extends Service {
                                 avatarURL = tempNotif.getString( "image" );
                                 notificationId = tempNotif.getInt(
                                         "notification_id" );
-                                notification =
-                                        new Notification( notificationId,
-                                                content, smallContent, title,
-                                                avatarURL, extraId, time,
-                                                NotificationService.this,
-                                                NotificationType.valueOf( typeString ) );
-                                notification.buildNotification();
+
+                                if ( sharedPreferences.getBoolean( typeString +
+                                        "_NOTIFICATION", true ) ) {
+                                    notification =
+                                            new Notification( notificationId,
+                                                    content, smallContent, title,
+                                                    avatarURL, extraId, time,
+                                                    NotificationService.this,
+                                                    NotificationType.valueOf( typeString ) );
+                                    notification.buildNotification();
+                                }
                             }
                         }
                     } catch ( JSONException e ) {

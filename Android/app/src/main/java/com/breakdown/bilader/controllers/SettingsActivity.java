@@ -32,6 +32,8 @@ public class SettingsActivity extends Activity {
     private Button changePasswordButton;
     private SwitchMaterial followSwitch;
     private SwitchMaterial messageSwitch;
+    private boolean followBoolean;
+    private boolean messageBoolean;
     private SharedPreferences sharedPreferences;
 
     /**
@@ -55,6 +57,10 @@ public class SettingsActivity extends Activity {
                 ( SwitchMaterial ) findViewById( R.id.switch_follow_notifications );
         messageSwitch =
                 ( SwitchMaterial ) findViewById( R.id.switch_message_notifications );
+        setView();
+
+
+
 
         changePasswordButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -74,7 +80,9 @@ public class SettingsActivity extends Activity {
             @Override
             public void onCheckedChanged( CompoundButton buttonView,
                                           boolean isChecked ) {
-                sharedPreferences.edit().putBoolean( "FOLLOW_NOTIFICATIONS", isChecked );
+                sharedPreferences.edit().putBoolean( "FOLLOW_NOTIFICATION", isChecked ).apply();
+                sharedPreferences.edit().putBoolean( "UNFOLLOW_NOTIFICATION", isChecked ).apply();
+                setView();
 
             }
         } );
@@ -87,10 +95,20 @@ public class SettingsActivity extends Activity {
             @Override
             public void onCheckedChanged( CompoundButton buttonView,
                                           boolean isChecked ) {
-                sharedPreferences.edit().putBoolean( "MESSAGE_NOTIFICATIONS", isChecked );
+                sharedPreferences.edit().putBoolean( "MESSAGE_NOTIFICATION", isChecked ).apply();
+                setView();
 
             }
         } );
     }
+
+    private void setView(){
+        followBoolean = sharedPreferences.getBoolean( "FOLLOW_NOTIFICATION" , true);
+        messageBoolean = sharedPreferences.getBoolean( "MESSAGE_NOTIFICATION" , true);
+
+        followSwitch.setChecked( followBoolean );
+        messageSwitch.setChecked( messageBoolean );
+    }
+
 
 }
