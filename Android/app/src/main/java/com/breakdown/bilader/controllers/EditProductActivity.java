@@ -268,6 +268,7 @@ public class EditProductActivity extends Activity {
         intent = new Intent( EditProductActivity.this, ProductActivity.class );
         intent.putExtra( "product_id", currentProduct.getProductId() );
         startActivity( intent );
+        finish();
 
     }
 

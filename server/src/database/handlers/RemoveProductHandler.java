@@ -84,9 +84,13 @@ public class RemoveProductHandler extends ProcessHandler {
 			// Adds the new product to database.
 			checkParams = cloneMapWithKeys( PRODUCT_VERIFICATION_KEYS, params );
 			adapter.delete( DATABASE_TABLE, checkParams );
+
+			params.put( TEMP_PRODUCT_ID_KEY, params.get( PRODUCT_ID_KEY ) );
+			params.remove( PRODUCT_ID_KEY );
 			
+
 			// delete the product from the wishlist table as well.
-			adapter.delete( DATABASE_TABLE_WISHLIST, checkParams);
+			adapter.delete( DATABASE_TABLE_WISHLIST, checkParams );
 		}
 
 		json.put( "session_error", result == ResultCode.INVALID_SESSION );
