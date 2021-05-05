@@ -104,7 +104,7 @@ public class VerificationActivity extends Activity {
                             Toast.LENGTH_SHORT ).show();
                     if ( object.getBoolean( "success" ) ) {
                         intent = new Intent( VerificationActivity.this,
-                                BiltraderActivity.class );
+                                LoginActivity.class );
                         startActivity( intent );
                     } else {
                         codeView.setEditable( true );
