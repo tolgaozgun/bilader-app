@@ -73,6 +73,7 @@ public class RemoveProductHandler extends ProcessHandler {
 		JSONObject json;
 		DatabaseAdapter adapter;
 		ResultCode result;
+		String productId;
 		Map< String, String > checkParams;
 
 		adapter = new DatabaseAdapter();
@@ -82,12 +83,12 @@ public class RemoveProductHandler extends ProcessHandler {
 
 		if ( result.isSuccess() ) {
 			// Adds the new product to database.
+			productId = params.get( PRODUCT_ID_KEY );
 			checkParams = cloneMapWithKeys( PRODUCT_VERIFICATION_KEYS, params );
 			adapter.delete( DATABASE_TABLE, checkParams );
 
-			params.put( TEMP_PRODUCT_ID_KEY, params.get( PRODUCT_ID_KEY ) );
-			params.remove( PRODUCT_ID_KEY );
-			
+			checkParams.clear();
+			checkParams.put( TEMP_PRODUCT_ID_KEY, productId );
 
 			// delete the product from the wishlist table as well.
 			adapter.delete( DATABASE_TABLE_WISHLIST, checkParams );
