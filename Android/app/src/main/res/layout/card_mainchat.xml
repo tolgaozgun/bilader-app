@@ -54,6 +54,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:text="@string/main_chat_overview"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_main_chat_avatar"
                 app:layout_constraintTop_toTopOf="parent" />
