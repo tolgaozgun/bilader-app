@@ -2,6 +2,6 @@ package com.breakdown.bilader.models;
 
 public enum NotificationType {
 
-    MESSAGE, FOLLOW;
+    MESSAGE, FOLLOW, UNFOLLOW;
 
 }

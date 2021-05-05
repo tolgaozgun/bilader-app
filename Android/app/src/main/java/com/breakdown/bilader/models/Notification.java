@@ -36,7 +36,7 @@ import java.util.UUID;
  * @version 19.04.2021
  */
 
-public class Notification {
+public class Notification implements Comparable {
 
     private String content;
     private String avatarURL;
@@ -51,7 +51,7 @@ public class Notification {
 
     public Notification( int notificationId, String content,
                          String smallContent, String title, String avatarURL,
-                         String extraId,  long time, Context context,
+                         String extraId, long time, Context context,
                          NotificationType type ) {
         this.content = content;
         this.avatarURL = avatarURL;
@@ -100,6 +100,7 @@ public class Notification {
                 intent.putExtra( "user", myJson );
                 break;
             case FOLLOW:
+            case UNFOLLOW:
                 user = new User( title, avatarURL, extraId );
                 myJson = gson.toJson( user );
                 intent = new Intent( context, OthersProfileActivity.class );
@@ -187,5 +188,14 @@ public class Notification {
 
     public NotificationType getType() {
         return type;
+    }
+
+    @Override
+    public int compareTo( Object o ) {
+        if ( o instanceof Notification ) {
+            Long currentTime = new Long( time );
+            return currentTime.compareTo( ( ( Notification ) o ).getTime() );
+        }
+        return 0;
     }
 }

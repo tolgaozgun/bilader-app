@@ -147,8 +147,8 @@ public class SendMessageHandler extends ProcessHandler {
 			json.put( "sender_avatar_url", userResultMap.get( 0 )[ 1 ] );
 
 			params.clear();
-			params.put( "user_id", currentUserId );
-			params.put( "extra_id", otherUserId );
+			params.put( "user_id", otherUserId );
+			params.put( "extra_id", currentUserId );
 			params.put( "small_content", ( String ) userResultMap.get( 0 )[ 0 ]
 					+ " messaged " + content );
 			params.put( "content", content );

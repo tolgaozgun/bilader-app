@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -124,9 +125,8 @@ public class NotificationsFragment extends Fragment {
                             Toast.LENGTH_SHORT ).show();
                     exc.printStackTrace();
                 }
-                notificationAdapter = new NotificationAdapter( getContext(),
-                        notificationList );
-                recyclerView.setAdapter( notificationAdapter );
+                Collections.sort( notificationList );
+                Collections.reverse( notificationList );
                 notificationAdapter.notifyDataSetChanged();
 
             }
