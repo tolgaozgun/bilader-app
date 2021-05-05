@@ -137,7 +137,6 @@ public class RegisterActivity extends Activity {
             loadingBar.setCanceledOnTouchOutside( false );
             loadingBar.show();
 
-            //TODO: AVATAR URL
             validateEmail( name, email, passwordOne, avatarURL );
         }
     }
