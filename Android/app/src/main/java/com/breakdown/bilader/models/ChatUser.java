@@ -32,18 +32,39 @@ public class ChatUser extends User implements Comparable {
         this.lastMessageDate = lastMessageDate;
     }
 
+    /**
+     * Returns String value of the last message.
+     *
+     * @return String value of the last message.
+     */
     public String getLastMessage() {
         return lastMessage;
     }
 
+    /**
+     * Returns the String value of the chat id.
+     *
+     * @return the String value of the chat id.
+     */
     public String getChatId() {
         return chatId;
     }
 
+    /**
+     * Returns the last value of the date of the last message.
+     *
+     * @return last value of the date of the last message.
+     */
     public long getLastMessageDate() {
         return lastMessageDate;
     }
 
+    /**
+     * Compares the two object to determine their order according to their
+     * send date
+     *
+     * @return an integer value according to the order
+     */
     @Override
     public int compareTo( Object o ) {
         if ( o instanceof ChatUser ) {
