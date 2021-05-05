@@ -205,7 +205,22 @@ public class ProductActivity extends Activity {
                                 newIntent.putExtra( "product", myJson );
                                 startActivity( newIntent );
                             } else if ( id == R.id.removeMenu ) {
-                                //TODO
+                                VolleyCallback callback;
+                                callback = new VolleyCallback() {
+                                    @Override
+                                    public void onSuccess( JSONObject object ) {
+                                        Intent newIntent;
+                                        newIntent = new Intent( ProductActivity.this,
+                                                BiltraderActivity.class );
+                                        startActivity( newIntent );
+                                    }
+
+                                    @Override
+                                    public void onFail( String message ) {
+
+                                    }
+                                };
+                                removeProduct(callback);
                             }
                             return true;
                         }
@@ -230,6 +245,33 @@ public class ProductActivity extends Activity {
                 }
             } );
         }
+    }
+
+    private void removeProduct(VolleyCallback callback) {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "product_id", currentProduct.getProductId() );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    Toast.makeText( ProductActivity.this, object.getString( "message" ),
+                            Toast.LENGTH_SHORT ).show();
+                } catch ( JSONException e ) {
+                    Toast.makeText( ProductActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
+                }
+                callback.onSuccess( object );
+            }
+
+            @Override
+            public void onFail( String message ) {
+                callback.onFail( message );
+                Toast.makeText( ProductActivity.this, message,
+                        Toast.LENGTH_SHORT ).show();
+
+            }
+        }, RequestType.REMOVE_PRODUCT, params, ProductActivity.this, true );
     }
 
     @Override

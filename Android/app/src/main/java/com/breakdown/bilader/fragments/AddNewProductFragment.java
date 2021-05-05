@@ -55,6 +55,7 @@ public class AddNewProductFragment extends Fragment {
     private EditText description;
     private Button postButton;
     private Button categoryButton;
+    private String imagePath;
     private Activity mContext;
     private PopupMenu popupMenu;
     private ImageView pickPhotoButton;
@@ -212,9 +213,9 @@ public class AddNewProductFragment extends Fragment {
             Uri imageUri;
             imageUri = data.getData();
 
-            imageUrl = getPath( imageUri );
+            imagePath = getPath( imageUri );
             String file_extn =
-                    imageUrl.substring( imageUrl.lastIndexOf( "." ) + 1 );
+                    imagePath.substring( imagePath.lastIndexOf( "." ) + 1 );
 
             try {
                 Bitmap bitmap =
@@ -226,10 +227,10 @@ public class AddNewProductFragment extends Fragment {
 
             try {
                 if ( file_extn.equals( "img" ) || file_extn.equals( "jpg" ) || file_extn.equals( "jpeg" ) || file_extn.equals( "gif" ) || file_extn.equals( "png" ) ) {
-                    uploadFile( "http://88.99.11" + ".149:8080/server" +
-                            "/MultipartServlet", imageUrl );
+                    uploadFile( "http://88.99.11.149:8080/server" +
+                            "/MultipartServlet", imagePath );
                 } else {
-                    //NOT IN REQUIRED FORMAT
+                    Toast.makeText( mContext, "Wrong image format", Toast.LENGTH_SHORT ).show();
                 }
             } catch ( Exception e ) {
                 e.printStackTrace();
@@ -330,6 +331,7 @@ public class AddNewProductFragment extends Fragment {
             }
             json = new JSONObject( responseString.toString() );
             imageUrl = json.getString( "url" );
+            System.out.println("JSON: " + json);
         } catch ( IOException | JSONException ex ) {
             System.out.println( "ERROR: " + ex.getMessage() );
             ex.printStackTrace();

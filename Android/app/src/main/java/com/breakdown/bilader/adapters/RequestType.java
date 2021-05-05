@@ -33,6 +33,7 @@ public enum RequestType {
     CHECK_FOLLOWING("IsFollowingRequest"),
     REVIEW_COUNT("ReviewCountRequest"),
     PRODUCT_COUNT("ProductCountRequest"),
+    REMOVE_PRODUCT("RemoveProductRequest"),
     USER("UserRequest");
 
     private String path;

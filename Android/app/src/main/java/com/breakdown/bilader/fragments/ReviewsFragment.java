@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -146,21 +147,23 @@ public class ReviewsFragment extends Fragment {
                             userName = tempJson.getString( "sender_name" );
                             content = tempJson.getString( "content" );
                             senderId = tempJson.getString( "sender_id" );
+                            time = tempJson.getLong( "time" );
                             userAvatarURL = tempJson.getString(
                                     "sender_avatar" );
                             System.out.println( "NAME: " + userName + " " +
                                     "review: " + content );
                             sender = new User( userName, userAvatarURL,
                                     senderId );
-                            review = new Review( reviewId, sender, content );
+                            review = new Review( reviewId, sender, content, time );
                             reviewList.add( review );
                         }
+                        Collections.sort(reviewList);
+                        Collections.reverse( reviewList );
                     }
-                    printView( recyclerView );
                 } catch ( JSONException e ) {
                     e.printStackTrace();
-                    printView( recyclerView );
                 }
+                printView( recyclerView );
             }
 
             @Override
