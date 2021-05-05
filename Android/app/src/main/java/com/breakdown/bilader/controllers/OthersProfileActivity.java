@@ -117,6 +117,9 @@ public class OthersProfileActivity extends AppCompatActivity {
             gson = new Gson();
             currentUser = gson.fromJson( getIntent().getStringExtra( "user" )
                     , User.class );
+            userId = currentUser.getId();
+            userName = currentUser.getName();
+            userAvatar = currentUser.getAvatar();
         } else if ( getIntent().hasExtra( "user_id" ) ) {
             userName = getIntent().getStringExtra( "user_name" );
             userId = getIntent().getStringExtra( "user_id" );
@@ -321,7 +324,11 @@ public class OthersProfileActivity extends AppCompatActivity {
                 int count;
                 try {
                     count = object.getInt( "count" );
-                    numberOfReviews.setText( "(" + count + " Reviews)" );
+                    if(count == 0 || count == 1){
+                        numberOfReviews.setText( "(" + count + " Review)" );
+                    }else{
+                        numberOfReviews.setText( "(" + count + " Reviews)" );
+                    }
                 } catch ( JSONException e ) {
                     Toast.makeText( OthersProfileActivity.this,
                             e.getMessage(), Toast.LENGTH_SHORT ).show();
