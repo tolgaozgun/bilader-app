@@ -43,8 +43,8 @@ public class MainChatAdapter extends
     /**
      * A constructor that holds properties of fragment adapter
      *
-     * @param mContext  is the location of the current fragment and its internal
-     *                  elements and methods
+     * @param mContext is the location of the current fragment and its internal
+     *                 elements and methods
      * @param userList list of the user
      */
     public MainChatAdapter( Context mContext, ArrayList< ChatUser > userList ) {
@@ -122,7 +122,7 @@ public class MainChatAdapter extends
             otherUserId = user.getId();
             holder.textLastMessage.setText( user.getLastMessage() );
             holder.textLastMessageSender.setText( user.getName() );
-            holder.textTimeAgo.setText( prettyTime.format( new Date(user.getLastMessageDate()) ) );
+            holder.textTimeAgo.setText( prettyTime.format( new Date( user.getLastMessageDate() ) ) );
 
             if ( user.getAvatar().isEmpty() ) {
                 holder.imageMainChatAvatar.setImageResource( R.drawable.avatar_no_gender );
@@ -131,8 +131,6 @@ public class MainChatAdapter extends
             }
         }
 
-        // TODO
-        //getLastMessage(  );
 
         holder.cardMainChat.setOnClickListener( new View.OnClickListener() {
 
@@ -147,8 +145,8 @@ public class MainChatAdapter extends
 
                 intent = new Intent( mContext, PrivateChatActivity.class );
                 gson = new Gson();
-                myJson = gson.toJson(user);
-                intent.putExtra("user", myJson);
+                myJson = gson.toJson( user );
+                intent.putExtra( "user", myJson );
                 mContext.startActivity( intent );
 
             }

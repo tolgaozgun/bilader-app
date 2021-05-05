@@ -37,7 +37,6 @@ public class ProductAdapter extends
     private Fragment mContext;
     private Activity mmmContext;
     private ArrayList< Product > products;
-    // private ArrayList< Product > productsFull = new ArrayList<>( products );
 
     /**
      * A constructor that holds properties of fragment adapter
@@ -173,15 +172,6 @@ public class ProductAdapter extends
             return products.size();
         }
         return 0;
-    }
-
-    /**
-     * Sets to product list the filtered list and updates the changes.
-     * @param filteredList, the filtered array list to update product list
-     */
-    public void filterList( ArrayList<Product> filteredList) {
-        products = filteredList;
-        notifyDataSetChanged();
     }
 
 }

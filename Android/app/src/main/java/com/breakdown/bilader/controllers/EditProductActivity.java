@@ -238,9 +238,9 @@ public class EditProductActivity extends Activity {
         } else {
             params.put( "picture_url", currentProduct.getPicture() );
         }
-        params.put( "title", currentProduct.getTitle() );
-        params.put( "description", currentProduct.getDescription() );
-        params.put( "price", String.valueOf( currentProduct.getPrice() ) );
+        params.put( "title", editTitle.getText().toString() );
+        params.put( "description", editDescription.getText().toString() );
+        params.put( "price", editPrice.getText().toString() );
         params.put( "seller_id", currentProduct.getSeller().getId() );
         params.put( "category_id", String.valueOf( category.getId() ) );
         params.put( "sold", String.valueOf( isSoldResult ) );
