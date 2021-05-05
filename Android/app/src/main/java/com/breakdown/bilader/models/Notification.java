@@ -14,7 +14,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.breakdown.bilader.R;
+import com.breakdown.bilader.adapters.RequestType;
+import com.breakdown.bilader.controllers.BiltraderActivity;
 import com.breakdown.bilader.controllers.MainChatActivity;
+import com.breakdown.bilader.controllers.OthersProfileActivity;
+import com.breakdown.bilader.controllers.PrivateChatActivity;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -24,7 +29,9 @@ import java.net.URL;
 import java.util.UUID;
 
 /**
- * A class that represents notifications, to be used to notify users when there is message etc.
+ * A class that represents notifications, to be used to notify users when there
+ * is message etc.
+ *
  * @author breakDown
  * @version 19.04.2021
  */
@@ -33,58 +40,94 @@ public class Notification {
 
     private String content;
     private String avatarURL;
+    private String extraId;
+    private String smallContent;
     private long time;
     private String title;
     private Context context;
     private int notificationId;
+    private NotificationType type;
     private final String CHANNEL_ID;
 
-    public Notification( int notificationId, String content, String title,
-                                String avatarURL, long time, Context context ) {
+    public Notification( int notificationId, String content,
+                         String smallContent, String title, String avatarURL,
+                         String extraId,  long time, Context context,
+                         NotificationType type ) {
         this.content = content;
         this.avatarURL = avatarURL;
         this.time = time;
         this.title = title;
         this.context = context;
+        this.extraId = extraId;
+        this.smallContent = smallContent;
         this.notificationId = notificationId;
+        this.type = type;
         CHANNEL_ID = UUID.randomUUID().toString();
         createNotificationChannel();
     }
 
 
     public void buildNotification() {
+        PendingIntent contentIntent;
         NotificationCompat.Builder builder;
         NotificationManagerCompat notificationManager;
-        builder = new NotificationCompat.Builder( context, CHANNEL_ID )
-                .setSmallIcon( R.drawable.vector_logo )
-                .setLargeIcon( getBitmapFromURL( avatarURL ) )
-                .setContentTitle( title )
-                .setContentText( content )
-                .setPriority( NotificationCompat.PRIORITY_DEFAULT );
+        builder =
+                new NotificationCompat.Builder( context, CHANNEL_ID ).setSmallIcon( R.drawable.vector_logo ).setLargeIcon( getBitmapFromURL( avatarURL ) ).setContentTitle( title ).setContentText( content ).setPriority( NotificationCompat.PRIORITY_DEFAULT );
 
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-                new Intent(context, MainChatActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        contentIntent = PendingIntent.getBroadcast( context,
+                UUID.randomUUID().hashCode(), buildIntent(),
+                PendingIntent.FLAG_UPDATE_CURRENT );
 
-        builder.setContentIntent(contentIntent);
+
+        builder.setContentIntent( contentIntent );
         notificationManager = NotificationManagerCompat.from( context );
         notificationManager.notify( notificationId, builder.build() );
 
 
     }
-    public static Bitmap getBitmapFromURL( String src) {
+
+    public Intent buildIntent() {
+        User user;
+        Gson gson;
+        Intent intent;
+        String myJson;
+        gson = new Gson();
+        switch ( type ) {
+            case MESSAGE:
+                user = new User( title, avatarURL, extraId );
+                myJson = gson.toJson( user );
+                intent = new Intent( context, PrivateChatActivity.class );
+                intent.putExtra( "user", myJson );
+                break;
+            case FOLLOW:
+                user = new User( title, avatarURL, extraId );
+                myJson = gson.toJson( user );
+                intent = new Intent( context, OthersProfileActivity.class );
+                intent.putExtra( "user", myJson );
+                break;
+            default:
+                intent = new Intent( context, BiltraderActivity.class );
+                break;
+        }
+        return intent;
+    }
+
+
+    public static Bitmap getBitmapFromURL( String src ) {
         StrictMode.ThreadPolicy policy =
                 new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy( policy );
         try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
+            URL url = new URL( src );
+            HttpURLConnection connection =
+                    ( HttpURLConnection ) url.openConnection();
+            connection.setDoInput( true );
             connection.connect();
             InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            Bitmap myBitmap = BitmapFactory.decodeStream( input );
             return myBitmap;
-        } catch ( IOException e) {
+        } catch ( IOException e ) {
             e.printStackTrace();
             return null;
         }
@@ -134,7 +177,15 @@ public class Notification {
         return notificationId;
     }
 
-    public String getCHANNEL_ID() {
-        return CHANNEL_ID;
+    public String getExtraId() {
+        return extraId;
+    }
+
+    public String getSmallContent() {
+        return smallContent;
+    }
+
+    public NotificationType getType() {
+        return type;
     }
 }

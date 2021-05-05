@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager;
 
         view = inflater.inflate( R.layout.fragment_home, container, false );
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = view.findViewById( R.id.swipeRefreshLayout );
 
         recyclerView =
                 ( RecyclerView ) view.findViewById( R.id.biltraderRecycler );
@@ -228,16 +228,15 @@ public class HomeFragment extends Fragment {
                 } );
 
 
-
             }
         } );
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 retrieveProducts( recyclerView );
 
             }
-        });
+        } );
 
         return view;
     }//onCreateView method ends.
@@ -249,6 +248,10 @@ public class HomeFragment extends Fragment {
      */
     private void filter( String text ) {
         ArrayList< Product > filteredList = new ArrayList<>();
+
+        if ( productList == null  || productList.size() <= 0 ) {
+            return;
+        }
 
         for ( Product p : productList ) {
             if ( p.getTitle().toLowerCase().contains( text.toLowerCase() ) ) {
@@ -367,7 +370,8 @@ public class HomeFragment extends Fragment {
                             sellerAvatarURL = tempJson.getString(
                                     "seller_avatar_url" );
                             categoryId = tempJson.getInt( "category_id" );
-                            categoryName = tempJson.getString( "category_name" );
+                            categoryName = tempJson.getString( "category_name"
+                            );
                             seller = new User( sellerName, sellerAvatarURL,
                                     sellerId );
                             product = new Product( pictureUrl, productTitle,
@@ -379,12 +383,12 @@ public class HomeFragment extends Fragment {
                     }
                     printView( recyclerView );
                     adapter.notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayout.setRefreshing( false );
                 } catch ( JSONException e ) {
                     e.printStackTrace();
                     printView( recyclerView );
                     adapter.notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayout.setRefreshing( false );
                 }
             }
 
@@ -392,7 +396,7 @@ public class HomeFragment extends Fragment {
             public void onFail( String message ) {
                 printView( recyclerView );
                 adapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing( false );
             }
         }, RequestType.PRODUCT, params, this.getContext(), true );
     }

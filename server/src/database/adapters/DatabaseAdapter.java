@@ -1,6 +1,5 @@
 package database.adapters;
 
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -24,6 +23,7 @@ public class DatabaseAdapter {
 	private final String MYSQL_URL = "jdbc:mysql://localhost:3306/bilader_app";
 	private final String MYSQL_USERNAME = "biladeradmin";
 	private final String MYSQL_PASSWORD = "BILADERapp123#";
+	
 
 	/**
 	 * Connects to the MySQL Server using credentials.

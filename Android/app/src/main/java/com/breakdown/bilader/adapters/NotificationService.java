@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 
 import com.breakdown.bilader.models.Notification;
+import com.breakdown.bilader.models.NotificationType;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class NotificationService extends Service {
-    private int mInterval = 10000; // 10 seconds by default, can be changed
+    private int mInterval = 20000; // 20 seconds by default, can be changed
     // later
     private Handler mHandler;
     private Runnable mStatusChecker;
@@ -81,6 +82,9 @@ public class NotificationService extends Service {
                 public void onSuccess( JSONObject object ) {
                     Iterator< String > keys;
                     JSONObject tempNotif;
+                    String smallContent;
+                    String extraId;
+                    String typeString;
 
                     try {
                         if ( object.getBoolean( "success" ) ) {
@@ -94,15 +98,20 @@ public class NotificationService extends Service {
                                 sharedPreferences.edit().putLong(
                                         "LAST_NOTIFICATION_TIME", time ).apply();
                                 content = tempNotif.getString( "content" );
+                                smallContent = tempNotif.getString(
+                                        "small_content" );
+                                extraId = tempNotif.getString( "extra_id" );
+                                typeString = tempNotif.getString( "type" );
                                 title = tempNotif.getString( "title" );
                                 avatarURL = tempNotif.getString( "image" );
                                 notificationId = tempNotif.getInt(
                                         "notification_id" );
                                 notification =
                                         new Notification( notificationId,
-                                                content, title, avatarURL,
-                                                time,
-                                                NotificationService.this );
+                                                content, smallContent, title,
+                                                avatarURL, extraId, time,
+                                                NotificationService.this,
+                                                NotificationType.valueOf( typeString ) );
                                 notification.buildNotification();
                             }
                         }

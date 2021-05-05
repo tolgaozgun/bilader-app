@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -36,7 +35,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * This class is responsible for holds the profiles of the user and their
@@ -55,6 +53,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     private TextView numberOfFollowers;
     private TextView numberOfFollowings;
     private TextView numberOfReviews;
+    private TextView numberOfSale;
     private TextView activityTitle;
     private TextView numberOfProducts;
     private EditText contentOfTheReview; //?
@@ -77,6 +76,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     private String userId;
     private String userAvatar;
     private String userName;
+    private boolean isFollowing;
 
     /**
      * this is the method where the initialization of UI properties made and set
@@ -107,6 +107,7 @@ public class OthersProfileActivity extends AppCompatActivity {
         followingView = findViewById( R.id.followingView );
         followersView = findViewById( R.id.followersView );
         salesView = findViewById( R.id.saleView );
+        numberOfSale = findViewById( R.id.text_others_profile_sale_amount );
         activityTitle = findViewById( R.id.othersProfileTitle );
         reportButton = findViewById( R.id.reportButton );
 
@@ -145,10 +146,11 @@ public class OthersProfileActivity extends AppCompatActivity {
 
         Picasso.get().load( currentUser.getAvatar() ).fit().centerCrop().into( profilePhoto );
 
-        userReviews();
-        getSoldCount();
+        getProductCount();
         getFollowersCount();
         getFollowingsCount();
+        getReviewCount();
+        isFollowing();
 
         reportButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -164,13 +166,24 @@ public class OthersProfileActivity extends AppCompatActivity {
             }
         } );
 
-        //TODO
         follow.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                currentUser.follow( OthersProfileActivity.this );
-                getFollowersCount();
-                getFollowingsCount();
+                VolleyCallback callback;
+                callback = new VolleyCallback() {
+                    @Override
+                    public void onSuccess( JSONObject object ) {
+                        getFollowersCount();
+                        getFollowingsCount();
+                        isFollowing();
+                    }
+
+                    @Override
+                    public void onFail( String message ) {
+
+                    }
+                };
+                currentUser.follow( callback, OthersProfileActivity.this );
             }
         } );
 
@@ -249,48 +262,111 @@ public class OthersProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess( JSONObject object ) {
                 try {
-                    if ( object.getBoolean( "success" ) ) {
-                        numberOfFollowers.setText( String.valueOf( object.getInt( "count" ) ) );
-                    }
+                    numberOfFollowers.setText( String.valueOf( object.getInt( "count" ) ) );
                 } catch ( JSONException e ) {
+                    Toast.makeText( OthersProfileActivity.this, e.getMessage(),
+                            Toast.LENGTH_SHORT ).show();
                 }
             }
 
             @Override
             public void onFail( String message ) {
+                Toast.makeText( OthersProfileActivity.this, message,
+                        Toast.LENGTH_SHORT ).show();
             }
         }, RequestType.FOLLOWERS_COUNT, params, this, false );
     }
 
-    /**
-     * Shows the reviews of the current user.
-     */
-    public void userReviews() {
-        //TODO
-
-    }
 
     /**
      * Shows the number of soles done of the current user.
      */
-    public void getSoldCount() {
-        //TODO
+    public void getProductCount() {
+
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "seller_id", currentUser.getId() );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                int count;
+                try {
+                    count = object.getInt( "count" );
+                    numberOfSale.setText( String.valueOf( count ) );
+                } catch ( JSONException e ) {
+                    Toast.makeText( OthersProfileActivity.this,
+                            e.getMessage(), Toast.LENGTH_SHORT ).show();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                Toast.makeText( OthersProfileActivity.this, message,
+                        Toast.LENGTH_SHORT ).show();
+
+            }
+        }, RequestType.PRODUCT_COUNT, params, this, true );
     }
 
     /**
      * Shows the number of reviews done of the current user.
      */
     public void getReviewCount() {
-        numberOfReviews.setText( "(" + fragmentForReview.getReviewNumber() +
-                "Reviews )" );
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "receiver_id", currentUser.getId() );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                int count;
+                try {
+                    count = object.getInt( "count" );
+                    numberOfReviews.setText( "(" + count + " Reviews)" );
+                } catch ( JSONException e ) {
+                    Toast.makeText( OthersProfileActivity.this,
+                            e.getMessage(), Toast.LENGTH_SHORT ).show();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                Toast.makeText( OthersProfileActivity.this, message,
+                        Toast.LENGTH_SHORT ).show();
+
+            }
+        }, RequestType.REVIEW_COUNT, params, this, true );
     }
 
-    public boolean isFollowing( User user ) {
-        //TODO
-        /* if the user is followed --> follow.setText("following")
-           if the user is not followed --> follow.setText("follow");
-         */
-        return true;
+    public void isFollowing() {
+        HashMap< String, String > params;
+        params = new HashMap< String, String >();
+        params.put( "following_id", currentUser.getId() );
+        HttpAdapter.getRequestJSON( new VolleyCallback() {
+            @Override
+            public void onSuccess( JSONObject object ) {
+                try {
+                    if ( object.getBoolean( "success" ) ) {
+                        if ( object.getBoolean( "following" ) ) {
+                            isFollowing = true;
+                            follow.setHint( "unfollow" );
+                        } else {
+                            isFollowing = false;
+                            follow.setHint( "follow" );
+                        }
+                    }
+                } catch ( JSONException e ) {
+                    Toast.makeText( OthersProfileActivity.this,
+                            e.getMessage(), Toast.LENGTH_SHORT ).show();
+                }
+            }
+
+            @Override
+            public void onFail( String message ) {
+                Toast.makeText( OthersProfileActivity.this, message,
+                        Toast.LENGTH_SHORT ).show();
+
+            }
+        }, RequestType.CHECK_FOLLOWING, params, this, true );
     }
 
     /**

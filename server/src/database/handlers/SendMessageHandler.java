@@ -147,10 +147,14 @@ public class SendMessageHandler extends ProcessHandler {
 			json.put( "sender_avatar_url", userResultMap.get( 0 )[ 1 ] );
 
 			params.clear();
-			params.put( "user_id", otherUserId );
+			params.put( "user_id", currentUserId );
+			params.put( "extra_id", otherUserId );
+			params.put( "small_content", ( String ) userResultMap.get( 0 )[ 0 ]
+					+ " messaged " + content );
 			params.put( "content", content );
 			params.put( "title", ( String ) userResultMap.get( 0 )[ 0 ] );
 			params.put( "image", ( String ) userResultMap.get( 0 )[ 1 ] );
+			params.put( "type", "MESSAGE" );
 			params.put( "time", String.valueOf( currentTime ) );
 			adapter.create( DATABASE_TABLE_NOTIFICATIONS, params );
 

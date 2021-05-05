@@ -226,6 +226,24 @@
   	<description></description>
   	<servlet-class>database.requests.UpdatePhotoRequest</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>IsFollowingRequest</servlet-name>
+  	<display-name>IsFollowingRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.IsFollowingRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ReviewCountRequest</servlet-name>
+  	<display-name>ReviewCountRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.ReviewCountRequest</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ProductCountRequest</servlet-name>
+  	<display-name>ProductCountRequest</display-name>
+  	<description></description>
+  	<servlet-class>database.requests.ProductCountRequest</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginRequest</servlet-name>
   	<url-pattern>/LoginRequest</url-pattern>
@@ -373,5 +391,17 @@
   <servlet-mapping>
   	<servlet-name>UpdatePhotoRequest</servlet-name>
   	<url-pattern>/UpdatePhotoRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>IsFollowingRequest</servlet-name>
+  	<url-pattern>/IsFollowingRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ReviewCountRequest</servlet-name>
+  	<url-pattern>/ReviewCountRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProductCountRequest</servlet-name>
+  	<url-pattern>/ProductCountRequest</url-pattern>
   </servlet-mapping>
 </web-app>

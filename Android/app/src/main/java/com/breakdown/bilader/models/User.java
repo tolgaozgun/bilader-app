@@ -80,7 +80,7 @@ public class User implements Serializable, IUser {
      * Adds current user to the following people list for the user in the
      * parameter. The person who did the action is provided in the parameter.
      */
-    public void follow( Context context ) {
+    public void follow( VolleyCallback callback, Context context ) {
         HashMap< String, String > params;
         params = new HashMap< String, String >();
         params.put( "following_id", userId );
@@ -96,11 +96,13 @@ public class User implements Serializable, IUser {
                     Toast.makeText( context, e.getMessage(),
                             Toast.LENGTH_SHORT ).show();
                 }
+                callback.onSuccess( object );
             }
 
             @Override
             public void onFail( String message ) {
                 Toast.makeText( context, message, Toast.LENGTH_SHORT ).show();
+                callback.onFail( message );
             }
         }, RequestType.FOLLOW, params, context, true );
     }

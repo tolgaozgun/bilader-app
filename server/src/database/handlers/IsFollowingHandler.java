@@ -11,18 +11,15 @@ import database.adapters.RequestAdapter;
 import database.handlers.codes.ResultCode;
 import jakarta.servlet.ServletException;
 
-public class FollowHandler extends ProcessHandler {
+public class IsFollowingHandler extends ProcessHandler {
 
-	private static final String TARGET_USER_ID_KEY = "following_id";
-	private static final String CURRENT_USER_ID_KEY = "user_id";
-	private static final String TIME_KEY = "time";
-	private static final String[] KEYS = { TARGET_USER_ID_KEY };
-	private static final String[] FOLLOW_CHECK_KEYS = { CURRENT_USER_ID_KEY,
-			TARGET_USER_ID_KEY };
-	private final String DATABASE_TABLE_USERS = "users";
+	private static final String FOLLOWING_ID_KEY = "following_id";
+	private static final String FOLLOWERS_USER_ID_KEY = "user_id";
+	private static final String[] KEYS = { FOLLOWING_ID_KEY };
+	private static final String[] PRODUCT_CHECK_KEYS = { FOLLOWERS_USER_ID_KEY, FOLLOWING_ID_KEY };
 	private final String DATABASE_TABLE_FOLLOWERS = "followers";
 
-	public FollowHandler( Map< String, String[] > parameters ) {
+	public IsFollowingHandler( Map< String, String[] > parameters ) {
 		super( RequestAdapter.convertParameters( parameters, KEYS, true ) );
 	}
 
@@ -30,7 +27,6 @@ public class FollowHandler extends ProcessHandler {
 			throws ClassNotFoundException, SQLException {
 		DatabaseAdapter adapter;
 		Map< String, String > checkParams;
-		String userId;
 		adapter = new DatabaseAdapter();
 
 		if ( params == null || params.size() == 0 ) {
@@ -47,29 +43,18 @@ public class FollowHandler extends ProcessHandler {
 		if ( !isVerified() ) {
 			return ResultCode.NOT_VERIFIED;
 		}
-
-		userId = params.get( USER_ID_KEY );
-		params.put( CURRENT_USER_ID_KEY, userId );
+		
+		params.put( FOLLOWERS_USER_ID_KEY, params.get( USER_ID_KEY ) );
 		if ( !checkToken() ) {
 			return ResultCode.INVALID_SESSION;
 		}
 
-		if ( userId.equals( params.get( TARGET_USER_ID_KEY ) ) ) {
-			return ResultCode.CANNOT_FOLLOW_YOURSELF;
-		}
-
-		checkParams = cloneMapWithKeys( FOLLOW_CHECK_KEYS, params );
+		checkParams = cloneMapWithKeys( PRODUCT_CHECK_KEYS, params );
 		if ( adapter.doesExist( DATABASE_TABLE_FOLLOWERS, checkParams ) ) {
-			return ResultCode.UNFOLLOW_OK;
+			return ResultCode.CHECK_ALREADY_FOLLOWING;
 		}
 
-		checkParams.clear();
-		checkParams.put( "id", params.get( TARGET_USER_ID_KEY ) );
-		if ( adapter.doesExist( DATABASE_TABLE_USERS, checkParams ) ) {
-			return ResultCode.FOLLOW_OK;
-		}
-
-		return ResultCode.NONE_FOUND;
+		return ResultCode.CHECK_NOT_FOLLOWING;
 
 	}
 
@@ -77,22 +62,15 @@ public class FollowHandler extends ProcessHandler {
 	public JSONObject getResult() throws ServletException, IOException,
 			ClassNotFoundException, SQLException {
 		JSONObject json;
-		DatabaseAdapter adapter;
 		ResultCode result;
-		long timeNow;
 
-		adapter = new DatabaseAdapter();
 		json = new JSONObject();
 		result = checkParams();
-		timeNow = System.currentTimeMillis();
 
-		if ( result.isSuccess() ) {
-			if ( result == ResultCode.FOLLOW_OK ) {
-				params.put( TIME_KEY, String.valueOf( timeNow ) );
-				adapter.create( DATABASE_TABLE_FOLLOWERS, params );
-			} else {
-				adapter.delete( DATABASE_TABLE_FOLLOWERS, params );
-			}
+		if ( result == ResultCode.CHECK_ALREADY_FOLLOWING ) {
+			json.put( "following", true );
+		} else {
+			json.put( "following", false );
 		}
 
 		json.put( "session_error", result == ResultCode.INVALID_SESSION );

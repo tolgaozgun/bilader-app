@@ -20,7 +20,6 @@ public class AddProductHandler extends ProcessHandler {
 			"description", "price", "seller_id", "category_id" };
 	private static final String DATABASE_TABLE = "products";
 	private static final String DATABASE_TABLE_USERS = "users";
-	private static final String DATABASE_TABLE_CATEGORIES = "categories";
 
 	public AddProductHandler( Map< String, String[] > params ) {
 		super( RequestAdapter.convertParameters( params, KEYS, true ) );

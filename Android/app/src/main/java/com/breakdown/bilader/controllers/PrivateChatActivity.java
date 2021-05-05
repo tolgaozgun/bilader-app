@@ -98,7 +98,11 @@ public class PrivateChatActivity extends Activity {
         adapter = new MessagesListAdapter<>( currentUserId, imageLoader );
         messagesList.setAdapter( adapter );
 
-        if ( incomingIntent != null ) {
+        if ( incomingIntent == null ) {
+
+            Toast.makeText( this, "Chat not found!", Toast.LENGTH_SHORT ).show();
+            return;
+        } else if( incomingIntent.hasExtra( "user" )){
             //TODO
             userChatted = gson.fromJson( getIntent().getStringExtra( "user" )
                     , User.class );
@@ -108,9 +112,6 @@ public class PrivateChatActivity extends Activity {
             userNameView.setText( userName );
             Picasso.get().load( userAvatar ).fit().centerCrop().into( userAvatarView );
             setChatId();
-        } else {
-            Toast.makeText( this, "User not found!", Toast.LENGTH_SHORT ).show();
-            return;
         }
 
         inputView.setInputListener( new MessageInput.InputListener() {
@@ -240,8 +241,6 @@ public class PrivateChatActivity extends Activity {
 
     }
 
-
-    //TODO
 
     /**
      * Syncs previously sent messages and sets receiver's user avatar

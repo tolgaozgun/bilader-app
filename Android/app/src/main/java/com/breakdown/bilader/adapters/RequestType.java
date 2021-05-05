@@ -30,6 +30,9 @@ public enum RequestType {
     MAIN_CHAT("RetrieveChatsRequest"),
     CREATE_CHAT("CreateChatRequest"),
     UPDATE_PHOTO("UpdatePhotoRequest"),
+    CHECK_FOLLOWING("IsFollowingRequest"),
+    REVIEW_COUNT("ReviewCountRequest"),
+    PRODUCT_COUNT("ProductCountRequest"),
     USER("UserRequest");
 
     private String path;
