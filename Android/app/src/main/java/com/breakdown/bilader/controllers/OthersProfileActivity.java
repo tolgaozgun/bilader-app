@@ -120,6 +120,7 @@ public class OthersProfileActivity extends AppCompatActivity {
             userId = currentUser.getId();
             userName = currentUser.getName();
             userAvatar = currentUser.getAvatar();
+            activityTitle.setText( userName + "'s Profile" );
         } else if ( getIntent().hasExtra( "user_id" ) ) {
             userName = getIntent().getStringExtra( "user_name" );
             userId = getIntent().getStringExtra( "user_id" );

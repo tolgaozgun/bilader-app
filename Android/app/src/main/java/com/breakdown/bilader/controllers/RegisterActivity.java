@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -24,6 +25,7 @@ import com.breakdown.bilader.adapters.HttpAdapter;
 import com.breakdown.bilader.adapters.MultipartUtility;
 import com.breakdown.bilader.adapters.RequestType;
 import com.breakdown.bilader.adapters.VolleyCallback;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +54,7 @@ public class RegisterActivity extends Activity {
     private ProgressDialog loadingBar;
     private ImageView inputAvatar;
     private String avatarURL;
+    private String imagePath;
     private Uri imageUri;
 
     /**
@@ -182,6 +185,7 @@ public class RegisterActivity extends Activity {
                             Intent intent;
                             intent = new Intent( RegisterActivity.this,
                                     VerificationActivity.class );
+                            intent.putExtra( "email", email );
                             startActivity( intent );
                         }
                         message = json.getString( JSON_MESSAGE_PATH );
@@ -230,21 +234,28 @@ public class RegisterActivity extends Activity {
                                   @Nullable Intent data ) {
         super.onActivityResult( requestCode, resultCode, data );
 
-
         if ( requestCode == 1 && resultCode == -1 ) {
+            Uri imageUri;
             imageUri = data.getData();
 
-            String filePath = getPath( imageUri );
+            imagePath = getPath( imageUri );
             String file_extn =
-                    filePath.substring( filePath.lastIndexOf( "." ) + 1 );
+                    imagePath.substring( imagePath.lastIndexOf( "." ) + 1 );
 
+            try {
+                Bitmap bitmap =
+                        MediaStore.Images.Media.getBitmap( getContentResolver(), imageUri );
+                Picasso.get().load( imageUri ).fit().centerCrop().into( inputAvatar );
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
 
             try {
                 if ( file_extn.equals( "img" ) || file_extn.equals( "jpg" ) || file_extn.equals( "jpeg" ) || file_extn.equals( "gif" ) || file_extn.equals( "png" ) ) {
-                    uploadFile( "http://88.99.11" +
-                            ".149:8080/server/MultipartServlet/", filePath );
+                    uploadFile( "http://88.99.11.149:8080/server" +
+                            "/MultipartServlet", imagePath );
                 } else {
-                    //NOT IN REQUIRED FORMAT
+                    Toast.makeText( this, "Wrong image format", Toast.LENGTH_SHORT ).show();
                 }
             } catch ( Exception e ) {
                 e.printStackTrace();

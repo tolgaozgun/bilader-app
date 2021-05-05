@@ -1,7 +1,9 @@
 package com.breakdown.bilader.models;
 
 /**
- * A class that represents for a product, contain its properties and can change those properties
+ * A class that represents for a product, contain its properties and can change
+ * those properties
+ *
  * @author breakDown
  * @version 13.04.2021
  */
@@ -27,7 +29,8 @@ public class Product {
      * @param isSold      whether product is sold.
      */
     public Product( String picture, String title, String description,
-                    double price, User seller, boolean isSold, String productId, Category category ) {
+                    double price, User seller, boolean isSold,
+                    String productId, Category category ) {
         this.picture = picture;
         this.title = title;
         this.description = description;
@@ -46,7 +49,6 @@ public class Product {
     public User getOwner() {
         return seller;
     }
-
 
 
     /**
@@ -90,43 +92,42 @@ public class Product {
      *
      * @return String value of the description.
      */
-    public String getDescription() { return this.description; }
+    public String getDescription() {
+        return this.description;
+    }
 
     /**
      * Gives the category of the product
      *
      * @return Category (Object) value of the category.
      */
-    public Category getCategory() { return this.category; }
+    public Category getCategory() {
+        return this.category;
+    }
 
     /**
      * Shows if the product is sold or not
      *
      * @return boolean value of status of saleability
      */
-    public boolean getIsSold() { return isSold; }
+    public boolean getIsSold() {
+        return isSold;
+    }
 
     /**
      * Gives the id of the product
      *
      * @return String value of the id.
      */
-    public String getProductId() { return productId; }
-
-
-    /**
-     * Sets the picture URL of the product
-     *
-     * @param picture  String value of the picture URL.
-     */
-    public void setPicture( String picture ) {
-        this.picture = picture;
+    public String getProductId() {
+        return productId;
     }
+
 
     /**
      * Sets the title of the product
      *
-     * @param title  String value of the title.
+     * @param title String value of the title.
      */
     public void setTitle( String title ) {
         this.title = title;
@@ -135,7 +136,7 @@ public class Product {
     /**
      * Sets the description of the product
      *
-     * @param description  String value of the description.
+     * @param description String value of the description.
      */
     public void setDescription( String description ) {
         this.description = description;
@@ -144,7 +145,7 @@ public class Product {
     /**
      * Sets the price of the product
      *
-     * @param price  double value of the price.
+     * @param price double value of the price.
      */
     public void setPrice( double price ) {
         this.price = price;
@@ -153,9 +154,9 @@ public class Product {
     /**
      * Sets the category of the product
      *
-     * @param category  Category (Object) value of the category.
+     * @param category Category (Object) value of the category.
      */
-    public void setCategory(Category category) {
+    public void setCategory( Category category ) {
         this.category = category;
     }
 

@@ -49,6 +49,20 @@ public class Notification implements Comparable {
     private NotificationType type;
     private final String CHANNEL_ID;
 
+    /**
+     * Constructor
+     *
+     * @param notificationId Integer id of the notification
+     * @param content        String content of the notification
+     * @param smallContent   String one line content of the notification
+     * @param title          String title of the notification
+     * @param avatarURL      String image url of the notification
+     * @param extraId        String provided extra ID of the notification
+     *                       (product_id or user_id based on context)
+     * @param time           long epoch time of the notification
+     * @param context        Context value of Notification's context.
+     * @param type           NotificationType value of type.
+     */
     public Notification( int notificationId, String content,
                          String smallContent, String title, String avatarURL,
                          String extraId, long time, Context context,
@@ -67,6 +81,9 @@ public class Notification implements Comparable {
     }
 
 
+    /**
+     * Builds the push notification and displays it to the user.
+     */
     public void buildNotification() {
         PendingIntent contentIntent;
         NotificationCompat.Builder builder;
@@ -86,6 +103,11 @@ public class Notification implements Comparable {
 
     }
 
+    /**
+     * Builds the intent which lets the user click the notification.
+     *
+     * @return Intent object of the Notification.
+     */
     public Intent buildIntent() {
         User user;
         Gson gson;
@@ -114,7 +136,13 @@ public class Notification implements Comparable {
     }
 
 
-    public static Bitmap getBitmapFromURL( String src ) {
+    /**
+     * Creates bitmap from URL so we can display images from URL.
+     *
+     * @param src String URL of the image.
+     * @return Bitmap object of image.
+     */
+    private static Bitmap getBitmapFromURL( String src ) {
         StrictMode.ThreadPolicy policy =
                 new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
@@ -134,6 +162,9 @@ public class Notification implements Comparable {
         }
     }
 
+    /**
+     * Creates notification channel.
+     */
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -154,42 +185,76 @@ public class Notification implements Comparable {
         }
     }
 
+    /**
+     * Returns the Notification content.
+     *
+     * @return String notification content.
+     */
     public String getContent() {
         return content;
     }
 
+    /**
+     * Returns the Notification image.
+     *
+     * @return String notification image URL.
+     */
     public String getAvatarURL() {
         return avatarURL;
     }
 
+    /**
+     * Returns the Notification time.
+     *
+     * @return Long value of notification time.
+     */
     public long getTime() {
         return time;
     }
 
+    /**
+     * Returns the Notification title.
+     *
+     * @return String notification title.
+     */
     public String getTitle() {
         return title;
     }
 
+
+    /**
+     * Returns the Notification context.
+     *
+     * @return Context value of notification context.
+     */
     public Context getContext() {
         return context;
     }
 
-    public int getNotificationId() {
-        return notificationId;
-    }
-
-    public String getExtraId() {
-        return extraId;
-    }
-
+    /**
+     * Returns the Notification small content.
+     *
+     * @return String value of notification's one line content.
+     */
     public String getSmallContent() {
         return smallContent;
     }
 
+    /**
+     * Returns the Notification type.
+     *
+     * @return NotificationType value of notification type.
+     */
     public NotificationType getType() {
         return type;
     }
 
+    /**
+     * Compares the notifications using their time sent.
+     *
+     * @param o Another object to be compared with this notification.
+     * @return -1,0,1 based on time comparison.
+     */
     @Override
     public int compareTo( Object o ) {
         if ( o instanceof Notification ) {

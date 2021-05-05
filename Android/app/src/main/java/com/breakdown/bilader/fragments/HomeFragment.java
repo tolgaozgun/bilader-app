@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void afterTextChanged( Editable s ) {
-                filter( s.toString() );
+                filter( s.toString(), recyclerView );
             }
         } );
 
@@ -234,7 +234,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 retrieveProducts( recyclerView );
-
             }
         } );
 
@@ -246,19 +245,20 @@ public class HomeFragment extends Fragment {
      *
      * @param text, string that the user enters to find the product's name
      */
-    private void filter( String text ) {
+    private void filter( String text, RecyclerView recyclerView ) {
         ArrayList< Product > filteredList = new ArrayList<>();
 
-        if ( productList == null  || productList.size() <= 0 ) {
+        if ( productList == null ) {
             return;
         }
 
-        for ( Product p : productList ) {
+        productList.clear();
+        for ( Product p : holderList ) {
             if ( p.getTitle().toLowerCase().contains( text.toLowerCase() ) ) {
-                filteredList.add( p );
+                productList.add( p );
             }
         }
-        adapter.filterList( filteredList );
+        printView( recyclerView );
     }
 
     /**
@@ -267,11 +267,11 @@ public class HomeFragment extends Fragment {
      * @param recyclerView, recyclerView object to list elements in it.
      */
     private void printView( RecyclerView recyclerView ) {
-        if ( productList != null ) {
-            for ( Product product : productList ) {
-                holderList.add( product );
+        /*if ( productList != null ) {
+            for ( Product product : holderList ) {
+                productList.add( product );
             }
-        }
+        }*/
         adapter = new ProductAdapter( getActivity(), productList );
         recyclerView.setAdapter( adapter );
     }
@@ -378,6 +378,7 @@ public class HomeFragment extends Fragment {
                                     description, price, seller, false,
                                     productId, new Category( categoryId,
                                     categoryName ) );
+                            holderList.add( product );
                             productList.add( product );
                         }
                     }
