@@ -127,6 +127,9 @@ public class NotificationsFragment extends Fragment {
                 }
                 Collections.sort( notificationList );
                 Collections.reverse( notificationList );
+                notificationAdapter = new NotificationAdapter( getContext(),
+                        notificationList );
+                recyclerView.setAdapter( notificationAdapter );
                 notificationAdapter.notifyDataSetChanged();
 
             }
