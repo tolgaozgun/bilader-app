@@ -20,6 +20,7 @@ public class RemoveProductHandler extends ProcessHandler {
 	private static final String[] PRODUCT_VERIFICATION_KEYS = {
 			PRODUCT_ID_KEY };
 	private static final String DATABASE_TABLE = "products";
+	private static final String DATABASE_TABLE_WISHLIST = "wishlist";
 	private static final String DATABASE_TABLE_USERS = "users";
 
 	public RemoveProductHandler( Map< String, String[] > params ) {
@@ -83,6 +84,9 @@ public class RemoveProductHandler extends ProcessHandler {
 			// Adds the new product to database.
 			checkParams = cloneMapWithKeys( PRODUCT_VERIFICATION_KEYS, params );
 			adapter.delete( DATABASE_TABLE, checkParams );
+			
+			// delete the product from the wishlist table as well.
+			adapter.delete( DATABASE_TABLE_WISHLIST, checkParams);
 		}
 
 		json.put( "session_error", result == ResultCode.INVALID_SESSION );
