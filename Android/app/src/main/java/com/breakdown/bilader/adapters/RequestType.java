@@ -33,6 +33,7 @@ public enum RequestType {
     CHECK_FOLLOWING("IsFollowingRequest"),
     REVIEW_COUNT("ReviewCountRequest"),
     PRODUCT_COUNT("ProductCountRequest"),
+    VERIFICATION("VerificationRequest"),
     REMOVE_PRODUCT("RemoveProductRequest"),
     USER("UserRequest");
 

@@ -232,6 +232,7 @@ public class LoginActivity extends Activity {
                         if ( json.getBoolean( JSON_VERIFIED_PATH ) ) {
                             intent = new Intent( LoginActivity.this,
                                     VerificationActivity.class );
+                            intent.putExtra( "email", email );
                             startActivity( intent );
                         }
 

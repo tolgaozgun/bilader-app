@@ -19,9 +19,11 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
 /**
- * This class is responsible for sending a verification email to the user that wants to register
- * We used an external library for six-digit verification code. The necessary commands and external library's link is below:
+ * This class is responsible for sending a verification email to the user that
+ * wants to register We used an external library for six-digit verification
+ * code. The necessary commands and external library's link is below:
  * https://github.com/raycoarana/material-code-input
  *
  * @author breakDown
@@ -31,13 +33,14 @@ public class VerificationActivity extends Activity {
 
     private CodeInputView codeView;
     private Button resetButton;
+    private String email;
 
     // send - resend button
     private Button resendButton;
 
     /**
-     * this is the method where the initialization of UI properties made and
-     * set an action to each of them
+     * this is the method where the initialization of UI properties made and set
+     * an action to each of them
      *
      * @param savedInstanceState: If the activity is being re-initialized after
      *                            previously being shut down then this Bundle
@@ -51,17 +54,16 @@ public class VerificationActivity extends Activity {
 
         Intent intent;
         intent = getIntent();
+        email = intent.getStringExtra( "email" );
 
         // resend button here
         resendButton = findViewById( R.id.button_verification_code_resend );
 
-        codeView =
-                ( CodeInputView ) findViewById( R.id.codeInputView );
-        resetButton
-                =findViewById( R.id.button_verification_submit );
+        codeView = ( CodeInputView ) findViewById( R.id.codeInputView );
+        resetButton = findViewById( R.id.button_verification_submit );
 
 
-           resetButton.setOnClickListener( new View.OnClickListener() {
+        resetButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
                 sendRequest();
@@ -90,6 +92,7 @@ public class VerificationActivity extends Activity {
         }
 
         params = new HashMap< String, String >();
+        params.put( "email", email );
         params.put( "code", code );
         HttpAdapter.getRequestJSON( new VolleyCallback() {
             @Override
@@ -118,7 +121,7 @@ public class VerificationActivity extends Activity {
                 Toast.makeText( VerificationActivity.this, message,
                         Toast.LENGTH_SHORT ).show();
             }
-        }, RequestType.REGISTER, params, VerificationActivity.this, false );
+        }, RequestType.VERIFICATION, params, VerificationActivity.this, false );
 
     }
 }
