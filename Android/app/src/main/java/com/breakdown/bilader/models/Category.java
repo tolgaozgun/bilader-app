@@ -29,12 +29,18 @@ public class Category implements Comparable {
      * Constructor
      *
      * @param id The category id as integer
+     * @param context, context that category has or involves.
      */
     public Category( int id, Context context ) {
         this.id = id;
         retrieveCategory( context );
     }
 
+    /**
+     * Constructor
+     * @param id, id of the category, will be processed by server
+     * @param name, name of the category
+     */
     public Category( int id, String name ) {
         this.id = id;
         this.name = name;
