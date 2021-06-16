@@ -97,14 +97,15 @@ This project uses the following main frameworks and technologies.
 
 
 
-<!-- GETTING STARTED 
-## Getting Started-->
+GETTING STARTED 
+## Getting Started
 
 
 <!-- This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.-->
-<!--
-### Prerequisites-->
+### Prerequisites
+
+An Android device with the latest release installed.
 
 <!--This is an example of how to list things you need to use the software and how to install them.
 * npm
@@ -132,9 +133,9 @@ To get a local copy up and running follow these simple example steps.-->
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Simply download the apk from the releases and send it to your Android device or emulator, and you are good to go!
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+<!--_For more examples, please refer to the [Documentation](https://example.com)_-->
 
 
 
