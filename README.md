@@ -40,7 +40,7 @@
     <a href="https://github.com/tolgaozgun/bilader-app"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/tolgaozgun/bilader-app">View Demo</a>
+    <a href="https://play.google.com/store/apps/details?id=com.breakdown.bilader">View on Google Play</a>
     ·
     <a href="https://github.com/tolgaozgun/bilader-app/issues">Report Bug</a>
     ·
