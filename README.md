@@ -29,7 +29,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/tolgaozgun/bilader-app/">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://play-lh.googleusercontent.com/fIYWIPWsWPauW2qY-0Wz_fuTjbzDBM5EzBhNFJD8YzP4nn4WJaKPRPWkdw8a5HZX4g=s180-rw" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Bilader</h3>
@@ -80,7 +80,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-![biltrader](https://user-images.githubusercontent.com/37017809/113863660-9a156b80-97b2-11eb-94f2-56d808a1893c.png)
+<!--![biltrader](https://user-images.githubusercontent.com/37017809/113863660-9a156b80-97b2-11eb-94f2-56d808a1893c.png)-->
 
 
 BILader is an Android social network app whose aim is to provide people with social interac-tions and the items they need but can’t find anywhere for budget-friendly prices. This project is a prototype for a social networking app for sharing items and therefore is restricted to the members of Bilkent University, including but not limited to current students, lecturers, re-searchers, and alumni. Each user will have their profile page after signing up, and they will be able to share, sell or buy items or just simply chat with other users through the app.
