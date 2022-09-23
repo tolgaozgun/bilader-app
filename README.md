@@ -174,7 +174,7 @@ Tolga Özgün - [@tolgaozgun](https://gihub.com/tolgaozgun)</br>
 Yahya Eren Demirel - [@Yaehya35](https://github.com/Yaehya35)</br> 
 Burcu Kaplan - [@BurcuKaplan](https://github.com/BurcuKaplan)</br>
 Deniz Gökçen - [@denizgokcen1](https://github.com/denizgokcen1)</br> 
-Korhan Kemal Kaya - [@Korhandroid](https://github.com/Korhandroid)</br> 
+Korhan Kemal Kaya - [@korhankemalkaya](https://github.com/korhankemalkaya)</br> 
 
 Project Link: [https://github.com/tolgaozgun/bilader-app](https://github.com/tolgaozgun/bilader-app)
 
